@@ -1,7 +1,8 @@
 # cbzManager
 Comicbook converter/manager
 
-This software is in it's development phase, current version is BETA.
+This software is in development phase, current version is VERY BETA. Use at your own risks...
+I will update this readme file when stabilization will occur.
 
 requirements :
 

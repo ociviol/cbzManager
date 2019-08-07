@@ -5,7 +5,7 @@ This software is in it's development phase, current version is BETA.
 
 requirements :
 
-Linux (only tested under Ubutu 18,4 LTS AMD64) :
+Linux (only tested under Ubutu 18.4 LTS AMD64) :
 Lazarus 2.0
 
 	unzip : 	sudo apt install unzip

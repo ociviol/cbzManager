@@ -26,3 +26,4 @@ Lazarus 2.0
 
 If you want to collaborate, do not hesitate to contact me.
 
+Windows version available at  : https://ollivierciviolsoftware.wordpress.com/

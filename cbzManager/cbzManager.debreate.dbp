@@ -13,7 +13,7 @@ Description: Comic books manager
 <</CTRL>>
 <<FILES>>
 1
-/home/matugenos/Dev/Lazarus/cbzManager/cbzManager* -> cbzManager -> /usr/local/bin
+/home/matugenos/Dev/cbzManager/cbzManager/cbzManager* -> cbzManager -> /usr/bin
 <</FILES>>
 <<SCRIPTS>>
 <<PREINST>>

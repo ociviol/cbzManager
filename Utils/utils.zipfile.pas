@@ -500,6 +500,8 @@ begin
     lCompressed.Free ;
   end;
 
+  Result.Position:=0;
+
   if GetStreamCrc32(result) <> FileHeaderList[index].start.crc32 then
     raise Exception.Create('CRC32 error !');
 end;

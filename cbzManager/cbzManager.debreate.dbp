@@ -1,0 +1,62 @@
+[DEBREATE-0.7.13]
+<<CTRL>>
+Package: cbzManager
+Version: 0.9.0.0
+Maintainer: Ollivier Civiol <ollivier@civiol.eu>
+Section: misc
+Architecture: amd64
+Priority: standard
+Depends: webp (>=0.6.1-2), libwebp-dev (>=0.6.1-2), unzip (>=6.0-21ubuntu1), unrar (>=1:5.5.8-1), p7zip-full (>=16.02+dfsg-6)
+Description: Comic books manager
+ Comic books manager
+
+<</CTRL>>
+<<FILES>>
+1
+/home/matugenos/Dev/Lazarus/cbzManager/cbzManager* -> cbzManager -> /usr/local/bin
+<</FILES>>
+<<SCRIPTS>>
+<<PREINST>>
+0
+<</PREINST>>
+<<POSTINST>>
+1
+#! /bin/bash -e
+
+ln -fs "/usr/local/bin/cbzManager" "/usr/bin/cbzManager"
+<</POSTINST>>
+<<PRERM>>
+1
+#! /bin/bash -e
+
+rm -f "/usr/bin/cbzManager"
+<</PRERM>>
+<<POSTRM>>
+0
+<</POSTRM>>
+<</SCRIPTS>>
+<<CHANGELOG>>
+<<DEST>>DEFAULT<</DEST>>
+
+<</CHANGELOG>>
+<<COPYRIGHT>>
+
+<</COPYRIGHT>>
+<<MENU>>
+1
+Name=cbzManager
+Version=1.0
+Exec=cbzManager
+Comment=Comic books manager
+Icon=cbzManager
+Type=Application
+Terminal=false
+StartupNotify=true
+Encoding=UTF-8
+<</MENU>>
+<<BUILD>>
+1
+1
+1
+strip
+<</BUILD>>

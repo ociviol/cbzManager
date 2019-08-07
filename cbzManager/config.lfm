@@ -1,0 +1,104 @@
+object ConfigFrm: TConfigFrm
+  Left = 539
+  Height = 207
+  Top = 310
+  Width = 493
+  BorderStyle = bsDialog
+  Caption = 'Config'
+  ClientHeight = 207
+  ClientWidth = 493
+  Position = poMainFormCenter
+  LCLVersion = '2.0.0.4'
+  object Label1: TLabel
+    Left = 32
+    Height = 16
+    Top = 29
+    Width = 49
+    Caption = 'cwebp :'
+    ParentColor = False
+  end
+  object edtcwebp: TEdit
+    Left = 88
+    Height = 22
+    Top = 24
+    Width = 384
+    TabOrder = 0
+    Text = 'edtcwebp'
+  end
+  object BitBtn1: TBitBtn
+    Left = 310
+    Height = 30
+    Top = 160
+    Width = 75
+    Caption = 'Ok'
+    Default = True
+    ModalResult = 1
+    TabOrder = 4
+  end
+  object BitBtn2: TBitBtn
+    Left = 397
+    Height = 30
+    Top = 160
+    Width = 75
+    Cancel = True
+    Caption = 'Cancel'
+    ModalResult = 2
+    TabOrder = 5
+  end
+  object edtunzip: TEdit
+    Left = 88
+    Height = 22
+    Top = 56
+    Width = 384
+    TabOrder = 1
+    Text = 'edtunzip'
+  end
+  object Label2: TLabel
+    Left = 32
+    Height = 16
+    Top = 61
+    Width = 44
+    Caption = 'unzip :'
+    ParentColor = False
+  end
+  object edtunrar: TEdit
+    Left = 88
+    Height = 22
+    Top = 88
+    Width = 384
+    TabOrder = 2
+    Text = 'edtunrar'
+  end
+  object Label3: TLabel
+    Left = 32
+    Height = 16
+    Top = 93
+    Width = 42
+    Caption = 'unrar :'
+    ParentColor = False
+  end
+  object edtp7zip: TEdit
+    Left = 88
+    Height = 22
+    Top = 120
+    Width = 384
+    TabOrder = 3
+    Text = 'edtp7zip'
+  end
+  object Label4: TLabel
+    Left = 32
+    Height = 16
+    Top = 125
+    Width = 44
+    Caption = 'p7zip :'
+    ParentColor = False
+  end
+  object cblogging: TCheckBox
+    Left = 32
+    Height = 18
+    Top = 160
+    Width = 69
+    Caption = 'Logging'
+    TabOrder = 6
+  end
+end

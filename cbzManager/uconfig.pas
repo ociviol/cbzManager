@@ -1,0 +1,118 @@
+unit uConfig;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, fpjson, fpjsonrtti;
+
+type
+
+  { TConfig }
+
+  TConfig = Class(Tpersistent)
+
+  private
+    FBdPathPath: String;
+    FBlog: Boolean;
+    Fcwebp: String;
+    FHighPerf: Boolean;
+    Fp7zip: String;
+    FQueueSize: Integer;
+    Funrar: String;
+    Funzip: String;
+    FWleft,
+    FWTop,
+    FWWidth,
+    FWHeight,
+    FWTreeViewWidth :Integer;
+  public
+    constructor Create;
+    class function Load(const aFileName : String):TConfig;
+    procedure Save(const aFileName : String);
+  published
+    property Blog : Boolean read FBlog write FBlog;
+    property BdPathPath: String read FBdPathPath write FBdPathPath;
+    property cwebp: String read Fcwebp write Fcwebp;
+    property unzip: String read Funzip write Funzip;
+    property unrar: String read Funrar write Funrar;
+    property p7zip: String read Fp7zip write Fp7zip;
+    property QueueSize : Integer read FQueueSize write FQueueSize;
+    property HighPerf : Boolean read FHighPerf write FHighPerf;
+    property Wleft : Integer read FWleft write FWleft;
+    property WTop : Integer read FWTop write FWTop;
+    property WWidth : Integer read FWWidth write FWWidth;
+    property WHeight : Integer read FWHeight write FWHeight;
+    property WTreeViewWidth : Integer read FWTreeViewWidth write FWTreeViewWidth;
+  end;
+
+implementation
+
+{ TConfig }
+
+constructor TConfig.Create;
+begin
+{$ifdef Darwin}
+  Fcwebp := '/usr/local/bin/cwebp';
+  Fp7zip := '/usr/local/bin/7z';
+  Funrar := '/usr/local/bin/unrar';
+{$else}
+  Fcwebp := '/usr/bin/cwebp';
+  Fp7zip := '/usr/bin/7z';
+  Funrar := '/usr/bin/unrar';
+{$endif}
+  Funzip := '/usr/bin/unzip';
+  FQueueSize:=2;
+  HighPerf:= False;
+end;
+
+class function TConfig.Load(const aFileName: String): TConfig;
+var
+  DeStreamer: TJSONDeStreamer;
+  t : TStringList;
+begin
+  result := TConfig.Create;
+  DeStreamer := TJSONDeStreamer.Create(nil);
+  if FileExists(aFileName) then
+  begin
+    t := TStringList.Create;
+    try
+      t.LoadFromFile(aFileName);
+      try
+        DeStreamer.JSONToObject(t[0], result);
+      finally
+        DeStreamer.Free;
+      end;
+
+    finally
+      t.Free;
+    end
+  end;
+end;
+
+procedure TConfig.Save(const aFileName: String);
+var
+  Streamer: TJSONStreamer;
+  s : String;
+  t : TStringList;
+begin
+  Streamer := TJSONStreamer.Create(nil);
+  try
+    Streamer.Options := Streamer.Options + [jsoTStringsAsArray]; // Save strings as JSON array
+    // JSON convert and output
+    s := Streamer.ObjectToJSONString(Self);
+    t := TStringList.Create;
+    try
+      t.add(s);
+      t.SaveToFile(aFileName);
+    finally
+      t.free;
+    end;
+  finally
+    Streamer.Free;
+  end;
+end;
+
+end.
+

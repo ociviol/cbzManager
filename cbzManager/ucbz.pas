@@ -417,13 +417,8 @@ begin
           Continue;
 
         Ext := ExtractFileExt(FileNames[i]);
-        {
-        if lowercase(Ext) = '.webp' then
-          Comp := zcStored
-        else
-          Comp := zcDeflate;
-        }
         fn := ChangeFileExt(outz.GetNextFilename, Ext);
+        ms := GetFileStream(i);
 
         if Assigned(ms) then
         try

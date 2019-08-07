@@ -1,0 +1,2 @@
+# cbzManager
+Comicbook converter/manager

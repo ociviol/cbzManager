@@ -8,7 +8,7 @@ uses
   Classes, SysUtils,
   Utils.ZipFile,
   //zipctnr,
-  Utils.Logger,
+  Utils.Logger, Utils.Graphics,
   uDataTypes, cthreads, Graphics,
   Utils.Arrays, uDataItem;
 
@@ -77,7 +77,12 @@ type
     function DoDeleteFunct(Index : Integer; UserData : TUserData;
                             var  Stream : TMemoryStream;
                             const outz : Tcbz):TRewriteOperation;
-    class function ConvertBitmapToStream(const fimg : TBitmap; const FTempPath : String; aFLog : ILog):TMemoryStream;
+    procedure DoFlip(Indexes : TIntArray; Orientation : TFlipDir; CallBack : TCbzProgressEvent = nil);
+
+    class function ConvertBitmapToStream(const fimg : TBitmap; aFLog : ILog):TMemoryStream;
+    function DoFlipFunct(Index : Integer; UserData : TUserData;
+                          var  Stream : TMemoryStream;
+                          const outz : Tcbz):TRewriteOperation;
   protected
     function MakeStamp(Index : Integer):Tbitmap;
   public
@@ -497,7 +502,6 @@ function TCbz.DoRotateFunct(Index : Integer; UserData : TUserData; var  Stream :
 var
   b : TBitmap;
 begin
-  {
   Stream := nil;
   if InIntArray(Index, UserData.Indexes) then
   begin
@@ -505,22 +509,25 @@ begin
     if Assigned(b) then
     try
       RotateBitmap(b, Integer(UserData.Data[0]));
-      Stream := ConvertBitmapToStream(b, FTempFolder, FLog);
+      Stream := ConvertBitmapToStream(b, FLog);
     finally
       b.Free;
     end;
   end;
-  }
+
   Result := roContinue;
 end;
 
 procedure TCbz.Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
 var
   UserData : TUserData;
+  ar : TIntArray;
 begin
+  SetLength(ar, 1);
+  ar[0] := Angle;
   FLog.Log(Format('%s %s Angle : %d', [ClassName, 'Rotate', Angle]));
-  //UserData := CreateUserData(Indexes, True, soNone, [TObject(Angle)], CallBack);
-  //DoOperation(DoRotateFunct, UserData, opReplace);
+  UserData := CreateUserData(Indexes, True, soNone, ar, CallBack);
+  DoOperation(@DoRotateFunct, UserData, opReplace);
 end;
 
 function TCbz.DoDeleteFunct(Index : Integer; UserData : TUserData;
@@ -543,14 +550,49 @@ begin
   result := DoOperation(@DoDeleteFunct, UserData, opDelete);
 end;
 
+function TCbz.DoFlipFunct(Index : Integer; UserData : TUserData;
+                          var  Stream : TMemoryStream;
+                          const outz : Tcbz):TRewriteOperation;
+var
+  b : TBitmap;
+begin
+  Stream := nil;
+  if InIntArray(Index, UserData.Indexes) then
+  begin
+    b := Image[Index];
+    if Assigned(b) then
+    try
+      Flip(b, TFlipDir(UserData.Data[0]));
+      Stream := ConvertBitmapToStream(b, FLog);
+    finally
+      b.Free;
+    end;
+  end;
+  Result := roContinue;
+end;
+
+procedure TCbz.DoFlip(Indexes : TIntArray; Orientation : TFlipDir; CallBack : TCbzProgressEvent = nil);
+var
+  UserData : TUserData;
+  ar : TIntArray;
+begin
+  SetLength(ar, 1);
+  ar[0] := Integer(Orientation);
+  UserData := CreateUserData(Indexes, True, soSuppr, ar, CallBack);
+  //UserData.Create(Indexes, True, soNone, [TObject(Orientation)], CallBack);
+  DoOperation(@DoFlipFunct, UserData, opReplace);
+end;
+
 procedure TCbz.VerticalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
 begin
-
+  FLog.Log(Format('%s %s', [ClassName, 'VerticalFlip']));
+  DoFlip(Indexes, fdVertical, CallBack);
 end;
 
 procedure TCbz.HorizontalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
 begin
-
+  FLog.Log(Format('%s %s', [ClassName, 'HorizontalFlip']));
+  DoFlip(Indexes, fdHorizontal, CallBack);
 end;
 
 function TCbz.TestFile(Index: Integer):Boolean;
@@ -626,7 +668,6 @@ var
       cmd := '/usr/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
 {$endif}
       r := fpsystem(cmd);
-      WaitProcess(r);
       FLog.Log(ClassName + '.ConvertImageToBMP Executing : ' + cmd);
 
       if not Sysutils.FileExists(result) then
@@ -1158,7 +1199,6 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
       result := ChangeFileExt(fimg, '.webp');
       cmd := cwebp + ' -mt -quiet "' + fimg + '" -o "' + result +'"';
       r := fpsystem(cmd);
-      //WaitProcess(r);
       aFLog.Log(ClassName + '.ConvertImage Executing : ' + cmd);
 
       if not Sysutils.FileExists(result) then
@@ -1287,7 +1327,7 @@ begin
   end;
 end;
 
-class function TCbz.ConvertBitmapToStream(const fimg : TBitmap; const FTempPath : String; aFLog : ILog):TMemoryStream;
+class function TCbz.ConvertBitmapToStream(const fimg : TBitmap; aFLog : ILog):TMemoryStream;
 var
   ms : TMemoryStream;
 begin

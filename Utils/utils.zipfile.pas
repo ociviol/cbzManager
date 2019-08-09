@@ -486,19 +486,24 @@ begin
   if (index < 0) or (index > Pred(fileheadercount)) then
     raise Exception.CreateFmt('File index %d not found !', [Index]);
 
-  lCompressed := GetCompressedFileStream(Index);
-  try
-    Result := TMemoryStream.Create;
-
-    zds := Tdecompressionstream.create(lCompressed, True);
+  if FileHeaderList[index].start.compressionmethod <> STORED then
+  begin
+    lCompressed := GetCompressedFileStream(Index);
     try
-      result.CopyFrom(zds, FileHeaderList[index].start.uncompressedsize);
+      Result := TMemoryStream.Create;
+
+      zds := Tdecompressionstream.create(lCompressed, True);
+      try
+        result.CopyFrom(zds, FileHeaderList[index].start.uncompressedsize);
+      finally
+        zds.Free ;
+      end;
     finally
-      zds.Free ;
+      lCompressed.Free ;
     end;
-  finally
-    lCompressed.Free ;
-  end;
+  end
+  else
+    result := GetCompressedFileStream(Index);
 
   Result.Position:=0;
 
@@ -703,27 +708,29 @@ begin
 
   WriteLH;
   //compress data
-  lCompress := TCompressionStream.Create(aLvl, fs, True);
-  try
-    lCompress.CopyFrom(Stream, Stream.Size);
-  finally
-    lCompress.Free;
+  if aLvl <> clNone then
+  begin
+    lCompress := TCompressionStream.Create(aLvl, fs, True);
+    try
+      lCompress.CopyFrom(Stream, Stream.Size);
+    finally
+      lCompress.Free;
+    end;
+
+    lfh.start.compressedsize := fs.Position - localoffset;
+
+    lfh.start.compressmethod := DEFLATED;
+    case aLvl of
+      clnone:    lfh.start.generalpurposebit := %110;
+      clfastest: lfh.start.generalpurposebit := %100;
+      cldefault: lfh.start.generalpurposebit := %000;
+      clmax:     lfh.start.generalpurposebit := %010;
+    else
+      lfh.start.generalpurposebit := 0;
+    end;
   end;
-
-  lfh.start.compressedsize := fs.Position - localoffset;
-
-  lfh.start.compressmethod := DEFLATED;
-  case aLvl of
-    clnone:    lfh.start.generalpurposebit := %110;
-    clfastest: lfh.start.generalpurposebit := %100;
-    cldefault: lfh.start.generalpurposebit := %000;
-    clmax:     lfh.start.generalpurposebit := %010;
-  else
-    lfh.start.generalpurposebit := 0;
-  end;
-
-  //if lCompressed.Size >= Stream.Size then
-  if lfh.start.compressedsize >= Stream.Size then
+    //if lCompressed.Size >= Stream.Size then
+  if (lfh.start.compressedsize >= Stream.Size) or (aLvl = clNone) then
   begin
     //lCompressed.Size := 0;
     Stream.Position:=0;

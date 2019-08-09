@@ -98,7 +98,8 @@ uses
   StdCtrls,
   DateUtils, Utils.ZipFile,
   Utils.Files,
-  uThreadExtract
+  uThreadExtract,
+  zstream
   //, uStrings
   ;
 
@@ -460,7 +461,7 @@ begin
               s := FCbz.GetNextFilename;
               // Format(FilenameFormat + '.webp', [FCbz.FileCount + 1]);
               //FCbz.Add(Rec.Stream, s, zcStored);
-              FCbz.AppendStream(Rec.Stream, s, Now);
+              FCbz.AppendStream(Rec.Stream, s, Now, zstream.clNone);
 
               inc(i);
               Sleep(100);

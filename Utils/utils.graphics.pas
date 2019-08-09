@@ -5,7 +5,7 @@ unit Utils.Graphics;
 interface
 
 uses
-  Classes, SysUtils, Graphics, cthreads, lcltype;
+  Classes, SysUtils, Graphics, cthreads, lcltype, intfgraphics;
 
 type
   TResizeMode = (rmSmooth, rmFast);
@@ -14,8 +14,47 @@ type
 procedure SmoothStretchDraw(aCanvas : TCanvas; DestRect : TRect; aSrc : TBitmap);
 function ResampleBitmap(const aSrc: TBitmap; DestWidth, DestHeight: Integer; rMode : TResizeMode = rmSmooth):TBitmap;
 procedure Flip(aImg : TBitmap; aDirection : TFlipDir);
+procedure RotateBitmap(Src : TBitmap; Angle : Integer);
 
 implementation
+
+procedure RotateBitmap90(bitmap: TBitmap);
+var
+  tmp: TBitmap;
+  src, dst: TLazIntfImage;
+  ImgHandle, ImgMaskHandle: HBitmap;
+  i, j, t, u, v: integer;
+begin
+  tmp := TBitmap.create;
+  tmp.Width := Bitmap.Height;
+  tmp.Height := Bitmap.Width;
+  dst := TLazIntfImage.Create(0, 0);
+  dst.LoadFromBitmap(tmp.Handle, tmp.MaskHandle);
+  src := TLazIntfImage.Create(0, 0);
+  src.LoadFromBitmap(bitmap.Handle, bitmap.MaskHandle);
+  u := bitmap.width - 1;
+  v := bitmap.height - 1;
+  for i := 0 to u do begin
+    t := u - i;
+    for j := 0 to v do
+      dst.Colors[j, t] := src.Colors[i, j];
+  end;
+  dst.CreateBitmaps(ImgHandle, ImgMaskHandle, false);
+  tmp.Handle := ImgHandle;
+  tmp.MaskHandle := ImgMaskHandle;
+  dst.Free;
+  bitmap.Assign(tmp);
+  tmp.Free;
+  src.Free;
+end;
+
+procedure RotateBitmap(Src : TBitmap; Angle : Integer);
+begin
+  case Angle of
+    90:  RotateBitmap90(Src);
+    -90: ;
+  end;
+end;
 
 procedure Flip(aImg : TBitmap; aDirection : TFlipDir);
 var src, dest: TRect;

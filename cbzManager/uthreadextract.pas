@@ -136,6 +136,24 @@ uses
 const
   MB = 1024 * 1024;
 
+function Unrar:String;
+begin
+{$ifdef darwin}
+  result := '/usr/local/bin/unrar';
+{$else}
+  result := '/usr/bin/unrar';
+{$endif}
+end;
+
+function SevenZip:String;
+begin
+{$ifdef darwin}
+  result := '/usr/local/bin/7z';
+{$else}
+  result := '/usr/bin/7z';
+{$endif}
+end;
+
 { TThreadExtract }
 
 constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
@@ -173,7 +191,6 @@ begin
     try
       // extract
       r := fpSystem(FCmd);
-      WaitProcess(r);
       // get files
       GetFileNames(FFiles);
       FNbFiles := FFiles.Count;
@@ -330,7 +347,7 @@ begin
   CopyFileToTemp(FileName);
   FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
   ForceDirectories(FTmpDir);
-  FCmd := Format('unrar e -y ''%s'' ''%s''', [FtmpFileName, FTmpDir]);
+  FCmd := Format('%s e -y ''%s'' ''%s''', [Unrar, FtmpFileName, FTmpDir]);
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);
 end;
@@ -350,7 +367,7 @@ begin
   CopyFileToTemp(FileName);
   FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
   ForceDirectories(FTmpDir);
-  FCmd := Format('7z e -y -bd ''%s'' -o''%s''', [FTmpFileName, FTmpDir]);
+  FCmd := Format('%s e -y -bd ''%s'' -o''%s''', [SevenZip, FTmpFileName, FTmpDir]);
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);
 end;

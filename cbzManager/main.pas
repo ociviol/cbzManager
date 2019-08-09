@@ -75,6 +75,7 @@ type
     Panel3: TPanel;
     pnlimgName: TPanel;
     PopupMenu1: TPopupMenu;
+    ProgressBar1: TProgressBar;
     SelectDirectoryDialog1: TSelectDirectoryDialog;
     Splitter1: TSplitter;
     TreeView1: TTreeView;
@@ -499,22 +500,42 @@ begin
   msg := '';
   if not FileExists(Fconfig.cwebp) then
   begin
-    msg := msg + 'cwebp not found, install using ''sudo apt install webp''' + #13;
-    Flog.Log('required binary missing : cwebp.');
+    msg := msg + 'cwebp not found, install using ' +
+{$ifdef darwin}
+          '''brew install webp''' + #13;
+{$else}
+           '''sudo apt install webp''' + #13;
+{$endif}
+  Flog.Log('required binary missing : cwebp.');
   end;
   if not FileExists(Fconfig.unzip) then
   begin
-    msg := msg + 'unzip not found, install using ''sudo apt install unzip''' + #13;
+    msg := msg + 'unzip not found, install using ' +
+    {$ifdef darwin}
+              '''brew install unzip''' + #13;
+    {$else}
+               '''sudo apt install unzip''' + #13;
+    {$endif}
     Flog.Log('required binary missing : unzip.');
   end;
   if not FileExists(Fconfig.unrar) then
   begin
-    msg := msg + 'unrar not found, install using ''sudo apt install unrar''' + #13;
+    msg := msg + 'unrar not found, install using ' +
+    {$ifdef darwin}
+              '''brew install unrar''' + #13;
+    {$else}
+               '''sudo apt install unrar''' + #13;
+    {$endif}
     Flog.Log('required binary missing : unrar.');
   end;
   if not FileExists(Fconfig.p7zip) then
   begin
-    msg := msg + '7z not found, install using ''sudo apt install p7zip-full''' + #13;
+    msg := msg + '7z not found, install using ' +
+    {$ifdef darwin}
+              '''brew install p7zip''' + #13;
+    {$else}
+               '''sudo apt install p7zip-full''' + #13;
+    {$endif}
     Flog.Log('required binary missing : p7zip.');
   end;
 {$ifdef Darwin}

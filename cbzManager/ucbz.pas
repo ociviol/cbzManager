@@ -124,7 +124,7 @@ type
   TStampThread = Class(TThread)
   private
     FCur : integer;
-    ProgressID : QWord;
+    FProgressID : QWord;
     FCbz : TCbz;
     FNotify : TStampReadyEvent;
     FStampSync : TThreadList;
@@ -137,6 +137,7 @@ type
     constructor Create(aCbz : TCBZ; aStampSync : TThreadList; aProgressID : QWord; aNotify : TStampReadyEvent); reintroduce;
     procedure StopThread;
     procedure Execute; override;
+    property ProgressID : QWord read FProgressID;
   End;
 
   { TCleanFilename }
@@ -163,7 +164,7 @@ procedure FileToTrash(const aFileName : String);
 implementation
 
 uses
-  Webp, Utils.SoftwareVersion, StrUtils, unix, Utils.Files;
+  Webp, Utils.SoftwareVersion, StrUtils, unix, Utils.Files, zstream;
 
 { TCleanFilename }
 
@@ -370,7 +371,7 @@ begin
   FCache2 := nil;
   if UserData.SaveStamps then
     FCache2 := SaveCachedStamps(UserData.Indexes, UserData.SaveStampsOp);
-  StopStampThread;
+
   try
     UserData.ProgressID := GetTickCount64;
     fname := GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(ThreadID)) + IntToStr(QWord(GetTickCount64)));
@@ -427,7 +428,7 @@ begin
 
         if Assigned(ms) then
         try
-          outz.AppendStream(ms, fn, now);
+          outz.AppendStream(ms, fn, now, zstream.clNone);
         finally
           ms.Free;
         end
@@ -435,7 +436,7 @@ begin
         begin
           ms := GetFileStream(i);
           try
-            outz.AppendStream(ms, fn, now);
+            outz.AppendStream(ms, fn, now, zstream.clNone);
           finally
             ms.Free;
           end;
@@ -991,13 +992,18 @@ end;
 procedure TCbz.StopStampThread;
 var
   i : integer;
+  z : QWord;
 begin
   for i := low(FStampThread) to High(FStampThread) do
     if Assigned(FStampThread[i]) then
     begin
       FLog.Log(Format('%s Stopping thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread[i].ThreadID))]));
+      z := FStampThread[i].ProgressID;
       FStampThread[i].StopThread;
-      FreeANdNil(FStampThread[i]);
+      if Assigned(FNotify) then
+        FNotify(z, -1);
+      //FreeANdNil(FStampThread[i]);
+      FStampThread[i] := nil;
     end;
 end;
 
@@ -1216,6 +1222,8 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   function ExternalConvert(const aSrc, aDest : TMemoryStream):Boolean;
   var
     fin, fout : string;
+    retry : integer;
+    done : boolean;
   begin
     result := False;
     if SysUtils.FileExists(cwebp) then
@@ -1227,8 +1235,22 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
         fout := ConvertImage(fin);
         if SysUtils.FileExists(fout) then
         begin
-          aDest.LoadFromFile(fout);
-          Exit(True);
+          retry := 0;
+          done := false;
+          repeat
+            try
+              aDest.LoadFromFile(fout);
+              done := True;
+            except
+              on e: Exception do
+              begin
+                inc(retry);
+                aFLog.Log('External convert : "' + e.Message + '" retry ' + IntTostr(retry));
+                sleep(500);
+              end;
+            end;
+          until (retry > 4) or Done;
+          Exit(Done);
         end
         else
           Exit(False);
@@ -1242,6 +1264,8 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
         try
           SysUtils.DeleteFile(fout);
         except
+          on e: Exception do
+            aFLog.Log('Externale convert : ' + e.Message);
         end;
       end;
     end;
@@ -1363,26 +1387,28 @@ constructor TStampThread.Create(aCbz: TCBZ; aStampSync: TThreadList;
 begin
   FCbz := aCbz;
   FNotify := aNotify;
-  ProgressID := aProgressID;
+  FProgressID := aProgressID;
   FStampSync := aStampSync;
+  FreeOnTerminate := True;
   inherited Create(False);
 end;
 
 procedure TStampThread.DoMakeStamp;
 begin
-  with Fcbz do
-  begin
-    with FStampSync.LockList do
-    try
-      MakeStampResult := Cache.IndexOf(IntToStr(MakeStampIndex)) >= 0;
-      if not MakeStampResult then
-      begin
-        Cache.AddObject(IntTostr(MakeStampIndex), MakeStamp(MakeStampIndex));
+  if not Terminated then
+    with Fcbz do
+    begin
+      with FStampSync.LockList do
+      try
+        MakeStampResult := Cache.IndexOf(IntToStr(MakeStampIndex)) >= 0;
+        if not MakeStampResult then
+        begin
+          Cache.AddObject(IntTostr(MakeStampIndex), MakeStamp(MakeStampIndex));
+        end;
+      finally
+        FStampSync.UnlockList;
       end;
-    finally
-      FStampSync.UnlockList;
     end;
-  end;
 end;
 
 function TStampThread.GetCount: Integer;
@@ -1399,19 +1425,19 @@ procedure TStampThread.StopThread;
 begin
   if not Terminated then
   begin
+    Terminate;
     if Suspended then
       Resume;
-    if not Terminated then
-    begin
-      Terminate;
-      WaitFor;
-    end;
+    //while not Terminated do
+    //  Sleep(250);
+    //WaitFor;
   end;
 end;
 
 procedure TStampThread.DoProgress;
 begin
-  FNotify(ProgressID, FCur);
+  if not Terminated then
+    FNotify(ProgressID, FCur);
 end;
 
 procedure TStampThread.Execute;
@@ -1433,15 +1459,19 @@ begin
           begin
             MakeStampIndex := i;
             Synchronize(@DoMakeStamp);
-            if not MakeStampResult then
-              if not Terminated then
+            if not Terminated then
+            begin
+              if not MakeStampResult then
                 if Assigned(FNotify) then
                 begin
                   FCur := i;
                   Synchronize(@DoProgress);
                   Sleep(10);
                 end;
-            end;
+            end
+            else
+              break;
+          end;
 
           j := (ImgCount - 1) - i;
           if j >= 0 then
@@ -1449,20 +1479,23 @@ begin
             begin
               MakeStampIndex := j;
               Synchronize(@DoMakeStamp);
-              if not MakeStampResult then
-                if not Terminated then
+              if not Terminated then
+              begin
+                if not MakeStampResult then
                   if Assigned(FNotify) then
                   begin
                     FCur := j;
                     Synchronize(@DoProgress);
                     Sleep(10);
                   end;
+              end
+              else
+                Break;
             end;
+
+          if Terminated then
+            break;
         end;
-
-        //if not Terminated then
-        //  Sleep(25);
-
       end
       else
         if not Terminated then

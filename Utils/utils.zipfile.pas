@@ -148,6 +148,7 @@ type
   TFileChangedEvent = procedure(Sender: TObject) of object;
 
   { TZipFile }
+  TCRCErrorException = Class(Exception);
 
   TZipFile = class
   private
@@ -508,7 +509,7 @@ begin
   Result.Position:=0;
 
   if GetStreamCrc32(result) <> FileHeaderList[index].start.crc32 then
-    raise Exception.Create('CRC32 error !');
+    raise TCRCErrorException.Create('CRC32 error !');
 end;
 
 function TZipFile.FileNameIndex(AFileName: string): longint;

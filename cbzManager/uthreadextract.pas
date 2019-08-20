@@ -14,9 +14,8 @@ uses
 
 {$define INTERNAL_ZIP}
 type
-
+  TCBzErrorFileException = Class(Exception);
   { TThreadExtract }
-
   TThreadExtract = Class(TThread)
   private
     FSync : TThreadList;
@@ -469,8 +468,8 @@ begin
             end;
 
             if not Cbz.TestFile(i) then
-              raise Exception.Create(FormatDateTime('hh:nn:ss' ,now) +
-                                     ' Cannot process ' + FFileName + ' because it has errors.');
+              raise TCBzErrorFileException.Create(FormatDateTime('hh:nn:ss' ,now) +
+                                                  ' Cannot process ' + FFileName + ' because it has errors.');
 
             if Terminated then
             begin

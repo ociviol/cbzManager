@@ -498,6 +498,7 @@ begin
         //  end;
 
         Flog.Log('TCbzWorkerThread Done.');
+
         if Fcbz.FileCount > 0 then
         begin
           Fcbz.Close;

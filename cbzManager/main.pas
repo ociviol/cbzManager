@@ -75,7 +75,6 @@ type
     Panel3: TPanel;
     pnlimgName: TPanel;
     PopupMenu1: TPopupMenu;
-    ProgressBar1: TProgressBar;
     SelectDirectoryDialog1: TSelectDirectoryDialog;
     Splitter1: TSplitter;
     TreeView1: TTreeView;

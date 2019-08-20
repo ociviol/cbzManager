@@ -171,13 +171,6 @@ object MainFrm: TMainFrm
     TabOrder = 4
     Visible = False
   end
-  object ProgressBar1: TProgressBar
-    Left = 169
-    Height = 20
-    Top = 301
-    Width = 100
-    TabOrder = 5
-  end
   object MainMenu1: TMainMenu
     left = 89
     top = 51

@@ -330,7 +330,7 @@ end;
 
 procedure TThreadExtract.CopyFileToTemp(const aFileName: String);
 begin
-  FTmpFileName := GetTempFileName(FTmpDir, 'Cbz' + IntToStr(QWord(ThreadID)));
+  FTmpFileName := GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(GetThreadID)) + IntToStr(QWord(GetTickCount64)));
   CopyFile(aFileName, FTmpFileName);
 end;
 

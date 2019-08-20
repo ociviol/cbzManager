@@ -421,7 +421,8 @@ begin
 
         FJobPool.FSync.LockList;
         try
-          fname := GetTempFileName(GetTempDir, 'Cbz');
+          fname := cbzGetTempFileName;
+          //GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(ThreadID)) + IntToStr(QWord(GetTickCount64)));  //GetTempFileName(GetTempDir, 'Cbz');
           FCbz.Open(fname, zmWrite, nil, IntToStr(FFilesToProcess).Length);
         finally
           FJobPool.FSync.UnLockList;

@@ -1,21 +1,21 @@
 object MainFrm: TMainFrm
-  Left = 397
+  Left = 384
   Height = 669
-  Top = 298
+  Top = 160
   Width = 791
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 669
+  ClientHeight = 646
   ClientWidth = 791
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '2.0.0.4'
+  LCLVersion = '2.0.2.0'
   object TreeView1: TTreeView
     Left = 0
-    Height = 500
+    Height = 477
     Top = 0
     Width = 286
     Align = alLeft
@@ -31,17 +31,17 @@ object MainFrm: TMainFrm
   end
   object Panel1: TPanel
     Left = 291
-    Height = 500
+    Height = 477
     Top = 0
     Width = 500
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 500
+    ClientHeight = 477
     ClientWidth = 500
     TabOrder = 1
     object DrawGrid1: TDrawGrid
       Left = 350
-      Height = 473
+      Height = 450
       Top = 27
       Width = 150
       Align = alRight
@@ -61,7 +61,7 @@ object MainFrm: TMainFrm
     end
     object Image1: TImage
       Left = 0
-      Height = 473
+      Height = 450
       Top = 27
       Width = 350
       Align = alClient
@@ -147,7 +147,7 @@ object MainFrm: TMainFrm
   object pnlProgress: TPanel
     Left = 0
     Height = 50
-    Top = 619
+    Top = 596
     Width = 791
     Align = alBottom
     BevelOuter = bvNone
@@ -155,14 +155,14 @@ object MainFrm: TMainFrm
   end
   object Splitter1: TSplitter
     Left = 286
-    Height = 500
+    Height = 477
     Top = 0
     Width = 5
   end
   object memoLog: TMemo
     Left = 0
     Height = 119
-    Top = 500
+    Top = 477
     Width = 791
     Align = alBottom
     Lines.Strings = (

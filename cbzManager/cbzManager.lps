@@ -17,8 +17,9 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="856"/>
-        <CursorPos Y="867"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="609"/>
+        <CursorPos X="28" Y="620"/>
         <UsageCount Value="139"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -146,9 +147,8 @@
         <Filename Value="udatapool.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataPool"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
-        <CursorPos X="3" Y="10"/>
+        <CursorPos X="64" Y="31"/>
         <UsageCount Value="121"/>
         <Loaded Value="True"/>
       </Unit15>
@@ -554,7 +554,7 @@
         <UsageCount Value="6"/>
       </Unit68>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="udatapool.pas"/>
         <Caret Line="51" TopLine="46"/>
@@ -671,6 +671,10 @@
         <Filename Value="ucbz.pas"/>
         <Caret Line="91" Column="27" TopLine="77"/>
       </Position29>
+      <Position30>
+        <Filename Value="udatapool.pas"/>
+        <Caret Line="31" Column="64"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

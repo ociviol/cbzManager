@@ -16,7 +16,7 @@ Lazarus 2.0
 	libwebp : 	sudo apt install libwebp-dev
 
 Max OsX (use HomeBrew):
-Lazarus 2.0
+Lazarus trunk >= 2.1.0
 
 	unzip : 	brew install unzip
 	unrar: 		brew install unrar

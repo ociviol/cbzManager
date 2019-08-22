@@ -28,8 +28,29 @@ end;
 procedure CopyFile(const aSrc, aDest: String);
 var
   sin, sout : TFileStream;
+  procedure SafeOpenSourceFile;
+  var
+    retry : integer;
+    done : boolean;
+  begin
+    done := false;
+    retry := 0;
+    sin := nil;
+    repeat
+      try
+        sin := TFileStream.Create(aSrc, fmOpenRead);
+        done := true;
+      except
+        inc(retry);
+        sleep(250);
+      end;
+    until (retry >=5) or done;
+  end;
+
 begin
-  sin := TFileStream.Create(aSrc, fmOpenRead);
+  SafeOpenSourceFile;
+   if not Assigned(sin) then
+     raise Exception.Create('Utils.Files.CopyFile : Cannot open source file : ' + aSrc);
   try
     sout := TFileStream.Create(aDest, fmCreate);
     try

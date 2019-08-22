@@ -68,7 +68,7 @@ begin
                     else
                       Stout := TCbz.ConvertImageToStream(Rec.Filename, FLog);
 
-                //dtPdf:  StOut := PdfToStream(Rec.Index, Rec.Filename);
+                dtPdf: ; // StOut := PdfToStream(Rec.Index, Rec.Filename);
                 dtMeta : StOut := CopyBlock(Rec.Stream);
               end;
             finally

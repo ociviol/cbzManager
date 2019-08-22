@@ -1,7 +1,7 @@
 object MainFrm: TMainFrm
-  Left = 326
+  Left = 391
   Height = 669
-  Top = 112
+  Top = 129
   Width = 791
   Align = alBottom
   Caption = 'cbzManager'
@@ -261,6 +261,9 @@ object MainFrm: TMainFrm
     object MenuItem11: TMenuItem
       Action = ActionJoin
     end
+    object MenuItem13: TMenuItem
+      Action = ActionSplitImage
+    end
   end
   object ActionList1: TActionList
     left = 208
@@ -331,6 +334,10 @@ object MainFrm: TMainFrm
     object ActionNormPerfs: TAction
       Caption = 'Normal Performances'
       OnExecute = ActionNormPerfsExecute
+    end
+    object ActionSplitImage: TAction
+      Caption = 'Split Image'
+      OnExecute = ActionSplitImageExecute
     end
   end
 end

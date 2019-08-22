@@ -19,6 +19,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionSplitPage: TAction;
     ActionNormPerfs: TAction;
     ActionHighPerfs: TAction;
     ActionJoin: TAction;
@@ -89,6 +90,7 @@ type
     procedure ActionRefreshExecute(Sender: TObject);
     procedure ActionRot90Execute(Sender: TObject);
     procedure ActionRotm90Execute(Sender: TObject);
+    procedure ActionSplitPageExecute(Sender: TObject);
     procedure ActionVertFlipExecute(Sender: TObject);
     procedure DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -859,6 +861,52 @@ begin
     SetMainImage(DrawGrid1.Position);
   finally
     Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TMainFrm.ActionSplitPageExecute(Sender: TObject);
+var
+  b, b1, b2: TBitmap;
+  ms1, ms2: TMemoryStream;
+begin
+  if DrawGrid1.Position >= 0 then
+  begin
+    FIgnoreNotifications := True;
+    Screen.Cursor := crHourGlass;
+    try
+      b := zf.Image[DrawGrid1.Position];
+      try
+        b1 := TBitmap.Create;
+        b2 := TBitmap.Create;
+        try
+          b1.PixelFormat := b.PixelFormat;
+          b2.PixelFormat := b.PixelFormat;
+          b1.Height := b.Height;
+          b2.Height := b.Height;
+          b1.Width := b.Width div 2;
+          b2.Width := b.Width div 2;
+          b1.Canvas.CopyRect(Rect(0, 0, b1.Width - 1, b1.Height - 1), b.Canvas,
+            Rect(0, 0, b1.Width - 1, b1.Height - 1));
+          b2.Canvas.CopyRect(Rect(0, 0, b2.Width - 1, b2.Height - 1), b.Canvas,
+            Rect(b1.Width, 0, b.Width - 1, b.Height - 1));
+          zf.Delete([DrawGrid1.Position], Progress);
+          ms1 := TMemoryStream.Create;
+          ms2 := TMemoryStream.Create;
+          b1.SaveToStream(ms1);
+          b2.SaveToStream(ms2);
+          zf.Insert([ms1, ms2], DrawGrid1.Position);
+          SetMainImage(DrawGrid1.Position);
+          DrawGrid1.Invalidate;
+        finally
+          b1.Free;
+          b2.Free;
+        end;
+      finally
+        b.Free;
+      end;
+    finally
+      Screen.Cursor := crDefault;
+    end;
   end;
 end;
 

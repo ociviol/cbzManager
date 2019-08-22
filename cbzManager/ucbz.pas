@@ -509,7 +509,7 @@ begin
     b := Image[Index];
     if Assigned(b) then
     try
-      RotateBitmap(b, Integer(UserData.Data[0]));
+      RotateBitmap(b, QWord(UserData.Data[0]));
       Stream := ConvertBitmapToStream(b, FLog);
     finally
       b.Free;
@@ -578,7 +578,7 @@ var
   ar : TIntArray;
 begin
   SetLength(ar, 1);
-  ar[0] := Integer(Orientation);
+  ar[0] := QWord(Orientation);
   UserData := CreateUserData(Indexes, True, soSuppr, ar, CallBack);
   //UserData.Create(Indexes, True, soNone, [TObject(Orientation)], CallBack);
   DoOperation(@DoFlipFunct, UserData, opReplace);
@@ -942,11 +942,7 @@ var
 begin
   SetLength(ar, 1);
   SetLength(ind, 1);
-{$ifdef Darwin}
-  ar[0] := Integer(AValue);
-{$else}
   ar[0] := QWord(AValue);
-{$endif}
   ind[0] := Index;
   UserData := CreateUserData(ind, True, soNone, ar, FCallBack);
   DoOperation(@DoSetImageFunct, UserData, opReplace);

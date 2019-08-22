@@ -149,7 +149,7 @@ type
     procedure EnableActions;
 
 {$IFDEF DARWIN}
-    procedure AfterCellSelect(data : longint);
+    procedure AfterCellSelect(data : int64);
 {$ELSE}
     procedure AfterCellSelect(data : int64);
 {$ENDIF}
@@ -538,6 +538,11 @@ begin
     Flog.Log('required binary missing : p7zip.');
   end;
 {$ifdef Darwin}
+  if not FileExists('/usr/local/lib/libwebp.dylib') then
+  begin
+    msg := msg + 'libwebp not found, install using ''brew install libwebp-dev''' + #13;
+    Flog.Log('required library missing : libwebp-dev.');
+  end;	 
 {$else}
   if not FileExists('/usr/lib/x86_64-linux-gnu/libwebp.so') then
   begin
@@ -571,7 +576,7 @@ begin
 end;
 
 {$IFDEF DARWIN}
-procedure TMainFrm.AfterCellSelect(data : longint);
+procedure TMainFrm.AfterCellSelect(data : int64);
 {$ELSE}
 procedure TMainFrm.AfterCellSelect(data : int64);
 {$ENDIF}

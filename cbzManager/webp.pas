@@ -141,9 +141,8 @@ begin
   else
     result := nil;
 end;
-{$endif}
-{
-function WebPDecodeRGBA(data : pbyte; data_size : int64; width : pint; height : pint):pbyte;
+
+function DoWebPDecodeRGBA(data : pbyte; data_size : int64; width : pint; height : pint):pbyte;
 begin
   if HWebplib <> 0 then
     result := PWebPDecodeRGBA(data, data_size, width, height)
@@ -151,17 +150,15 @@ begin
     result := nil;
 end;
 
-function WebPDecodeARGB(data : pbyte; data_size : int64; width : pint; height : pint):pbyte;
+function DoWebPDecodeARGB(data : pbyte; data_size : int64; width : pint; height : pint):pbyte;
 begin
   if HWebplib <> 0 then
     result := PWebPDecodeARGB(data, data_size, width, height)
   else
     result := nil;
 end;
-}
 
-{
-function WebPDecodeRGB(data : pbyte; data_size : int64; width : pint; height : pint):pbyte;
+function DoWebPDecodeRGB(data : pbyte; data_size : int64; width : pint; height : pint):pbyte;
 begin
   if HWebplib <> 0 then
     result := PWebPDecodeRGB(data, data_size, width, height)
@@ -169,14 +166,14 @@ begin
     result := nil;
 end;
 
-function WebPDecodeBGR(data : pbyte; data_size : int64; width : pint; height : pint):pbyte;
+function DoWebPDecodeBGR(data : pbyte; data_size : int64; width : pint; height : pint):pbyte;
 begin
   if HWebplib <> 0 then
     result := PWebPDecodeBGR(data, data_size, width, height)
   else
     result := nil;
 end;
-}
+{$endif}
 
 function WebpToBitmap(data : pointer; size : int64):Tbitmap;
 var
@@ -193,7 +190,11 @@ begin
     bmp := TBitmap.Create;
     psz := 4;
 {$ifdef DLL}
+{$ifdef Darwin}
+    p := DoWebPDecodeARGB(data, size, @w, @h);
+{$else}
     p := DoWebPDecodeBGRA(data, size, @w, @h);
+{$endif}
 {$else}
     p := WebPDecodeBGRA(data, size, @w, @h);
 {$endif}

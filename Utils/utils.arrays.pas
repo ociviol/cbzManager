@@ -11,6 +11,7 @@ type
   TStringArray = Array of String;
   TIntArray = Array of QWord;
   TObjArray = Array of TObject;
+  TStreamArray = Array of TMemoryStream;
 
 function InIntArray(value : QWord; const arr: TIntArray):Boolean; inline;
 function InStringArray(const Value : String; arr : TStringArray):Boolean;

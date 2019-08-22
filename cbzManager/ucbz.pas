@@ -77,6 +77,8 @@ type
     function DoDeleteFunct(Index : Integer; UserData : TUserData;
                             var  Stream : TMemoryStream;
                             const outz : Tcbz):TRewriteOperation;
+    function DoInsertFunct(Index : Integer; UserData : TUserData; var  Stream : TMemoryStream;
+                            const outz : Tcbz):TRewriteOperation;
     procedure DoFlip(Indexes : TIntArray; Orientation : TFlipDir; CallBack : TCbzProgressEvent = nil);
 
     class function ConvertBitmapToStream(const fimg : TBitmap; aFLog : ILog):TMemoryStream;
@@ -103,6 +105,7 @@ type
     procedure Close;
     function IsWebp(Index : Integer):Boolean;
 
+    procedure Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TProgressEvent = nil);
     procedure Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
     procedure VerticalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
     procedure HorizontalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
@@ -518,6 +521,75 @@ begin
 
   Result := roContinue;
 end;
+
+{$region 'Inserts'}
+function TCbz.DoInsertFunct(Index : Integer; UserData : TUserData; var  Stream : TMemoryStream;
+                            const outz : Tcbz):TRewriteOperation;
+var
+  fn : String;
+  i : integer;
+  ms : TMemoryStream;
+  aMax : integer;
+begin
+  Stream := nil;
+  if InIntArray(Index, UserData.Indexes) then
+  begin
+    aMax := outz.FileCount + Length(UserData.Data);
+    for I := Low(UserData.Data) to High(UserData.Data) do
+    begin
+      fn := Format(FFileNameFormat + '%s', [outz.FileCount + 1, '.webp']);
+      try
+        ms := ConvertImageToStream(TMemoryStream(UserData.Data[i]), FLog);
+        try
+          outz.AppendStream(ms, fn, now, zstream.clNone);
+
+          if Assigned(UserData.Progress) then
+            UserData.Progress(Self, UserData.ProgressID, Outz.FileCount,
+                              aMax, 'Rewriting file :' + FFilename);
+        finally
+          ms.Free;
+        end;
+      finally
+        //if not FInUndo then
+        //  TMemoryStream(UserData.Data[i]).Free;
+      end;
+    end;
+  end;
+
+  Result := roContinue;
+end;
+{
+procedure TCbz.Insert(Filenames : TStrings; AboveIndex : Integer; CallBack : TProgressEvent = nil);
+var
+  tmp : TArray<TMemoryStream>;
+  i : integer;
+begin
+  for I := 0 to Filenames.Count - 1 do
+  begin
+    SetLength(tmp, Length(tmp) + 1);
+    tmp[i] := TMemoryStream.Create;
+    TMemoryStream(tmp[i]).LoadFromFile(FileNames[i]);
+    tmp[i].Position := 0;
+  end;
+  Insert(tmp, AboveIndex, CallBack);
+end;
+}
+procedure TCbz.Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TProgressEvent = nil);
+var
+  UserData : TUserData;
+  Indexes, ar : TIntArray;
+  i : integer;
+begin
+  SetLength(Indexes, 1);
+  Indexes[0] := AboveIndex;
+  SetLength(ar, length(Streams));
+  for i:= low(Streams) to high(Streams) do
+    ar[i] := QWord(Streams[i]);
+  UserData := CreateUserData(Indexes, False, soAdd, ar, FCallBack);
+  DoOperation(@DoInsertFunct, UserData, opAdd);
+end;
+{$endregion}
+
 
 procedure TCbz.Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
 var

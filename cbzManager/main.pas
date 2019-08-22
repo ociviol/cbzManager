@@ -19,7 +19,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
-    ActionSplitPage: TAction;
+    ActionSplitImage: TAction;
     ActionNormPerfs: TAction;
     ActionHighPerfs: TAction;
     ActionJoin: TAction;
@@ -51,6 +51,7 @@ type
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
+    MenuItem13: TMenuItem;
     mnuHighPerfs: TMenuItem;
     mnuNormPerfs: TMenuItem;
     MenuItem2: TMenuItem;
@@ -90,7 +91,7 @@ type
     procedure ActionRefreshExecute(Sender: TObject);
     procedure ActionRot90Execute(Sender: TObject);
     procedure ActionRotm90Execute(Sender: TObject);
-    procedure ActionSplitPageExecute(Sender: TObject);
+    procedure ActionSplitImageExecute(Sender: TObject);
     procedure ActionVertFlipExecute(Sender: TObject);
     procedure DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -308,8 +309,6 @@ begin
   ActionMoveToTop.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position > 0);
   ActionMoveToBottom.Enabled := (zf.Mode <> zmClosed) and
     (DrawGrid1.Position < zf.FileCount - 1);
-  //ActionSplitPage.Enabled := (zf.Mode <> zmClosed) and
-  //  (Length(SelectedGridItems) = 1);
   //ActionFit.Enabled := (zf.Mode <> zmClosed) and Assigned(ImageEnView1.Bitmap);
 
   // files
@@ -348,6 +347,7 @@ begin
     (Length(SelectedGridItems) = 1);
   ActionJoin.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
     (Length(SelectedGridItems) = 2);
+  ActionSplitImage.Enabled := (zf.Mode <> zmClosed) and (Length(SelectedGridItems) = 1);
 end;
 
 procedure TMainFrm.FormDestroy(Sender: TObject);
@@ -711,7 +711,7 @@ end;
 procedure TMainFrm.ActionJoinExecute(Sender: TObject);
 var
   lst: TIntArray;
-  ar : TIntARray;
+  ar : TIntArray;
   b1, b2, bFinal: TBitmap;
 begin
   if DrawGrid1.Position >= 0 then
@@ -864,14 +864,15 @@ begin
   end;
 end;
 
-procedure TMainFrm.ActionSplitPageExecute(Sender: TObject);
+procedure TMainFrm.ActionSplitImageExecute(Sender: TObject);
 var
   b, b1, b2: TBitmap;
   ms1, ms2: TMemoryStream;
+  ar : TIntArray;
+  sa : TStreamArray;
 begin
   if DrawGrid1.Position >= 0 then
   begin
-    FIgnoreNotifications := True;
     Screen.Cursor := crHourGlass;
     try
       b := zf.Image[DrawGrid1.Position];
@@ -889,12 +890,18 @@ begin
             Rect(0, 0, b1.Width - 1, b1.Height - 1));
           b2.Canvas.CopyRect(Rect(0, 0, b2.Width - 1, b2.Height - 1), b.Canvas,
             Rect(b1.Width, 0, b.Width - 1, b.Height - 1));
-          zf.Delete([DrawGrid1.Position], Progress);
+
+          SetLength(ar, 1);
+          ar[0] := DrawGrid1.Position;
+          zf.Delete(ar, @Progress);
           ms1 := TMemoryStream.Create;
           ms2 := TMemoryStream.Create;
           b1.SaveToStream(ms1);
           b2.SaveToStream(ms2);
-          zf.Insert([ms1, ms2], DrawGrid1.Position);
+          SetLength(sa, 2);
+          sa[0] := ms1;
+          sa[1] := ms2;
+          zf.Insert(sa, DrawGrid1.Position);
           SetMainImage(DrawGrid1.Position);
           DrawGrid1.Invalidate;
         finally

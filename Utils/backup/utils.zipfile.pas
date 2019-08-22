@@ -507,8 +507,9 @@ begin
 
   Result.Position:=0;
 
-  if GetStreamCrc32(result) <> FileHeaderList[index].start.crc32 then
-    raise TCRCErrorException.Create('CRC32 error !');
+  if FileHeaderList[index].start.compressionmethod <> STORED then
+    if GetStreamCrc32(result) <> FileHeaderList[index].start.crc32 then
+      raise TCRCErrorException.Create('CRC32 error !');
 end;
 
 function TZipFile.FileNameIndex(AFileName: string): longint;

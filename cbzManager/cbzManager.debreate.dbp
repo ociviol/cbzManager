@@ -6,7 +6,6 @@ Maintainer: Ollivier Civiol <ollivier@civiol.eu>
 Section: misc
 Architecture: amd64
 Priority: standard
-Depends: webp (>=0.6.1-2), libwebp-dev (>=0.6.1-2), unzip (>=6.0-21ubuntu1), unrar (>=1:5.5.8-1), p7zip-full (>=16.02+dfsg-6)
 Description: Comic books manager
  Comic books manager
 

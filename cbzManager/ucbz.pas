@@ -419,12 +419,12 @@ begin
 
       for i := 0 to FileCount - 1 do
       begin
+        ms := nil;
         if UserFunction(i, UserData, ms, outz) = roSkip then
           Continue;
 
         Ext := ExtractFileExt(FileNames[i]);
         fn := ChangeFileExt(outz.GetNextFilename, Ext);
-        ms := GetFileStream(i);
 
         if Assigned(ms) then
         try

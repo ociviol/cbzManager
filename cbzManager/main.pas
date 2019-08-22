@@ -735,7 +735,6 @@ begin
               bfinal.Canvas.StretchDraw(Rect(b1.Width, 0, bfinal.Width-1, bfinal.Height-1), b2);
             }
             SetLength(ar, 1);
-            ar[0] := lst[0];
             zf.Image[lst[0]] := bFinal;
             ar[0] := lst[1];
             zf.Delete(ar);

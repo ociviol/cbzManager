@@ -52,6 +52,7 @@ Type=Application
 Terminal=false
 StartupNotify=true
 Encoding=UTF-8
+Categories=2DGraphics;
 <</MENU>>
 <<BUILD>>
 1

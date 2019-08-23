@@ -16,7 +16,9 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
+      <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
+      <BuildNr Value="41"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>
@@ -121,10 +123,13 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="LCL"/>
+        <PackageName Value="TurboPowerIPro"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
     </RequiredPackages>
     <Units Count="22">
       <Unit0>

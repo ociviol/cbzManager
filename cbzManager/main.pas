@@ -6,9 +6,9 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  ComCtrls, ExtCtrls, Grids, ActnList, uCbz, Utils.Logger, Utils.SearchFiles,
-  Utils.Gridhelper, Types, cthreads, Utils.Arrays, uDataPool, uWorkerThread,
-  uConfig;
+  ComCtrls, ExtCtrls, Grids, ActnList, Ipfilebroker, Iphttpbroker, uCbz,
+  Utils.Logger, Utils.SearchFiles, Utils.Gridhelper, Types, cthreads,
+  Utils.Arrays, uDataPool, uWorkerThread, uConfig;
 
 type
   TProgressRec = class
@@ -45,6 +45,7 @@ type
     btnVertFlip: TButton;
     DrawGrid1: TDrawGrid;
     Image1: TImage;
+    IpHtmlDataProvider1: TIpHtmlDataProvider;
     MainMenu1: TMainMenu;
     memoLog: TMemo;
     MenuItem1: TMenuItem;
@@ -153,11 +154,8 @@ type
     procedure SetAppCaption;
     procedure EnableActions;
 
-{$IFDEF DARWIN}
     procedure AfterCellSelect(data : int64);
-{$ELSE}
-    procedure AfterCellSelect(data : int64);
-{$ENDIF}
+    procedure CheckVersion(data : int64);
   public
 
   end;
@@ -181,8 +179,8 @@ implementation
 {$R *.lfm}
 
 uses
-  Config,
-  Utils.Strings, frmwait,
+  Config, LclIntf,
+  Utils.Strings, frmwait, fpHttpClient, unix,
   Utils.SoftwareVersion, uDataTypes, Utils.ZipFile;
 
 const
@@ -256,6 +254,7 @@ begin
     FillTreeView(FConfig.BdPathPath);
 
   SetAppCaption;
+  Application.QueueAsyncCall(@CheckVersion, 0);
   {
   fpsystem('wget https://my.pcloud.com/publink/show?code=XZolVi7ZBGG8r7YxwiXOXHe0kCg2QfW2txE7 -O /tmp/version.txt');
   if FileExists('/tmp/version.txt');
@@ -268,6 +267,58 @@ begin
     t.free;
   end;
   }
+end;
+
+procedure TMainFrm.CheckVersion(data : int64);
+var
+  t : TStringList;
+  i : integer;
+  ar : Array of String;
+  v, ver : string;
+begin
+  with TFPHTTPClient.Create(nil) do
+  try
+    t := TStringList.Create;
+    try
+      SimpleGet('https://ollivierciviolsoftware.wordpress.com/version/', t);
+
+      with t do
+        for i := 0 to Count - 1 do
+          if Strings[i].StartsWith('<meta property="og:description" content=') then
+              v := copy(Strings[i], 41, length(Strings[i])-44);
+
+      v := StringReplace(v, '"', '', [rfReplaceAll]);
+      v := StringReplace(v, ' ', ',', [rfReplaceAll]);
+      ar := v.Split([',']);
+
+      for i:=low(ar) to high(ar) do
+{$IFDEF Drawin}
+        if ar[i].StartsWith('osx:') then
+        begin
+          v := copy(ar[i], 5, length(ar[i]));
+          break;
+        end;
+{$ELSE}
+        if ar[i].StartsWith('linux:') then
+        begin
+          v := copy(ar[i], 7, length(ar[i]));
+          break;
+        end;
+{$ENDIF}
+        if v <> '' then
+        begin
+          if CompareVersion(GetFileVersion, v) > 0 then
+          //if GetFileVersion(Application.ExeName).CompareWith(ver) < 0 then
+            if MessageDlg('A new version is available, do you want to update ?',
+                          mtConfirmation, MbYesNo, 0) = MrYes then
+              OpenUrl('https://ollivierciviolsoftware.wordpress.com');
+        end;
+    finally
+      t.Free;
+    end;
+  finally
+    Free;
+  end;
 end;
 
 procedure TMainFrm.SetAppCaption;
@@ -579,11 +630,7 @@ begin
   EnableActions;
 end;
 
-{$IFDEF DARWIN}
 procedure TMainFrm.AfterCellSelect(data : int64);
-{$ELSE}
-procedure TMainFrm.AfterCellSelect(data : int64);
-{$ENDIF}
 begin
   EnableActions;
   SetMainImage(DrawGrid1.Position);

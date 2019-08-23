@@ -157,7 +157,7 @@ type
     procedure EnableActions;
 
     procedure AfterCellSelect(data : int64);
-    procedure CheckVersion(data : int64);
+    procedure CheckVersionTerminate(Sender : TObject);
   public
 
   end;
@@ -168,6 +168,16 @@ type
   protected
     property Path: String read GetPath;
   End;
+
+  { TThreadCheckVersion }
+
+  TThreadCheckVersion = Class(TThread)
+  protected
+    FNeedUpdate : Boolean;
+  public
+    constructor Create(aTerminate : TNotifyEvent);
+    procedure Execute; override;
+  end;
 
   { TDrawGridAccess }
 
@@ -190,6 +200,65 @@ const
   CS_CONFIG_PATH = '.config/cbzManager';
 //  CS_CONFIG_FILE = '/config.ini';
   CS_CONFIG_JSON = '/config.json';
+
+{ TThreadCheckVersion }
+
+constructor TThreadCheckVersion.Create(aTerminate: TNotifyEvent);
+begin
+  FNeedUpdate := false;
+  OnTerminate := aTerminate;
+  FreeOnTerminate:=True;
+  inherited Create(false);
+end;
+
+procedure TThreadCheckVersion.Execute;
+var
+  t : TStringList;
+  i : integer;
+  ar : Array of String;
+  v, ver : string;
+begin
+  with TFPHTTPClient.Create(nil) do
+  try
+    t := TStringList.Create;
+    try
+      SimpleGet('https://ollivierciviolsoftware.wordpress.com/version/', t);
+
+      with t do
+        for i := 0 to Count - 1 do
+          if Strings[i].StartsWith('<meta property="og:description" content=') then
+              v := copy(Strings[i], 41, length(Strings[i])-44);
+
+      v := StringReplace(v, '"', '', [rfReplaceAll]);
+      v := StringReplace(v, ' ', ',', [rfReplaceAll]);
+      ar := v.Split([',']);
+
+      for i:=low(ar) to high(ar) do
+{$IFDEF Drawin}
+        if ar[i].StartsWith('osx:') then
+        begin
+          v := copy(ar[i], 5, length(ar[i]));
+          break;
+        end;
+{$ELSE}
+        if ar[i].StartsWith('linux:') then
+        begin
+          v := copy(ar[i], 7, length(ar[i]));
+          break;
+        end;
+{$ENDIF}
+        if v <> '' then
+          FNeedUpdate := CompareVersion(GetFileVersion, v) > 0;
+    finally
+      t.Free;
+    end;
+  finally
+    Free;
+  end;
+
+  Terminate;
+end;
+
 //  CS_BDPATH = 'bdpath';
 //  CS_CWEBP = 'cwebp';
 //  CS_UNZIP =  'unzip';
@@ -256,75 +325,18 @@ begin
     FillTreeView(FConfig.BdPathPath);
 
   SetAppCaption;
-  Application.QueueAsyncCall(@CheckVersion, 0);
-  {
-  fpsystem('wget https://my.pcloud.com/publink/show?code=XZolVi7ZBGG8r7YxwiXOXHe0kCg2QfW2txE7 -O /tmp/version.txt');
-  if FileExists('/tmp/version.txt');
-  begin
-    t := TstringList.Create;
-  try
-    t.LoadFromFile('/tmp/version.txt');
-    s := t.Values[];
-  finally
-    t.free;
-  end;
-  }
+  TThreadCheckVersion.Create(@CheckVersionTerminate);
 end;
 
-procedure TMainFrm.CheckVersion(data : int64);
-var
-  t : TStringList;
-  i : integer;
-  ar : Array of String;
-  v, ver : string;
+procedure TMainFrm.CheckVersionTerminate(Sender : TObject);
 begin
-  with TFPHTTPClient.Create(nil) do
-  try
-    t := TStringList.Create;
-    try
-      SimpleGet('https://ollivierciviolsoftware.wordpress.com/version/', t);
-
-      with t do
-        for i := 0 to Count - 1 do
-          if Strings[i].StartsWith('<meta property="og:description" content=') then
-              v := copy(Strings[i], 41, length(Strings[i])-44);
-
-      v := StringReplace(v, '"', '', [rfReplaceAll]);
-      v := StringReplace(v, ' ', ',', [rfReplaceAll]);
-      ar := v.Split([',']);
-
-      for i:=low(ar) to high(ar) do
-{$IFDEF Drawin}
-        if ar[i].StartsWith('osx:') then
-        begin
-          v := copy(ar[i], 5, length(ar[i]));
-          break;
-        end;
-{$ELSE}
-        if ar[i].StartsWith('linux:') then
-        begin
-          v := copy(ar[i], 7, length(ar[i]));
-          break;
-        end;
-{$ENDIF}
-        if v <> '' then
-        begin
-          if CompareVersion(GetFileVersion, v) > 0 then
-            if MessageDlg('A new version is available, do you want to update ?',
-                          mtConfirmation, MbYesNo, 0) = MrYes then
-              OpenUrl('https://ollivierciviolsoftware.wordpress.com');
-        end;
-    finally
-      t.Free;
-    end;
-  finally
-    Free;
-  end;
+  if TThreadCheckVersion(Sender).FNeedUpdate then
+    if MessageDlg('A new version is available, do you want to update ?',
+                  mtConfirmation, MbYesNo, 0) = MrYes then
+      OpenUrl('https://ollivierciviolsoftware.wordpress.com');
 end;
 
 procedure TMainFrm.SetAppCaption;
-//var
-  //FreeAvailable, TotalSpace: Int64;
 begin
   Caption := GetFileVersionInternalName + ' (' + GetFileVersion + ')';
   Caption := format('%s - Path : %s - %d Encoding threads',

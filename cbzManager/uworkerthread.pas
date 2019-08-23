@@ -544,6 +544,7 @@ begin
       end;
     finally
       if Assigned(ThreadExtract) then
+      try
         with ThreadExtract do
         begin
           if not Terminated then
@@ -553,6 +554,10 @@ begin
           end;
           Free;
         end;
+      except
+        on e: Exception do
+          Flog.Log('TCbzWorkerThread Error : Terminating ThreadExtract  ' + e.Message);
+      end;
       FPoolData.ClearLists;
     end;
   except

@@ -182,6 +182,7 @@ type
     procedure Reset;
     procedure SetActive(Value: boolean);
     procedure SetFileName(Value: string);
+//    function GetEOFCRC(Index : Integer):longint;
   public
     fileheadercount: longword;
     
@@ -445,7 +446,40 @@ begin
   result := GetCompressedFileStream(Index);
 
 end;
+{
+function TZipFile.GetEOFCRC(Index : Integer):longint;
+var
+  lfh: TLocalFileHeader;
+  filedataoffset: longword;
+  v : longint;
+  function ReadLongint:longint;
+  var
+    tmp1, tmp2 : word;
+  begin
+    fs.ReadBuffer(tmp1, sizeof(word));
+    fs.ReadBuffer(tmp2, sizeof(word));
+    result := tmp2 shl 16;
+    result := result + tmp1;
+  end;
+begin
+  if (index < 0) or (index > Pred(fileheadercount)) then
+    raise Exception.CreateFmt('File index %d not found !', [Index]);
 
+  lfh := ReadLocalFileHeader(FileHeaderList[index].start.reloffsetlocalheader);
+  //BufLength := FileHeaderList[index].start.compressedsize;
+
+  filedataoffset := FileHeaderList[index].start.reloffsetlocalheader + 30 +
+                    lfh.start.filenamelength + lfh.start.extrafieldlength +
+                    FileHeaderList[index].start.uncompressedsize;
+
+  fs.Seek(filedataoffset, soFromBeginning);
+  //if (FileHeaderList[index].start.generalpurposebit and $0800) = $0800 then
+  v := ReadLongint; //fs.ReadBuffer(v, sizeof(longint));
+  if v = $08074B50 then
+    v := ReadLongint; //fs.Read(v, sizeof(longint));
+  FileHeaderList[index].start.crc32 := v;
+end;
+}
 function TZipFile.GetCompressedFileStream(Index : Integer): TMemoryStream;
 var
   lfh: TLocalFileHeader;
@@ -483,6 +517,7 @@ function TZipFile.GetFileStream(Index : Integer): TMemoryStream;
 var
   lCompressed : TMemoryStream ;
   zds : Tdecompressionstream;
+  i,o : longint;
 begin
   if (index < 0) or (index > Pred(fileheadercount)) then
     raise Exception.CreateFmt('File index %d not found !', [Index]);
@@ -501,13 +536,13 @@ begin
         zds.Free ;
       end;
     finally
-      lCompressed.Free ;
+      lCompressed.Free;
     end;
   end;
 
   Result.Position:=0;
 
-  if FileHeaderList[index].start.compressionmethod <> STORED then
+  if FileHeaderList[index].start.compressedsize <> 0 then
     if GetStreamCrc32(result) <> FileHeaderList[index].start.crc32 then
       raise TCRCErrorException.Create('CRC32 error !');
 end;

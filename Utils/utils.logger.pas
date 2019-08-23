@@ -271,10 +271,10 @@ var
 var
   cmd : string;
 begin
-  cmd := 'zip -9 -m "' + GetArchivePath +
-         FormatDateTime('yyyy-mm-dd - ', now) +
-         ChangeFileExt(ExtractFileName(FFilename), '.zip"') +
-         ' "' + ExtractFilePath(FFilename) + FormatDateTime('yyyy-mm-dd', now) + '*"';
+    cmd := '/usr/bin/zip -9 -m ' + GetArchivePath +
+           FormatDateTime('yyyy-mm-dd-', now) +
+           ChangeFileExt(ExtractFileName(FFilename), '.zip ') +
+           ExtractFilePath(FFilename) + FormatDateTime('yyyy-mm-dd', now) + '*.log';
 
 //  Sysutils.ExecuteProcess('/usr/bin/zip', cmd);
   fpsystem(cmd);
@@ -334,7 +334,7 @@ end;
 function TLogThread.MakeFilename(const Filename: String): String;
 begin
   result := IncludeTrailingPathDelimiter(ExtractFilePath(Filename)) +
-            FormatDateTime('yyyy-mm-dd hh-nn-ss - ', FStartedDate) +
+            FormatDateTime('yyyy-mm-dd-hh-nn-ss-', FStartedDate) +
             ExtractFileName(Filename);
 end;
 
@@ -370,10 +370,10 @@ var
 var
   cmd : string;
 begin
-  cmd := 'zip -9 -m "' + GetArchivePath +
-           FormatDateTime('yyyy-mm-dd - ', now) +
-           ChangeFileExt(ExtractFileName(FFilename), '.zip"') +
-           ' "' + ExtractFilePath(FFilename) + FormatDateTime('yyyy-mm-dd', now) + '*.log"';
+  cmd := '/usr/bin/zip -9 -m ' + GetArchivePath +
+          FormatDateTime('yyyy-mm-dd-', now) +
+          ChangeFileExt(ExtractFileName(FFilename), '.zip ') +
+          ExtractFilePath(FFilename) + FormatDateTime('yyyy-mm-dd', now) + '*.log';
 
 //  Sysutils.ExecuteProcess('/usr/bin/zip', cmd);
   fpSystem(cmd);

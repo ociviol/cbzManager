@@ -26,6 +26,7 @@ object MainFrm: TMainFrm
     ShowRoot = False
     TabOrder = 0
     OnChange = TreeView1Change
+    OnCustomDrawItem = TreeView1CustomDrawItem
     Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
     TreeLinePenStyle = psDashDot
   end

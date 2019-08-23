@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  ComCtrls, ExtCtrls, Grids, ActnList, uCbz,
+  ComCtrls, ExtCtrls, Grids, ActnList, uCbz, OpenSslSockets,
   Utils.Logger, Utils.SearchFiles, Utils.Gridhelper, Types, cthreads,
   Utils.Arrays, uDataPool, uWorkerThread, uConfig;
 
@@ -307,7 +307,6 @@ begin
         if v <> '' then
         begin
           if CompareVersion(GetFileVersion, v) > 0 then
-          //if GetFileVersion(Application.ExeName).CompareWith(ver) < 0 then
             if MessageDlg('A new version is available, do you want to update ?',
                           mtConfirmation, MbYesNo, 0) = MrYes then
               OpenUrl('https://ollivierciviolsoftware.wordpress.com');

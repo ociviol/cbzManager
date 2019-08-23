@@ -6,7 +6,10 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  ComCtrls, ExtCtrls, Grids, ActnList, uCbz, OpenSslSockets,
+  ComCtrls, ExtCtrls, Grids, ActnList, uCbz,
+{$ifdef Darwin}
+  OpenSslSockets,
+{$endif}
   Utils.Logger, Utils.SearchFiles, Utils.Gridhelper, Types, cthreads,
   Utils.Arrays, uDataPool, uWorkerThread, uConfig;
 

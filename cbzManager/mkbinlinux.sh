@@ -1,3 +1,7 @@
+cd /home/matugenos/Dev/cbzManager/cbzManager
+
+/usr/bin/fpc -B -Tlinux -MObjFPC -Scghi -CX -Cg -O3 -XX -l -vewnhibq -vm5076,5044,4066,4056,4055 -Fi/home/matugenos/Dev/cbzManager/cbzManager/lib/x86_64-linux -Fu/home/matugenos/Dev/cbzManager/Utils -Fu/home/matugenos/Dev/cbzManager/common -Fu/usr/share/lazarus/2.0.2/components/turbopower_ipro/units/x86_64-linux/gtk2 -Fu/usr/share/lazarus/2.0.2/components/printers/lib/x86_64-linux/gtk2 -Fu/usr/share/lazarus/2.0.2/components/cairocanvas/lib/x86_64-linux/gtk2 -Fu/usr/share/lazarus/2.0.2/lcl/units/x86_64-linux/gtk2 -Fu/usr/share/lazarus/2.0.2/lcl/units/x86_64-linux -Fu/usr/share/lazarus/2.0.2/components/lazutils/lib/x86_64-linux -Fu/usr/share/lazarus/2.0.2/packager/units/x86_64-linux -Fu/home/matugenos/Dev/cbzManager/cbzManager/ -FU/home/matugenos/Dev/cbzManager/cbzManager/lib/x86_64-linux/ -FE/home/matugenos/Dev/cbzManager/cbzManager/ -o/home/matugenos/Dev/cbzManager/cbzManager/cbzManager -dLCL -dLCLgtk2 -dUseCThreads -dRELEASE cbzManager.lpr
+
 cp cbzManager ../precompiled\ binairies/Linux/
 cp /usr/share/applications/cbzManager.desktop ../precompiled\ binairies/Linux/
 sudo cp cbzManager /usr/local/bin

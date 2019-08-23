@@ -341,8 +341,4 @@ object MainFrm: TMainFrm
       OnExecute = ActionSplitImageExecute
     end
   end
-  object IpHtmlDataProvider1: TIpHtmlDataProvider
-    left = 116
-    top = 241
-  end
 end

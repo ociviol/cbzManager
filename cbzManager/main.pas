@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  ComCtrls, ExtCtrls, Grids, ActnList, Ipfilebroker, Iphttpbroker, uCbz,
+  ComCtrls, ExtCtrls, Grids, ActnList, uCbz,
   Utils.Logger, Utils.SearchFiles, Utils.Gridhelper, Types, cthreads,
   Utils.Arrays, uDataPool, uWorkerThread, uConfig;
 
@@ -45,7 +45,6 @@ type
     btnVertFlip: TButton;
     DrawGrid1: TDrawGrid;
     Image1: TImage;
-    IpHtmlDataProvider1: TIpHtmlDataProvider;
     MainMenu1: TMainMenu;
     memoLog: TMemo;
     MenuItem1: TMenuItem;

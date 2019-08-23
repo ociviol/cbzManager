@@ -132,8 +132,8 @@ uses
   ;
 
 
-const
-  MB = 1024 * 1024;
+//const
+//  MB = 1024 * 1024;
 
 function Unrar:String;
 begin
@@ -161,8 +161,6 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
                                   Results: TStrings;
                                   Progress : TCbzProgressEvent; ProgressID : QWord;
                                   OnBadFile : TNotifyEvent);
-var
-  r : cint;
 begin
   FWorking := True;
   FOperations := Operations;
@@ -189,7 +187,7 @@ begin
     Synchronize(@DoProgress);
     try
       // extract
-      r := fpSystem(FCmd);
+      fpSystem(FCmd);
       // get files
       GetFileNames(FFiles);
       FNbFiles := FFiles.Count;

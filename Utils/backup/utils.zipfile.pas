@@ -784,7 +784,6 @@ var
   buf: Pbyte;
   buflen: longword;
   sz : int64;
-  i : integer;
 begin
   pos := Stream.Position;
   Stream.Position := 0;
@@ -806,7 +805,7 @@ end;
 
 procedure TZipFile.DeleteFile(AFileName: string);
 var
-  index: longword;
+  index: longint;
   i: longword;
   startbuf: longword;
   endbuf: longword;

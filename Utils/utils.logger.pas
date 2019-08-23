@@ -20,7 +20,6 @@ implementation
 
 uses
   unix,
-  zip,
   DateUtils,
   Utils.Files;
 
@@ -271,7 +270,6 @@ var
 }
 var
   cmd : string;
-  ret : cint;
 begin
   cmd := 'zip -9 -m "' + GetArchivePath +
          FormatDateTime('yyyy-mm-dd - ', now) +
@@ -279,7 +277,7 @@ begin
          ' "' + ExtractFilePath(FFilename) + FormatDateTime('yyyy-mm-dd', now) + '*"';
 
 //  Sysutils.ExecuteProcess('/usr/bin/zip', cmd);
-  ret := fpsystem(cmd);
+  fpsystem(cmd);
 
   {
   fname := GetArchivePath + //IncludeTrailingPathDelimiter(ExtractFilePath(FFilename)) +
@@ -371,7 +369,6 @@ var
 }
 var
   cmd : string;
-  ret : cint;
 begin
   cmd := 'zip -9 -m "' + GetArchivePath +
            FormatDateTime('yyyy-mm-dd - ', now) +
@@ -379,7 +376,7 @@ begin
            ' "' + ExtractFilePath(FFilename) + FormatDateTime('yyyy-mm-dd', now) + '*.log"';
 
 //  Sysutils.ExecuteProcess('/usr/bin/zip', cmd);
-  ret := fpSystem(cmd);
+  fpSystem(cmd);
   // zip -9 -m 2019-07-28.zip 2019-07-28*.log
 {
   f := GetArchivePath + // IncludeTrailingPathDelimiter(ExtractFilePath(FOriginalFilename)) +

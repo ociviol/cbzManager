@@ -726,8 +726,6 @@ begin
       clfastest: lfh.start.generalpurposebit := %100;
       cldefault: lfh.start.generalpurposebit := %000;
       clmax:     lfh.start.generalpurposebit := %010;
-    else
-      lfh.start.generalpurposebit := 0;
     end;
   end;
     //if lCompressed.Size >= Stream.Size then

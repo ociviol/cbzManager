@@ -110,6 +110,8 @@ type
     procedure mnuSetDefaultPathClick(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
+    procedure TreeView1CustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
+      State: TCustomDrawState; var DefaultDraw: Boolean);
   private
     FLog: ILog;
     zf : TCbz;
@@ -666,6 +668,16 @@ begin
     end
     else
       EnableControls(False);
+end;
+
+procedure TMainFrm.TreeView1CustomDrawItem(Sender: TCustomTreeView;
+  Node: TTreeNode; State: TCustomDrawState; var DefaultDraw: Boolean);
+begin
+  with Sender.Canvas do
+    if Node.Data <> nil then
+      Font.Style := [fsBold]
+    else
+      Font.Style := [];
 end;
 
 function TMainFrm.SelectedGridItems: TIntArray;

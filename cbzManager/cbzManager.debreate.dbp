@@ -50,7 +50,7 @@ Comment=Comic books manager
 Icon=cbzManager
 Type=Application
 Terminal=false
-StartupNotify=true
+StartupNotify=false
 Encoding=UTF-8
 Categories=2DGraphics;
 <</MENU>>

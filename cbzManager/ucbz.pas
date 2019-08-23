@@ -1264,7 +1264,6 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   function ConvertImage(const fimg : String):String;
   var
     cmd : string;
-    r : Integer;
   begin
     aFLog.Log(ClassName + '.ConvertImage : ' +Fimg);
 
@@ -1272,7 +1271,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
     begin
       result := ChangeFileExt(fimg, '.webp');
       cmd := cwebp + ' -mt -quiet "' + fimg + '" -o "' + result +'"';
-      r := fpsystem(cmd);
+      fpsystem(cmd);
       aFLog.Log(ClassName + '.ConvertImage Executing : ' + cmd);
 
       if not Sysutils.FileExists(result) then

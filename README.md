@@ -5,6 +5,7 @@ This software is in development phase, current version is VERY BETA. Use at your
 Current versions are stable and can be used but this software is still under development so there could be bugs.
 
 Precompiled binaries available for Linux (x64) and Mac OsX.
+
 	Mac : Just copy the Application in your application folder
 	Linux : read the README file (I hope all works well)
 

@@ -1,5 +1,0 @@
-run :
-
-chmod +x installlinux.sh
-sudo ./installlinux.sh
-

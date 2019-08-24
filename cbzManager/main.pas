@@ -1124,8 +1124,13 @@ begin
 
       if (aRow >= 0) and (ACol >= 0) then
       begin
+{$ifdef Darwin}
+        if (Button = mbLeft) and (ssMeta in Shift) then
+{$else}
         if (Button = mbLeft) and (ssCtrl in Shift) then
+{$endif}
           Selected[aRow] := not Selected[aRow]
+      end;
         else if (Button = mbLeft) and (ssShift in Shift) then
         begin
           ClearSelection;

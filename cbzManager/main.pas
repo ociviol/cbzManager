@@ -98,6 +98,8 @@ type
     procedure ActionVertFlipExecute(Sender: TObject);
     procedure DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
+    procedure DrawGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
+      );
     procedure DrawGrid1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure DrawGrid1MouseEnter(Sender: TObject);
@@ -1042,6 +1044,32 @@ begin
     end;
 end;
 
+procedure TMainFrm.DrawGrid1KeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (zf.Mode <> zmClosed) then
+    with DrawGrid1 do
+      case Key of
+        37: // left
+          if Position >= 0 then
+          begin
+            //Position := Position - 1;
+            ClearSelection;
+            Selected[Position] := true;
+            SetMainImage(Position);
+          end;
+
+        39: //right
+          if Position <= Max then
+          begin
+            //Position := Position + 1;
+            ClearSelection;
+            Selected[Position] := true;
+            SetMainImage(Position);
+          end;
+      end;
+end;
+
 procedure TMainFrm.DrawGrid1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
@@ -1099,7 +1127,7 @@ begin
     Exit;
 
   ShiftState := GetKeyShiftState;
-  if ssShift in ShiftState then
+  if not (ssShift in ShiftState) then
     FoldPos := aRow;
 
   CanSelect := zf.Mode <> zmClosed;

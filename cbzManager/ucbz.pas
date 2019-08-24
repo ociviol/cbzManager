@@ -420,14 +420,14 @@ var
   i : integer;
   st : TStream;
   ms : TMemoryStream;
-  ProgressID : integer;
   FCache2: TStringList;
   Indexes : TIntArray;
+  ProgressId : QWord;
   ar : TStreamArray;
 begin
   FCache2 := SaveCachedStamps(Indexes, soNone);
   try
-    ProgressID := GetTickCount64;
+    ProgressId := GetTickCount64;
     fname := GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(ThreadID)) + IntToStr(QWord(GetTickCount64)));
     outz := TCbz.Create(FLog);
     try
@@ -486,11 +486,9 @@ var
   s, fname, fn, ext : string;
   i : integer;
   st : TStream;
-//  info : TZipHeader;
   ms : TMemoryStream;
   cnt : Integer;
   FCache2: TStringList;
-//  Comp : TZipCompression;
   StreamLst : Array of TMemoryStream;
   Indx : TIntArray;
 begin
@@ -512,7 +510,7 @@ begin
              IsWebP(UserData.Indexes[i])) and not (Operation = opAdd) then
           begin
             SetLength(StreamLst, Length(StreamLst)+1);
-            StreamLst[i] := GetFileStream(i);
+            StreamLst[i] := GetFileStream(UserData.Indexes[i]);
           end;
         end;
 

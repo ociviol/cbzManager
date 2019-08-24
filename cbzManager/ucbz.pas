@@ -5,7 +5,7 @@ unit uCbz;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, contnrs,
   Utils.ZipFile,
   //zipctnr,
   Utils.Logger, Utils.Graphics,
@@ -24,6 +24,23 @@ const
   AllowedImgs  : array[0..4] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2');
 
 type
+
+  { TUndoObject }
+
+  TUndoObject = Class
+  private
+    FIndexes : TIntArray;
+    FOperation : TOperation;
+    FStreams : TStreamArray;
+  public
+    constructor Create(Indexes : TIntArray;
+                       Operation : TOperation;
+                       Streams : TStreamArray);
+    destructor Destroy; override;
+    property Operation : TOperation read FOperation;
+    property Indexes : TIntArray read FIndexes;
+    property Streams : TStreamArray read FStreams;
+  End;
   { TCbz }
   TCbz = Class;
   TSaveStampOp = (soAdd, soSuppr, soNone);
@@ -53,7 +70,10 @@ type
     FFileNameFormat : String;
     Flog : ILog;
     FStampThread : Array[0..1] of TStampThread;
+    FInUndo : Boolean;
+    FUndoList : TFPObjectList;
 
+    procedure AddUndo(Indexes : TIntArray; Operation : TOperation; Streams : TStreamArray);
     function GetImage(Index: QWord): TBitmap;
     function GetImageCount: Integer;
     function GetStamp(Index: Integer): TBitmap;
@@ -69,9 +89,12 @@ type
                             aData : TIntArray; aProgress : TCbzProgressEvent):TUserData;
     function SaveCachedStamps(Ignores : TIntArray; bOp : TSaveStampOp = soNone):TStringList;
     function FinishRewrite(const aName, fname : string):Boolean;
+    procedure DoSetImage(Indexes: TIntArray; const Values: TStreamArray;
+                         CallBack : TCbzProgressEvent = nil);
     function DoSetImageFunct(Index : Integer; UserData : TUserData;
                               var Stream : TMemoryStream;
                               const outz : Tcbz):TRewriteOperation;
+    procedure DoAdd(Streams : TStreamArray; CallBack : TCbzProgressEvent = nil);
     function DoOperation(UserFunction : TRewriteFunction; UserData : TUserData;
                           Operation : TOperation):String;
     function DoDeleteFunct(Index : Integer; UserData : TUserData;
@@ -105,13 +128,15 @@ type
     procedure Close;
     function IsWebp(Index : Integer):Boolean;
 
-    procedure Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TProgressEvent = nil);
+    function CanUndo:Boolean;
+    procedure Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TCbzProgressEvent = nil);
     procedure Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
     procedure VerticalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
     procedure HorizontalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
     function Delete(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil):String;
     function TestFile(Index : Integer):Boolean;
     function GetNextFileName:String;
+    procedure Undo(CallBack : TCbzProgressEvent);
 
     property ImageCount:Integer read GetImageCount;
     property Progress : TCbzProgressEvent read FCallBack write FCallBack;
@@ -168,6 +193,28 @@ implementation
 
 uses
   Webp, Utils.SoftwareVersion, StrUtils, unix, Utils.Files, zstream;
+
+{ TUndoObject }
+
+constructor TUndoObject.Create(Indexes : TIntArray;
+                               Operation : TOperation;
+                               Streams : TStreamArray);
+begin
+  FIndexes := Indexes;
+  FStreams := Streams;
+  FOperation := Operation;
+  inherited Create;
+end;
+
+destructor TUndoObject.Destroy;
+var
+  i : integer;
+begin
+  for I := Low(FStreams) to High(FStreams) do
+    if Assigned(FStreams[i]) then
+      FStreams[i].Free;
+  inherited;
+end;
 
 { TCleanFilename }
 
@@ -231,6 +278,8 @@ begin
   FNotify := aNotify;
   FStampSync := TThreadList.Create;
   FCache := TStringlist.Create;
+  FUndoList := TFPObjectList.Create;
+
   inherited Create;
 end;
 
@@ -241,6 +290,8 @@ begin
   StopStampThread;
   FCache.Free;
   FStampSync.Free;
+  FUndoList.Free;
+
   //FUndoList.Free;
   FLog.Log(ClassName + ' Destroyed.');
   FLog := nil;
@@ -278,8 +329,8 @@ begin
   else
     FFileNameFormat := Format('%%.%dd', [IntToStr(FileCount).Length]);
 
-  //if FFilename <> ZipFileName then
-  //  FUndoList.Clear;
+  if FFilename <> FileName then
+    FUndoList.Clear;
 
   if Assigned(FStampThread[0]) then
     StopStampThread;
@@ -356,20 +407,92 @@ begin
   end;
 end;
 
+procedure TCbz.AddUndo(Indexes : TIntArray; Operation : TOperation;
+                       Streams : TStreamArray);
+begin
+  FUndoList.Insert(0, TUndoObject.Create(Indexes, Operation, Streams));
+end;
+
+procedure TCbz.DoAdd(Streams : TStreamArray; CallBack : TCbzProgressEvent = nil);
+var
+  outz : TCbz;
+  fname, fn, s : string;
+  i : integer;
+  st : TStream;
+  ms : TMemoryStream;
+  ProgressID : integer;
+  FCache2: TStringList;
+  Indexes : TIntArray;
+  ar : TStreamArray;
+begin
+  FCache2 := SaveCachedStamps(Indexes, soNone);
+  try
+    ProgressID := GetTickCount64;
+    fname := GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(ThreadID)) + IntToStr(QWord(GetTickCount64)));
+    outz := TCbz.Create(FLog);
+    try
+      // create undo later
+      if not FInUndo then
+      begin
+        for i := 0 to Length(Streams) do
+        begin
+          SetLength(Indexes, Length(Indexes) + i);
+          Indexes[i] := FileCount + i;
+        end;
+        AddUndo(Indexes, opAdd, ar);
+      end;
+
+      outz.Open(fname, zmWrite, nil, IntToStr(FileCount + Length(Streams)).Length);
+
+      for i := 0 to FileCount - 1 do
+      begin
+        fn := outz.GetNextFilename;
+
+        ms := GetFileStream(i);
+
+        if Assigned(CallBack) then
+          CallBack(Self, ProgressID, i, FileCount + Length(Streams) -1, 'Rewriting file :' + FFilename);
+      end;
+
+      for i := 0 to Length(Streams) - 1 do
+      begin
+        fn := Format(FFileNameFormat + '%s', [outz.FileCount + 1, '.webp']);
+        outz.AppendStream(Streams[i], fn, now, zstream.clNone);
+
+        if Assigned(CallBack) then
+          CallBack(Self, ProgressID, FileCount+i-1, FileCount + Length(Streams) -1, 'Rewriting file :' + FFilename);
+      end;
+
+      if Assigned(CallBack) then
+        CallBack(Self, ProgressID, 0, 0);
+
+      s := Filename;
+      outz.Close;
+      Close;
+      FinishRewrite(s, fname);
+      Open(FFilename, zmRead, FCache2);
+    finally
+      outz.Free;
+    end;
+  finally
+    FCache2.Free;
+  end;
+end;
+
 function TCbz.DoOperation(UserFunction : TRewriteFunction; UserData : TUserData;
                           Operation : TOperation):String;
 var
   outz : TCbz;
   s, fname, fn, ext : string;
   i : integer;
-//  st : TStream;
+  st : TStream;
 //  info : TZipHeader;
   ms : TMemoryStream;
   cnt : Integer;
   FCache2: TStringList;
 //  Comp : TZipCompression;
-//  StreamLst : Array of TMemoryStream;
-//  Indx : TIntArray;
+  StreamLst : Array of TMemoryStream;
+  Indx : TIntArray;
 begin
   FCache2 := nil;
   if UserData.SaveStamps then
@@ -381,7 +504,6 @@ begin
     outz := TCbz.Create(FLog);
     try
       // create undo
-      {
       if not FInUndo then
       begin
         for i := Low(UserData.Indexes) to High(UserData.Indexes) do
@@ -390,14 +512,7 @@ begin
              IsWebP(UserData.Indexes[i])) and not (Operation = opAdd) then
           begin
             SetLength(StreamLst, Length(StreamLst)+1);
-            StreamLst[i] := TMemoryStream.Create;
-            Read(UserData.Indexes[i], st, info);
-            try
-              StreamLst[i].CopyFrom(st, info.UncompressedSize);
-              StreamLst[i].Position := 0;
-            finally
-              st.Free;
-            end;
+            StreamLst[i] := GetFileStream(i);
           end;
         end;
 
@@ -412,7 +527,7 @@ begin
         if (length(StreamLst) > 0) then
           AddUndo(UserData.Indexes, Operation, StreamLst);
       end;
-      }
+
       case Operation of
         opAdd:    outz.Open(fname, zmWrite, nil, IntToStr(FileCount + Length(UserData.Indexes)).Length);
         opDelete: outz.Open(fname, zmWrite, nil, IntToStr(FileCount - Length(UserData.Indexes)).Length);
@@ -550,8 +665,8 @@ begin
           ms.Free;
         end;
       finally
-        //if not FInUndo then
-        //  TMemoryStream(UserData.Data[i]).Free;
+        if not FInUndo then
+          TMemoryStream(UserData.Data[i]).Free;
       end;
     end;
   end;
@@ -574,7 +689,7 @@ begin
   Insert(tmp, AboveIndex, CallBack);
 end;
 }
-procedure TCbz.Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TProgressEvent = nil);
+procedure TCbz.Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TCbzProgressEvent = nil);
 var
   UserData : TUserData;
   Indexes, ar : TIntArray;
@@ -682,6 +797,33 @@ end;
 function TCbz.GetNextFileName: String;
 begin
   result := Format(FFileNameFormat + '.webp', [FileCount + 1]);
+end;
+
+procedure TCbz.Undo(CallBack: TCbzProgressEvent);
+begin
+  if not CanUndo then Exit;
+  FLog.Log(Format('%s %s', [ClassName, 'DoUndo.']));
+
+  FInUndo := True;
+  try
+    with TUndoObject(FUndoList.Items[0]) do
+    begin
+      case Operation of
+        opAdd      : Self.Delete(Indexes, CallBack);
+
+        opDelete   : if Assigned(Streams) then
+                       if Indexes[0] >= FileCount then
+                         DoAdd(Streams, CallBack)
+                       else
+                         Insert(Streams, Indexes[0], CallBack);
+
+        opReplace :  DoSetImage(Indexes, Streams, CallBack);
+      end;
+      FUndoList.Delete(0);
+    end;
+  finally
+    FInUndo := False;
+  end;
 end;
 
 procedure FileToTrash(const aFileName: String);
@@ -1007,7 +1149,22 @@ begin
   Result := roContinue;
 end;
 
-procedure TCbz.SetImage(Index: Qword; AValue: TBitmap);
+procedure TCbz.DoSetImage(Indexes: TIntArray; const Values: TStreamArray;
+                          CallBack : TCbzProgressEvent = nil);
+var
+  UserData : TUserData;
+  ar : TIntArray;
+  i : integer;
+begin
+  SetLength(ar, length(Values));
+  for i:=low(Values) to high(Values) do
+    ar[i] := QWord(Values[i]);
+
+  UserData := CreateUserData(Indexes, True, soNone, ar, FCallBack);
+  DoOperation(@DoSetImageFunct, UserData, opReplace);
+end;
+
+procedure TCbz.SetImage(Index: QWord; AValue: TBitmap);
 var
   UserData : TUserData;
   ind, ar : TIntArray;
@@ -1023,6 +1180,11 @@ end;
 function TCbz.IsWebp(Index : Integer):Boolean;
 begin
   result := LowerCase(ExtractFileExt(Filenames[Index])) = '.webp';
+end;
+
+function TCbz.CanUndo: Boolean;
+begin
+  result := FUndoList.Count > 0;
 end;
 
 

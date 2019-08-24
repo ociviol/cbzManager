@@ -22,6 +22,8 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionUndoAll: TAction;
+    ActionUndo: TAction;
     ActionSplitImage: TAction;
     ActionNormPerfs: TAction;
     ActionHighPerfs: TAction;
@@ -55,16 +57,22 @@ type
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
+    MenuItem14: TMenuItem;
+    MenuItem15: TMenuItem;
+    MenuItem16: TMenuItem;
+    MenuItem17: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
+    MenuItem8: TMenuItem;
+    MenuItem9: TMenuItem;
+    N6: TMenuItem;
+    N5: TMenuItem;
     mnuHighPerfs: TMenuItem;
     mnuNormPerfs: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
-    MenuItem6: TMenuItem;
-    MenuItem7: TMenuItem;
-    MenuItem8: TMenuItem;
-    MenuItem9: TMenuItem;
     N4: TMenuItem;
     N3: TMenuItem;
     mnuAbout: TMenuItem;
@@ -95,6 +103,8 @@ type
     procedure ActionRot90Execute(Sender: TObject);
     procedure ActionRotm90Execute(Sender: TObject);
     procedure ActionSplitImageExecute(Sender: TObject);
+    procedure ActionUndoAllExecute(Sender: TObject);
+    procedure ActionUndoExecute(Sender: TObject);
     procedure ActionVertFlipExecute(Sender: TObject);
     procedure DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -220,42 +230,45 @@ var
   ar : Array of String;
   v, ver : string;
 begin
-  with TFPHTTPClient.Create(nil) do
   try
-    t := TStringList.Create;
+    with TFPHTTPClient.Create(nil) do
     try
-      SimpleGet('https://ollivierciviolsoftware.wordpress.com/version/', t);
+      t := TStringList.Create;
+      try
+        SimpleGet('https://ollivierciviolsoftware.wordpress.com/version/', t);
 
-      with t do
-        for i := 0 to Count - 1 do
-          if Strings[i].StartsWith('<meta property="og:description" content=') then
-              v := copy(Strings[i], 41, length(Strings[i])-44);
+        with t do
+          for i := 0 to Count - 1 do
+            if Strings[i].StartsWith('<meta property="og:description" content=') then
+                v := copy(Strings[i], 41, length(Strings[i])-44);
 
-      v := StringReplace(v, '"', '', [rfReplaceAll]);
-      v := StringReplace(v, ' ', ',', [rfReplaceAll]);
-      ar := v.Split([',']);
+        v := StringReplace(v, '"', '', [rfReplaceAll]);
+        v := StringReplace(v, ' ', ',', [rfReplaceAll]);
+        ar := v.Split([',']);
 
-      for i:=low(ar) to high(ar) do
-{$IFDEF Drawin}
-        if ar[i].StartsWith('osx:') then
-        begin
-          v := copy(ar[i], 5, length(ar[i]));
-          break;
-        end;
-{$ELSE}
-        if ar[i].StartsWith('linux:') then
-        begin
-          v := copy(ar[i], 7, length(ar[i]));
-          break;
-        end;
-{$ENDIF}
-        if v <> '' then
-          FNeedUpdate := CompareVersion(GetFileVersion, v) > 0;
+        for i:=low(ar) to high(ar) do
+  {$IFDEF Drawin}
+          if ar[i].StartsWith('osx:') then
+          begin
+            v := copy(ar[i], 5, length(ar[i]));
+            break;
+          end;
+  {$ELSE}
+          if ar[i].StartsWith('linux:') then
+          begin
+            v := copy(ar[i], 7, length(ar[i]));
+            break;
+          end;
+  {$ENDIF}
+          if v <> '' then
+            FNeedUpdate := CompareVersion(GetFileVersion, v) > 0;
+      finally
+        t.Free;
+      end;
     finally
-      t.Free;
+      Free;
     end;
-  finally
-    Free;
+  except
   end;
 
   Terminate;
@@ -347,8 +360,8 @@ end;
 
 procedure TMainFrm.EnableActions;
 begin
-  //ActionUndo.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
-  //ActionUndoAll.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
+  ActionUndo.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
+  ActionUndoAll.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
   //ActionCrop.Enabled := (zf.Mode <> zmClosed) and
   //  ImageEnView1.CropToolInteraction.Selected;
   //ActionCropAll.Enabled := (zf.Mode <> zmClosed) and
@@ -988,6 +1001,33 @@ begin
     finally
       Screen.Cursor := crDefault;
     end;
+  end;
+end;
+
+procedure TMainFrm.ActionUndoAllExecute(Sender: TObject);
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    while zf.CanUndo do
+      zf.Undo(nil);
+    DrawGrid1.Max := zf.ImageCount;
+    DrawGrid1.Invalidate;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TMainFrm.ActionUndoExecute(Sender: TObject);
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    zf.Undo(@Progress);
+    DrawGrid1.Max := zf.ImageCount;
+    DrawGrid1.Invalidate;
+    SetMainImage(DrawGrid1.Position);
+    EnableActions;
+  finally
+    Screen.Cursor := crDefault;
   end;
 end;
 

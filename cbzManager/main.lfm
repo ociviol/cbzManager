@@ -248,23 +248,41 @@ object MainFrm: TMainFrm
     object N4: TMenuItem
       Caption = '-'
     end
+    object MenuItem14: TMenuItem
+      Caption = 'Flip'
+      object MenuItem15: TMenuItem
+        Action = ActionVertFlip
+      end
+      object MenuItem16: TMenuItem
+        Action = ActionHorizFlip
+      end
+    end
     object MenuItem6: TMenuItem
-      Action = ActionVertFlip
+      Caption = 'Rotate'
+      object MenuItem7: TMenuItem
+        Action = ActionRot90
+      end
+      object MenuItem17: TMenuItem
+        Action = ActionRotm90
+      end
     end
-    object MenuItem7: TMenuItem
-      Action = ActionHorizFlip
-    end
-    object MenuItem8: TMenuItem
-      Action = ActionRot90
-    end
-    object MenuItem9: TMenuItem
-      Action = ActionRotm90
+    object N5: TMenuItem
+      Caption = '-'
     end
     object MenuItem11: TMenuItem
       Action = ActionJoin
     end
     object MenuItem13: TMenuItem
       Action = ActionSplitImage
+    end
+    object N6: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem8: TMenuItem
+      Action = ActionUndo
+    end
+    object MenuItem9: TMenuItem
+      Action = ActionUndoAll
     end
   end
   object ActionList1: TActionList
@@ -340,6 +358,14 @@ object MainFrm: TMainFrm
     object ActionSplitImage: TAction
       Caption = 'Split Image'
       OnExecute = ActionSplitImageExecute
+    end
+    object ActionUndo: TAction
+      Caption = 'Undo'
+      OnExecute = ActionUndoExecute
+    end
+    object ActionUndoAll: TAction
+      Caption = 'Undo All'
+      OnExecute = ActionUndoAllExecute
     end
   end
 end

@@ -1,21 +1,21 @@
 object MainFrm: TMainFrm
-  Left = 391
+  Left = 390
   Height = 669
-  Top = 129
+  Top = 128
   Width = 791
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 646
+  ClientHeight = 669
   ClientWidth = 791
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.1.0.0'
   object TreeView1: TTreeView
     Left = 0
-    Height = 477
+    Height = 500
     Top = 0
     Width = 286
     Align = alLeft
@@ -32,17 +32,17 @@ object MainFrm: TMainFrm
   end
   object Panel1: TPanel
     Left = 291
-    Height = 477
+    Height = 500
     Top = 0
     Width = 500
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 477
+    ClientHeight = 500
     ClientWidth = 500
     TabOrder = 1
     object DrawGrid1: TDrawGrid
       Left = 350
-      Height = 450
+      Height = 473
       Top = 27
       Width = 150
       Align = alRight
@@ -56,13 +56,14 @@ object MainFrm: TMainFrm
       PopupMenu = PopupMenu1
       TabOrder = 0
       OnDrawCell = DrawGrid1DrawCell
+      OnKeyUp = DrawGrid1KeyUp
       OnMouseDown = DrawGrid1MouseDown
       OnMouseEnter = DrawGrid1MouseEnter
       OnSelectCell = DrawGrid1SelectCell
     end
     object Image1: TImage
       Left = 0
-      Height = 450
+      Height = 473
       Top = 27
       Width = 350
       Align = alClient
@@ -148,7 +149,7 @@ object MainFrm: TMainFrm
   object pnlProgress: TPanel
     Left = 0
     Height = 50
-    Top = 596
+    Top = 619
     Width = 791
     Align = alBottom
     BevelOuter = bvNone
@@ -156,14 +157,14 @@ object MainFrm: TMainFrm
   end
   object Splitter1: TSplitter
     Left = 286
-    Height = 477
+    Height = 500
     Top = 0
     Width = 5
   end
   object memoLog: TMemo
     Left = 0
     Height = 119
-    Top = 477
+    Top = 500
     Width = 791
     Align = alBottom
     Lines.Strings = (
@@ -173,8 +174,8 @@ object MainFrm: TMainFrm
     Visible = False
   end
   object MainMenu1: TMainMenu
-    left = 89
-    top = 51
+    Left = 89
+    Top = 51
     object mnuFile: TMenuItem
       Caption = 'File'
       object mnuChooseFolder: TMenuItem
@@ -225,13 +226,13 @@ object MainFrm: TMainFrm
     end
   end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
-    left = 96
-    top = 120
+    Left = 96
+    Top = 120
   end
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu1Popup
-    left = 665
-    top = 229
+    Left = 665
+    Top = 229
     object MenuItem3: TMenuItem
       Action = ActionDelete
     end
@@ -247,17 +248,26 @@ object MainFrm: TMainFrm
     object N4: TMenuItem
       Caption = '-'
     end
+    object MenuItem14: TMenuItem
+      Caption = 'Flip'
+      object MenuItem15: TMenuItem
+        Action = ActionVertFlip
+      end
+      object MenuItem16: TMenuItem
+        Action = ActionHorizFlip
+      end
+    end
     object MenuItem6: TMenuItem
-      Action = ActionVertFlip
+      Caption = 'Rotate'
+      object MenuItem7: TMenuItem
+        Action = ActionRot90
+      end
+      object MenuItem17: TMenuItem
+        Action = ActionRotm90
+      end
     end
-    object MenuItem7: TMenuItem
-      Action = ActionHorizFlip
-    end
-    object MenuItem8: TMenuItem
-      Action = ActionRot90
-    end
-    object MenuItem9: TMenuItem
-      Action = ActionRotm90
+    object N5: TMenuItem
+      Caption = '-'
     end
     object MenuItem11: TMenuItem
       Action = ActionJoin
@@ -265,10 +275,19 @@ object MainFrm: TMainFrm
     object MenuItem13: TMenuItem
       Action = ActionSplitImage
     end
+    object N6: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem8: TMenuItem
+      Action = ActionUndo
+    end
+    object MenuItem9: TMenuItem
+      Action = ActionUndoAll
+    end
   end
   object ActionList1: TActionList
-    left = 208
-    top = 96
+    Left = 208
+    Top = 96
     object ActionLast: TAction
       Caption = 'Last'
       Enabled = False
@@ -339,6 +358,14 @@ object MainFrm: TMainFrm
     object ActionSplitImage: TAction
       Caption = 'Split Image'
       OnExecute = ActionSplitImageExecute
+    end
+    object ActionUndo: TAction
+      Caption = 'Undo'
+      OnExecute = ActionUndoExecute
+    end
+    object ActionUndoAll: TAction
+      Caption = 'Undo All'
+      OnExecute = ActionUndoAllExecute
     end
   end
 end

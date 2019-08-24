@@ -1130,8 +1130,8 @@ begin
         if (Button = mbLeft) and (ssCtrl in Shift) then
 {$endif}
           Selected[aRow] := not Selected[aRow]
-      end;
-        else if (Button = mbLeft) and (ssShift in Shift) then
+        else
+        if (Button = mbLeft) and (ssShift in Shift) then
         begin
           ClearSelection;
           if aRow > FoldPos then

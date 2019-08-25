@@ -250,11 +250,11 @@ object MainFrm: TMainFrm
     end
     object MenuItem14: TMenuItem
       Caption = 'Flip'
-      object MenuItem15: TMenuItem
-        Action = ActionVertFlip
-      end
       object MenuItem16: TMenuItem
         Action = ActionHorizFlip
+      end
+      object MenuItem15: TMenuItem
+        Action = ActionVertFlip
       end
     end
     object MenuItem6: TMenuItem

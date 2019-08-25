@@ -1,0 +1,29 @@
+object frmReport: TfrmReport
+  Left = 452
+  Height = 424
+  Top = 155
+  Width = 626
+  Caption = 'frmReport'
+  ClientHeight = 424
+  ClientWidth = 626
+  Position = poMainFormCenter
+  LCLVersion = '2.0.2.0'
+  object Panel1: TPanel
+    Left = 0
+    Height = 26
+    Top = 0
+    Width = 626
+    Align = alTop
+    Alignment = taLeftJustify
+    Caption = 'The following files were ignored, probably because they are corrupted.'
+    TabOrder = 0
+  end
+  object Memo1: TMemo
+    Left = 0
+    Height = 398
+    Top = 26
+    Width = 626
+    Align = alClient
+    TabOrder = 1
+  end
+end

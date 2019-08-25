@@ -49,10 +49,13 @@ begin
 end;
 
 procedure RotateBitmap(Src : TBitmap; Angle : Integer);
+var
+  i : integer;
 begin
   case Angle of
     90:  RotateBitmap90(Src);
-    -90: ;
+    -90: for i:=0 to 2 do
+           RotateBitmap90(Src);
   end;
 end;
 

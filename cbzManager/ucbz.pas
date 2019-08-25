@@ -625,7 +625,7 @@ begin
     b := Image[Index];
     if Assigned(b) then
     try
-      RotateBitmap(b, QWord(UserData.Data[0]));
+      RotateBitmap(b, Integer(UserData.Data[0]));
       Stream := ConvertBitmapToStream(b, FLog);
     finally
       b.Free;
@@ -710,7 +710,7 @@ var
   ar : TIntArray;
 begin
   SetLength(ar, 1);
-  ar[0] := Angle;
+  ar[0] := Qword(Angle);
   FLog.Log(Format('%s %s Angle : %d', [ClassName, 'Rotate', Angle]));
   UserData := CreateUserData(Indexes, True, soNone, ar, CallBack);
   DoOperation(@DoRotateFunct, UserData, opReplace);

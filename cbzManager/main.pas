@@ -143,6 +143,7 @@ type
     FWorkerThreads: Array of TCbzWorkerThread;
     FConvertReport : TstringList;
     FLastUPdate : TDateTime;
+    Fignores : TStringlist;
 
     procedure SaveConfig;
     function CheckPrograms:boolean;
@@ -205,7 +206,8 @@ implementation
 uses
   Config, LclIntf,
   Utils.Strings, frmwait, fpHttpClient, unix,
-  Utils.SoftwareVersion, uDataTypes, Utils.ZipFile;
+  Utils.SoftwareVersion, uDataTypes, Utils.ZipFile,
+  uLoadReport;
 
 const
 //  CS_CONFIG = 'config';
@@ -320,6 +322,7 @@ begin
 
   FTreeViewPaths := TStringlist.Create;
   FProgress := TStringList.Create;
+  FIgnores := Tstringlist.Create;
 
   zf := TCbz.Create(FLog, DrawGrid1.DefaultColWidth - 5,
     DrawGrid1.DefaultRowHeight - 5, @StampReady);
@@ -437,6 +440,7 @@ begin
 
   FTreeViewPaths.Free;
   FProgress.Free;
+  FIgnores.Free;
   zf.Close;
   zf.Free;
   FConvertReport.Free;
@@ -1403,10 +1407,10 @@ begin
         finally
           Free;
         end;
-    end;
-    //else if Assigned(FIgnores) and not FJobpool.FileInQueue(aFileName) and
-    //  not InOpList(aFileName) then
-    //  FIgnores.Add(aFileName);
+    end
+    else if Assigned(FIgnores) and not FJobpool.FileInQueue(aFileName) then
+    //and not InOpList(aFileName) then
+      FIgnores.Add(aFileName);
   end
   else
     Result := GetNode(aFileName);
@@ -1432,12 +1436,11 @@ begin
       Refresh;
     end;
 
-    {
     if FIgnores.count > 0 then
       try
         with TfrmReport.Create(Application, FIgnores) do
           try
-            Label1.Visible := True;
+            //Label1.Visible := True;
             ShowModal;
           finally
             Free;
@@ -1445,7 +1448,6 @@ begin
       finally
         FIgnores.Clear;
       end;
-      }
   end;
 
   FInFill := False;
@@ -1466,7 +1468,7 @@ begin
   begin
     Enabled := False;
     Items.BeginUpdate;
-    //FIgnores.Clear;
+    FIgnores.Clear;
     Items.Clear;
     zf.Close;
   end;

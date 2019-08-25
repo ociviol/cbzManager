@@ -131,7 +131,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="22">
+    <Units Count="23">
       <Unit0>
         <Filename Value="cbzManager.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -246,6 +246,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
       </Unit21>
+      <Unit22>
+        <Filename Value="uloadreport.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmReport"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uLoadReport"/>
+      </Unit22>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

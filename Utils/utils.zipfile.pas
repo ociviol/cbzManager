@@ -408,7 +408,7 @@ begin
       end;
     end;
   end;
-  Result := 0;
+  raise Exception.Create('Zip read error');
 end;
 
 function GetBit(const Value: DWord; const Bit: Byte): Boolean;

@@ -1401,6 +1401,7 @@ begin
             on e: Exception do
             begin
               FLog.Log('Error reading file :' + e.Message);
+              FIgnores.Add(aFileName);
               Exit;
             end;
           end;

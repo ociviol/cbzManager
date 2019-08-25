@@ -1441,7 +1441,6 @@ begin
       try
         with TfrmReport.Create(Application, FIgnores) do
           try
-            //Label1.Visible := True;
             ShowModal;
           finally
             Free;

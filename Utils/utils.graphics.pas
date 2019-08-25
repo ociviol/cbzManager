@@ -11,6 +11,13 @@ type
   TResizeMode = (rmSmooth, rmFast);
   TFlipDir = (fdHorizontal, fdVertical, fdBoth);
 
+  PRGBTripleArray = ^TRGBTripleArray; {for fast pixel routine}
+  {$ifdef mswindows}
+  TRGBTripleArray = array[0..trunc(bufwide/3)] of TRGBTriple; {for fast pixel routine}
+  {$else} {unix}
+  TRGBTripleArray = array of tagRGBQUAD; {for fast pixel routine}
+  {$endif}
+
 procedure SmoothStretchDraw(aCanvas : TCanvas; DestRect : TRect; aSrc : TBitmap);
 function ResampleBitmap(const aSrc: TBitmap; DestWidth, DestHeight: Integer; rMode : TResizeMode = rmSmooth):TBitmap;
 procedure Flip(aImg : TBitmap; aDirection : TFlipDir);
@@ -59,31 +66,64 @@ begin
   end;
 end;
 
-procedure Flip(aImg : TBitmap; aDirection : TFlipDir);
-var src, dest: TRect;
-    bmp: TBitmap;
-    w, h: integer;
+procedure Flipvertical(aImg : TBitmap);
+var
+  h, w : integer;
+  imsrc, imdest : TLazIntfImage;
+  bh, mh : HBitmap;
 begin
-  w:=aImg.Width;
-  h:=aImg.Height;
-  dest:=bounds(0, 0, w, h);
-
-  case aDirection of
-    fdHorizontal: src:=rect(w-1, 0, 0, h-1); // Horizontal flip
-    fdVertical:   src:=rect(0, h-1, w-1, 0); // Vertical flip
-    fdBoth:       src:=rect(w-1, h-1, 0, 0); // Both flip
-  end;
-
-  bmp:=TBitmap.Create;
+  imsrc := TLazIntfImage.Create(aImg.Width, aImg.Height);
+  imdest := TLazIntfImage.Create(aImg.Width, aImg.Height);
   try
-    bmp.PixelFormat := aImg.PixelFormat;
-    bmp.SetSize(w, h);
-    bmp.Canvas.Draw(0, 0, aImg);
-    aImg.Canvas.CopyRect(dest, bmp.Canvas, src);
-  finally
-    bmp.Free;
-  end;
+    imsrc.LoadFromBitmap(aImg.Handle, aImg.MaskHandle);
+    imdest.LoadFromBitmap(aImg.Handle, aImg.MaskHandle);
+    for h := 0 to aImg.height - 1 do
+      for w := 0 to aImg.Width - 1 do
+        imdest.Colors[w, aImg.Height - 1 - h] := imsrc.Colors[w, h];
 
+    imdest.CreateBitmaps(bh, mh);
+    aImg.Handle:=bh;
+    aImg.MaskHandle:=mh;
+  finally
+    imsrc.free;
+    imdest.Free;
+  end;
+end;
+
+procedure Fliphorizontal(aImg : TBitmap);
+var
+  h, w : integer;
+  imsrc, imdest : TLazIntfImage;
+  bh, mh : HBitmap;
+begin
+  imsrc := TLazIntfImage.Create(aImg.Width, aImg.Height);
+  imdest := TLazIntfImage.Create(aImg.Width, aImg.Height);
+  try
+    imsrc.LoadFromBitmap(aImg.Handle, aImg.MaskHandle);
+    imdest.LoadFromBitmap(aImg.Handle, aImg.MaskHandle);
+    for h := 0 to aImg.height - 1 do
+      for w := 0 to aImg.Width - 1 do
+        imdest.Colors[aImg.Width - 1 - w, h] := imsrc.Colors[w, h];
+
+    imdest.CreateBitmaps(bh, mh);
+    aImg.Handle:=bh;
+    aImg.MaskHandle:=mh;
+  finally
+    imsrc.free;
+    imdest.Free;
+  end;
+end;
+
+procedure Flip(aImg : TBitmap; aDirection : TFlipDir);
+begin
+  case aDirection of
+    fdHorizontal: Fliphorizontal(aImg); // Horizontal flip
+    fdVertical:   Flipvertical(aImg);   // Vertical flip
+    fdBoth:       begin           // Both flip
+                    Fliphorizontal(aImg);
+                    Flipvertical(aImg);
+                  end;
+  end;
 end;
 
 procedure SmoothResize(const Src, Dst: TBitmap);

@@ -103,6 +103,9 @@ type
     function DoInsertFunct(Index : Integer; UserData : TUserData; var  Stream : TMemoryStream;
                             const outz : Tcbz):TRewriteOperation;
     procedure DoFlip(Indexes : TIntArray; Orientation : TFlipDir; CallBack : TCbzProgressEvent = nil);
+    function DoInvertFunct(Index : Integer; UserData : TUserData;
+                            var  Stream : TMemoryStream;
+                            const outz : Tcbz):TRewriteOperation;
 
     class function ConvertBitmapToStream(const fimg : TBitmap; aFLog : ILog):TMemoryStream;
     function DoFlipFunct(Index : Integer; UserData : TUserData;
@@ -128,6 +131,7 @@ type
     procedure Close;
     function IsWebp(Index : Integer):Boolean;
 
+    procedure ClearUndo;
     function CanUndo:Boolean;
     procedure Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TCbzProgressEvent = nil);
     procedure Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
@@ -137,6 +141,8 @@ type
     function TestFile(Index : Integer):Boolean;
     function GetNextFileName:String;
     procedure Undo(CallBack : TCbzProgressEvent);
+    function RewriteManga(CallBack : TCbzProgressEvent = nil):String;
+    procedure Invert(Index1, Index2 : Integer; CallBack : TCbzProgressEvent = nil);
 
     property ImageCount:Integer read GetImageCount;
     property Progress : TCbzProgressEvent read FCallBack write FCallBack;
@@ -350,14 +356,12 @@ begin
   if Assigned(FLog) then
     FLog.Log(Format('%s %s %s', [ClassName, 'Close.', FileName]));
   StopStampThread;
-  //ClearCache;
+  ClearCache;
 //  FData.Clear;
   if Mode in [zmWrite, zmReadWrite] then
-  begin
-    //SaveMetaData;
     Comment := 'Created using cbzManager version ' +
                GetFileVersion;
-  end;
+
 //  FModified := False;
   Active := False;
   FMode := zmClosed;
@@ -485,7 +489,6 @@ var
   outz : TCbz;
   s, fname, fn, ext : string;
   i : integer;
-  st : TStream;
   ms : TMemoryStream;
   cnt : Integer;
   FCache2: TStringList;
@@ -613,6 +616,86 @@ begin
   end;
 end;
 
+function TCbz.RewriteManga(CallBack : TCbzProgressEvent = nil):String;
+var
+  outz : TCBz;
+  ProgressID : QWord;
+  fname, ext, s, fn, fn2 : string;
+  i : integer;
+  ms : TMemoryStream;
+begin
+  FLog.Log(Format('%s %s', [ClassName, 'Rewrite.']));
+  StopStampThread;
+  ClearCache;
+  ProgressID := GetTickCount64;
+  fname := GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(ThreadID)) + IntToStr(QWord(GetTickCount64)));
+  outz := TCBz.Create(FLog);
+  try
+    outz.Open(fname, zmWrite);
+
+    for i := FileCount - 1 downto 0 do
+    begin
+      if AllowedFile(FileNames[i]) then
+      begin
+        ms := GetFileStream(i);
+        try
+          fn := FileNames[i];
+          ms.Position := 0;
+          outz.AppendStream(ms, Format(FFileNameFormat + '%s', [outz.FileCount + 1, '.webp']), now, zstream.clnone);
+        finally
+          ms.free;
+        end;
+      end;
+
+      if Assigned(CallBack) then
+        CallBack(Self, ProgressID, outz.FileCount, FileCount, 'Rewriting Manga file :' + FFilename);
+    end;
+
+    if Assigned(CallBack) then
+      CallBack(Self, ProgressID, 0, 0);
+
+    s := FileName;
+    outz.Close;
+    Close;
+    FinishRewrite(s, fname);
+    Open(s, zmRead);
+    result := Filename;
+  finally
+    outz.Free;
+  end;
+end;
+
+procedure TCbz.Invert(Index1, Index2 : Integer; CallBack : TCbzProgressEvent = nil);
+var
+  UserData : TUserData;
+  Indexes, ar : TIntArray;
+  i : integer;
+begin
+  SetLength(Indexes, 2);
+  Indexes[0] := Index1;
+  Indexes[1] := Index2;
+  SetLength(ar, 2);
+  ar[0] := QWord(GetFileStream(Index1));
+  ar[1] := QWord(GetFileStream(Index2));
+  UserData := CreateUserData(Indexes, False, soAdd, ar, FCallBack);
+  DoOperation(@DoInvertFunct, UserData, opReplace);
+end;
+
+function TCbz.DoInvertFunct(Index : Integer; UserData : TUserData;
+                            var  Stream : TMemoryStream;
+                            const outz : Tcbz):TRewriteOperation;
+begin
+  Stream := nil;
+  if InIntArray(Index, UserData.Indexes) then
+  begin
+    if Index = UserData.Indexes[0] then
+      Stream := TMemoryStream(UserData.Data[1])
+    else
+      Stream := TMemoryStream(UserData.Data[0]);
+  end;
+
+  Result := roContinue;
+end;
 
 function TCbz.DoRotateFunct(Index : Integer; UserData : TUserData; var  Stream : TMemoryStream;
                             const outz : Tcbz):TRewriteOperation;
@@ -1178,6 +1261,11 @@ end;
 function TCbz.IsWebp(Index : Integer):Boolean;
 begin
   result := LowerCase(ExtractFileExt(Filenames[Index])) = '.webp';
+end;
+
+procedure TCbz.ClearUndo;
+begin
+  FUndoList.Clear;
 end;
 
 function TCbz.CanUndo: Boolean;

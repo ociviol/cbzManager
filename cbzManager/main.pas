@@ -22,6 +22,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionRewriteManga: TAction;
     ActionUndoAll: TAction;
     ActionUndo: TAction;
     ActionSplitImage: TAction;
@@ -61,6 +62,16 @@ type
     MenuItem15: TMenuItem;
     MenuItem16: TMenuItem;
     MenuItem17: TMenuItem;
+    MenuItem18: TMenuItem;
+    MenuItem19: TMenuItem;
+    MenuItem20: TMenuItem;
+    MenuItem21: TMenuItem;
+    MenuItem22: TMenuItem;
+    MenuItem23: TMenuItem;
+    MenuItem24: TMenuItem;
+    N9: TMenuItem;
+    N8: TMenuItem;
+    N7: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
     MenuItem8: TMenuItem;
@@ -100,12 +111,16 @@ type
     procedure ActionLastExecute(Sender: TObject);
     procedure ActionNormPerfsExecute(Sender: TObject);
     procedure ActionRefreshExecute(Sender: TObject);
+    procedure ActionRewriteMangaExecute(Sender: TObject);
     procedure ActionRot90Execute(Sender: TObject);
     procedure ActionRotm90Execute(Sender: TObject);
     procedure ActionSplitImageExecute(Sender: TObject);
     procedure ActionUndoAllExecute(Sender: TObject);
     procedure ActionUndoExecute(Sender: TObject);
     procedure ActionVertFlipExecute(Sender: TObject);
+    procedure DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
     procedure DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
     procedure DrawGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
@@ -230,7 +245,7 @@ var
   t : TStringList;
   i : integer;
   ar : Array of String;
-  v, ver : string;
+  v : string;
 begin
   try
     with TFPHTTPClient.Create(nil) do
@@ -396,7 +411,7 @@ begin
   //ActionFit.Enabled := (zf.Mode <> zmClosed) and Assigned(ImageEnView1.Bitmap);
 
   // files
-  //ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
+  ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
   ActionChooseFolder.Enabled := not FInFill;
   //ActionRewrite.Enabled := Assigned(TreeView1.Selected) and
   //  (TreeView1.SelectionCount = 1);
@@ -746,7 +761,10 @@ begin
       end;
     end
     else
+    begin
       EnableControls(False);
+      zf.ClearUndo;
+    end;
 end;
 
 procedure TMainFrm.TreeView1CustomDrawItem(Sender: TCustomTreeView;
@@ -929,6 +947,23 @@ begin
   FillTreeView(FConfig.BdPathPath);
 end;
 
+procedure TMainFrm.ActionRewriteMangaExecute(Sender: TObject);
+begin
+  with TreeView1 do
+    if Assigned(Selected) then
+      if not Selected.HasChildren then
+      begin
+        Screen.Cursor := crHourGlass;
+        try
+          zf.RewriteManga(@Progress);
+          DrawGrid1.Invalidate;
+          SetMainImage(DrawGrid1.Position);
+        finally
+          Screen.Cursor := crDefault;
+        end;
+      end;
+end;
+
 procedure TMainFrm.ActionRot90Execute(Sender: TObject);
 begin
   if DrawGrid1.Position >= 0 then
@@ -1051,6 +1086,26 @@ begin
       Screen.Cursor := crDefault;
     end;
   end;
+end;
+
+procedure TMainFrm.DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
+var
+  aRow, ACol: Integer;
+begin
+  DrawGrid1.MouseToCell(X, Y, ACol, aRow);
+  zf.Invert(DrawGrid1.Position, aRow, @Progress);
+  DrawGrid1.Invalidate;
+  SetMainImage(DrawGrid1.Position);
+end;
+
+procedure TMainFrm.DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+var
+  aRow, ACol: Integer;
+begin
+  DrawGrid1.MouseToCell(X, Y, ACol, aRow);
+  Accept := (Sender = Source) and (aRow <> DrawGrid1.Position) and
+    (State <> dsDragEnter); // and (GetKeyState(VK_LBUTTON) and $8000 <> 0);
 end;
 
 procedure TMainFrm.DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;

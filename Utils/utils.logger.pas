@@ -21,7 +21,9 @@ implementation
 uses
   unix,
   DateUtils,
-  Utils.Files;
+  Utils.Files,
+  Utils.Searchfiles,
+  UTils.Zipfile;
 
 type
   TLogList = Class(TThreadList)
@@ -113,21 +115,23 @@ begin
 end;
 
 procedure CheckArchivedLogs(const Filename, ArchivePath : String);
-{var
-  files : TStringDynArray;
+var
+  files : TStringList;
   mask : string;
-  }
 begin
-  {
   mask := '*' + ChangeFileExt(ExtractFilename(Filename), '.zip');
-  files := TDirectory.GetFiles(ArchivePath, mask);
-  while length(files) > 31 do
-  begin
-    if not SafeDelete(files[0]) then
-      Exit;
-    files := TDirectory.GetFiles(ArchivePath, mask);
+  files := TStringlist.Create;
+  try
+    GetFiles(ArchivePath, mask, Files);
+    while files.count > 31 do
+    begin
+      if not SafeDelete(files[0]) then
+        Exit;
+      GetFiles(ArchivePath, mask, Files);
+    end;
+  finally
+    Files.Free;
   end;
-  }
 end;
 
 { TLogList }
@@ -261,59 +265,59 @@ begin
 end;
 
 procedure TLog.ZipLogs;
-{
 var
-  f, fname : string;
-  files : TStringDynArray;
+  f : string;
+  files : TStringList;
   st : TFileStream;
   z : TZipFile;
-}
+{
 var
   cmd : string;
+}
 begin
-    cmd := '/usr/bin/zip -9 -m ' + GetArchivePath +
+{
+  cmd := '/usr/bin/zip -9 -m ' + GetArchivePath +
            FormatDateTime('yyyy-mm-dd-', now) +
            ChangeFileExt(ExtractFileName(FFilename), '.zip ') +
            ExtractFilePath(FFilename) + FormatDateTime('yyyy-mm-dd', now) + '*.log';
 
 //  Sysutils.ExecuteProcess('/usr/bin/zip', cmd);
   fpsystem(cmd);
-
-  {
-  fname := GetArchivePath + //IncludeTrailingPathDelimiter(ExtractFilePath(FFilename)) +
-           FormatDateTime('yyyy-mm-dd - ', now) +
-           ChangeFileExt(ExtractFileName(FFilename), '.zip');
-
-
+}
   z := TZipFile.Create;
   with z do
   try
-    files := TDirectory.GetFiles(ExtractFilePath(FFilename), '*.log');
-    if length(files) > 0 then
-    try
-      if TFile.Exists(fname) then
-        Open(fname, zmReadWrite)
-      else
-        Open(fname, zmWrite);
+    FileName := GetArchivePath + //IncludeTrailingPathDelimiter(ExtractFilePath(FFilename)) +
+                FormatDateTime('yyyy-mm-dd - ', now) +
+                ChangeFileExt(ExtractFileName(FFilename), '.zip');
 
-      for f in files do
-      begin
-        st := SafeOpen(f, fmOpenRead or fmShareDenyWrite);
-        if Assigned(st) then
-        try
-          Add(st, ExtractFileName(f), zcDeflate);
-        finally
-          st.Free;
-          SafeDelete(f);
+    files := TStringlist.Create;
+    try
+      GetFiles(ExtractFilePath(FFilename), '*.log', Files);
+      if files.Count > 0 then
+      try
+        Active := True;
+
+        for f in files do
+        begin
+          st := SafeOpen(f, fmOpenRead or fmShareDenyWrite);
+          if Assigned(st) then
+          try
+            AppendStream(st, ExtractFileName(f), now);
+          finally
+            st.Free;
+            SafeDelete(f);
+          end;
         end;
+        Active := False;
+      except
       end;
-      Close;
-    except
+    finally
+      Files.Free;
     end;
   finally
     z.Free;
   end;
-  }
 end;
 
 { TLogThread }
@@ -361,15 +365,15 @@ begin
 end;
 
 procedure TLogThread.ZipLog(const aFilename : string);
-{
 var
-  f : string;
   st : TFileStream;
   z : TZipFile;
-}
+{
 var
   cmd : string;
+}
 begin
+{
   cmd := '/usr/bin/zip -9 -m ' + GetArchivePath +
           FormatDateTime('yyyy-mm-dd-', now) +
           ChangeFileExt(ExtractFileName(FFilename), '.zip ') +
@@ -378,32 +382,29 @@ begin
 //  Sysutils.ExecuteProcess('/usr/bin/zip', cmd);
   fpSystem(cmd);
   // zip -9 -m 2019-07-28.zip 2019-07-28*.log
-{
-  f := GetArchivePath + // IncludeTrailingPathDelimiter(ExtractFilePath(FOriginalFilename)) +
-       FormatDateTime('yyyy-mm-dd - ', now) +
-       ChangeFileExt(ExtractFileName(FOriginalFilename), '.zip');
-
-  if TFile.Exists(aFilename) then
+}
+  if FileExists(aFilename) then
   begin
     z := TZipFile.Create;
     with z do
     try
+      FileName := GetArchivePath + // IncludeTrailingPathDelimiter(ExtractFilePath(FOriginalFilename)) +
+                  FormatDateTime('yyyy-mm-dd - ', now) +
+                  ChangeFileExt(ExtractFileName(FOriginalFilename), '.zip');
+
       try
-        if TFile.Exists(f) then
-          Open(f, zmReadWrite)
-        else
-          Open(f, zmWrite);
+        Active := true;
         try
           st := SafeOpen(aFilename, fmOpenRead or fmShareDenyWrite);
           if Assigned(st) then
           try
-            Add(st, ExtractFileName(aFilename), zcDeflate);
+            AppendStream(st, ExtractFileName(aFilename), now);
           finally
             st.Free;
             SafeDelete(aFilename);
           end;
         finally
-          Close;
+          Active := False;
         end;
       except
       end;
@@ -411,7 +412,6 @@ begin
       z.Free;
     end;
   end;
-}
 end;
 
 const

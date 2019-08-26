@@ -54,6 +54,7 @@ object MainFrm: TMainFrm
       FixedCols = 0
       FixedRows = 0
       PopupMenu = PopupMenu1
+      RowCount = 1
       TabOrder = 0
       OnDrawCell = DrawGrid1DrawCell
       OnKeyUp = DrawGrid1KeyUp

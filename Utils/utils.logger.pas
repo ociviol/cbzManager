@@ -270,24 +270,11 @@ var
   files : TStringList;
   st : TFileStream;
   z : TZipFile;
-{
-var
-  cmd : string;
-}
 begin
-{
-  cmd := '/usr/bin/zip -9 -m ' + GetArchivePath +
-           FormatDateTime('yyyy-mm-dd-', now) +
-           ChangeFileExt(ExtractFileName(FFilename), '.zip ') +
-           ExtractFilePath(FFilename) + FormatDateTime('yyyy-mm-dd', now) + '*.log';
-
-//  Sysutils.ExecuteProcess('/usr/bin/zip', cmd);
-  fpsystem(cmd);
-}
   z := TZipFile.Create;
   with z do
   try
-    FileName := GetArchivePath + //IncludeTrailingPathDelimiter(ExtractFilePath(FFilename)) +
+    FileName := GetArchivePath +
                 FormatDateTime('yyyy-mm-dd - ', now) +
                 ChangeFileExt(ExtractFileName(FFilename), '.zip');
 
@@ -368,27 +355,13 @@ procedure TLogThread.ZipLog(const aFilename : string);
 var
   st : TFileStream;
   z : TZipFile;
-{
-var
-  cmd : string;
-}
 begin
-{
-  cmd := '/usr/bin/zip -9 -m ' + GetArchivePath +
-          FormatDateTime('yyyy-mm-dd-', now) +
-          ChangeFileExt(ExtractFileName(FFilename), '.zip ') +
-          ExtractFilePath(FFilename) + FormatDateTime('yyyy-mm-dd', now) + '*.log';
-
-//  Sysutils.ExecuteProcess('/usr/bin/zip', cmd);
-  fpSystem(cmd);
-  // zip -9 -m 2019-07-28.zip 2019-07-28*.log
-}
   if FileExists(aFilename) then
   begin
     z := TZipFile.Create;
     with z do
     try
-      FileName := GetArchivePath + // IncludeTrailingPathDelimiter(ExtractFilePath(FOriginalFilename)) +
+      FileName := GetArchivePath +
                   FormatDateTime('yyyy-mm-dd - ', now) +
                   ChangeFileExt(ExtractFileName(FOriginalFilename), '.zip');
 

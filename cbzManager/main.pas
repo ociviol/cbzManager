@@ -1094,6 +1094,7 @@ begin
   if (zf.Mode <> zmClosed) then
     with DrawGrid1 do
       case Key of
+        40, // down
         37: // left
           if Position >= 0 then
           begin
@@ -1103,6 +1104,7 @@ begin
             SetMainImage(Position);
           end;
 
+        38, // up
         39: //right
           if Position <= Max then
           begin

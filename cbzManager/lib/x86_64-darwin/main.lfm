@@ -50,11 +50,15 @@ object MainFrm: TMainFrm
       DefaultColWidth = 120
       DefaultDrawing = False
       DefaultRowHeight = 160
+      DragMode = dmAutomatic
       ExtendedSelect = False
       FixedCols = 0
       FixedRows = 0
       PopupMenu = PopupMenu1
+      RowCount = 1
       TabOrder = 0
+      OnDragDrop = DrawGrid1DragDrop
+      OnDragOver = DrawGrid1DragOver
       OnDrawCell = DrawGrid1DrawCell
       OnKeyUp = DrawGrid1KeyUp
       OnMouseDown = DrawGrid1MouseDown
@@ -216,6 +220,12 @@ object MainFrm: TMainFrm
           GroupIndex = 1
         end
       end
+      object N9: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem24: TMenuItem
+        Action = ActionRewriteManga
+      end
     end
     object MenuItem2: TMenuItem
       Caption = '?'
@@ -276,6 +286,30 @@ object MainFrm: TMainFrm
       Action = ActionSplitImage
     end
     object N6: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem18: TMenuItem
+      Caption = 'Move'
+      object MenuItem19: TMenuItem
+        Action = ActionMoveup
+      end
+      object MenuItem20: TMenuItem
+        Action = ActionMoveDown
+      end
+      object MenuItem21: TMenuItem
+        Action = ActionMoveToTop
+      end
+      object MenuItem22: TMenuItem
+        Action = ActionMoveToBottom
+      end
+    end
+    object N7: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem23: TMenuItem
+      Action = ActionRewriteManga
+    end
+    object N8: TMenuItem
       Caption = '-'
     end
     object MenuItem8: TMenuItem
@@ -366,6 +400,10 @@ object MainFrm: TMainFrm
     object ActionUndoAll: TAction
       Caption = 'Undo All'
       OnExecute = ActionUndoAllExecute
+    end
+    object ActionRewriteManga: TAction
+      Caption = 'Rewrite Manga'
+      OnExecute = ActionRewriteMangaExecute
     end
   end
 end

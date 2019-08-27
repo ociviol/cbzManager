@@ -626,7 +626,7 @@ function TCbz.RewriteManga(CallBack : TCbzProgressEvent = nil):String;
 var
   outz : TCBz;
   ProgressID : QWord;
-  fname, ext, s, fn, fn2 : string;
+  fname, s : string;
   i : integer;
   ms : TMemoryStream;
 begin
@@ -645,7 +645,6 @@ begin
       begin
         ms := GetFileStream(i);
         try
-          fn := FileNames[i];
           ms.Position := 0;
           outz.AppendStream(ms, Format(FFileNameFormat + '%s', [outz.FileCount + 1, '.webp']), now, zstream.clnone);
         finally
@@ -675,7 +674,6 @@ procedure TCbz.Invert(Index1, Index2 : Integer; CallBack : TCbzProgressEvent = n
 var
   UserData : TUserData;
   Indexes, ar : TIntArray;
-  i : integer;
 begin
   SetLength(Indexes, 2);
   Indexes[0] := Index1;

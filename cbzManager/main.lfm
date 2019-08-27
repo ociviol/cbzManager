@@ -1,7 +1,7 @@
 object MainFrm: TMainFrm
-  Left = 390
+  Left = 478
   Height = 669
-  Top = 128
+  Top = 132
   Width = 791
   Align = alBottom
   Caption = 'cbzManager'
@@ -223,6 +223,24 @@ object MainFrm: TMainFrm
       object N9: TMenuItem
         Caption = '-'
       end
+      object MenuItem25: TMenuItem
+        Caption = 'Move'
+        object MenuItem26: TMenuItem
+          Action = ActionMoveToTop
+        end
+        object MenuItem27: TMenuItem
+          Action = ActionMoveup
+        end
+        object MenuItem28: TMenuItem
+          Action = ActionMoveDown
+        end
+        object MenuItem29: TMenuItem
+          Action = ActionMoveToBottom
+        end
+      end
+      object N10: TMenuItem
+        Caption = '-'
+      end
       object MenuItem24: TMenuItem
         Action = ActionRewriteManga
       end
@@ -359,15 +377,19 @@ object MainFrm: TMainFrm
     end
     object ActionMoveup: TAction
       Caption = 'Move Up'
+      OnExecute = ActionMoveupExecute
     end
     object ActionMoveDown: TAction
       Caption = 'Move Down'
+      OnExecute = ActionMoveDownExecute
     end
     object ActionMoveToTop: TAction
       Caption = 'Move To Top'
+      OnExecute = ActionMoveToTopExecute
     end
     object ActionMoveToBottom: TAction
       Caption = 'Move To Bottom'
+      OnExecute = ActionMoveToBottomExecute
     end
     object ActionChooseFolder: TAction
       Caption = 'Choose Folder'

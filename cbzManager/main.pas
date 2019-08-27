@@ -69,6 +69,12 @@ type
     MenuItem22: TMenuItem;
     MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
+    MenuItem25: TMenuItem;
+    MenuItem26: TMenuItem;
+    MenuItem27: TMenuItem;
+    MenuItem28: TMenuItem;
+    MenuItem29: TMenuItem;
+    N10: TMenuItem;
     N9: TMenuItem;
     N8: TMenuItem;
     N7: TMenuItem;
@@ -109,6 +115,10 @@ type
     procedure ActionHorizFlipExecute(Sender: TObject);
     procedure ActionJoinExecute(Sender: TObject);
     procedure ActionLastExecute(Sender: TObject);
+    procedure ActionMoveDownExecute(Sender: TObject);
+    procedure ActionMoveToBottomExecute(Sender: TObject);
+    procedure ActionMoveToTopExecute(Sender: TObject);
+    procedure ActionMoveupExecute(Sender: TObject);
     procedure ActionNormPerfsExecute(Sender: TObject);
     procedure ActionRefreshExecute(Sender: TObject);
     procedure ActionRewriteMangaExecute(Sender: TObject);
@@ -929,6 +939,92 @@ begin
   begin
     DrawGrid1.Position := zf.ImageCount - 1;
     Application.QueueAsyncCall(@AfterCellSelect, 0);
+  end;
+end;
+
+procedure TMainFrm.ActionMoveDownExecute(Sender: TObject);
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    zf.Invert(DrawGrid1.Position, DrawGrid1.Position + 1, @Progress);
+    DrawGrid1.Position := DrawGrid1.Position + 1;
+    DrawGrid1.Invalidate;
+    SetMainImage(DrawGrid1.Position);
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TMainFrm.ActionMoveToBottomExecute(Sender: TObject);
+var
+  b: TBitmap;
+  ms: TMemoryStream;
+  ar : TIntArray;
+  ars : TStreamArray;
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    b := zf.Image[DrawGrid1.Position];
+    try
+      ms := TMemoryStream.Create;
+      b.SaveToStream(ms);
+      SetLength(ar, 1);
+      ar[0] := DrawGrid1.Position;
+      zf.Delete(ar, @Progress);
+      SetLength(ars, 1);
+      ars[0] := ms;
+      zf.Insert(ars, zf.FileCount);
+      DrawGrid1.Position := zf.FileCount - 1;
+      DrawGrid1.Invalidate;
+      SetMainImage(DrawGrid1.Position);
+    finally
+      b.Free;
+    end;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TMainFrm.ActionMoveToTopExecute(Sender: TObject);
+var
+  b: TBitmap;
+  ms: TMemoryStream;
+  ar : TIntArray;
+  ars : TSTreamArray;
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    b := zf.Image[DrawGrid1.Position];
+    try
+      ms := TMemoryStream.Create;
+      b.SaveToStream(ms);
+      SetLength(ar, 1);
+      ar[0] := DrawGrid1.Position;
+      zf.Delete(ar, @Progress);
+      SetLength(ars, 1);
+      ars[0] := ms;
+      zf.Insert(ars, 0);
+      DrawGrid1.Position := 0;
+      DrawGrid1.Invalidate;
+      SetMainImage(DrawGrid1.Position);
+    finally
+      b.Free;
+    end;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TMainFrm.ActionMoveupExecute(Sender: TObject);
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    zf.Invert(DrawGrid1.Position, DrawGrid1.Position - 1, @Progress);
+    DrawGrid1.Position := DrawGrid1.Position - 1;
+    DrawGrid1.Invalidate;
+    SetMainImage(DrawGrid1.Position);
+  finally
+    Screen.Cursor := crDefault;
   end;
 end;
 

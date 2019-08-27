@@ -218,7 +218,13 @@ var
 begin
   for I := Low(FStreams) to High(FStreams) do
     if Assigned(FStreams[i]) then
-      FStreams[i].Free;
+      try
+        FStreams[i].Free;
+        // this is ugly but during undo some streams are freed
+        // and I still have to find a way to update the undo object arrays
+        // to know the object has been freed, for now we swallow the exception
+      except
+      end;
   inherited;
 end;
 
@@ -1206,7 +1212,6 @@ begin
 {$else}
           TBitmap(USerData.Data[i]).SaveToStream(tmp);
 {$endif}
-          USerData.Data[i] := 0;
           tmp.Position := 0;
           Stream := ConvertImageToStream(tmp, FLog);
           Stream.Position := 0;

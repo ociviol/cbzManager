@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  ComCtrls, ExtCtrls, Grids, ActnList, uCbz,
+  ComCtrls, ExtCtrls, Grids, ActnList, Spin, uCbz,
 {$ifdef Darwin}
   OpenSslSockets,
 {$endif}
@@ -22,6 +22,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionCropTool: TAction;
     ActionRewriteManga: TAction;
     ActionUndoAll: TAction;
     ActionUndo: TAction;
@@ -43,14 +44,20 @@ type
     ActionFirst: TAction;
     ActionLast: TAction;
     ActionList1: TActionList;
+    btnCancel: TButton;
     btnFirst: TButton;
     btnHorizFlip: TButton;
     btnLast: TButton;
     btnRotateLeft: TButton;
     btnRotateRight: TButton;
     btnVertFlip: TButton;
+    btnCrop: TButton;
     DrawGrid1: TDrawGrid;
     Image1: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
     MainMenu1: TMainMenu;
     memoLog: TMemo;
     MenuItem1: TMenuItem;
@@ -74,6 +81,7 @@ type
     MenuItem27: TMenuItem;
     MenuItem28: TMenuItem;
     MenuItem29: TMenuItem;
+    MenuItem30: TMenuItem;
     N10: TMenuItem;
     N9: TMenuItem;
     N8: TMenuItem;
@@ -101,14 +109,22 @@ type
     mnuExit: TMenuItem;
     mnuFile: TMenuItem;
     Panel1: TPanel;
+    PanelCrop: TPanel;
     pnlProgress: TPanel;
     Panel3: TPanel;
     pnlimgName: TPanel;
     PopupMenu1: TPopupMenu;
+    PopupMenu2: TPopupMenu;
     SelectDirectoryDialog1: TSelectDirectoryDialog;
+    Shape1: TShape;
+    speLeft: TSpinEdit;
+    speBottom: TSpinEdit;
+    speRight: TSpinEdit;
+    speTop: TSpinEdit;
     Splitter1: TSplitter;
     TreeView1: TTreeView;
     procedure ActionChooseFolderExecute(Sender: TObject);
+    procedure ActionCropToolExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionFirstExecute(Sender: TObject);
     procedure ActionHighPerfsExecute(Sender: TObject);
@@ -128,6 +144,8 @@ type
     procedure ActionUndoAllExecute(Sender: TObject);
     procedure ActionUndoExecute(Sender: TObject);
     procedure ActionVertFlipExecute(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
+    procedure btnCropClick(Sender: TObject);
     procedure DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
@@ -149,6 +167,10 @@ type
     procedure mnuExitClick(Sender: TObject);
     procedure mnuSetDefaultPathClick(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
+    procedure speBottomChange(Sender: TObject);
+    procedure speLeftChange(Sender: TObject);
+    procedure speRightChange(Sender: TObject);
+    procedure speTopChange(Sender: TObject);
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
     procedure TreeView1CustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
       State: TCustomDrawState; var DefaultDraw: Boolean);
@@ -169,7 +191,9 @@ type
     FConvertReport : TstringList;
     FLastUPdate : TDateTime;
     Fignores : TStringlist;
+    FMakingShape : Boolean;
 
+    procedure HideCropTool;
     procedure SaveConfig;
     function CheckPrograms:boolean;
     procedure FillTreeView(const Path: String);
@@ -231,7 +255,8 @@ implementation
 uses
   Config, LclIntf,
   Utils.Strings, frmwait, fpHttpClient, unix,
-  Utils.SoftwareVersion, uDataTypes, Utils.ZipFile,
+  Utils.SoftwareVersion, uDataTypes,
+  Utils.ZipFile, Utils.Graphics,
   uLoadReport;
 
 const
@@ -419,6 +444,7 @@ begin
   ActionMoveToBottom.Enabled := (zf.Mode <> zmClosed) and
     (DrawGrid1.Position < zf.FileCount - 1);
   //ActionFit.Enabled := (zf.Mode <> zmClosed) and Assigned(ImageEnView1.Bitmap);
+  ActionCropTool.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position >= 0);
 
   // files
   ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
@@ -687,10 +713,38 @@ begin
   EnableActions;
 end;
 
+procedure TMainFrm.speBottomChange(Sender: TObject);
+begin
+  Shape1.Height := speBottom.Value;
+end;
+
+procedure TMainFrm.speLeftChange(Sender: TObject);
+begin
+  Shape1.left := speLeft.Value;
+  speRight.MaxValue:=(Image1.left+(Image1.DestRect.Right - Image1.DestRect.left))-Shape1.left;
+end;
+
+procedure TMainFrm.speRightChange(Sender: TObject);
+begin
+  Shape1.width := speRight.Value;
+end;
+
+procedure TMainFrm.speTopChange(Sender: TObject);
+begin
+  Shape1.Top := speTop.Value;
+  speBottom.MaxValue:=(Image1.top+(Image1.DestRect.Bottom - Image1.DestRect.Top))-shape1.top;
+end;
+
 procedure TMainFrm.AfterCellSelect(data : int64);
 begin
   EnableActions;
   SetMainImage(DrawGrid1.Position);
+end;
+
+procedure TMainFrm.HideCropTool;
+begin
+  PanelCrop.Visible:=false;
+  Shape1.Visible:=False;
 end;
 
 procedure TMainFrm.SetMainImage(Index: Integer);
@@ -710,6 +764,7 @@ begin
       else
       }
       begin
+        HideCropTool;
         Image1.Visible := True;
         b := zf.Image[Index];
         if Assigned(b) then
@@ -931,6 +986,42 @@ begin
       FillTreeView(FConfig.BdPathPath);
       SetAppCaption;
     end;
+end;
+
+procedure TMainFrm.ActionCropToolExecute(Sender: TObject);
+var
+  r : TRect;
+begin
+  PanelCrop.Visible := true;
+  Update;
+  r := Image1.DestRect;
+  // shape
+  Shape1.Left:= Image1.Left + r.left + 10;
+  Shape1.top := Image1.Top + r.top + 10;
+  Shape1.Width:= (r.Right - r.left) - 20;
+  Shape1.Height := (r.Bottom - r.Top) - 20;
+  // width
+  speRight.MinValue := (r.Right - r.left) div 2;
+  speRight.MaxValue := (r.Right - r.left);
+  speRight.Value:=(r.Right - r.left) - 20;
+  // height
+  speBottom.MinValue:= (r.Bottom - r.Top) div 2;
+  speBottom.MaxValue:= (r.Bottom - r.Top);
+  speBottom.Value:= (r.Bottom - r.Top) - 20;
+  //left
+  speLeft.MinValue := Image1.Left + r.left;
+  speLeft.MaxValue := Image1.Left + (r.Right - r.left) div 2;
+  speLeft.Value:= Image1.Left + r.left + 10;
+  // top
+  speTop.MinValue:=Image1.top + r.Top;
+  speTop.MaxValue:=Image1.Top + (r.Bottom - r.top) div 2;
+  speTop.Value:= Image1.Top + r.top + 10;
+  // shape
+  //Shape1.Left:= Image1.left + r.left + 10;
+  //Shape1.top := Image1.Top + r.top + 10;
+  //Shape1.Width:= Image1.Left + (r.Right - r.left) - 20;
+  //Shape1.Height := Image1.Top + (r.Bottom - r.Top) - 20;
+  Shape1.Visible:=True;
 end;
 
 procedure TMainFrm.ActionLastExecute(Sender: TObject);
@@ -1181,6 +1272,28 @@ begin
     finally
       Screen.Cursor := crDefault;
     end;
+  end;
+end;
+
+procedure TMainFrm.btnCancelClick(Sender: TObject);
+begin
+  HideCropTool;
+end;
+
+procedure TMainFrm.btnCropClick(Sender: TObject);
+var
+  r : TRect;
+  b : TBitmap;
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    b := zf.Image[DrawGrid1.Position];
+    r := Rect(shape1.Left, Shape1.Top, shape1.Left + Shape1.Width - 1, shape1.Top + Shape1.Height - 1);
+    CropBitmap(b, r);
+    zf.Image[DrawGrid1.Position] := b;
+    SetMainImage(DrawGrid1.Position);
+  finally
+    Screen.Cursor := crDefault;
   end;
 end;
 

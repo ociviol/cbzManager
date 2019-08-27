@@ -22,6 +22,7 @@ procedure SmoothStretchDraw(aCanvas : TCanvas; DestRect : TRect; aSrc : TBitmap)
 function ResampleBitmap(const aSrc: TBitmap; DestWidth, DestHeight: Integer; rMode : TResizeMode = rmSmooth):TBitmap;
 procedure Flip(aImg : TBitmap; aDirection : TFlipDir);
 procedure RotateBitmap(Src : TBitmap; Angle : Integer);
+procedure CropBitmap(aImg : TBitmap; aDest : TRect);
 
 implementation
 
@@ -123,6 +124,31 @@ begin
                     Fliphorizontal(aImg);
                     Flipvertical(aImg);
                   end;
+  end;
+end;
+
+procedure CropBitmap(aImg : TBitmap; aDest : TRect);
+var
+  h, w : integer;
+  imsrc, imdest : TLazIntfImage;
+  bh, mh : HBitmap;
+begin
+  imsrc := TLazIntfImage.Create(aImg.Width, aImg.Height);
+  imdest := TLazIntfImage.Create(aImg.Width, aImg.Height);
+  try
+    imsrc.LoadFromBitmap(aImg.Handle, aImg.MaskHandle);
+    imdest.LoadFromBitmap(aImg.Handle, aImg.MaskHandle);
+    imdest.SetSize((aDest.Right-aDest.Left), (aDest.Bottom-aDest.Top));
+    for h := aDest.Top to aDest.Bottom - 1 do
+      for w := aDest.left to aDest.Right - 1 do
+        imdest.Colors[w - aDest.Left, h - aDest.top] := imsrc.Colors[w, h];
+
+    imdest.CreateBitmaps(bh, mh);
+    aImg.Handle:=bh;
+    aImg.MaskHandle:=mh;
+  finally
+    imsrc.free;
+    imdest.Free;
   end;
 end;
 

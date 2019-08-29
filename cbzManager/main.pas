@@ -201,6 +201,7 @@ type
     function NodeSort(Node1, Node2 : TTreeNode): Integer;
     procedure SearchEnded(Sender: TObject);
     procedure CreateConversionQueues;
+    procedure ReduceConversionQueue(NewSize: Integer);
     procedure OnBadFile(Sender: TObject);
     procedure Progress(Sender: TObject; const ProgressID: QWord;
                        const aPos, aMax: Integer; const Msg: String = '');
@@ -397,8 +398,10 @@ end;
 procedure TMainFrm.SetAppCaption;
 begin
   Caption := GetFileVersionInternalName + ' (' + GetFileVersion + ')';
-  Caption := format('%s - Path : %s - %d Encoding threads',
-                    [Caption, Fconfig.BdPathPath, FThreadDataPool.NbWorkers]);
+  Caption := format('%s - Path : %s - %d Queues - %d Encoding threads',
+                    [Caption, Fconfig.BdPathPath,
+                    FThreadDataPool.PoolSize,
+                    FThreadDataPool.NbWorkers]);
 end;
 
 procedure TMainFrm.EnableActions;
@@ -577,6 +580,34 @@ begin
       TCbzWorkerThread.Create(FJobpool,
       FThreadDataPool.Pool[Length(FWorkerThreads) - 1], @Progress,
       @AddFileToTree, FLog, FConvertReport, @OnBadFile);
+  end;
+end;
+
+procedure TMainFrm.ReduceConversionQueue(NewSize: Integer);
+var
+  aFile: string;
+  aType: TArcType;
+begin
+  while Length(FWorkerThreads) > NewSize do
+  begin
+    aFile := '';
+    aType := arcUnknown;
+    with FWorkerThreads[Length(FWorkerThreads) - 1] do
+    begin
+      if Assigned(CurJob) and (CurJob.Status = jsProcessing) then
+      begin
+        aFile := CurJob.FileName;
+        aType := CurJob.arcType;
+      end;
+      Terminate;
+      WaitFor;
+      Free;
+    end;
+    FThreadDataPool.Pool[Length(FWorkerThreads) - 1].Disable;
+    FThreadDataPool.RemovePool(length(FWorkerThreads) - 1);
+    SetLength(FWorkerThreads, Length(FWorkerThreads) - 1);
+    if aFile <> '' then
+      FJobpool.AddJob(aFile, aType);
   end;
 end;
 
@@ -1431,6 +1462,7 @@ begin
     edtunrar.Text:=Fconfig.unrar;
     edtp7zip.Text:=Fconfig.p7zip;
     speNbThreads.Value:= FConfig.NbThreads;
+    speQueues.Value:=FConfig.QueueSize;
     cblogging.Checked:=Fconfig.Blog;
     if ShowModal = mrOk then
     begin
@@ -1439,9 +1471,19 @@ begin
       Fconfig.unrar := edtunrar.Text;
       Fconfig.p7zip := edtp7zip.Text;
       Fconfig.Blog := cblogging.Checked;
+      FConfig.QueueSize := speQueues.Value;
       Fconfig.NbThreads:=speNbThreads.Value;
       SaveConfig;
       FThreadDataPool.SetPerfs(FConfig.NbThreads);
+      if Length(FWorkerThreads) > 2 then
+        ReduceConversionQueue(FConfig.QueueSize)
+      else
+      begin
+        while FThreadDataPool.PoolSize < FConfig.QueueSize do
+          FThreadDataPool.AddPool(FLog);
+        CreateConversionQueues;
+      end;
+
       SetAppCaption;
     end;
   finally

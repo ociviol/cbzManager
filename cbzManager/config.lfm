@@ -102,7 +102,7 @@ object ConfigFrm: TConfigFrm
     TabOrder = 6
   end
   object Label5: TLabel
-    Left = 32
+    Left = 216
     Height = 17
     Top = 160
     Width = 123
@@ -110,7 +110,7 @@ object ConfigFrm: TConfigFrm
     ParentColor = False
   end
   object speNbThreads: TSpinEdit
-    Left = 168
+    Left = 352
     Height = 27
     Top = 154
     Width = 60
@@ -119,5 +119,24 @@ object ConfigFrm: TConfigFrm
     MinValue = 2
     TabOrder = 7
     Value = 4
+  end
+  object Label6: TLabel
+    Left = 32
+    Height = 17
+    Top = 160
+    Width = 57
+    Caption = 'Queues :'
+    ParentColor = False
+  end
+  object speQueues: TSpinEdit
+    Left = 112
+    Height = 27
+    Top = 152
+    Width = 60
+    Increment = 2
+    MaxValue = 4
+    MinValue = 2
+    TabOrder = 8
+    Value = 2
   end
 end

@@ -133,8 +133,7 @@ object ConfigFrm: TConfigFrm
     Height = 27
     Top = 152
     Width = 60
-    Increment = 2
-    MaxValue = 4
+    MaxValue = 6
     MinValue = 2
     TabOrder = 8
     Value = 2

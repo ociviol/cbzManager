@@ -21,9 +21,9 @@ type
     function GetNbWorkers: Integer;
     procedure SetThreads(nbThreads : Integer);
   public
-    constructor Create(aPoolSize : Integer; Log : ILog; bHighPerfs : Boolean);
+    constructor Create(aPoolSize : Integer; Log : ILog; aNbThreads : Integer);
     Destructor Destroy; override;
-    procedure SetPerfs(bHighPerfs : Boolean);
+    procedure SetPerfs(aNbThreads : Integer);
     procedure Stop;
     function AddPool(aLog : ILog):Integer;
     procedure RemovePool(Pool : Integer);
@@ -39,7 +39,7 @@ uses
 
 { TThreadDataPool }
 
-constructor TThreadDataPool.Create(aPoolSize : Integer; Log: ILog; bHighPerfs : Boolean);
+constructor TThreadDataPool.Create(aPoolSize : Integer; Log: ILog; aNbThreads : Integer);
 var
   i : integer;
 begin
@@ -51,7 +51,7 @@ begin
   for i:=0 to {$ifdef MONO_THREAD} 1 {$else} aPoolSize - 1 {$endif} do
     FPool.Add(TThreadDataItem.Create(Log));
 
-  SetPerfs(bHighPerfs);
+  SetPerfs(aNbThreads);
 end;
 
 destructor TThreadDataPool.Destroy;
@@ -95,15 +95,12 @@ begin
   end;
 end;
 
-procedure TThreadDataPool.SetPerfs(bHighPerfs : Boolean);
+procedure TThreadDataPool.SetPerfs(aNbThreads : Integer);
 begin
 {$ifdef MONO_THREAD}
   SetThreads(1);
 {$ELSE}
-  if bHighPerfs then
-    SetThreads(8 {CpuCount})
-  else
-    SetThreads(4 {CpuCount div 2});
+  SetThreads(aNbThreads);
 {$endif}
 end;
 

@@ -19,7 +19,8 @@ type
     Fcwebp: String;
     FHighPerf: Boolean;
     Fp7zip: String;
-    FQueueSize: Integer;
+    FQueueSize,
+    FNbThreads : Integer;
     Funrar: String;
     Funzip: String;
     FWleft,
@@ -40,6 +41,7 @@ type
     property p7zip: String read Fp7zip write Fp7zip;
     property QueueSize : Integer read FQueueSize write FQueueSize;
     property HighPerf : Boolean read FHighPerf write FHighPerf;
+    property NbThreads : Integer read FNbThreads write FNbThreads;
     property Wleft : Integer read FWleft write FWleft;
     property WTop : Integer read FWTop write FWTop;
     property WWidth : Integer read FWWidth write FWWidth;
@@ -64,6 +66,7 @@ begin
 {$endif}
   Funzip := '/usr/bin/unzip';
   FQueueSize:=2;
+  FNbThreads := 4;
   HighPerf:= False;
 end;
 

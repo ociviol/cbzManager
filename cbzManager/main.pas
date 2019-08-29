@@ -27,8 +27,6 @@ type
     ActionUndoAll: TAction;
     ActionUndo: TAction;
     ActionSplitImage: TAction;
-    ActionNormPerfs: TAction;
-    ActionHighPerfs: TAction;
     ActionJoin: TAction;
     ActionRefresh: TAction;
     ActionChooseFolder: TAction;
@@ -63,7 +61,6 @@ type
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
-    MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
     MenuItem14: TMenuItem;
     MenuItem15: TMenuItem;
@@ -92,8 +89,6 @@ type
     MenuItem9: TMenuItem;
     N6: TMenuItem;
     N5: TMenuItem;
-    mnuHighPerfs: TMenuItem;
-    mnuNormPerfs: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
@@ -127,7 +122,6 @@ type
     procedure ActionCropToolExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionFirstExecute(Sender: TObject);
-    procedure ActionHighPerfsExecute(Sender: TObject);
     procedure ActionHorizFlipExecute(Sender: TObject);
     procedure ActionJoinExecute(Sender: TObject);
     procedure ActionLastExecute(Sender: TObject);
@@ -135,7 +129,6 @@ type
     procedure ActionMoveToBottomExecute(Sender: TObject);
     procedure ActionMoveToTopExecute(Sender: TObject);
     procedure ActionMoveupExecute(Sender: TObject);
-    procedure ActionNormPerfsExecute(Sender: TObject);
     procedure ActionRefreshExecute(Sender: TObject);
     procedure ActionRewriteMangaExecute(Sender: TObject);
     procedure ActionRot90Execute(Sender: TObject);
@@ -361,14 +354,11 @@ begin
     Height := FConfig.WHeight;
   if FConfig.WTreeViewWidth <> 0 then
     TreeView1.Width := FConfig.WTreeViewWidth;
-  mnuHighPerfs.Checked := FConfig.HighPerf;
-  mnuNormPerfs.Checked := not FConfig.HighPerf;
   // start logger
   FLog := GetILog(expandfilename('~/') + CS_CONFIG_PATH + '/cbzManager.log', FConfig.bLog);
   Flog.Log('cbzManager started.');
 
   //FConfig.QueueSize := CPUCount;
-  //FConfig.HighPerf:= False;
 
   FTreeViewPaths := TStringlist.Create;
   FProgress := TStringList.Create;
@@ -386,7 +376,7 @@ begin
   FConvertReport := TstringList.Create;
 
   FThreadDataPool := TThreadDataPool.Create(FConfig.QueueSize,
-                                            FLog, FConfig.HighPerf);
+                                            FLog, FConfig.NbThreads);
   CreateConversionQueues;
   //
   if DirectoryExists(FConfig.BdPathPath) then
@@ -942,16 +932,6 @@ begin
   end;
 end;
 
-procedure TMainFrm.ActionHighPerfsExecute(Sender: TObject);
-begin
-  FConfig.HighPerf:=True;
-  mnuHighPerfs.Checked := FConfig.HighPerf;
-  mnuNormPerfs.Checked := not FConfig.HighPerf;
-  SaveConfig;
-  FThreadDataPool.SetPerfs(FConfig.HighPerf);
-  SetAppCaption;
-end;
-
 procedure TMainFrm.ActionDeleteExecute(Sender: TObject);
 var
   rpos: Integer;
@@ -1117,16 +1097,6 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
-end;
-
-procedure TMainFrm.ActionNormPerfsExecute(Sender: TObject);
-begin
-  FConfig.HighPerf:=False;
-  mnuHighPerfs.Checked := FConfig.HighPerf;
-  mnuNormPerfs.Checked := not FConfig.HighPerf;
-  SaveConfig;
-  FThreadDataPool.SetPerfs(FConfig.HighPerf);
-  SetAppCaption;
 end;
 
 procedure TMainFrm.ActionRefreshExecute(Sender: TObject);
@@ -1460,6 +1430,7 @@ begin
     edtunzip.Text:=Fconfig.unzip;
     edtunrar.Text:=Fconfig.unrar;
     edtp7zip.Text:=Fconfig.p7zip;
+    speNbThreads.Value:= FConfig.NbThreads;
     cblogging.Checked:=Fconfig.Blog;
     if ShowModal = mrOk then
     begin
@@ -1468,7 +1439,10 @@ begin
       Fconfig.unrar := edtunrar.Text;
       Fconfig.p7zip := edtp7zip.Text;
       Fconfig.Blog := cblogging.Checked;
+      Fconfig.NbThreads:=speNbThreads.Value;
       SaveConfig;
+      FThreadDataPool.SetPerfs(FConfig.NbThreads);
+      SetAppCaption;
     end;
   finally
     free;

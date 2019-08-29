@@ -327,17 +327,6 @@ object MainFrm: TMainFrm
         Caption = 'Config'
         OnClick = mnuConfigClick
       end
-      object MenuItem12: TMenuItem
-        Caption = 'Performances'
-        object mnuHighPerfs: TMenuItem
-          Action = ActionHighPerfs
-          AutoCheck = True
-        end
-        object mnuNormPerfs: TMenuItem
-          Action = ActionNormPerfs
-          GroupIndex = 1
-        end
-      end
       object N9: TMenuItem
         Caption = '-'
       end
@@ -520,14 +509,6 @@ object MainFrm: TMainFrm
     object ActionJoin: TAction
       Caption = 'Join Images'
       OnExecute = ActionJoinExecute
-    end
-    object ActionHighPerfs: TAction
-      Caption = 'High Performances'
-      OnExecute = ActionHighPerfsExecute
-    end
-    object ActionNormPerfs: TAction
-      Caption = 'Normal Performances'
-      OnExecute = ActionNormPerfsExecute
     end
     object ActionSplitImage: TAction
       Caption = 'Split Image'

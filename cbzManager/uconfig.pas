@@ -73,21 +73,24 @@ var
   t : TStringList;
 begin
   result := TConfig.Create;
-  DeStreamer := TJSONDeStreamer.Create(nil);
-  if FileExists(aFileName) then
-  begin
-    t := TStringList.Create;
-    try
-      t.LoadFromFile(aFileName);
+  try
+    DeStreamer := TJSONDeStreamer.Create(nil);
+    if FileExists(aFileName) then
+    begin
+      t := TStringList.Create;
       try
-        DeStreamer.JSONToObject(t[0], result);
-      finally
-        DeStreamer.Free;
-      end;
+        t.LoadFromFile(aFileName);
+        try
+          DeStreamer.JSONToObject(t[0], result);
+        finally
+          DeStreamer.Free;
+        end;
 
-    finally
-      t.Free;
-    end
+      finally
+        t.Free;
+      end
+    end;
+  except
   end;
 end;
 

@@ -2,6 +2,8 @@ unit uCbz;
 
 {$mode objfpc}{$H+}
 
+{$define Cwebp}
+
 interface
 
 uses
@@ -1588,30 +1590,28 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
       end;
     end;
   end;
-  {
-  function InternalConvert(const aSrc, aDest : TMemoryStream; MemIO: TFreeMemoryIO):Boolean;
+
+  function InternalConvert(const aSrc, aDest : TMemoryStream):Boolean;
   var
-    fb : TfreeBitmap;
+    b : TBitmap;
+    ms : TMemoryStream;
   begin
-    fb := TfreeBitmap.Create;
+    b := TBitmap.Create;
     try
-      if not fb.LoadFromMemory(MemIO) then
-        result := False
-      else
-      begin
-        if fb.GetBitsPerPixel < 24 then
-          fb.ConvertTo24Bits;
-
-        if not fb.SaveToStream(FIF_WEBP, aDest) then
-          Exit(false);
-
+      try
+        b.LoadFromStream(aSrc);
+        ms := BitmapToWebp(b);
+        aDest.CopyFrom(ms, ms.Size);
+        ms.Free;
         Result := True;
+      finally
+        b.Free;
       end;
-    finally
-      fb.Free;
+    except
+      result := False;
     end;
   end;
-  }
+
   procedure ConvertToPng(aSrc : TMemoryStream);
   var
     aPic:TPicture;
@@ -1647,9 +1647,12 @@ begin
 
       if SysUtils.FileExists(cwebp) then
       begin
+{$ifdef Cwebp}
         if not ExternalConvert(aSrc, Result) then
-//            if not InternalConvert(aSrc, Result, MemIO) then
-            FreeAndNil(Result);
+{$else}
+        if not InternalConvert(aSrc, Result) then
+{$endif}
+          FreeAndNil(Result);
       end
       else
         raise Exception.Create('cwebp not found.');

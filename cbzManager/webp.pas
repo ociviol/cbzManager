@@ -75,25 +75,25 @@ type
   //                                  int width, int height, int stride,
   //                                  float quality_factor, uint8_t** output);
   TWebpEncodeRGB = function(bgr : pbyte; width, height, stride : integer;
-                            quality_factor : extended; output : ppbyte):integer; cdecl;
+                            quality_factor : real; output : ppbyte):integer; cdecl;
 
   // WEBP_EXTERN size_t WebPEncodeBGR(const uint8_t* bgr,
   //                                  int width, int height, int stride,
   //                                  float quality_factor, uint8_t** output);
   TWebpEncodeBGR = function(bgr : pbyte; width, height, stride : integer;
-                            quality_factor : extended; output : ppbyte):integer; cdecl;
+                            quality_factor : real; output : ppbyte):integer; cdecl;
 
   // WEBP_EXTERN size_t WebPEncodeRGBA(const uint8_t* rgba,
   //                                   int width, int height, int stride,
   //                                   float quality_factor, uint8_t** output);
   TWebpEncodeRGBA = function(bgr : pbyte; width, height, stride : integer;
-                             quality_factor : extended; output : ppbyte):integer; cdecl;
+                             quality_factor : real; output : ppbyte):integer; cdecl;
 
   // WEBP_EXTERN size_t WebPEncodeBGRA(const uint8_t* bgra,
   //                                   int width, int height, int stride,
   //                                   float quality_factor, uint8_t** output);
   TWebpEncodeBGRA = function(bgr : pbyte; width, height, stride : integer;
-                             quality_factor : extended; output : ppbyte):integer; cdecl;
+                             quality_factor : real; output : ppbyte):integer; cdecl;
 
 {$endif}
 
@@ -114,7 +114,7 @@ const
 
 function WebpToBitmap(data : pointer; size : int64):Tbitmap;
 function WebpFileToBitmap(const Filename : String):Tbitmap;
-function BitmapToWebp(aBitmap : TBitmap):TMemoryStream;
+function BitmapToWebp(aBitmap : TBitmap; aDest : TMemoryStream):Boolean;
 {$ifndef DLL}
 function WebPGetDecoderVersion:integer; cdecl; external clibwebp;
 function WebPGetInfo(data : pbyte; data_size : int64; width : pint; height : pint):integer; cdecl; external clibwebp;
@@ -146,10 +146,11 @@ var
 
 implementation
 
-{$ifdef DLL}
 uses
-  Dialogs;
+{$ifdef DLL}
+  Dialogs,
 {$endif}
+  intfgraphics;
 
 
 {$ifdef DLL}
@@ -319,30 +320,44 @@ begin
   end;
 end;
 
-function BitmapToWebp(aBitmap : TBitmap):TMemoryStream;
+function BitmapToWebp(aBitmap : TBitmap; aDest : TMemoryStream):Boolean;
 var
   p, pin, pout : pbyte;
-  sz : integer;
-  w, h, y : integer;
+  sz, psz : integer;
+  w, h, x, y, clr : integer;
+  img : TLazIntfImage;
 begin
+  result := false;
   w := aBitmap.Width;
   h := aBitmap.Height;
-  p := GetMem((w * h) * 4);
+  img := TLazIntfImage.Create(aBitmap.Width, aBitmap.Height);
+  img.LoadFromBitmap(aBitmap.Handle, aBitmap.MaskHandle);
+  psz := 3;
+  p := GetMem((w * h) * psz);
   try
+{    for y := 0 to h - 1 do
+      for x := 0 to w - 1 do
+      begin
+        clr := img.Pixels[x, y];
+        move(p[((x * psz) * y)], clr, psz);
+      end;
+ }
     for y := 0 to h-1 do
     begin
       pin := aBitmap.ScanLine[y];
-      pout := p + ((w * 4) * y);
-      Move(pin^, pout^, (w * 4));
+      pout := p + ((w * psz) * y);
+      Move(pin^, pout^, (w * psz));
     end;
+
     try
     {$ifdef Darwin}
-      sz := DoWebpEncodeARGB(p, w, h, 0, 70, @pout);
+      sz := DoWebpEncodeRGB(p, w, h, 0, 70, @pout);
     {$else}
-      sz := DoWebPEncodeBGRA(p, w, h, 0, 70, @pout);
+      sz := DoWebPEncodeRGB(p, w, h, 0, 70, @pout);
     {$endif}
-      result := TMemoryStream.Create;
-      result.Write(pout^, sz);
+      aDest.Write(pout^, sz);
+    aDest.Position := 0;
+      result := True;
     finally
       DoWebPFree(pout);
     end;
@@ -392,10 +407,10 @@ Files := TSTringlist.Create;
     PWebPDecodeBGRA := TWebPDecodeBGRA(GetProcedureAddress(HWebplib, 'WebPDecodeBGRA'));
     PWebPDecodeRGB := TWebPDecodeRGB(GetProcedureAddress(HWebplib, 'WebPDecodeRGB'));
     PWebPDecodeBGR := TWebPDecodeBGR(GetProcedureAddress(HWebplib, 'WebPDecodeBGR'));
-    PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplib, 'WebpEncodeRGB'));
-    PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplib, 'WebpEncodeRGBA'));
-    PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplib, 'WebpEncodeBGR'));
-    PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplib, 'WebpEncodeBGRA'));
+    PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplib, 'WebPEncodeRGB'));
+    PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplib, 'WebPEncodeRGBA'));
+    PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplib, 'WebPEncodeBGR'));
+    PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplib, 'WebPEncodeBGRA'));
   end;
 
 finalization

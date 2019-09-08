@@ -2,7 +2,7 @@ unit uCbz;
 
 {$mode objfpc}{$H+}
 
-{$define Cwebp}
+//{$define UseInternalWebp}
 
 interface
 
@@ -1594,18 +1594,25 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   function InternalConvert(const aSrc, aDest : TMemoryStream):Boolean;
   var
     b : TBitmap;
+    p : TPicture;
     ms : TMemoryStream;
   begin
-    b := TBitmap.Create;
+    p := TPicture.Create;
     try
+      p.LoadFromStream(aSrc);
+      b := TBitmap.Create;
       try
-        b.LoadFromStream(aSrc);
-        ms := BitmapToWebp(b);
-        aDest.CopyFrom(ms, ms.Size);
-        ms.Free;
-        Result := True;
+        try
+          b.PixelFormat:=pf24bit;
+          b.Width:=p.Width;
+          b.Height:=p.Height;
+          b.Canvas.Draw(0, 0, p.Graphic);
+          result := BitmapToWebp(b, aDest);
+        finally
+          b.Free;
+        end;
       finally
-        b.Free;
+        p.Free;
       end;
     except
       result := False;
@@ -1645,19 +1652,18 @@ begin
       if (imgtype <> FIF_PNG) and (imgtype <> FIF_JPEG) then
         ConvertToPng(aSrc);
 
-      if SysUtils.FileExists(cwebp) then
-      begin
-{$ifdef Cwebp}
-        if not ExternalConvert(aSrc, Result) then
-{$else}
-        if not InternalConvert(aSrc, Result) then
+{$ifdef UseInternalWebp}
+      if not InternalConvert(aSrc, Result) then
 {$endif}
-          FreeAndNil(Result);
-      end
-      else
-        raise Exception.Create('cwebp not found.');
-        //if not InternalConvert(aSrc, Result, MemIO) then
-          //FreeAndNil(Result);
+        if SysUtils.FileExists(cwebp) then
+        begin
+          if not ExternalConvert(aSrc, Result) then
+            FreeAndNil(Result);
+        end
+        else
+          raise Exception.Create('cwebp not found.');
+          //if not InternalConvert(aSrc, Result, MemIO) then
+            //FreeAndNil(Result);
     end;
 
     if Assigned(result) then

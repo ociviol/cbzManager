@@ -8,7 +8,10 @@ uses
   SysUtils, Classes, Graphics,
   uCbz, Utils.Logger,
   //uRar,
-  uDataItem, uDataTypes, cthreads
+  uDataItem, uDataTypes
+{$ifdef Darwin or Linux}
+  ,cthreads
+{$endif}
   //, sevenzip
   ;
 
@@ -123,7 +126,11 @@ type
 implementation
 
 uses
-  Utils.ZipFile, uWorkerThread, unix, Process,
+  Utils.ZipFile, uWorkerThread,
+{$ifdef Darwin of Linux}
+  unix,
+{$endif}
+  Process,
   Utils.Arrays, Utils.SearchFiles, Utils.Files
 {$ifdef INTERNAL_ZIP}
   ,Math
@@ -137,19 +144,23 @@ uses
 
 function Unrar:String;
 begin
-{$ifdef darwin}
+{$if defined(darwin)}
   result := '/usr/local/bin/unrar';
-{$else}
+{$elseif Defined(Linux)}
   result := '/usr/bin/unrar';
+{$else}
+  result := 'unrar.exe';
 {$endif}
 end;
 
 function SevenZip:String;
 begin
-{$ifdef darwin}
+{$if defined(darwin)}
   result := '/usr/local/bin/7z';
-{$else}
+{$elseif Defined(Linux)}
   result := '/usr/bin/7z';
+{$else}
+  result := '7z.exe';
 {$endif}
 end;
 
@@ -187,7 +198,10 @@ begin
     Synchronize(@DoProgress);
     try
       // extract
+{$ifdef Darwin or Linux}
       fpSystem(FCmd);
+{$else}
+{$endif}
       // get files
       GetFileNames(FFiles);
       FNbFiles := FFiles.Count;
@@ -199,7 +213,9 @@ begin
     Except
       FFiles.Free;
       FHasError := True;
+{$ifdef Darwin or Linux}
       fpsystem('rm -Rf ' + FTmpDir);
+{$endif}
       raise;
     end;
 {$ifdef INTERNAL_ZIP}
@@ -213,7 +229,9 @@ destructor TThreadExtract.Destroy;
 begin
   FSync.Free;
   FFiles.Free;
+{$ifdef Darwin or Linux}
   fpsystem('rm -Rf ' + FTmpDir);
+{$endif}
   DeleteFile(FTmpFileName);
   inherited;
 end;

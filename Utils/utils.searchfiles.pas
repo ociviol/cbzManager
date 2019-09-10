@@ -5,7 +5,11 @@ unit Utils.Searchfiles;
 interface
 
 uses
-  Classes, SysUtils, ComCtrls, cthreads;
+  Classes, SysUtils, ComCtrls
+{$ifdef Linux or Darwin}
+  , cthreads
+{$endif}
+  ;
 
 type
   TFilterPredicate = function(const Path: string; const SearchRec: TSearchRec): Boolean;

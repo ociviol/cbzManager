@@ -8,7 +8,11 @@ uses
   SysUtils,
   Classes, Graphics,
   uCbz, Utils.Logger, uDataItem,
-  uDataTypes, cthreads;
+  uDataTypes
+{$ifdef Darwin or Linux}
+  ,cthreads
+{$endif}
+  ;
 
 type
   TJobStatus = (jsWaiting, jsProcessing, jsDone);

@@ -5,7 +5,11 @@ unit Utils.Logger;
 interface
 
 uses
-  Classes, Sysutils, cthreads, Process; //system.generics.collections, system.ioutils;
+  Classes, Sysutils,
+{$ifdef Linux or Darwin}
+  cthreads,
+{$endif}
+  Process; //system.generics.collections, system.ioutils;
 
 type
   ILog = interface
@@ -19,7 +23,9 @@ function GetIlog(const Filename : string; Activate : Boolean = True; MaxLogSizeM
 implementation
 
 uses
+{$ifdef Linux or Darwin}
   unix,
+{$endif}
   DateUtils,
   Utils.Files,
   Utils.Searchfiles,

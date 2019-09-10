@@ -5,18 +5,22 @@ unit Utils.Graphics;
 interface
 
 uses
-  Classes, SysUtils, Graphics, cthreads, lcltype, intfgraphics;
+  Classes, SysUtils, Graphics,
+{$ifdef Linux or Darwin}
+  cthreads,
+{$endif}
+  lcltype, intfgraphics;
 
 type
   TResizeMode = (rmSmooth, rmFast);
   TFlipDir = (fdHorizontal, fdVertical, fdBoth);
 
   PRGBTripleArray = ^TRGBTripleArray; {for fast pixel routine}
-  {$ifdef mswindows}
-  TRGBTripleArray = array[0..trunc(bufwide/3)] of TRGBTriple; {for fast pixel routine}
-  {$else} {unix}
+//  {$ifdef mswindows}
+//  TRGBTripleArray = array[0..trunc(bufwide/3)] of TRGBTriple; {for fast pixel routine}
+//  {$else} {unix}
   TRGBTripleArray = array of tagRGBQUAD; {for fast pixel routine}
-  {$endif}
+//  {$endif}
 
 procedure SmoothStretchDraw(aCanvas : TCanvas; DestRect : TRect; aSrc : TBitmap);
 function ResampleBitmap(const aSrc: TBitmap; DestWidth, DestHeight: Integer; rMode : TResizeMode = rmSmooth):TBitmap;

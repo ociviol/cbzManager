@@ -26,7 +26,10 @@ unit Utils.zipfile;
 interface
 
 uses
-  Classes, SysUtils, LResources, Math, Dialogs, StrUtils, cthreads,
+  Classes, SysUtils, LResources, Math, Dialogs, StrUtils,
+{$ifdef Linux or Darwin}
+  cthreads,
+{$endif}
   {$if defined(VER2_0_0) or defined(VER2_0_1) or defined(VER2_0_2)}
     gzCrc
   {$ELSE}

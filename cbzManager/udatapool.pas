@@ -5,7 +5,11 @@ unit uDataPool;
 interface
 
 uses
-  Classes, uDataItem, Utils.Logger, cthreads, contnrs;
+  Classes, uDataItem, Utils.Logger,
+{$ifdef Darwin or Linux}
+  cthreads,
+{$endif}
+  contnrs;
 
 //{$define MONO_THREAD}
 

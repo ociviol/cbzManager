@@ -5,7 +5,11 @@ unit uDataItem;
 interface
 
 uses
-  Classes, SysUtils, uDataTypes, cthreads, Utils.Arrays, Utils.Logger;
+  Classes, SysUtils, uDataTypes,
+{$ifdef Linux or Darwin}
+  cthreads,
+{$endif}
+  Utils.Arrays, Utils.Logger;
 
 const
   // I/O image format identifiers.

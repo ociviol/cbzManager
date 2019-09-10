@@ -5,7 +5,11 @@ unit uThreadConvert;
 interface
 
 uses
-  Classes, uDataPool, Utils.Logger, Graphics, cthreads;
+  Classes, uDataPool, Utils.Logger, Graphics
+{$ifdef Darwin or Linux}
+  ,cthreads
+{$endif}
+  ;
 
 type
   TThreadConvert = Class(TThread)

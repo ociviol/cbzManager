@@ -10,7 +10,10 @@ uses
 {$ifdef Darwin}
   OpenSslSockets,
 {$endif}
-  Utils.Logger, Utils.SearchFiles, Utils.Gridhelper, Types, cthreads,
+  Utils.Logger, Utils.SearchFiles, Utils.Gridhelper, Types,
+{$ifdef Darwin or Linux}
+  cthreads,
+{$endif}
   Utils.Arrays, uDataPool, uWorkerThread, uConfig;
 
 type
@@ -184,7 +187,6 @@ type
     FConvertReport : TstringList;
     FLastUPdate : TDateTime;
     Fignores : TStringlist;
-    FMakingShape : Boolean;
 
     procedure HideCropTool;
     procedure SaveConfig;
@@ -248,16 +250,22 @@ implementation
 
 uses
   Config, LclIntf,
-  Utils.Strings, frmwait, fpHttpClient, unix,
+  Utils.Strings, frmwait, fpHttpClient,
+{$ifdef Darwin or Linux}
+  unix,
+{$endif}
   Utils.SoftwareVersion, uDataTypes,
   Utils.ZipFile, Utils.Graphics,
   uLoadReport;
 
 const
 //  CS_CONFIG = 'config';
+{$ifdef Darwin or Linux}
   CS_CONFIG_PATH = '.config/cbzManager';
-//  CS_CONFIG_FILE = '/config.ini';
   CS_CONFIG_JSON = '/config.json';
+{$else}
+  CS_CONFIG_PATH = 'cbzManager';
+{$endif}
 
 { TThreadCheckVersion }
 
@@ -340,9 +348,13 @@ begin
   //           GetFileVersion;
   //
   // make sure config folder exists
+{$ifdef Darwin or Linux}
   FConfigFile := expandfilename('~/') + CS_CONFIG_PATH;
   ForceDirectories(FConfigFile);
   FConfigFile := FConfigFile + CS_CONFIG_JSON;
+{$else}
+  FConfigFile := ChangeFileExt(Application.ExeName, '.json');
+{$endif}
   // load config
   FConfig := TConfig.Load(FConfigFile);
   if FConfig.Wleft <> 0 then

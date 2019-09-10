@@ -11,7 +11,11 @@ uses
   Utils.ZipFile,
   //zipctnr,
   Utils.Logger, Utils.Graphics,
-  uDataTypes, cthreads, Graphics,
+  uDataTypes,
+{$ifdef Linux or Darwin}
+  cthreads,
+{$endif}
+  Graphics,
   Utils.Arrays, uDataItem;
 
 const
@@ -200,7 +204,13 @@ procedure FileToTrash(const aFileName : String);
 implementation
 
 uses
-  Webp, Utils.SoftwareVersion, StrUtils, unix, Utils.Files, zstream;
+  Webp, Utils.SoftwareVersion, StrUtils,
+{$ifdef Linux or Darwin}
+  unix,
+{$else}
+  process,
+{$endif}
+  Utils.Files, zstream;
 
 { TUndoObject }
 
@@ -956,7 +966,7 @@ var
 
   function ConvertImageToBMP(const fimg : String):String;
   var
-    cmd : string;
+    cmd, outs : string;
     r : Integer;
   begin
     FLog.Log(ClassName + '.ConvertImageToBMP : ' +Fimg);
@@ -964,12 +974,16 @@ var
     if Sysutils.FileExists(fimg) then
     begin
       result := ChangeFileExt(fimg, '.bmp');
-{$ifdef Darwin}
+{$if Defined(Darwin)}
       cmd := '/usr/local/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
-{$else}
-      cmd := '/usr/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
-{$endif}
       r := fpsystem(cmd);
+{$elseif Defined(Linux)}
+      cmd := '/usr/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
+      r := fpsystem(cmd);
+{$elseif Defined(MsWindows)}
+      cmd := '-mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
+      RunCommand('dwebp.exe', [cmd], outs);
+{$endif}
       FLog.Log(ClassName + '.ConvertImageToBMP Executing : ' + cmd);
 
       if not Sysutils.FileExists(result) then
@@ -1516,15 +1530,20 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 
   function ConvertImage(const fimg : String):String;
   var
-    cmd : string;
+    cmd, outs : string;
   begin
     aFLog.Log(ClassName + '.ConvertImage : ' +Fimg);
 
     if Sysutils.FileExists(fimg) then
     begin
       result := ChangeFileExt(fimg, '.webp');
+{$if Defined(Darwin) or Defined(Linux)}
       cmd := cwebp + ' -mt -quiet "' + fimg + '" -o "' + result +'"';
       fpsystem(cmd);
+{$elseif Defined(MsWindows)}
+      cmd := '-mt -quiet "' + fimg + '" -o "' + result + '"';
+      RunCommand('webp.exe', [cmd], outs);
+{$endif}
       aFLog.Log(ClassName + '.ConvertImage Executing : ' + cmd);
 
       if not Sysutils.FileExists(result) then

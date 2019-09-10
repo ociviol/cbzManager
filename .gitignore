@@ -14,3 +14,16 @@
 /precompiled binairies/Linux/README
 /precompiled binairies/Linux/cbzManager.png
 /precompiled binairies/Linux/installlinux.sh
+*.dbg
+*.exe
+*.o
+*.obj
+*.ppu
+cbzManager/lib/x86_64-win64/cbzManagerWin.compiled
+cbzManager/lib/x86_64-win64/cbzManagerWin.res
+cbzManager/lib/x86_64-win64/config.lfm
+cbzManager/lib/x86_64-win64/frmwait.lfm
+cbzManager/lib/x86_64-win64/main.lfm
+cbzManager/lib/x86_64-win64/uloadreport.lfm
+cbzManager/lib/x86_64-win64/utils.zipfile.rsj
+cbzManager/~/.config/cbzManager/config.json

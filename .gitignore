@@ -27,3 +27,6 @@ cbzManager/lib/x86_64-win64/uloadreport.lfm
 cbzManager/lib/x86_64-win64/utils.zipfile.rsj
 cbzManager/~/.config/cbzManager/config.json
 cbzManager/cbzManagerWin.exe
+cbzManager/cbzManagerWin.json
+cbzManager/cbzManagerWin.res
+cbzManager/cbzManagerWin.res

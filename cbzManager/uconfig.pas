@@ -51,20 +51,30 @@ type
 
 implementation
 
+{$ifdef Mswindows}
+uses
+  Forms;
+{$endif}
+
 { TConfig }
 
 constructor TConfig.Create;
 begin
-{$ifdef Darwin}
+{$if defined(Darwin)}
   Fcwebp := '/usr/local/bin/cwebp';
   Fp7zip := '/usr/local/bin/7z';
   Funrar := '/usr/local/bin/unrar';
-{$else}
+  Funzip := '/usr/bin/unzip';
+{$elseif defined(Linux)}
   Fcwebp := '/usr/bin/cwebp';
   Fp7zip := '/usr/bin/7z';
   Funrar := '/usr/bin/unrar';
-{$endif}
   Funzip := '/usr/bin/unzip';
+{$else}
+  Fcwebp := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'cwebp.exe';
+  Fp7zip := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'7z.exe';
+  Funrar := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'unrar.exe';
+{$endif}
   FQueueSize:=2;
   FNbThreads := 4;
   HighPerf:= False;

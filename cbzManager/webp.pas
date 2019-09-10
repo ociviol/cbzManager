@@ -98,7 +98,7 @@ type
 {$endif}
 
 const
-{$ifdef darwin}
+{$if defined(darwin)}
   {$ifndef DLL}
    clibwebp = 'libwebp.a';
    {$linklib /usr/local/lib/libwebp.a}
@@ -106,9 +106,14 @@ const
    cpath = '/usr/local/lib';
    clibwebp = 'libwebp.dylib';
   {$endif}
-{$else}
+{$elseif defined(Linux)}
    cpath = '/usr/lib';
    clibwebp = 'libwebp.so';
+{$else}
+  clibwebp = 'libwebpdecoder.dll';
+  clibwebpenc = 'libwebp.dll';
+var
+  cpath : String;
 {$endif}
 
 
@@ -147,6 +152,9 @@ var
 implementation
 
 uses
+{$ifdef Mswindows}
+  Forms,
+{$endif}
 {$ifdef DLL}
   Dialogs,
 {$endif}
@@ -155,9 +163,12 @@ uses
 
 {$ifdef DLL}
 var
-//  files : TStringlist;
-//  libwebp : string;
+{$if defined(Darwin) or Defined(Linux)}
   HWebplib : TLibHandle;
+{$else}
+  HWebplib,
+  HWebplibenc  : TLibHandle;
+{$endif}
 {$endif}
 
 {$ifdef DLL}
@@ -386,17 +397,10 @@ end;
 {$ifdef DLL}
 initialization
   HWebplib := 0;
-{
-Files := TSTringlist.Create;
-  try
-    GetFiles(cpath, clibwebp, Files);
-    if Files.Count > 0 then
-      libwebp := Files[0];
-  finally
-    Files.Free;
-  end;
-  }
-  HWebplib := LoadLibrary(clibwebp);
+{$ifdef Mswindows}
+  cpath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName));
+{$endif}
+  HWebplib := LoadLibrary({$ifdef Mswindows} cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}{$endif} clibwebp);
   if HWebplib <> 0 then
   begin
     PWebPGetDecoderVersion := TWebPGetDecoderVersion(GetProcedureAddress(HWebplib, 'WebPGetDecoderVersion'));
@@ -407,15 +411,33 @@ Files := TSTringlist.Create;
     PWebPDecodeBGRA := TWebPDecodeBGRA(GetProcedureAddress(HWebplib, 'WebPDecodeBGRA'));
     PWebPDecodeRGB := TWebPDecodeRGB(GetProcedureAddress(HWebplib, 'WebPDecodeRGB'));
     PWebPDecodeBGR := TWebPDecodeBGR(GetProcedureAddress(HWebplib, 'WebPDecodeBGR'));
+{$ifndef Mswindows}
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplib, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplib, 'WebPEncodeRGBA'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplib, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplib, 'WebPEncodeBGRA'));
+{$endif}
   end;
+{$ifdef Mswindows}
+  HWebplibenc := LoadLibrary(cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}clibwebpenc);
+  if HWebplibenc <> 0 then
+  begin
+    PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGB'));
+    PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGBA'));
+    PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGR'));
+    PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGRA'));
+  end;
+{$endif}
+
 
 finalization
   if HWebplib <> 0 then
     UnloadLibrary(HWebplib);
+{$ifdef Mswindows}
+  if HWebplibenc <> 0 then
+    UnloadLibrary(HWebplibenc);
+{$endif}
+
 {$endif}
 
 end.

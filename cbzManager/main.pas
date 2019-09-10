@@ -678,6 +678,7 @@ begin
 {$endif}
   Flog.Log('required binary missing : cwebp.');
   end;
+{
   if not FileExists(Fconfig.unzip) then
   begin
     msg := msg + 'unzip not found, install using ' +
@@ -688,6 +689,7 @@ begin
     {$endif}
     Flog.Log('required binary missing : unzip.');
   end;
+}
   if not FileExists(Fconfig.unrar) then
   begin
     msg := msg + 'unrar not found, install using ' +
@@ -708,13 +710,13 @@ begin
     {$endif}
     Flog.Log('required binary missing : p7zip.');
   end;
-{$ifdef Darwin}
+{$if defined(Darwin)}
   if not FileExists('/usr/local/lib/libwebp.dylib') then
   begin
     msg := msg + 'libwebp not found, install using ''brew install libwebp-dev''' + #13;
     Flog.Log('required library missing : libwebp-dev.');
   end;	 
-{$else}
+{$elseif Defined(Linux)}
   if not FileExists('/usr/lib/x86_64-linux-gnu/libwebp.so') then
   begin
     msg := msg + 'libwebp not found, install using ''sudo apt install libwebp-dev''' + #13;

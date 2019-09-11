@@ -45,6 +45,7 @@ type
     FCur,
     FMax : Integer;
     FCmd,
+    FParams,
     FMSg : String;
     FFiles : TSTringList;
     FTmpFileName : String;
@@ -126,9 +127,11 @@ type
 implementation
 
 uses
-  Utils.ZipFile, uWorkerThread,
+  Utils.ZipFile, uWorkerThread, FileUtil,
 {$ifdef Darwin of Linux}
   unix,
+{$else}
+  Forms,
 {$endif}
   Process,
   Utils.Arrays, Utils.SearchFiles, Utils.Files
@@ -149,7 +152,7 @@ begin
 {$elseif Defined(Linux)}
   result := '/usr/bin/unrar';
 {$else}
-  result := 'unrar.exe';
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'unrar.exe';
 {$endif}
 end;
 
@@ -160,7 +163,7 @@ begin
 {$elseif Defined(Linux)}
   result := '/usr/bin/7z';
 {$else}
-  result := '7z.exe';
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + '7z.exe';
 {$endif}
 end;
 
@@ -172,6 +175,8 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
                                   Results: TStrings;
                                   Progress : TCbzProgressEvent; ProgressID : QWord;
                                   OnBadFile : TNotifyEvent);
+var
+  outs : String;
 begin
   FWorking := True;
   FOperations := Operations;
@@ -201,6 +206,7 @@ begin
 {$ifdef Darwin or Linux}
       fpSystem(FCmd);
 {$else}
+      RunCommand(FCmd, FParams, outs);
 {$endif}
       // get files
       GetFileNames(FFiles);
@@ -213,9 +219,10 @@ begin
     Except
       FFiles.Free;
       FHasError := True;
-{$ifdef Darwin or Linux}
-      fpsystem('rm -Rf ' + FTmpDir);
-{$endif}
+      DeleteDirectory(FTmpDir, False);
+//{$ifdef Darwin or Linux}
+//      fpsystem('rm -Rf ' + FTmpDir);
+//{$endif}
       raise;
     end;
 {$ifdef INTERNAL_ZIP}
@@ -229,9 +236,10 @@ destructor TThreadExtract.Destroy;
 begin
   FSync.Free;
   FFiles.Free;
-{$ifdef Darwin or Linux}
-  fpsystem('rm -Rf ' + FTmpDir);
-{$endif}
+//{$ifdef Darwin or Linux}
+//  fpsystem('rm -Rf ' + FTmpDir);
+//{$endif}
+  DeleteDirectory(FTmpDir, False);
   DeleteFile(FTmpFileName);
   inherited;
 end;
@@ -362,7 +370,12 @@ begin
   CopyFileToTemp(FileName);
   FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
   ForceDirectories(FTmpDir);
+{$ifdef Darwin or Linux}
   FCmd := Format('%s e -y ''%s'' ''%s''', [Unrar, FtmpFileName, FTmpDir]);
+{$else}
+  FCmd := Unrar;
+  FParams := Format('e -y ''%s'' ''%s''', [FtmpFileName, FTmpDir]);
+{$endif}
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);
 end;
@@ -382,7 +395,12 @@ begin
   CopyFileToTemp(FileName);
   FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
   ForceDirectories(FTmpDir);
-  FCmd := Format('%s e -y -bd ''%s'' -o''%s''', [SevenZip, FTmpFileName, FTmpDir]);
+{$ifdef Darwin or Linux}
+  FCmd := Format('%s e -y ''%s'' ''%s''', [Unrar, FtmpFileName, FTmpDir]);
+{$else}
+  FCmd := SevenZip;
+  FParams := Format('e -y -bd ''%s'' -o''%s''', [FTmpFileName, FTmpDir]);
+{$endif}
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);
 end;

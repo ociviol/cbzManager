@@ -45,7 +45,6 @@ type
     FCur,
     FMax : Integer;
     FCmd,
-    FParams,
     FMSg : String;
     FFiles : TSTringList;
     FTmpFileName : String;
@@ -152,7 +151,7 @@ begin
 {$elseif Defined(Linux)}
   result := '/usr/bin/unrar';
 {$else}
-  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'unrar.exe';
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'unrar.exe';
 {$endif}
 end;
 
@@ -163,7 +162,7 @@ begin
 {$elseif Defined(Linux)}
   result := '/usr/bin/7z';
 {$else}
-  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + '7z.exe';
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif} '7z.exe';
 {$endif}
 end;
 
@@ -177,6 +176,20 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
                                   OnBadFile : TNotifyEvent);
 var
   outs : String;
+{$ifdef Mswindows}
+  function _RunCommand(const cmdline:string;out outputstring:string):boolean; deprecated;
+  var
+    p : TProcess;
+    exitstatus : integer;
+    ErrorString : String;
+  begin
+    p:=TProcess.create(nil);
+    p.CommandLine := cmdline;
+    p.ShowWindow:=swoHIDE;
+    p.Options:=[poWaitOnExit];
+    p.Execute;
+  end;
+{$endif}
 begin
   FWorking := True;
   FOperations := Operations;
@@ -206,7 +219,7 @@ begin
 {$ifdef Darwin or Linux}
       fpSystem(FCmd);
 {$else}
-      RunCommand(FCmd, FParams, outs);
+      _RunCommand(FCmd, outs);
 {$endif}
       // get files
       GetFileNames(FFiles);
@@ -373,8 +386,7 @@ begin
 {$ifdef Darwin or Linux}
   FCmd := Format('%s e -y ''%s'' ''%s''', [Unrar, FtmpFileName, FTmpDir]);
 {$else}
-  FCmd := Unrar;
-  FParams := Format('e -y ''%s'' ''%s''', [FtmpFileName, FTmpDir]);
+  FCmd := Format('%s e -y %s %s', [Unrar, FtmpFileName, FTmpDir]);
 {$endif}
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);
@@ -398,8 +410,7 @@ begin
 {$ifdef Darwin or Linux}
   FCmd := Format('%s e -y ''%s'' ''%s''', [Unrar, FtmpFileName, FTmpDir]);
 {$else}
-  FCmd := SevenZip;
-  FParams := Format('e -y -bd ''%s'' -o''%s''', [FTmpFileName, FTmpDir]);
+  FCmd := Format('%s e -y %s %s', [Unrar, FtmpFileName, FTmpDir]);
 {$endif}
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);

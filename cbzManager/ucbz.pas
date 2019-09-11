@@ -208,7 +208,7 @@ uses
 {$ifdef Linux or Darwin}
   unix,
 {$else}
-  process,
+  process, Forms,
 {$endif}
   Utils.Files, zstream;
 
@@ -959,6 +959,21 @@ begin
   until not SysUtils.FileExists(result);
 end;
 
+{$ifdef Mswindows}
+function _RunCommand(const cmdline:string;out outputstring:string):boolean; deprecated;
+var
+  p : TProcess;
+  exitstatus : integer;
+  ErrorString : String;
+begin
+  p:=TProcess.create(nil);
+  p.CommandLine := cmdline;
+  p.ShowWindow:=swoHIDE;
+  p.Options:=[poWaitOnExit];
+  p.Execute;
+end;
+{$endif}
+
 function TCbz.GetImage(Index: QWord): TBitmap;
 var
   m : TMemoryStream;
@@ -981,8 +996,9 @@ var
       cmd := '/usr/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
       r := fpsystem(cmd);
 {$elseif Defined(MsWindows)}
-      cmd := '-mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
-      RunCommand('dwebp.exe', [cmd], outs);
+      cmd := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'dwebp.exe';
+      cmd := cmd + ' -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
+      _RunCommand(cmd, outs);
 {$endif}
       FLog.Log(ClassName + '.ConvertImageToBMP Executing : ' + cmd);
 
@@ -1508,10 +1524,12 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 
   function cwebp:String;
   begin
-{$ifdef Darwin}
+{$if defined(Darwin)}
     result := '/usr/local/bin/cwebp';
-{$else}
+{$elseif defined(Linux)}
     result := '/usr/bin/cwebp';
+{$else}
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'cwebp.exe';
 {$endif}
   end;
 
@@ -1537,12 +1555,11 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
     if Sysutils.FileExists(fimg) then
     begin
       result := ChangeFileExt(fimg, '.webp');
-{$if Defined(Darwin) or Defined(Linux)}
       cmd := cwebp + ' -mt -quiet "' + fimg + '" -o "' + result +'"';
+{$if Defined(Darwin) or Defined(Linux)}
       fpsystem(cmd);
 {$elseif Defined(MsWindows)}
-      cmd := '-mt -quiet "' + fimg + '" -o "' + result + '"';
-      RunCommand('webp.exe', [cmd], outs);
+      _RunCommand(cmd, outs);
 {$endif}
       aFLog.Log(ClassName + '.ConvertImage Executing : ' + cmd);
 

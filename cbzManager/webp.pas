@@ -306,7 +306,11 @@ begin
     try
       bmp.Width:= w;
       bmp.Height := h;
+{$ifdef MsWindows}
+      bmp.PixelFormat := pf32bit;
+{$else}
       bmp.PixelFormat := pf24bit;
+{$endif}
       bmp.BeginUpdate;
       try
         for y := 0 to h-1 do

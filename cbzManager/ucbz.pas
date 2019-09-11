@@ -212,6 +212,7 @@ uses
 {$endif}
   Utils.Files, zstream;
 
+
 { TUndoObject }
 
 constructor TUndoObject.Create(Indexes : TIntArray;

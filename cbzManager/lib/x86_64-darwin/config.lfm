@@ -116,7 +116,7 @@ object ConfigFrm: TConfigFrm
     Width = 60
     Increment = 2
     MaxValue = 32
-    MinValue = 2
+    MinValue = 1
     TabOrder = 7
     Value = 4
   end
@@ -134,7 +134,7 @@ object ConfigFrm: TConfigFrm
     Top = 152
     Width = 60
     MaxValue = 6
-    MinValue = 2
+    MinValue = 1
     TabOrder = 8
     Value = 2
   end

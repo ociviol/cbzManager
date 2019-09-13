@@ -127,7 +127,7 @@ implementation
 
 uses
   Utils.ZipFile, uWorkerThread, FileUtil,
-{$ifdef Darwin of Linux}
+{$if defined(Darwin) or defined(Linux)}
   unix,
 {$else}
   Forms,
@@ -216,7 +216,7 @@ begin
     Synchronize(@DoProgress);
     try
       // extract
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
       fpSystem(FCmd);
 {$else}
       _RunCommand(FCmd, outs);

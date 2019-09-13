@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, Sysutils,
-{$ifdef Linux or Darwin}
+{$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}
   Process; //system.generics.collections, system.ioutils;
@@ -23,7 +23,7 @@ function GetIlog(const Filename : string; Activate : Boolean = True; MaxLogSizeM
 implementation
 
 uses
-{$ifdef Linux or Darwin}
+{$if defined(Linux) or defined(Darwin)}
   unix,
 {$endif}
   DateUtils,

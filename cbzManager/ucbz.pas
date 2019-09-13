@@ -12,7 +12,7 @@ uses
   //zipctnr,
   Utils.Logger, Utils.Graphics,
   uDataTypes,
-{$ifdef Linux or Darwin}
+{$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}
   Graphics,
@@ -205,7 +205,7 @@ implementation
 
 uses
   Webp, Utils.SoftwareVersion, StrUtils,
-{$ifdef Linux or Darwin}
+{$if defined(Linux) or Defined(Darwin)}
   unix,
 {$else}
   process, Forms,

@@ -27,7 +27,7 @@ interface
 
 uses
   Classes, SysUtils, LResources, Math, Dialogs, StrUtils,
-{$ifdef Linux or Darwin}
+{$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}
   {$if defined(VER2_0_0) or defined(VER2_0_1) or defined(VER2_0_2)}

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, ComCtrls
-{$ifdef Linux or Darwin}
+{$if defined(Linux) or defined(Darwin)}
   , cthreads
 {$endif}
   ;

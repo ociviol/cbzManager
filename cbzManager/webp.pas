@@ -4,9 +4,7 @@ unit webp;
 
 interface
 
-//{$ifndef darwin}
 {$define DLL}
-//{$endif}
 
 uses
   Classes, SysUtils,
@@ -340,14 +338,18 @@ var
   p, pin, pout : pbyte;
   sz, psz : integer;
   w, h, x, y, clr : integer;
-  img : TLazIntfImage;
+//  img : TLazIntfImage;
 begin
   result := false;
   w := aBitmap.Width;
   h := aBitmap.Height;
-  img := TLazIntfImage.Create(aBitmap.Width, aBitmap.Height);
-  img.LoadFromBitmap(aBitmap.Handle, aBitmap.MaskHandle);
-  psz := 3;
+//  img := TLazIntfImage.Create(aBitmap.Width, aBitmap.Height);
+//  img.LoadFromBitmap(aBitmap.Handle, aBitmap.MaskHandle);
+  case aBitmap.PixelFormat do
+    pf32bit: psz := 4;
+    pf24bit: psz := 3;
+  end;
+
   p := GetMem((w * h) * psz);
   try
 {    for y := 0 to h - 1 do
@@ -371,7 +373,7 @@ begin
       sz := DoWebPEncodeRGB(p, w, h, 0, 70, @pout);
     {$endif}
       aDest.Write(pout^, sz);
-    aDest.Position := 0;
+      aDest.Position := 0;
       result := True;
     finally
       DoWebPFree(pout);

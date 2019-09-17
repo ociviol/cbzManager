@@ -359,7 +359,7 @@ begin
         move(p[((x * psz) * y)], clr, psz);
       end;
  }
-    stride := 4 * ((w * psz + 3) div 4);
+    stride := w * psz;
     for y := 0 to h-1 do
     begin
       pin := aBitmap.ScanLine[y];

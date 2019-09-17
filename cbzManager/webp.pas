@@ -345,7 +345,7 @@ begin
   h := aBitmap.Height;
 //  img := TLazIntfImage.Create(aBitmap.Width, aBitmap.Height);
 //  img.LoadFromBitmap(aBitmap.Handle, aBitmap.MaskHandle);
-  case aBitmap.PixelFormat do
+  case aBitmap.PixelFormat of
     pf32bit: psz := 4;
     pf24bit: psz := 3;
   end;

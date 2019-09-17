@@ -337,14 +337,14 @@ function BitmapToWebp(aBitmap : TBitmap; aDest : TMemoryStream):Boolean;
 var
   p, pin, pout : pbyte;
   sz, psz : integer;
-  w, h, x, y, clr : integer;
-//  img : TLazIntfImage;
+  w, h, x, y, clr, stride : integer;
+  img : TLazIntfImage;
 begin
   result := false;
   w := aBitmap.Width;
   h := aBitmap.Height;
-//  img := TLazIntfImage.Create(aBitmap.Width, aBitmap.Height);
-//  img.LoadFromBitmap(aBitmap.Handle, aBitmap.MaskHandle);
+  img := TLazIntfImage.Create(aBitmap.Width, aBitmap.Height);
+  img.LoadFromBitmap(aBitmap.Handle, aBitmap.MaskHandle);
   case aBitmap.PixelFormat of
     pf32bit: psz := 4;
     pf24bit: psz := 3;
@@ -359,6 +359,7 @@ begin
         move(p[((x * psz) * y)], clr, psz);
       end;
  }
+    stride := 4 * ((w * psz + 3) div 4);
     for y := 0 to h-1 do
     begin
       pin := aBitmap.ScanLine[y];
@@ -370,7 +371,8 @@ begin
     {$ifdef Darwin}
       sz := DoWebpEncodeRGB(p, w, h, 0, 70, @pout);
     {$else}
-      sz := DoWebPEncodeRGB(p, w, h, 0, 70, @pout);
+      //sz := DoWebPEncodeRGB(img.PixelData, w, h, stride, 70, @pout);
+      sz := DoWebPEncodeRGB(p, w, h, stride, 70, @pout);
     {$endif}
       aDest.Write(pout^, sz);
       aDest.Position := 0;
@@ -380,6 +382,7 @@ begin
     end;
   finally
     FreeMem(p);
+    img.free;
   end;
 end;
 

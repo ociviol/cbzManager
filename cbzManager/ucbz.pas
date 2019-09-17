@@ -2,7 +2,7 @@ unit uCbz;
 
 {$mode objfpc}{$H+}
 
-{$define UseInternalWebp}
+//{$define UseInternalWebp}
 
 interface
 

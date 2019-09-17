@@ -5,6 +5,7 @@ unit webp;
 interface
 
 {$define DLL}
+{$define UseInternalWebp}
 
 uses
   Classes, SysUtils,
@@ -18,6 +19,7 @@ type
   pbyte = ^byte;
   ppbyte = ^pbyte;
   pint = ^integer;
+  float = single;
 
 {$ifdef DLL}
   TWebPGetDecoderVersion = function:integer; cdecl;
@@ -73,25 +75,25 @@ type
   //                                  int width, int height, int stride,
   //                                  float quality_factor, uint8_t** output);
   TWebpEncodeRGB = function(bgr : pbyte; width, height, stride : integer;
-                            quality_factor : real; output : ppbyte):integer; cdecl;
+                            quality_factor : float; output : ppbyte):integer; cdecl;
 
   // WEBP_EXTERN size_t WebPEncodeBGR(const uint8_t* bgr,
   //                                  int width, int height, int stride,
   //                                  float quality_factor, uint8_t** output);
   TWebpEncodeBGR = function(bgr : pbyte; width, height, stride : integer;
-                            quality_factor : real; output : ppbyte):integer; cdecl;
-
+                            quality_factor : float; output : ppbyte):integer; cdecl;
+  TWebPEncodeLosslessBGR = function(bgr : pbyte; width, height, stride : integer; output : ppbyte):integer; cdecl;
   // WEBP_EXTERN size_t WebPEncodeRGBA(const uint8_t* rgba,
   //                                   int width, int height, int stride,
   //                                   float quality_factor, uint8_t** output);
   TWebpEncodeRGBA = function(bgr : pbyte; width, height, stride : integer;
-                             quality_factor : real; output : ppbyte):integer; cdecl;
+                             quality_factor : float; output : ppbyte):integer; cdecl;
 
   // WEBP_EXTERN size_t WebPEncodeBGRA(const uint8_t* bgra,
   //                                   int width, int height, int stride,
   //                                   float quality_factor, uint8_t** output);
   TWebpEncodeBGRA = function(bgr : pbyte; width, height, stride : integer;
-                             quality_factor : real; output : ppbyte):integer; cdecl;
+                             quality_factor : float; output : ppbyte):integer; cdecl;
 
 {$endif}
 
@@ -114,6 +116,9 @@ var
   cpath : String;
 {$endif}
 
+var
+  InternalcWebpAvail,
+  InternaldWebpAvail : Boolean;
 
 function WebpToBitmap(data : pointer; size : int64):Tbitmap;
 function WebpFileToBitmap(const Filename : String):Tbitmap;
@@ -140,6 +145,7 @@ var
   PWebPDecodeARGB : TWebPDecodeARGB;
   PWebPDecodeBGRA : TWebPDecodeBGRA;
   PWebPDecodeRGB : TWebPDecodeRGB;
+  PWebPEncodeLosslessBGR : TWebPEncodeLosslessBGR;
   PWebPDecodeBGR : TWebPDecodeBGR;
   PWebpEncodeRGB : TWebpEncodeRGB;
   PWebpEncodeRGBA : TWebpEncodeRGBA;
@@ -153,18 +159,13 @@ uses
 {$ifdef Mswindows}
   Forms,
 {$endif}
-{$ifdef DLL}
-  Dialogs,
-{$endif}
   intfgraphics;
 
 
 {$ifdef DLL}
 var
-{$if defined(Darwin) or Defined(Linux)}
   HWebplib : TLibHandle;
-{$else}
-  HWebplib,
+{$ifdef Mswindows}
   HWebplibenc  : TLibHandle;
 {$endif}
 {$endif}
@@ -241,7 +242,7 @@ begin
 end;
 
 function DoWebpEncodeRGB(bgr : pbyte; width, height, stride : integer;
-                         quality_factor : extended; output : ppbyte):integer;
+                         quality_factor : float; output : ppbyte):integer;
 begin
   if HWebplib <> 0 then
     result := PWebPEncodeRGB(bgr, width, height, stride, quality_factor, output)
@@ -250,7 +251,7 @@ begin
 end;
 
 function DoWebpEncodeBGR(bgr : pbyte; width, height, stride : integer;
-                         quality_factor : extended; output : ppbyte):integer;
+                         quality_factor : float; output : ppbyte):integer;
 begin
   if HWebplib <> 0 then
     result := PWebPEncodeBGR(bgr, width, height, stride, quality_factor, output)
@@ -258,8 +259,16 @@ begin
     result := 0;
 end;
 
+function DoWebPEncodeLosslessBGR(bgr : pbyte; width, height, stride : integer; output : ppbyte):integer;
+begin
+  if HWebplib <> 0 then
+    result := PWebPEncodeLosslessBGR(bgr, width, height, stride, output)
+  else
+    result := 0;
+end;
+
 function DoWebpEncodeRGBA(bgr : pbyte; width, height, stride : integer;
-                          quality_factor : extended; output : ppbyte):integer;
+                          quality_factor : float; output : ppbyte):integer;
 begin
   if HWebplib <> 0 then
     result := PWebPEncodeRGBA(bgr, width, height, stride, quality_factor, output)
@@ -268,7 +277,7 @@ begin
 end;
 
 function DoWebpEncodeBGRA(bgr : pbyte; width, height, stride : integer;
-                         quality_factor : extended; output : ppbyte):integer;
+                         quality_factor : float; output : ppbyte):integer;
 begin
   if HWebplib <> 0 then
     result := PWebPEncodeBGRA(bgr, width, height, stride, quality_factor, output)
@@ -338,13 +347,10 @@ var
   p, pin, pout : pbyte;
   sz, psz : integer;
   w, h, x, y, clr, stride : integer;
-  img : TLazIntfImage;
 begin
   result := false;
   w := aBitmap.Width;
   h := aBitmap.Height;
-  img := TLazIntfImage.Create(aBitmap.Width, aBitmap.Height);
-  img.LoadFromBitmap(aBitmap.Handle, aBitmap.MaskHandle);
   case aBitmap.PixelFormat of
     pf32bit: psz := 4;
     pf24bit: psz := 3;
@@ -352,13 +358,6 @@ begin
 
   p := GetMem((w * h) * psz);
   try
-{    for y := 0 to h - 1 do
-      for x := 0 to w - 1 do
-      begin
-        clr := img.Pixels[x, y];
-        move(p[((x * psz) * y)], clr, psz);
-      end;
- }
     stride := w * psz;
     for y := 0 to h-1 do
     begin
@@ -369,10 +368,10 @@ begin
 
     try
     {$ifdef Darwin}
-      sz := DoWebpEncodeRGB(p, w, h, 0, 70, @pout);
+      sz := DoWebpEncodeRGB(p, w, h, stride, 90, @pout);
     {$else}
-      //sz := DoWebPEncodeRGB(img.PixelData, w, h, stride, 70, @pout);
-      sz := DoWebPEncodeRGB(p, w, h, stride, 70, @pout);
+//      sz := DoWebPEncodeLosslessBGR(p, w, h, stride, @pout);
+      sz := DoWebPEncodeBGR(p, w, h, stride, 75, @pout);
     {$endif}
       aDest.Write(pout^, sz);
       aDest.Position := 0;
@@ -382,7 +381,6 @@ begin
     end;
   finally
     FreeMem(p);
-    img.free;
   end;
 end;
 
@@ -406,12 +404,15 @@ end;
 {$ifdef DLL}
 initialization
   HWebplib := 0;
+  InternalcWebpAvail := False;
+  InternaldWebpAvail := False;
 {$ifdef Mswindows}
   cpath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName));
 {$endif}
   HWebplib := LoadLibrary({$ifdef Mswindows} cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}{$endif} clibwebp);
   if HWebplib <> 0 then
   begin
+    InternaldWebpAvail := True;
     PWebPGetDecoderVersion := TWebPGetDecoderVersion(GetProcedureAddress(HWebplib, 'WebPGetDecoderVersion'));
     PWebPGetInfo := TWebPGetInfo(GetProcedureAddress(HWebplib, 'WebPGetInfo'));
     PWebPFree := TWebPFree(GetProcedureAddress(HWebplib, 'WebPFree'));
@@ -420,22 +421,29 @@ initialization
     PWebPDecodeBGRA := TWebPDecodeBGRA(GetProcedureAddress(HWebplib, 'WebPDecodeBGRA'));
     PWebPDecodeRGB := TWebPDecodeRGB(GetProcedureAddress(HWebplib, 'WebPDecodeRGB'));
     PWebPDecodeBGR := TWebPDecodeBGR(GetProcedureAddress(HWebplib, 'WebPDecodeBGR'));
+{$ifdef UseInternalWebp}
 {$ifndef Mswindows}
+    InternalcWebpAvail := True;
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplib, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplib, 'WebPEncodeRGBA'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplib, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplib, 'WebPEncodeBGRA'));
 {$endif}
+{$endif}
   end;
 {$ifdef Mswindows}
+{$ifdef UseInternalWebp}
   HWebplibenc := LoadLibrary(cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}clibwebpenc);
   if HWebplibenc <> 0 then
   begin
+    InternalcWebpAvail := True;
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGBA'));
+    PWebPEncodeLosslessBGR := TWebPEncodeLosslessBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeLosslessBGR'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGRA'));
   end;
+{$endif}
 {$endif}
 
 

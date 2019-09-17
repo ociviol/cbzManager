@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
-      <BuildNr Value="74"/>
+      <BuildNr Value="79"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>
@@ -293,7 +293,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="5">
+    <Exceptions Count="4">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -306,9 +306,6 @@
       <Item4>
         <Name Value="TCRCErrorException"/>
       </Item4>
-      <Item5>
-        <Name Value="ESocketError"/>
-      </Item5>
     </Exceptions>
   </Debugging>
 </CONFIG>

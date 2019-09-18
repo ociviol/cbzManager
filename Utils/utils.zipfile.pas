@@ -520,7 +520,6 @@ function TZipFile.GetFileStream(Index : Integer): TMemoryStream;
 var
   lCompressed : TMemoryStream ;
   zds : Tdecompressionstream;
-  i,o : longint;
 begin
   if (index < 0) or (index > Pred(fileheadercount)) then
     raise Exception.CreateFmt('File index %d not found !', [Index]);

@@ -441,13 +441,13 @@ var
   outz : TCbz;
   fname, fn, s : string;
   i : integer;
-  st : TStream;
   ms : TMemoryStream;
   FCache2: TStringList;
   Indexes : TIntArray;
   ProgressId : QWord;
   ar : TStreamArray;
 begin
+  SetLength(Indexes, 0);
   FCache2 := SaveCachedStamps(Indexes, soNone);
   try
     ProgressId := GetTickCount64;
@@ -961,7 +961,7 @@ begin
 end;
 
 {$ifdef Mswindows}
-function _RunCommand(const cmdline:string;out outputstring:string):boolean; deprecated;
+function CustomRunCommand(const cmdline:string;out outputstring:string):boolean;
 var
   p : TProcess;
   exitstatus : integer;
@@ -983,7 +983,6 @@ var
   function ConvertImageToBMP(const fimg : String):String;
   var
     cmd, outs : string;
-    r : Integer;
   begin
     FLog.Log(ClassName + '.ConvertImageToBMP : ' +Fimg);
 
@@ -999,7 +998,7 @@ var
 {$elseif Defined(MsWindows)}
       cmd := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'dwebp.exe';
       cmd := cmd + ' -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
-      _RunCommand(cmd, outs);
+      CustomRunCommand(cmd, outs);
 {$endif}
       FLog.Log(ClassName + '.ConvertImageToBMP Executing : ' + cmd);
 
@@ -1560,7 +1559,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 {$if Defined(Darwin) or Defined(Linux)}
       fpsystem(cmd);
 {$elseif Defined(MsWindows)}
-      _RunCommand(cmd, outs);
+      CustomRunCommand(cmd, outs);
 {$endif}
       aFLog.Log(ClassName + '.ConvertImage Executing : ' + cmd);
 
@@ -1632,7 +1631,6 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   var
     b : TBitmap;
     p : TPicture;
-    ms : TMemoryStream;
   begin
     p := TPicture.Create;
     try
@@ -1678,7 +1676,9 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 
 var
   imgtype : integer;
+  done : Boolean;
 begin
+  done := false;
   result := TMemoryStream.Create;
   try
     imgtype := GetImageType(aSrc);
@@ -1689,9 +1689,10 @@ begin
       if (imgtype <> FIF_PNG) and (imgtype <> FIF_JPEG) then
         ConvertToPng(aSrc);
 
-{$ifdef UseInternalWebp}
-      if not InternalConvert(aSrc, Result) then
-{$endif}
+      if InternalcWebpAvail then
+        done := InternalConvert(aSrc, Result);
+
+      if not done then
         if SysUtils.FileExists(cwebp) then
         begin
           if not ExternalConvert(aSrc, Result) then
@@ -1699,8 +1700,6 @@ begin
         end
         else
           raise Exception.Create('cwebp not found.');
-          //if not InternalConvert(aSrc, Result, MemIO) then
-            //FreeAndNil(Result);
     end;
 
     if Assigned(result) then

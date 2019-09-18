@@ -645,24 +645,30 @@ begin
         FProgressID := QWord(ThreadID);
 
       FCurJob := FJobPool.GetFirstJob;
-      if FileExists(FCurJob.Filename) then
-      begin
-        FCanceled := false;
-        fname := FCurJob.Filename;
-        FLog.Log(ClassName + ' Job started : ' + FCurJob.Filename);
-        NewFile := Convert(FCurJob.Filename, FCurJob.arcType, FCurJob.Operations);
-
-        FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
-        FJobpool.DeleteJob(FCurJob.Filename);
-        FCurJob := nil;
-        if (not Terminated) and FileExists(NewFile) and not FCanceled then
+      if Assigned(FCurJob) then
+      try
+        if FileExists(FCurJob.Filename) then
         begin
-          FLog.Log(ClassName + ' Job finished : ' + fname);
-          FNewFile := newfile;
-          FAddFileBool := True;
-          Synchronize(@DoAddFile);
-          Sleep(50);
+          FCanceled := false;
+          fname := FCurJob.Filename;
+          FLog.Log(ClassName + ' Job started : ' + FCurJob.Filename);
+          NewFile := Convert(FCurJob.Filename, FCurJob.arcType, FCurJob.Operations);
+
+          FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
+          FJobpool.DeleteJob(FCurJob.Filename);
+          FCurJob := nil;
+          if (not Terminated) and FileExists(NewFile) and not FCanceled then
+          begin
+            FLog.Log(ClassName + ' Job finished : ' + fname);
+            FNewFile := newfile;
+            FAddFileBool := True;
+            Synchronize(@DoAddFile);
+            Sleep(50);
+          end;
         end;
+      except
+        on E: Exception do
+          FLog.Log(ClassName + ' Execute : ' + E.Message);
       end;
     end
     else

@@ -98,7 +98,7 @@ begin
           end;
         end;
 
-        Sleep(2000);
+        Sleep(250);
       end;
 
       if i >= FDataPool.PoolSize then

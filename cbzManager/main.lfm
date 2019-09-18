@@ -70,6 +70,7 @@ object MainFrm: TMainFrm
       Height = 427
       Top = 53
       Width = 467
+      AntialiasingMode = amOn
       Align = alClient
       Center = True
       PopupMenu = PopupMenu2

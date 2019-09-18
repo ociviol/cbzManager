@@ -5,6 +5,7 @@ unit webp;
 interface
 
 {$define DLL}
+{$define UseInternalWebp}
 
 uses
   Classes, SysUtils,
@@ -18,7 +19,7 @@ type
   pbyte = ^byte;
   ppbyte = ^pbyte;
   pint = ^integer;
-  float = Integer;
+  float = single;
 
 {$ifdef DLL}
   TWebPGetDecoderVersion = function:integer; cdecl;
@@ -81,7 +82,7 @@ type
   //                                  float quality_factor, uint8_t** output);
   TWebpEncodeBGR = function(bgr : pbyte; width, height, stride : integer;
                             quality_factor : float; output : ppbyte):integer; cdecl;
-
+  TWebPEncodeLosslessBGR = function(bgr : pbyte; width, height, stride : integer; output : ppbyte):integer; cdecl;
   // WEBP_EXTERN size_t WebPEncodeRGBA(const uint8_t* rgba,
   //                                   int width, int height, int stride,
   //                                   float quality_factor, uint8_t** output);
@@ -144,6 +145,7 @@ var
   PWebPDecodeARGB : TWebPDecodeARGB;
   PWebPDecodeBGRA : TWebPDecodeBGRA;
   PWebPDecodeRGB : TWebPDecodeRGB;
+  PWebPEncodeLosslessBGR : TWebPEncodeLosslessBGR;
   PWebPDecodeBGR : TWebPDecodeBGR;
   PWebpEncodeRGB : TWebpEncodeRGB;
   PWebpEncodeRGBA : TWebpEncodeRGBA;
@@ -157,18 +159,13 @@ uses
 {$ifdef Mswindows}
   Forms,
 {$endif}
-{$ifdef DLL}
-  Dialogs,
-{$endif}
   intfgraphics;
 
 
 {$ifdef DLL}
 var
-{$if defined(Darwin) or Defined(Linux)}
   HWebplib : TLibHandle;
-{$else}
-  HWebplib,
+{$ifdef Mswindows}
   HWebplibenc  : TLibHandle;
 {$endif}
 {$endif}
@@ -258,6 +255,14 @@ function DoWebpEncodeBGR(bgr : pbyte; width, height, stride : integer;
 begin
   if HWebplib <> 0 then
     result := PWebPEncodeBGR(bgr, width, height, stride, quality_factor, output)
+  else
+    result := 0;
+end;
+
+function DoWebPEncodeLosslessBGR(bgr : pbyte; width, height, stride : integer; output : ppbyte):integer;
+begin
+  if HWebplib <> 0 then
+    result := PWebPEncodeLosslessBGR(bgr, width, height, stride, output)
   else
     result := 0;
 end;
@@ -365,7 +370,8 @@ begin
     {$ifdef Darwin}
       sz := DoWebpEncodeRGB(p, w, h, stride, 90, @pout);
     {$else}
-      sz := DoWebPEncodeBGR(p, w, h, stride, 90, @pout);
+//      sz := DoWebPEncodeLosslessBGR(p, w, h, stride, @pout);
+      sz := DoWebPEncodeBGR(p, w, h, stride, 75, @pout);
     {$endif}
       aDest.Write(pout^, sz);
       aDest.Position := 0;
@@ -407,9 +413,6 @@ initialization
   if HWebplib <> 0 then
   begin
     InternaldWebpAvail := True;
-{$ifndef Mswindows}
-    InternalcWebpAvail := True;
-{$endif}
     PWebPGetDecoderVersion := TWebPGetDecoderVersion(GetProcedureAddress(HWebplib, 'WebPGetDecoderVersion'));
     PWebPGetInfo := TWebPGetInfo(GetProcedureAddress(HWebplib, 'WebPGetInfo'));
     PWebPFree := TWebPFree(GetProcedureAddress(HWebplib, 'WebPFree'));
@@ -418,23 +421,29 @@ initialization
     PWebPDecodeBGRA := TWebPDecodeBGRA(GetProcedureAddress(HWebplib, 'WebPDecodeBGRA'));
     PWebPDecodeRGB := TWebPDecodeRGB(GetProcedureAddress(HWebplib, 'WebPDecodeRGB'));
     PWebPDecodeBGR := TWebPDecodeBGR(GetProcedureAddress(HWebplib, 'WebPDecodeBGR'));
+{$ifdef UseInternalWebp}
 {$ifndef Mswindows}
+    InternalcWebpAvail := True;
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplib, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplib, 'WebPEncodeRGBA'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplib, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplib, 'WebPEncodeBGRA'));
 {$endif}
+{$endif}
   end;
 {$ifdef Mswindows}
+{$ifdef UseInternalWebp}
   HWebplibenc := LoadLibrary(cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}clibwebpenc);
   if HWebplibenc <> 0 then
   begin
-//    InternalcWebpAvail := True;
+    InternalcWebpAvail := True;
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGBA'));
+    PWebPEncodeLosslessBGR := TWebPEncodeLosslessBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeLosslessBGR'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGRA'));
   end;
+{$endif}
 {$endif}
 
 

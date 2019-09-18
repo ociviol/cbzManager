@@ -351,6 +351,9 @@ begin
   result := false;
   w := aBitmap.Width;
   h := aBitmap.Height;
+{$ifndef MsWindows}
+  aBitmap.PixelFormat:=pf32bit;
+{$endif}
   case aBitmap.PixelFormat of
     pf32bit: psz := 4;
     pf24bit: psz := 3;
@@ -367,10 +370,11 @@ begin
     end;
 
     try
-    {$ifdef Darwin}
+    {$if defined(Darwin)}
       sz := DoWebpEncodeRGB(p, w, h, stride, 90, @pout);
+    {$elseif defined(Linux)}
+      sz := DoWebpEncodeRGB(p, w, h, stride, 75, @pout);
     {$else}
-//      sz := DoWebPEncodeLosslessBGR(p, w, h, stride, @pout);
       sz := DoWebPEncodeBGR(p, w, h, stride, 75, @pout);
     {$endif}
       aDest.Write(pout^, sz);
@@ -421,6 +425,7 @@ initialization
     PWebPDecodeBGRA := TWebPDecodeBGRA(GetProcedureAddress(HWebplib, 'WebPDecodeBGRA'));
     PWebPDecodeRGB := TWebPDecodeRGB(GetProcedureAddress(HWebplib, 'WebPDecodeRGB'));
     PWebPDecodeBGR := TWebPDecodeBGR(GetProcedureAddress(HWebplib, 'WebPDecodeBGR'));
+{$ifndef Linux}
 {$ifdef UseInternalWebp}
 {$ifndef Mswindows}
     InternalcWebpAvail := True;
@@ -428,6 +433,7 @@ initialization
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplib, 'WebPEncodeRGBA'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplib, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplib, 'WebPEncodeBGRA'));
+{$endif}
 {$endif}
 {$endif}
   end;

@@ -232,7 +232,8 @@ begin
     Except
       FFiles.Free;
       FHasError := True;
-      DeleteDirectory(FTmpDir, False);
+      if FTmpDir <> '' then
+        DeleteDirectory(FTmpDir, False);
 //{$ifdef Darwin or Linux}
 //      fpsystem('rm -Rf ' + FTmpDir);
 //{$endif}
@@ -252,7 +253,8 @@ begin
 //{$ifdef Darwin or Linux}
 //  fpsystem('rm -Rf ' + FTmpDir);
 //{$endif}
-  DeleteDirectory(FTmpDir, False);
+  if FTmpDir <> '' then
+    DeleteDirectory(FTmpDir, False);
   DeleteFile(FTmpFileName);
   inherited;
 end;
@@ -422,7 +424,6 @@ begin
 end;
 
 { TThreadZipExtract }
-
 {$ifndef INTERNAL_ZIP}
 constructor TThreadZipExtract.Create(aOwner : TObject; const Filename: String;
                                      Operations : TImgOperations;
@@ -435,6 +436,7 @@ begin
   FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
   ForceDirectories(FTmpDir);
   FCmd := Format('unzip -o -j -qq %s -d ''%s''', [FTmpFileName, FTmpDir]);
+
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);
 end;
@@ -456,6 +458,7 @@ constructor TThreadZipExtract.Create(aOwner : TObject; const Filename: String;
                                      Progress: TCbzProgressEvent; ProgressID: QWord;
                                      OnBadFile : TNotifyEvent);
 begin
+  FTmpDir := '';
   Cbz := TCbz.Create(Log);
   Cbz.Open(Filename, zmRead);
   FNbFiles := Cbz.FileCount; //AllowedFileCount;

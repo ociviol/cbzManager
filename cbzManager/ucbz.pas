@@ -989,10 +989,10 @@ var
       result := ChangeFileExt(fimg, '.bmp');
 {$if Defined(Darwin)}
       cmd := '/usr/local/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
-      r := fpsystem(cmd);
+      fpsystem(cmd);
 {$elseif Defined(Linux)}
       cmd := '/usr/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
-      r := fpsystem(cmd);
+      fpsystem(cmd);
 {$elseif Defined(MsWindows)}
       cmd := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'dwebp.exe';
       cmd := cmd + ' -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';

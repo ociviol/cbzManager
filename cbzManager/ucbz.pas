@@ -1370,6 +1370,7 @@ var
     result.PixelFormat := aSrc.PixelFormat;
     result.Width := DestWidth;
     result.Height := DestHeight;
+    Result.Canvas.AntialiasingMode := amOn;
     Result.Canvas.StretchDraw(Rect(0, 0, DestWidth, DestHeight), aSrc);
   end;
 begin

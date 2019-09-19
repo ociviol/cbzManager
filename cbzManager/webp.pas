@@ -346,7 +346,7 @@ function BitmapToWebp(aBitmap : TBitmap; aDest : TMemoryStream):Boolean;
 var
   p, pin, pout : pbyte;
   sz, psz : integer;
-  w, h, x, y, clr, stride : integer;
+  w, h, y, stride : integer;
 begin
   result := false;
   w := aBitmap.Width;

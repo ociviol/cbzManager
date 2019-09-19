@@ -22,7 +22,6 @@ type
     FQueueSize,
     FNbThreads : Integer;
     Funrar: String;
-    Funzip: String;
     FWleft,
     FWTop,
     FWWidth,
@@ -36,7 +35,6 @@ type
     property Blog : Boolean read FBlog write FBlog;
     property BdPathPath: String read FBdPathPath write FBdPathPath;
     property cwebp: String read Fcwebp write Fcwebp;
-    property unzip: String read Funzip write Funzip;
     property unrar: String read Funrar write Funrar;
     property p7zip: String read Fp7zip write Fp7zip;
     property QueueSize : Integer read FQueueSize write FQueueSize;
@@ -64,12 +62,10 @@ begin
   Fcwebp := '/usr/local/bin/cwebp';
   Fp7zip := '/usr/local/bin/7z';
   Funrar := '/usr/local/bin/unrar';
-  Funzip := '/usr/bin/unzip';
 {$elseif defined(Linux)}
   Fcwebp := '/usr/bin/cwebp';
   Fp7zip := '/usr/bin/7z';
   Funrar := '/usr/bin/unrar';
-  Funzip := '/usr/bin/unzip';
 {$else}
   Fcwebp := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'cwebp.exe';
   Fp7zip := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'7z.exe';

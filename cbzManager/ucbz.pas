@@ -460,6 +460,7 @@ begin
           SetLength(Indexes, Length(Indexes) + i);
           Indexes[i] := FileCount + i;
         end;
+        SetLength(ar, 0);
         AddUndo(Indexes, opAdd, ar);
       end;
 
@@ -524,6 +525,7 @@ begin
       // create undo
       if not FInUndo then
       begin
+        SetLength(StreamLst, 0);
         for i := Low(UserData.Indexes) to High(UserData.Indexes) do
         begin
           if ((UserData.Indexes[i] < FileCount) and

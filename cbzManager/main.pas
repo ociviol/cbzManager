@@ -330,7 +330,6 @@ end;
 
 //  CS_BDPATH = 'bdpath';
 //  CS_CWEBP = 'cwebp';
-//  CS_UNZIP =  'unzip';
 //  CS_UNRAR =  'unrar';
 //  CS_P7ZIP = 'p7zip';
 
@@ -678,18 +677,7 @@ begin
 {$endif}
   Flog.Log('required binary missing : cwebp.');
   end;
-{
-  if not FileExists(Fconfig.unzip) then
-  begin
-    msg := msg + 'unzip not found, install using ' +
-    {$ifdef darwin}
-              '''brew install unzip''' + #13;
-    {$else}
-               '''sudo apt install unzip''' + #13;
-    {$endif}
-    Flog.Log('required binary missing : unzip.');
-  end;
-}
+
   if not FileExists(Fconfig.unrar) then
   begin
     msg := msg + 'unrar not found, install using ' +
@@ -1472,7 +1460,6 @@ begin
   with TConfigFrm.Create(Application) do
   try
     edtcwebp.Text:=Fconfig.cwebp;
-    edtunzip.Text:=Fconfig.unzip;
     edtunrar.Text:=Fconfig.unrar;
     edtp7zip.Text:=Fconfig.p7zip;
     speNbThreads.Value:= FConfig.NbThreads;
@@ -1481,7 +1468,6 @@ begin
     if ShowModal = mrOk then
     begin
       edtcwebp.Text:=Fconfig.cwebp;
-      Fconfig.unzip := edtunzip.Text;
       Fconfig.unrar := edtunrar.Text;
       Fconfig.p7zip := edtp7zip.Text;
       Fconfig.Blog := cblogging.Checked;

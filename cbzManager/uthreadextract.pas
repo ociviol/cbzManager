@@ -15,7 +15,6 @@ uses
   //, sevenzip
   ;
 
-{$define INTERNAL_ZIP}
 type
   TCBzErrorFileException = Class(Exception);
   { TThreadExtract }
@@ -95,9 +94,7 @@ type
 
   TThreadZipExtract = Class(TThreadExtract)
   private
-{$ifdef INTERNAL_ZIP}
     Cbz : TCbz;
-{$endif}
   public
     constructor Create(aOwner : TObject; const Filename : String;
                        Operations : TImgOperations;
@@ -106,9 +103,7 @@ type
                        Progress : TCbzProgressEvent; ProgressID : QWord;
                        OnBadFile : TNotifyEvent); reintroduce;
     destructor Destroy; override;
-{$ifdef INTERNAL_ZIP}
     procedure Execute; override;
-{$endif}
   End;
 
   TThread7ZipExtract = Class(TThreadExtract)
@@ -133,12 +128,7 @@ uses
   Forms,
 {$endif}
   Process,
-  Utils.Arrays, Utils.SearchFiles, Utils.Files
-{$ifdef INTERNAL_ZIP}
-  ,Math
-{$endif}
-  //, Helper.TStringList, uStrings
-  ;
+  Utils.Arrays, Utils.SearchFiles, Utils.Files, Math;
 
 
 //const
@@ -206,10 +196,8 @@ begin
   FFiles := TStringList.Create;
   FFiles.Sorted := True;
 
-{$ifdef INTERNAL_ZIP}
   if not (self is TThreadZipExtract) then
   begin
-{$endif}
     FMax := 1;
     FCur := 0;
     FMsg := 'Processing file : ' + FFilename;
@@ -239,10 +227,8 @@ begin
 //{$endif}
       raise;
     end;
-{$ifdef INTERNAL_ZIP}
   end;
-{$endif}
-  ;
+
   inherited Create(False);
 end;
 
@@ -424,33 +410,12 @@ begin
 end;
 
 { TThreadZipExtract }
-{$ifndef INTERNAL_ZIP}
-constructor TThreadZipExtract.Create(aOwner : TObject; const Filename: String;
-                                     Operations : TImgOperations;
-                                     PoolData: TThreadDataItem; Log: ILog;
-                                     Results: TStrings;
-                                     Progress: TCbzProgressEvent; ProgressID: QWord;
-                                     OnBadFile : TNotifyEvent);
-begin
-  CopyFileToTemp(FileName);
-  FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
-  ForceDirectories(FTmpDir);
-  FCmd := Format('unzip -o -j -qq %s -d ''%s''', [FTmpFileName, FTmpDir]);
-
-  inherited Create(aOwner, Filename, Operations, PoolData, Log,
-                   Results, Progress, ProgressID, OnBadFile);
-end;
-{$endif}
-
 destructor TThreadZipExtract.Destroy;
 begin
-{$ifdef INTERNAL_ZIP}
   Cbz.Free;
-{$endif}
   inherited;
 end;
 
-{$ifdef INTERNAL_ZIP}
 constructor TThreadZipExtract.Create(aOwner : TObject; const Filename: String;
                                      Operations : TImgOperations;
                                      PoolData: TThreadDataItem; Log: ILog;
@@ -488,8 +453,7 @@ var
       else
         ms := Cbz.GetFileStream(aFileName);
 
-      //ms := TMemoryStream.Create;
-      //ms.CopyFrom(st, info.UncompressedSize);
+      SetLength(ar, 0);
       s := ExtractFileName(aFilename);
       FPoolData.AddItem2(ms, ar, FOperations, DataType, FIF_UNKNOWN, s);
       Sleep(50);
@@ -609,7 +573,6 @@ begin
     FWorking := False;
   end;
 end;
-{$endif}
 
 { TThreadPdfExtract }
 {

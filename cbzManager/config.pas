@@ -17,11 +17,9 @@ type
     BitBtn2: TBitBtn;
     cblogging: TCheckBox;
     edtcwebp: TEdit;
-    edtunzip: TEdit;
     edtunrar: TEdit;
     edtp7zip: TEdit;
     Label1: TLabel;
-    Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;

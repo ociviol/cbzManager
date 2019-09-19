@@ -11,7 +11,7 @@ uses
   OpenSslSockets,
 {$endif}
   Utils.Logger, Utils.SearchFiles, Utils.Gridhelper, Types,
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
   cthreads,
 {$endif}
   Utils.Arrays, uDataPool, uWorkerThread, uConfig;
@@ -251,7 +251,7 @@ implementation
 uses
   Config, LclIntf,
   Utils.Strings, frmwait, fpHttpClient,
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
   unix,
 {$endif}
   Utils.SoftwareVersion, uDataTypes,
@@ -260,7 +260,7 @@ uses
 
 const
 //  CS_CONFIG = 'config';
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
   CS_CONFIG_PATH = '.config/cbzManager';
   CS_CONFIG_JSON = '/config.json';
 {$else}
@@ -348,7 +348,7 @@ begin
   //           GetFileVersion;
   //
   // make sure config folder exists
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
   FConfigFile := expandfilename('~/') + CS_CONFIG_PATH;
   ForceDirectories(FConfigFile);
   FConfigFile := FConfigFile + CS_CONFIG_JSON;

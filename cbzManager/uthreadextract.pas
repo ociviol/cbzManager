@@ -9,7 +9,7 @@ uses
   uCbz, Utils.Logger,
   //uRar,
   uDataItem, uDataTypes
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
   ,cthreads
 {$endif}
   //, sevenzip
@@ -385,7 +385,7 @@ begin
   CopyFileToTemp(FileName);
   FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
   ForceDirectories(FTmpDir);
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
   FCmd := Format('%s e -y ''%s'' ''%s''', [Unrar, FtmpFileName, FTmpDir]);
 {$else}
   FCmd := Format('%s e -y %s %s', [Unrar, FtmpFileName, FTmpDir]);
@@ -409,7 +409,7 @@ begin
   CopyFileToTemp(FileName);
   FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
   ForceDirectories(FTmpDir);
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
   FCmd := Format('%s e -y ''%s'' ''%s''', [Unrar, FtmpFileName, FTmpDir]);
 {$else}
   FCmd := Format('%s e -y %s %s', [Unrar, FtmpFileName, FTmpDir]);

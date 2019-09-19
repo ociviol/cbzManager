@@ -9,7 +9,7 @@ uses
   Classes, Graphics,
   uCbz, Utils.Logger, uDataItem,
   uDataTypes
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
   ,cthreads
 {$endif}
   ;

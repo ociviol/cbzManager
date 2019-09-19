@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, uDataPool, Utils.Logger, Graphics
-{$ifdef Darwin or Linux}
+{$if defined(Darwin) or defined(Linux)}
   ,cthreads
 {$endif}
   ;

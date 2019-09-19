@@ -352,7 +352,11 @@ begin
   w := aBitmap.Width;
   h := aBitmap.Height;
 {$ifndef MsWindows}
-  aBitmap.PixelFormat:=pf32bit;
+  if aBitmap.PixelFormat <> pf24bit then
+    aBitmap.PixelFormat:=pf24bit;
+{$else}
+  if aBitmap.PixelFormat <> pf32bit then
+    aBitmap.PixelFormat := pf32bit;
 {$endif}
   case aBitmap.PixelFormat of
     pf32bit: psz := 4;
@@ -375,7 +379,7 @@ begin
     {$elseif defined(Linux)}
       sz := DoWebpEncodeRGB(p, w, h, stride, 75, @pout);
     {$else}
-      sz := DoWebPEncodeBGR(p, w, h, stride, 75, @pout);
+      sz := DoWebPEncodeBGRA(p, w, h, stride, 75, @pout);
     {$endif}
       aDest.Write(pout^, sz);
       aDest.Position := 0;

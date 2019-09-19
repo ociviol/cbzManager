@@ -14,9 +14,11 @@ uses
 type
   TThreadConvert = Class(TThread)
   private
+    FStream : TMemoryStream;
     FDataPool : TThreadDataPool;
     FLog : ILog;
     function CopyBlock(const aSrc : TMemoryStream):TMemoryStream;
+    procedure DoConvertToBMP;
   public
     constructor Create(DataPool : TThreadDataPool; Log : ILog);
     procedure Execute; override;
@@ -39,11 +41,57 @@ begin
   inherited Create(False);
 end;
 
+procedure TThreadConvert.DoConvertToBMP;
+var
+  p : TPicture;
+  b : TBitmap;
+begin
+  try
+    p := TPicture.Create;
+    try
+      p.LoadFromStream(FStream);
+      p.SaveToStreamWithFileExt(FStream, 'bmp');
+      {
+      b := TBitmap.Create;
+      try
+        b.PixelFormat:=pf24bit;
+        b.Width:=p.Width;
+        b.Height:=p.Height;
+        b.Canvas.Draw(0, 0, p.Graphic);
+        b.SaveToStream(FStream);
+      finally
+        b.Free;
+      end;
+      }
+      FStream.Position := 0;
+    finally
+      p.Free;
+    end;
+  except
+  end;
+end;
+
 procedure TThreadConvert.Execute;
 var
   i : Integer;
   StOut : TMemoryStream;
   Rec : TDataRec;
+
+  procedure ConvertToBMP(aStream : TMemoryStream);
+  begin
+    FStream := aStream;
+    Synchronize(@DoConvertToBMP);
+  end;
+
+  function ConvertToBMP(const aFilename : String):TMemoryStream;
+  begin
+    result := TmemoryStream.Create;
+    result.LoadFromFile(aFilename);
+    result.Position := 0;
+    FStream := result;
+    Synchronize(@DoConvertToBMP);
+  end;
+
 begin
   while not Terminated do
   try
@@ -67,10 +115,16 @@ begin
                   if (Rec.ImgType = FIF_WEBP) and Assigned(Rec.Stream) then
                      StOut := CopyBlock(Rec.Stream)
                   else
+                  begin
                     if Assigned(Rec.Stream) then
-                      Stout := TCbz.ConvertImageToStream(Rec.Stream, FLog)
+                      ConvertToBMP(Rec.Stream)
                     else
-                      Stout := TCbz.ConvertImageToStream(Rec.Filename, FLog);
+                    begin
+                      Rec.Stream := ConvertToBMP(Rec.Filename);
+                      Rec.Filename := '';
+                    end;
+                    Stout := TCbz.ConvertImageToStream(Rec.Stream, FLog);
+                  end;
 
                 dtPdf: ; // StOut := PdfToStream(Rec.Index, Rec.Filename);
                 dtMeta : StOut := CopyBlock(Rec.Stream);
@@ -98,7 +152,7 @@ begin
           end;
         end;
 
-        Sleep(250);
+        Sleep(100);
       end;
 
       if i >= FDataPool.PoolSize then

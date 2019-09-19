@@ -351,7 +351,7 @@ begin
   result := false;
   w := aBitmap.Width;
   h := aBitmap.Height;
-{$ifndef MsWindows}
+{$if defined(Linux)}
   if aBitmap.PixelFormat <> pf24bit then
     aBitmap.PixelFormat:=pf24bit;
 {$else}
@@ -375,7 +375,7 @@ begin
 
     try
     {$if defined(Darwin)}
-      sz := DoWebpEncodeRGB(p, w, h, stride, 90, @pout);
+      sz := DoWebpEncodeBGRA(p, w, h, stride, 90, @pout);
     {$elseif defined(Linux)}
       sz := DoWebpEncodeRGB(p, w, h, stride, 75, @pout);
     {$else}

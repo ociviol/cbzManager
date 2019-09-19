@@ -47,10 +47,12 @@
       <Unit4>
         <Filename Value="webp.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="245"/>
-        <CursorPos Y="263"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="353"/>
+        <CursorPos X="20" Y="354"/>
         <UsageCount Value="54"/>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="config.pas"/>
@@ -58,7 +60,6 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <CursorPos X="75" Y="8"/>
         <UsageCount Value="54"/>
         <Loaded Value="True"/>

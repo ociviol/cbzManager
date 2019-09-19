@@ -1629,24 +1629,25 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   function InternalConvert(const aSrc, aDest : TMemoryStream):Boolean;
   var
     b : TBitmap;
-    p : TPicture;
+//    p : TPicture;
   begin
-    p := TPicture.Create;
+//    p := TPicture.Create;
     try
-      p.LoadFromStream(aSrc);
+//      p.LoadFromStream(aSrc);
       b := TBitmap.Create;
       try
         try
-          b.PixelFormat:=pf24bit;
-          b.Width:=p.Width;
-          b.Height:=p.Height;
-          b.Canvas.Draw(0, 0, p.Graphic);
+//          b.PixelFormat:=pf24bit;
+//          b.Width:=p.Width;
+//          b.Height:=p.Height;
+//          b.Canvas.Draw(0, 0, p.Graphic);
+          b.LoadFromStream(aSrc);
           result := BitmapToWebp(b, aDest);
         finally
           b.Free;
         end;
       finally
-        p.Free;
+        //p.Free;
       end;
     except
       result := False;
@@ -1685,13 +1686,14 @@ begin
       result.CopyFrom(aSrc, aSrc.Size)
     else
     begin
-      if (imgtype <> FIF_PNG) and (imgtype <> FIF_JPEG) then
-        ConvertToPng(aSrc);
-
       if InternalcWebpAvail then
         done := InternalConvert(aSrc, Result);
 
       if not done then
+      begin
+        if (imgtype <> FIF_PNG) and (imgtype <> FIF_JPEG) then
+          ConvertToPng(aSrc);
+
         if SysUtils.FileExists(cwebp) then
         begin
           if not ExternalConvert(aSrc, Result) then
@@ -1699,6 +1701,7 @@ begin
         end
         else
           raise Exception.Create('cwebp not found.');
+      end;
     end;
 
     if Assigned(result) then

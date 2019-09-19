@@ -32,3 +32,4 @@ cbzManager/cbzManagerWin.res
 cbzManager/cbzManagerWin.res
 precompiled binairies/Windows/cbzManager.exe
 /cbzManager/cbzManager.json
+*.a

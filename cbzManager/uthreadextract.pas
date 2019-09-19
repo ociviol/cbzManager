@@ -7,6 +7,7 @@ interface
 uses
   SysUtils, Classes, Graphics,
   uCbz, Utils.Logger,
+  Utils.NaturalSortStringList,
   //uRar,
   uDataItem, uDataTypes
 {$if defined(Darwin) or defined(Linux)}
@@ -436,7 +437,7 @@ procedure TThreadZipExtract.Execute;
 var
   Results : TStringList;
   i : integer;
-  Filenames : TStringList; //TNaturalSortStringList;
+  Filenames : TNaturalSortStringList;
   MetaFiles : TStringlist;
   f : TStringArray;
 
@@ -497,7 +498,7 @@ begin
         end;
 
         // extract
-        Filenames := TStringlist.Create; //TNaturalSortStringList.Create;
+        Filenames := TNaturalSortStringList.Create;
         MetaFiles := TStringlist.Create;
         try
           f := Cbz.GetFileNames;

@@ -1657,20 +1657,22 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   procedure ConvertToPng(aSrc : TMemoryStream);
   var
     aPic:TPicture;
-    fin, fout : string;
+    fin : String;
+    //fout : string;
   begin
     fin := MakeFileExt(_cbzGetTempFileName, aSrc);
     aSrc.SaveToFile(fin);
 
     aPic:=TPicture.Create;
     try
-      fout := ChangeFileExt(fin, '.png');
+      //fout := ChangeFileExt(fin, '.png');
       aPic.LoadFromFile(fin);
-      aPic.SaveToFile(fout);
+      aPic.SaveToStreamWithFileExt(aSrc, 'png');
+      //aPic.SaveToFile(fout);
     finally
       aPic.free;
     end;
-    aSrc.LoadFromFile(fout);
+    //aSrc.LoadFromFile(fout);
     aSrc.Position := 0;
   end;
 

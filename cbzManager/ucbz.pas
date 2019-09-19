@@ -1629,11 +1629,14 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   function InternalConvert(const aSrc, aDest : TMemoryStream):Boolean;
   var
     b : TBitmap;
-//    p : TPicture;
+    p : TPicture;
   begin
-//    p := TPicture.Create;
+    p := TPicture.Create;
     try
-//      p.LoadFromStream(aSrc);
+      p.LoadFromStream(aSrc);
+      aSrc.Clear;
+      p.SaveToStreamWithFileExt(aSrc, 'bmp');
+      aSrc.Position:=0;
       b := TBitmap.Create;
       try
         try

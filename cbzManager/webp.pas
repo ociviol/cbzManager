@@ -375,7 +375,7 @@ begin
 
     try
     {$if defined(Darwin)}
-      sz := DoWebpEncodeRGBA(p, w, h, stride, 90, @pout);
+      sz := DoWebpEncodeBGRA(p, w, h, stride, 90, @pout);
     {$elseif defined(Linux)}
       sz := DoWebpEncodeRGB(p, w, h, stride, 75, @pout);
     {$else}

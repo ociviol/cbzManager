@@ -1,11 +1,11 @@
 object ConfigFrm: TConfigFrm
   Left = 539
-  Height = 240
+  Height = 199
   Top = 310
   Width = 493
   BorderStyle = bsDialog
   Caption = 'Config'
-  ClientHeight = 240
+  ClientHeight = 199
   ClientWidth = 493
   Position = poMainFormCenter
   LCLVersion = '2.0.2.0'
@@ -23,56 +23,39 @@ object ConfigFrm: TConfigFrm
     Top = 24
     Width = 384
     TabOrder = 0
-    Text = 'edtcwebp'
   end
   object BitBtn1: TBitBtn
     Left = 312
     Height = 30
-    Top = 184
+    Top = 152
     Width = 75
     Caption = 'Ok'
     Default = True
     ModalResult = 1
-    TabOrder = 4
+    TabOrder = 3
   end
   object BitBtn2: TBitBtn
     Left = 397
     Height = 30
-    Top = 184
+    Top = 152
     Width = 75
     Cancel = True
     Caption = 'Cancel'
     ModalResult = 2
-    TabOrder = 5
+    TabOrder = 4
   end
-  object edtunzip: TEdit
+  object edtunrar: TEdit
     Left = 88
     Height = 27
     Top = 56
     Width = 384
     TabOrder = 1
-    Text = 'edtunzip'
-  end
-  object Label2: TLabel
-    Left = 32
-    Height = 17
-    Top = 61
-    Width = 43
-    Caption = 'unzip :'
-    ParentColor = False
-  end
-  object edtunrar: TEdit
-    Left = 88
-    Height = 27
-    Top = 88
-    Width = 384
-    TabOrder = 2
     Text = 'edtunrar'
   end
   object Label3: TLabel
     Left = 32
     Height = 17
-    Top = 93
+    Top = 61
     Width = 43
     Caption = 'unrar :'
     ParentColor = False
@@ -80,15 +63,15 @@ object ConfigFrm: TConfigFrm
   object edtp7zip: TEdit
     Left = 88
     Height = 27
-    Top = 120
+    Top = 88
     Width = 384
-    TabOrder = 3
+    TabOrder = 2
     Text = 'edtp7zip'
   end
   object Label4: TLabel
     Left = 32
     Height = 17
-    Top = 125
+    Top = 93
     Width = 44
     Caption = 'p7zip :'
     ParentColor = False
@@ -96,15 +79,15 @@ object ConfigFrm: TConfigFrm
   object cblogging: TCheckBox
     Left = 32
     Height = 24
-    Top = 184
+    Top = 152
     Width = 79
     Caption = 'Logging'
-    TabOrder = 6
+    TabOrder = 5
   end
   object Label5: TLabel
     Left = 216
     Height = 17
-    Top = 160
+    Top = 128
     Width = 123
     Caption = 'Encoding threads :'
     ParentColor = False
@@ -112,17 +95,17 @@ object ConfigFrm: TConfigFrm
   object speNbThreads: TSpinEdit
     Left = 352
     Height = 27
-    Top = 154
+    Top = 122
     Width = 60
     MaxValue = 32
     MinValue = 1
-    TabOrder = 7
+    TabOrder = 6
     Value = 4
   end
   object Label6: TLabel
     Left = 32
     Height = 17
-    Top = 160
+    Top = 128
     Width = 57
     Caption = 'Queues :'
     ParentColor = False
@@ -130,11 +113,11 @@ object ConfigFrm: TConfigFrm
   object speQueues: TSpinEdit
     Left = 112
     Height = 27
-    Top = 152
+    Top = 120
     Width = 60
     MaxValue = 6
     MinValue = 1
-    TabOrder = 8
+    TabOrder = 7
     Value = 2
   end
 end

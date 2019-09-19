@@ -367,7 +367,14 @@ begin
   if FConfig.WTreeViewWidth <> 0 then
     TreeView1.Width := FConfig.WTreeViewWidth;
   // start logger
-  FLog := GetILog(expandfilename('~/') + CS_CONFIG_PATH + '/cbzManager.log', FConfig.bLog);
+  FLog := GetILog(
+{$if defined(Darwin) or defined(Linux)}
+    expandfilename('~/') + CS_CONFIG_PATH + '/'
+{$else}
+    IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Logs\' +
+{$endif}
+    'cbzManager.log', FConfig.bLog);
+
   Flog.Log('cbzManager started.');
 
   //FConfig.QueueSize := CPUCount;

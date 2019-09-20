@@ -1635,6 +1635,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   begin
     p := TPicture.Create;
     try
+      aSrc.Position:=0;
       p.LoadFromStream(aSrc);
       aSrc.Clear;
       p.SaveToStreamWithFileExt(aSrc, 'bmp');
@@ -1642,10 +1643,6 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
       b := TBitmap.Create;
       try
         try
-//          b.PixelFormat:=pf24bit;
-//          b.Width:=p.Width;
-//          b.Height:=p.Height;
-//          b.Canvas.Draw(0, 0, p.Graphic);
           b.LoadFromStream(aSrc);
           result := BitmapToWebp(b, aDest);
         finally

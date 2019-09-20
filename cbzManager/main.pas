@@ -890,6 +890,7 @@ begin
   bFinal.PixelFormat := b1.PixelFormat;
   bFinal.Width := b1.Width * 2;
   bFinal.Height := b1.Height;
+  bFinal.Canvas.AntialiasingMode:=amOn;
   bFinal.Canvas.Draw(0, 0, b1);
   bFinal.Canvas.StretchDraw(Rect(b1.Width, 0, bFinal.Width, bFinal.Height), b2);
 end;
@@ -933,13 +934,6 @@ begin
           bFinal := TBitmap.Create;
           try
             JoinImages(b1, b2, bFinal);
-            {
-              bfinal.PixelFormat := b1.PixelFormat;
-              bfinal.Width := b1.Width *2;
-              bfinal.Height := b1.Height;
-              bfinal.Canvas.Draw(0, 0, b1);
-              bfinal.Canvas.StretchDraw(Rect(b1.Width, 0, bfinal.Width-1, bfinal.Height-1), b2);
-            }
             SetLength(ar, 1);
             zf.Image[lst[0]] := bFinal;
             ar[0] := lst[1];
@@ -1201,7 +1195,9 @@ begin
       b := zf.Image[DrawGrid1.Position];
       try
         b1 := TBitmap.Create;
+        b1.Canvas.AntialiasingMode:=amOn;
         b2 := TBitmap.Create;
+        b2.Canvas.AntialiasingMode:=amOn;
         try
           b1.PixelFormat := b.PixelFormat;
           b2.PixelFormat := b.PixelFormat;

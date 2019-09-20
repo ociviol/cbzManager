@@ -374,9 +374,7 @@ begin
     end;
 
     try
-    {$if defined(Darwin)}
-      sz := DoWebpEncodeBGRA(p, w, h, stride, 90, @pout);
-    {$elseif defined(Linux)}
+    {$if defined(Linux)}
       sz := DoWebpEncodeBGR(p, w, h, stride, 75, @pout);
     {$else}
       sz := DoWebPEncodeBGRA(p, w, h, stride, 75, @pout);

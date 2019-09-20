@@ -3,12 +3,18 @@ unit Utils.NaturalSortStringList;
 interface
 
 uses
-  CLasses;
+  CLasses, naturalsortunit;
 
 type
+
+  { TNaturalSortStringList }
+
   TNaturalSortStringList = Class(TStringList)
   private
   protected
+{$ifndef MsWindows}
+    procedure Sort; override;
+{$endif}
     function CompareStrings(const S1, S2: string): Integer; override;
   End;
 
@@ -152,6 +158,13 @@ end;
 {$endif}
 
 { TNaturalSortStringList }
+
+{$ifndef MsWindows}
+procedure TNaturalSortStringList.Sort;
+begin
+  NaturalSort(Self, stNatural);
+end;
+{$endif}
 
 function TNaturalSortStringList.CompareStrings(const S1, S2: string): Integer;
 begin

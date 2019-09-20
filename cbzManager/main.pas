@@ -369,7 +369,7 @@ begin
   // start logger
   FLog := GetILog(
 {$if defined(Darwin) or defined(Linux)}
-    expandfilename('~/') + CS_CONFIG_PATH + '/'
+    expandfilename('~/') + CS_CONFIG_PATH + '/' +
 {$else}
     IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Logs\' +
 {$endif}

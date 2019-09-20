@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="12"/>
     <BuildModes Active="Debug"/>
-    <Units Count="58">
+    <Units Count="60">
       <Unit0>
         <Filename Value="cbzManagerOsx.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -47,7 +47,6 @@
       <Unit4>
         <Filename Value="webp.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="374"/>
         <CursorPos X="28" Y="378"/>
@@ -114,19 +113,21 @@
         <Filename Value="uthreadconvert.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="47"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="34"/>
         <CursorPos X="28" Y="71"/>
         <UsageCount Value="54"/>
+        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="164"/>
-        <CursorPos Y="164"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="116"/>
+        <CursorPos X="33" Y="134"/>
         <UsageCount Value="54"/>
+        <Loaded Value="True"/>
       </Unit12>
       <Unit13>
         <Filename Value="../Utils/utils.zipfile.pas"/>
@@ -173,10 +174,12 @@
       <Unit18>
         <Filename Value="../Utils/utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="179"/>
-        <CursorPos X="23" Y="187"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="112"/>
+        <CursorPos X="9" Y="126"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit18>
       <Unit19>
         <Filename Value="/private/var/folders/jt/jbrv2tzs6kb5t24xlzrhb_mh0000gn/T/cbzManager_webp_Before_0894c23198b5624ff17acfdbbcc31b1a9e38aaaa.pas"/>
@@ -458,8 +461,32 @@
         <CursorPos X="11" Y="643"/>
         <UsageCount Value="10"/>
       </Unit57>
+      <Unit58>
+        <Filename Value="../Utils/naturalsortunit.pas"/>
+        <UnitName Value="NaturalSortUnit"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="275"/>
+        <CursorPos X="23" Y="287"/>
+        <UsageCount Value="10"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="../../../fpcupdeluxe/fpcsrc/rtl/inc/systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="503"/>
+        <CursorPos X="3" Y="515"/>
+        <UsageCount Value="10"/>
+      </Unit59>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="webp.pas"/>
+        <Caret Line="378" Column="28" TopLine="374"/>
+      </Position1>
+      <Position2>
+        <Filename Value="../Utils/utils.searchfiles.pas"/>
+        <Caret Line="138" TopLine="115"/>
+      </Position2>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="1" ActiveMode="default">

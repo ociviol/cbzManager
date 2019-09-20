@@ -54,7 +54,7 @@ function UTF8LogicalCompareText(const S1, S2: string): Integer;
 function UTF8NaturalCompareText(const S1, S2: string): Integer;
 {$IFNDEF WINDOWS}
 function strcoll(s1, s2: pchar):integer; cdecl; external 'libc';
-function wcscoll(s1, s2: pwchar_t): integer; cdecl; external 'libc' Name 'wcscoll';
+//function wcscoll(s1, s2: pwchar_t): integer; cdecl; external 'libc' Name 'wcscoll';
 {$ELSE}
 function StrCmpLogicalW(psz1, psz2: PWideChar): Integer; stdcall; external 'shlwapi.dll';
 

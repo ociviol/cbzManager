@@ -12,10 +12,10 @@ type
   TNaturalSortStringList = Class(TStringList)
   private
   protected
-{$ifndef MsWindows}
+//{$ifndef MsWindows}
     procedure Sort; override;
-{$endif}
-    function CompareStrings(const S1, S2: string): Integer; override;
+//{$endif}
+//    function CompareStrings(const S1, S2: string): Integer; override;
   End;
 
 implementation
@@ -26,18 +26,18 @@ function StrCmpLogicalW(P1, P2: PChar): Integer;  stdcall; external 'Shlwapi.dll
 
 { TNaturalSortStringList }
 
-{$ifndef MsWindows}
+//{$ifndef MsWindows}
 procedure TNaturalSortStringList.Sort;
 begin
   NaturalSort(Self, stNatural);
 end;
-{$endif}
+//{$endif}
 
-function TNaturalSortStringList.CompareStrings(const S1, S2: string): Integer;
-begin
-{$ifdef MsWindows}
-  Result:= StrCmpLogicalW(PChar(S1), PChar(S2));
-{$endif}
-end;
+//function TNaturalSortStringList.CompareStrings(const S1, S2: string): Integer;
+//begin
+//{$ifdef MsWindows}
+//  Result:= StrCmpLogicalW(PChar(S1), PChar(S2));
+//{$endif}
+//end;
 
 end.

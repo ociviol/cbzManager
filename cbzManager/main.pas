@@ -918,6 +918,8 @@ var
   lst: TIntArray;
   ar : TIntArray;
   b1, b2, bFinal: TBitmap;
+  ms : TMemoryStream;
+  ars : TStreamArray;
 begin
   if DrawGrid1.Position >= 0 then
   begin
@@ -934,10 +936,18 @@ begin
           bFinal := TBitmap.Create;
           try
             JoinImages(b1, b2, bFinal);
-            SetLength(ar, 1);
-            zf.Image[lst[0]] := bFinal;
-            ar[0] := lst[1];
-            zf.Delete(ar);
+            ms := TMemoryStream.Create;
+            bFinal.SaveToStream(ms);
+            // delete images
+            SetLength(ar, 2);
+            ar[0] := lst[0];
+            ar[1] := lst[1];
+            zf.Delete(ar, @Progress);
+            // insert joined image
+            SetLength(ars, 1);
+            ars[0] := ms;
+            zf.Insert(ars, lst[0]);
+            // re select
             DrawGrid1.Max := zf.ImageCount;
             DrawGrid1.Position := lst[0];
             DrawGrid1.Invalidate;

@@ -39,10 +39,12 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1123"/>
-        <CursorPos Y="1125"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="414"/>
+        <CursorPos X="38" Y="423"/>
         <UsageCount Value="54"/>
+        <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="webp.pas"/>
@@ -174,7 +176,6 @@
       <Unit18>
         <Filename Value="../Utils/utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <TopLine Value="112"/>
         <CursorPos X="9" Y="126"/>
@@ -477,7 +478,7 @@
         <UsageCount Value="10"/>
       </Unit59>
     </Units>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
         <Filename Value="webp.pas"/>
         <Caret Line="378" Column="28" TopLine="374"/>
@@ -486,6 +487,18 @@
         <Filename Value="../Utils/utils.searchfiles.pas"/>
         <Caret Line="138" TopLine="115"/>
       </Position2>
+      <Position3>
+        <Filename Value="main.pas"/>
+        <Caret Line="1131" Column="24" TopLine="1123"/>
+      </Position3>
+      <Position4>
+        <Filename Value="main.pas"/>
+        <Caret Line="1499" Column="21" TopLine="1480"/>
+      </Position4>
+      <Position5>
+        <Filename Value="main.pas"/>
+        <Caret Line="214" Column="15" TopLine="203"/>
+      </Position5>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -508,14 +521,14 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="827"/>
+        <Line Value="828"/>
       </Item2>
       <Item3>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="978"/>
+        <Line Value="979"/>
       </Item3>
     </BreakPoints>
     <Watches Count="1">

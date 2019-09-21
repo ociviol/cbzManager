@@ -888,10 +888,10 @@ end;
 
 procedure JoinImages(b1, b2, bFinal: TBitmap);
 begin
-{$ifdef Darwin}
-  bFinal.PixelFormat := pf32bit;
-{$else}
+{$ifdef Linux}
   bFinal.PixelFormat := pf24bit;
+{$else}
+  bFinal.PixelFormat := pf32bit;
 {$endif}
   bFinal.Width := b1.Width * 2;
   bFinal.Height := b1.Height;

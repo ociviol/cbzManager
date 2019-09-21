@@ -471,6 +471,7 @@ begin
         fn := outz.GetNextFilename;
 
         ms := GetFileStream(i);
+        outz.AppendStream(ms, fn, now, zstream.clnone);
 
         if Assigned(CallBack) then
           CallBack(Self, ProgressID, i, FileCount + Length(Streams) -1, 'Rewriting file :' + FFilename);

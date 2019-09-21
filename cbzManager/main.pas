@@ -888,7 +888,11 @@ end;
 
 procedure JoinImages(b1, b2, bFinal: TBitmap);
 begin
+{$ifdef Darwin}
   bFinal.PixelFormat := pf32bit;
+{$else}
+  bFinal.PixelFormat := pf24bit;
+{$endif}
   bFinal.Width := b1.Width * 2;
   bFinal.Height := b1.Height;
   bFinal.Canvas.AntialiasingMode:=amOn;

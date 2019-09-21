@@ -888,12 +888,12 @@ end;
 
 procedure JoinImages(b1, b2, bFinal: TBitmap);
 begin
-  bFinal.PixelFormat := b1.PixelFormat;
+  bFinal.PixelFormat := pf32bit;
   bFinal.Width := b1.Width * 2;
   bFinal.Height := b1.Height;
   bFinal.Canvas.AntialiasingMode:=amOn;
   bFinal.Canvas.Draw(0, 0, b1);
-  bFinal.Canvas.StretchDraw(Rect(b1.Width, 0, bFinal.Width, bFinal.Height), b2);
+  bFinal.Canvas.Draw(b1.Width, 0, b2);
 end;
 
 procedure TMainFrm.ActionHorizFlipExecute(Sender: TObject);
@@ -918,7 +918,8 @@ procedure TMainFrm.ActionJoinExecute(Sender: TObject);
 var
   lst: TIntArray;
   ar : TIntArray;
-  b1, b2, bFinal: TBitmap;
+  b1, b2 : Tbitmap;
+  bFinal: TBitmap;
   ms : TMemoryStream;
   ars : TStreamArray;
 begin

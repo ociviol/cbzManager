@@ -72,7 +72,7 @@ begin
   Funrar := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'unrar.exe';
 {$endif}
   FQueueSize:=2;
-  FNbThreads := 4;
+  FNbThreads := 8;
   HighPerf:= False;
 end;
 

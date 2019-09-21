@@ -677,33 +677,39 @@ begin
   msg := '';
   if not FileExists(Fconfig.cwebp) then
   begin
-    msg := msg + 'cwebp not found, install using ' +
-{$ifdef darwin}
-          '''brew install webp''' + #13;
+    msg := msg + 'cwebp not found, ' +
+{$if defined(Darwin)}
+          'install using ''brew install webp''' + #13;
+{$elseif defined(Linux)}
+           'install using ''sudo apt install webp''' + #13;
 {$else}
-           '''sudo apt install webp''' + #13;
+   #13;
 {$endif}
   Flog.Log('required binary missing : cwebp.');
   end;
 
   if not FileExists(Fconfig.unrar) then
   begin
-    msg := msg + 'unrar not found, install using ' +
-    {$ifdef darwin}
-              '''brew install unrar''' + #13;
-    {$else}
-               '''sudo apt install unrar''' + #13;
-    {$endif}
+    msg := msg + 'unrar not found, ' +
+{$if defined(Darwin)}
+              'install using ''brew install unrar''' + #13;
+{$elseif defined(Linux)}
+               'install using ''sudo apt install unrar''' + #13;
+{$else}
+   #13;
+{$endif}
     Flog.Log('required binary missing : unrar.');
   end;
   if not FileExists(Fconfig.p7zip) then
   begin
-    msg := msg + '7z not found, install using ' +
-    {$ifdef darwin}
-              '''brew install p7zip''' + #13;
-    {$else}
-               '''sudo apt install p7zip-full''' + #13;
-    {$endif}
+    msg := msg + '7z not found, ' +
+{$if defined(Darwin)}
+              'install using ''brew install p7zip''' + #13;
+{$elseif defined(Linux)}
+               'install using ''sudo apt install p7zip-full''' + #13;
+{$else}
+   #13;
+{$endif}
     Flog.Log('required binary missing : p7zip.');
   end;
 {$if defined(Darwin)}

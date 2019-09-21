@@ -416,10 +416,11 @@ end;
 procedure TMainFrm.SetAppCaption;
 begin
   Caption := GetFileVersionInternalName + ' (' + GetFileVersion + ')';
-  Caption := format('%s - Path : %s - %d Queues - %d Encoding threads',
+  Caption := format('%s - Path : %s - %d Queues - %d Encoding threads - Temp: %s',
                     [Caption, Fconfig.BdPathPath,
                     FThreadDataPool.PoolSize,
-                    FThreadDataPool.NbWorkers]);
+                    FThreadDataPool.NbWorkers,
+                    GetTempDir(True)]);
 end;
 
 procedure TMainFrm.EnableActions;

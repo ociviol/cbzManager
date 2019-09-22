@@ -24,8 +24,15 @@ type
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    OpenDialog1: TOpenDialog;
+    sbCwebp: TSpeedButton;
+    sbUnrar: TSpeedButton;
+    sb7zip: TSpeedButton;
     speNbThreads: TSpinEdit;
     speQueues: TSpinEdit;
+    procedure sb7zipClick(Sender: TObject);
+    procedure sbCwebpClick(Sender: TObject);
+    procedure sbUnrarClick(Sender: TObject);
   private
   public
   end;
@@ -34,6 +41,39 @@ type
 implementation
 
 {$R *.lfm}
+
+{ TConfigFrm }
+
+procedure TConfigFrm.sbCwebpClick(Sender: TObject);
+begin
+  with OpenDialog1 do
+  begin
+    Title := 'select cwebp location';
+    if Execute then
+      edtcwebp.Text:=Filename;
+  end;
+end;
+
+procedure TConfigFrm.sb7zipClick(Sender: TObject);
+begin
+  with OpenDialog1 do
+  begin
+    Title := 'select 7z location';
+    if Execute then
+      edtp7zip.Text:=Filename;
+  end;
+end;
+
+procedure TConfigFrm.sbUnrarClick(Sender: TObject);
+begin
+  with OpenDialog1 do
+  begin
+    Title := 'select unrar location';
+    if Execute then
+      edtunrar.Text:=Filename;
+  end;
+end;
+
 
 end.
 

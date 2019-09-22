@@ -489,7 +489,7 @@ begin
       if Assigned(CallBack) then
         CallBack(Self, ProgressID, 0, 0);
 
-      s := Filename;
+      s := TCbz.CleanFilename(FileName);
       outz.Close;
       Close;
       FinishRewrite(s, fname);
@@ -597,7 +597,7 @@ begin
       if Assigned(UserData.Progress) then
         UserData.Progress(Self, UserData.ProgressID, 0, 0);
 
-      s := Filename;
+      s := TCbz.CleanFilename(FileName);
       outz.Close;
       Close;
       FinishRewrite(s, fname);
@@ -614,23 +614,23 @@ end;
 
 function TCbz.FinishRewrite(const aName, fname : string):Boolean;
 var
-  newf : string;
   i : integer;
+  newf : String;
 begin
   result := false;
-  newf := TCbz.CleanFilename(aName);
   FileToTrash(aName);
+  newf := aName;
   i := 1;
-  while Sysutils.FileExists(newf) do
+  while Sysutils.FileExists(aName) do
   begin
-    newf := ChangeFileExt(newf, ' (' + inttostr(i)+').cbz');
+    newf := ChangeFileExt(aName, ' (' + inttostr(i)+').cbz');
     inc(i);
   end;
   if not Sysutils.FileExists(aName) then
   begin
     FFilename := newf;
     result := True;
-    CopyFile(fname, aName);
+    CopyFile(fname, newf);
     if Sysutils.FileExists(fName) then
       Sysutils.DeleteFile(fname);
   end;
@@ -673,7 +673,7 @@ begin
     if Assigned(CallBack) then
       CallBack(Self, ProgressID, 0, 0);
 
-    s := FileName;
+    s := TCbz.CleanFilename(FileName);
     outz.Close;
     Close;
     FinishRewrite(s, fname);
@@ -1168,11 +1168,14 @@ begin
   begin
     clconfig := TCleanFilename.Create;
     try
+      clconfig.WordList.Add('COMICS');
+      clconfig.WordList.Add('BDFR');
+      clconfig.WordList.Add('BD FR');
       p := ExtractFilePath(aFilename);
       e := ExtractFileExt(aFilename);
       f := ExtractFileName(aFilename);
       f := f.Replace(e, '').Replace('.', ' ').Replace('#', '').Replace('_', ' ');
-      f := CleanBDFR(f);
+      f := CleanBDFR(CleanBDFR(f));
       result := ifthen(p.Length > 0, IncludeTrailingPathDelimiter(p), '') + f.Trim + '.cbz';
     finally
       clconfig.Free;

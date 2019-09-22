@@ -8,20 +8,21 @@ object ConfigFrm: TConfigFrm
   ClientHeight = 199
   ClientWidth = 493
   Position = poMainFormCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object Label1: TLabel
     Left = 32
-    Height = 17
+    Height = 15
     Top = 29
-    Width = 51
+    Width = 41
     Caption = 'cwebp :'
     ParentColor = False
   end
   object edtcwebp: TEdit
     Left = 88
-    Height = 27
+    Height = 23
     Top = 24
-    Width = 384
+    Width = 360
+    ReadOnly = True
     TabOrder = 0
   end
   object BitBtn1: TBitBtn
@@ -46,55 +47,57 @@ object ConfigFrm: TConfigFrm
   end
   object edtunrar: TEdit
     Left = 88
-    Height = 27
+    Height = 23
     Top = 56
-    Width = 384
+    Width = 360
+    ReadOnly = True
     TabOrder = 1
     Text = 'edtunrar'
   end
   object Label3: TLabel
     Left = 32
-    Height = 17
+    Height = 15
     Top = 61
-    Width = 43
+    Width = 34
     Caption = 'unrar :'
     ParentColor = False
   end
   object edtp7zip: TEdit
     Left = 88
-    Height = 27
+    Height = 23
     Top = 88
-    Width = 384
+    Width = 360
+    ReadOnly = True
     TabOrder = 2
     Text = 'edtp7zip'
   end
   object Label4: TLabel
     Left = 32
-    Height = 17
+    Height = 15
     Top = 93
-    Width = 44
+    Width = 34
     Caption = 'p7zip :'
     ParentColor = False
   end
   object cblogging: TCheckBox
     Left = 32
-    Height = 24
+    Height = 19
     Top = 152
-    Width = 79
+    Width = 64
     Caption = 'Logging'
     TabOrder = 5
   end
   object Label5: TLabel
     Left = 216
-    Height = 17
+    Height = 15
     Top = 128
-    Width = 123
+    Width = 98
     Caption = 'Encoding threads :'
     ParentColor = False
   end
   object speNbThreads: TSpinEdit
     Left = 352
-    Height = 27
+    Height = 23
     Top = 122
     Width = 60
     MaxValue = 32
@@ -104,20 +107,51 @@ object ConfigFrm: TConfigFrm
   end
   object Label6: TLabel
     Left = 32
-    Height = 17
+    Height = 15
     Top = 128
-    Width = 57
+    Width = 46
     Caption = 'Queues :'
     ParentColor = False
   end
   object speQueues: TSpinEdit
     Left = 112
-    Height = 27
+    Height = 23
     Top = 120
     Width = 60
     MaxValue = 6
     MinValue = 1
     TabOrder = 7
     Value = 2
+  end
+  object sbCwebp: TSpeedButton
+    Left = 449
+    Height = 22
+    Top = 25
+    Width = 23
+    Caption = '...'
+    OnClick = sbCwebpClick
+  end
+  object sbUnrar: TSpeedButton
+    Left = 449
+    Height = 22
+    Top = 56
+    Width = 23
+    Caption = '...'
+    OnClick = sbUnrarClick
+  end
+  object sb7zip: TSpeedButton
+    Left = 449
+    Height = 22
+    Top = 88
+    Width = 23
+    Caption = '...'
+    OnClick = sb7zipClick
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = '.exe'
+    Filter = 'Exe files|*.exe'
+    Options = [ofPathMustExist, ofFileMustExist, ofNoTestFileCreate, ofEnableSizing, ofViewDetail]
+    left = 168
+    top = 152
   end
 end

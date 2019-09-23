@@ -313,10 +313,10 @@ begin
     try
       bmp.Width:= w;
       bmp.Height := h;
-{$ifdef MsWindows}
-      bmp.PixelFormat := pf32bit;
-{$else}
+{$ifdef Linux}
       bmp.PixelFormat := pf24bit;
+{$else}
+      bmp.PixelFormat := pf32bit;
 {$endif}
       bmp.BeginUpdate;
       try

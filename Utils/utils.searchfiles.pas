@@ -127,7 +127,7 @@ var
 begin
   Masks := sMasks.Split([';']);
   GetFiles(Path, Masks, Files);
-{$ifndef Darwin}
+{$ifdef debug}
   t := TNaturalSortStringList.Create;
   with t do
   try

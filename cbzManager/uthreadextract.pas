@@ -197,7 +197,8 @@ begin
   FProgress := Progress;
   FProgressID := ProgressID;
   FFiles := TStringList.Create;
-  FFiles.Sorted := True;
+  FFiles.SortStyle:=sslUser;
+  FFiles.Sorted := False;
 
   if not (self is TThreadZipExtract) then
   begin
@@ -351,8 +352,23 @@ begin
 end;
 
 procedure TThreadExtract.GetFileNames(FileNames:TStringList);
+{$ifdef debug}
+var
+  t  :TNaturalSortStringList;
+{$endif}
 begin
   GetFiles(FTmpDir, AllowedMasks, FileNames);
+{$ifdef debug}
+  t := TNaturalSortStringList.Create;
+  try
+    t.Assign(Filenames);
+    t.Sort;
+    Filenames.Assign(t);
+  finally
+    t.Free;
+  end;
+  Filenames.savetofile('/home/matugenos/files.txt');
+{$endif}
 end;
 
 procedure TThreadExtract.CopyFileToTemp(const aFileName: String);

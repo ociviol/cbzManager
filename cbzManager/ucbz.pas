@@ -1035,7 +1035,7 @@ begin
 {$ifdef Linux}
               result.PixelFormat := pf24bit;
 {$else}
-              resulr.PixelFormat := pf32bit;
+              result.PixelFormat := pf32bit;
 {$endif}
               result.LoadFromFile(fout);
             finally

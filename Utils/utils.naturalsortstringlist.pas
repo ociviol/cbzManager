@@ -3,7 +3,7 @@ unit Utils.NaturalSortStringList;
 interface
 
 uses
-  CLasses, naturalsortunit;
+  CLasses;
 
 type
 

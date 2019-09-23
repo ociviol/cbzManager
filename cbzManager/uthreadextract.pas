@@ -7,7 +7,7 @@ interface
 uses
   SysUtils, Classes, Graphics,
   uCbz, Utils.Logger,
-{$ifndef Darwin}
+{$ifdef Debug}
   Utils.NaturalSortStringList,
 {$endif}
   //uRar,
@@ -354,7 +354,7 @@ end;
 procedure TThreadExtract.GetFileNames(FileNames:TStringList);
 {$ifdef debug}
 var
-  t  :TNaturalSortStringList;
+  t : TNaturalSortStringList;
 {$endif}
 begin
   GetFiles(FTmpDir, AllowedMasks, FileNames);

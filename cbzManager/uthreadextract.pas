@@ -7,9 +7,7 @@ interface
 uses
   SysUtils, Classes, Graphics,
   uCbz, Utils.Logger,
-{$ifdef Debug}
   Utils.NaturalSortStringList,
-{$endif}
   //uRar,
   uDataItem, uDataTypes
 {$if defined(Darwin) or defined(Linux)}
@@ -167,14 +165,10 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
                                   Results: TStrings;
                                   Progress : TCbzProgressEvent; ProgressID : QWord;
                                   OnBadFile : TNotifyEvent);
-var
-  outs : String;
 {$ifdef Mswindows}
-  function _RunCommand(const cmdline:string;out outputstring:string):boolean; deprecated;
+  function _RunCommand(const cmdline:string):boolean;
   var
     p : TProcess;
-    exitstatus : integer;
-    ErrorString : String;
   begin
     p:=TProcess.create(nil);
     p.CommandLine := cmdline;
@@ -211,7 +205,7 @@ begin
 {$if defined(Darwin) or defined(Linux)}
       fpSystem(FCmd);
 {$else}
-      _RunCommand(FCmd, outs);
+      _RunCommand(FCmd);
 {$endif}
       // get files
       GetFileNames(FFiles);
@@ -352,13 +346,11 @@ begin
 end;
 
 procedure TThreadExtract.GetFileNames(FileNames:TStringList);
-{$ifdef debug}
 var
   t : TNaturalSortStringList;
-{$endif}
 begin
   GetFiles(FTmpDir, AllowedMasks, FileNames);
-{$ifdef debug}
+
   t := TNaturalSortStringList.Create;
   try
     t.Assign(Filenames);
@@ -367,8 +359,6 @@ begin
   finally
     t.Free;
   end;
-  Filenames.savetofile('/home/matugenos/files.txt');
-{$endif}
 end;
 
 procedure TThreadExtract.CopyFileToTemp(const aFileName: String);
@@ -455,7 +445,7 @@ procedure TThreadZipExtract.Execute;
 var
   Results : TStringList;
   i : integer;
-  Filenames : {$ifdef Debug}TNaturalSortStringList{$else}TStringList{$endif};
+  Filenames : TNaturalSortStringList;
   MetaFiles : TStringlist;
   f : TStringArray;
 
@@ -516,7 +506,7 @@ begin
         end;
 
         // extract
-        Filenames := {$ifdef Debug}TNaturalSortStringList{$else}TStringList{$endif}.Create;
+        Filenames := TNaturalSortStringList.Create;
         MetaFiles := TStringlist.Create;
         try
           f := Cbz.GetFileNames;

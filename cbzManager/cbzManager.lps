@@ -8,7 +8,7 @@
         <Filename Value="cbzManager.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="5"/>
-        <CursorPos X="57" Y="11"/>
+        <CursorPos Y="21"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -200,8 +200,8 @@
         <UnitName Value="uThreadExtract"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="15"/>
-        <TopLine Value="350"/>
-        <CursorPos X="32" Y="350"/>
+        <TopLine Value="504"/>
+        <CursorPos X="35" Y="519"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit19>
@@ -234,7 +234,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos Y="23"/>
-        <UsageCount Value="70"/>
+        <UsageCount Value="71"/>
       </Unit22>
       <Unit23>
         <Filename Value="../Utils/zipfile/zipfile.pas"/>
@@ -517,7 +517,7 @@
         <Loaded Value="True"/>
       </Unit59>
     </Units>
-    <JumpHistory Count="18" HistoryIndex="17">
+    <JumpHistory Count="28" HistoryIndex="27">
       <Position1>
         <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
         <Caret Line="6" Column="27"/>
@@ -590,6 +590,46 @@
         <Filename Value="uthreadextract.pas"/>
         <Caret Line="367" TopLine="349"/>
       </Position18>
+      <Position19>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="350" Column="32" TopLine="350"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="87" Column="89" TopLine="80"/>
+      </Position20>
+      <Position21>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="128" Column="20" TopLine="108"/>
+      </Position21>
+      <Position22>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="142" Column="20" TopLine="122"/>
+      </Position22>
+      <Position23>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="153" Column="20" TopLine="133"/>
+      </Position23>
+      <Position24>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="211" Column="20" TopLine="192"/>
+      </Position24>
+      <Position25>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="229" Column="17" TopLine="210"/>
+      </Position25>
+      <Position26>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="243" Column="17" TopLine="223"/>
+      </Position26>
+      <Position27>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="393" Column="20" TopLine="373"/>
+      </Position27>
+      <Position28>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="417" Column="20" TopLine="397"/>
+      </Position28>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

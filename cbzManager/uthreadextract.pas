@@ -455,7 +455,7 @@ procedure TThreadZipExtract.Execute;
 var
   Results : TStringList;
   i : integer;
-  Filenames : {$ifndef Darwin}TNaturalSortStringList{$else}TStringList{$endif};
+  Filenames : {$ifdef Debug}TNaturalSortStringList{$else}TStringList{$endif};
   MetaFiles : TStringlist;
   f : TStringArray;
 
@@ -516,7 +516,7 @@ begin
         end;
 
         // extract
-        Filenames := {$ifndef Darwin}TNaturalSortStringList{$else}TStringList{$endif}.Create;
+        Filenames := {$ifdef Debug}TNaturalSortStringList{$else}TStringList{$endif}.Create;
         MetaFiles := TStringlist.Create;
         try
           f := Cbz.GetFileNames;

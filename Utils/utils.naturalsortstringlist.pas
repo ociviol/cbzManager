@@ -3,7 +3,7 @@ unit Utils.NaturalSortStringList;
 interface
 
 uses
-  Windows, Classes, SysUtils, LazUTF8;
+  Classes, SysUtils, LazUTF8;
 
 
 type

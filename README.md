@@ -12,7 +12,7 @@ Precompiled binaries available for Linux (x64) and Mac OsX.
 requirements :
 
 Linux (only tested under Ubutu 18.4 LTS AMD64) :
-Lazarus >= 2.0
+Lazarus >= 2.0.4
 
 	unzip : 	sudo apt install unzip
 	unrar: 		sudo apt install unrar

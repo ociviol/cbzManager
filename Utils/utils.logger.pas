@@ -40,7 +40,7 @@ type
     destructor Destroy; override;
     function GetSize:Integer;
     procedure AddItem(const Msg : string);
-    function Dump(aDest : TStream):String;
+    procedure Dump(aDest : TStream);
   end;
 
   TLogThread = Class(TThread)
@@ -164,7 +164,7 @@ begin
   inherited;
 end;
 
-function TLogList.Dump(aDest: TStream): String;
+procedure TLogList.Dump(aDest: TStream);
 begin
   with LockList do
   try

@@ -833,6 +833,7 @@ var
   UserData : TUserData;
   ar : TIntArray;
 begin
+  SetLength(ar, 0);
   UserData := CreateUserData(Indexes, True, soSuppr, ar, CallBack);
   result := DoOperation(@DoDeleteFunct, UserData, opDelete);
 end;
@@ -962,11 +963,9 @@ begin
 end;
 
 {$ifdef Mswindows}
-function CustomRunCommand(const cmdline:string;out outputstring:string):boolean;
+function CustomRunCommand(const cmdline:string):boolean;
 var
   p : TProcess;
-  exitstatus : integer;
-  ErrorString : String;
 begin
   p:=TProcess.create(nil);
   p.CommandLine := cmdline;
@@ -983,7 +982,7 @@ var
 
   function ConvertImageToBMP(const fimg : String):String;
   var
-    cmd, outs : string;
+    cmd : string;
   begin
     FLog.Log(ClassName + '.ConvertImageToBMP : ' +Fimg);
 
@@ -999,7 +998,7 @@ var
 {$elseif Defined(MsWindows)}
       cmd := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'dwebp.exe';
       cmd := cmd + ' -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
-      CustomRunCommand(cmd, outs);
+      CustomRunCommand(cmd);
 {$endif}
       FLog.Log(ClassName + '.ConvertImageToBMP Executing : ' + cmd);
 
@@ -1558,7 +1557,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 
   function ConvertImage(const fimg : String):String;
   var
-    cmd, outs : string;
+    cmd : string;
   begin
     aFLog.Log(ClassName + '.ConvertImage : ' +Fimg);
 
@@ -1569,7 +1568,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 {$if Defined(Darwin) or Defined(Linux)}
       fpsystem(cmd);
 {$elseif Defined(MsWindows)}
-      CustomRunCommand(cmd, outs);
+      CustomRunCommand(cmd);
 {$endif}
       aFLog.Log(ClassName + '.ConvertImage Executing : ' + cmd);
 

@@ -3,7 +3,10 @@ unit Utils.NaturalSortStringList;
 interface
 
 uses
-  Classes, SysUtils, LazUTF8;
+{$if Defined(MsWindows)}
+  Windows,
+{$endif}
+  Classes, SysUtils, LazUTF8, LconvEncoding;
 
 
 type
@@ -159,7 +162,7 @@ begin
   Str2 := RemoveDiacritics(aList[Index2]);
 
   // Case insensitive.
-  {$IFDEF WINDOWS}
+  {$IFDEF MsWindows}
   if CodePage = 1252 then  // Latin chars
   begin
     Result := EvsCompareNatural_A(Str1, Str2, False);
@@ -203,7 +206,7 @@ end;
 initialization
   CodePage := 0;
   CodePageString := '';
-  {$IFDEF WINDOWS}
+  {$IFDEF MsWindows}
   CodePage :=  GetACP;
   {$ELSE}
   {$IFDEF LINUX}

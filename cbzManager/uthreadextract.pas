@@ -359,7 +359,6 @@ begin
   finally
     t.Free;
   end;
-  Filenames.savetofile('/home/matugenos/files.txt');
 end;
 
 procedure TThreadExtract.CopyFileToTemp(const aFileName: String);

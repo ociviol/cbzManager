@@ -894,11 +894,11 @@ end;
 
 procedure JoinImages(b1, b2, bFinal: TBitmap);
 begin
-{$ifdef Linux}
-  bFinal.PixelFormat := pf24bit;
-{$else}
-  bFinal.PixelFormat := pf32bit;
-{$endif}
+  {$ifdef Linux}
+    bFinal.PixelFormat := pf24bit;
+  {$else}
+    bFinal.PixelFormat := pf32bit;
+  {$endif}
   bFinal.Width := b1.Width * 2;
   bFinal.Height := b1.Height;
   bFinal.Canvas.AntialiasingMode:=amOn;

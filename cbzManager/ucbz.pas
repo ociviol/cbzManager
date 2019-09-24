@@ -1032,6 +1032,11 @@ begin
             if Sysutils.FileExists(fout) then
             try
               result := TBitmap.Create;
+{$ifdef Linux}
+              result.PixelFormat := pf24bit;
+{$else}
+              result.PixelFormat := pf32bit;
+{$endif}
               result.LoadFromFile(fout);
             finally
               Sysutils.DeleteFile(fout);

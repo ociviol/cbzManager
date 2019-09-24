@@ -33,7 +33,7 @@ implementation
 
 uses
   Utils.Masks
-{$ifndef Darwin}
+{$ifdef Debug}
   ,Utils.NaturalSortStringList
 {$endif}
   ;
@@ -121,13 +121,13 @@ end;
 procedure GetFiles(const Path, sMasks : String; Files : TStringList);
 var
   Masks : TStringArray;
-{$ifndef Darwin}
+{$ifdef Debug}
   t : TNaturalSortStringList;
 {$endif}
 begin
   Masks := sMasks.Split([';']);
   GetFiles(Path, Masks, Files);
-{$ifndef Darwin}
+{$ifdef debug}
   t := TNaturalSortStringList.Create;
   with t do
   try

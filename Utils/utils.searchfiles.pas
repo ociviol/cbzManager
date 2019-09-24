@@ -32,8 +32,7 @@ procedure GetFiles(const Path : string; Masks : Array of String; Files : TString
 implementation
 
 uses
-  Utils.Masks;
-
+  Utils.Masks, Utils.NaturalSortStringList;
 
 type
   TThreadSearchFiles = Class(TThread)
@@ -118,9 +117,20 @@ end;
 procedure GetFiles(const Path, sMasks : String; Files : TStringList);
 var
   Masks : TStringArray;
+  t : TNaturalSortStringList;
 begin
   Masks := sMasks.Split([';']);
   GetFiles(Path, Masks, Files);
+
+  t := TNaturalSortStringList.Create;
+  with t do
+  try
+    Assign(Files);
+    Sort;
+    Files.Assign(t);
+  finally
+    Free;
+  end;
 end;
 
 procedure GetFiles(const Path : string; Masks : Array of String; Files : TStringList);

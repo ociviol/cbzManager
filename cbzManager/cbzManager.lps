@@ -3,12 +3,12 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Debug"/>
-    <Units Count="59">
+    <Units Count="60">
       <Unit0>
         <Filename Value="cbzManager.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
-        <CursorPos X="57" Y="11"/>
+        <EditorIndex Value="5"/>
+        <CursorPos Y="21"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -18,12 +18,12 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="365"/>
-        <CursorPos X="50" Y="372"/>
+        <TopLine Value="879"/>
+        <CursorPos Y="902"/>
         <UsageCount Value="204"/>
-        <Bookmarks Count="1">
+        <Bookmarks Count="2">
           <Item0 Y="397"/>
+          <Item1 Y="955" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -34,7 +34,7 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="13"/>
         <CursorPos X="10" Y="13"/>
         <UsageCount Value="204"/>
@@ -44,9 +44,9 @@
       <Unit3>
         <Filename Value="webp.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="370"/>
-        <CursorPos X="11" Y="392"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="305"/>
+        <CursorPos X="30" Y="319"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -54,7 +54,7 @@
         <Filename Value="../Utils/utils.graphics.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils.Graphics"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="13"/>
         <CursorPos Y="9"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
@@ -63,14 +63,13 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="8"/>
-        <TopLine Value="520"/>
-        <CursorPos X="33" Y="528"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="1024"/>
+        <CursorPos X="15" Y="1040"/>
         <UsageCount Value="204"/>
-        <Bookmarks Count="3">
-          <Item0 X="15" Y="1661" ID="1"/>
-          <Item1 X="30" Y="5" ID="2"/>
-          <Item2 X="14" Y="1603" ID="3"/>
+        <Bookmarks Count="2">
+          <Item0 X="30" Y="5" ID="2"/>
+          <Item1 X="14" Y="1609" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit5>
@@ -78,7 +77,7 @@
         <Filename Value="../Utils/utils.logger.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils.Logger"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="19"/>
         <TopLine Value="14"/>
         <CursorPos X="38" Y="25"/>
         <UsageCount Value="204"/>
@@ -96,8 +95,9 @@
         <Filename Value="../Utils/utils.searchfiles.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <EditorIndex Value="17"/>
-        <CursorPos Y="9"/>
+        <EditorIndex Value="20"/>
+        <TopLine Value="121"/>
+        <CursorPos Y="130"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit8>
@@ -140,10 +140,11 @@
         <Filename Value="../Utils/utils.gridhelper.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils.Gridhelper"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="39"/>
-        <CursorPos X="16" Y="56"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="58"/>
+        <CursorPos Y="70"/>
         <UsageCount Value="200"/>
+        <Loaded Value="True"/>
       </Unit13>
       <Unit14>
         <Filename Value="../Utils/utils.softwareversion.pas"/>
@@ -158,7 +159,7 @@
         <Filename Value="udatapool.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataPool"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="4"/>
         <CursorPos X="39" Y="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -167,8 +168,9 @@
         <Filename Value="udataitem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataItem"/>
-        <EditorIndex Value="4"/>
-        <CursorPos X="39" Y="9"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="173"/>
+        <CursorPos Y="184"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit16>
@@ -176,7 +178,8 @@
         <Filename Value="uthreadconvert.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="12"/>
+        <TopLine Value="5"/>
         <CursorPos X="39" Y="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -185,7 +188,7 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="7"/>
         <CursorPos X="39" Y="12"/>
         <UsageCount Value="200"/>
@@ -195,8 +198,10 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="14"/>
-        <CursorPos X="9" Y="10"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="15"/>
+        <TopLine Value="504"/>
+        <CursorPos X="35" Y="519"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit19>
@@ -207,16 +212,16 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="97"/>
         <CursorPos Y="119"/>
-        <UsageCount Value="184"/>
+        <UsageCount Value="210"/>
       </Unit20>
       <Unit21>
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="107"/>
         <CursorPos Y="130"/>
-        <UsageCount Value="182"/>
+        <UsageCount Value="208"/>
         <Loaded Value="True"/>
       </Unit21>
       <Unit22>
@@ -226,12 +231,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uLoadReport"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos Y="23"/>
-        <UsageCount Value="42"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="71"/>
       </Unit22>
       <Unit23>
         <Filename Value="../Utils/zipfile/zipfile.pas"/>
@@ -239,7 +242,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
         <CursorPos X="99" Y="21"/>
-        <UsageCount Value="85"/>
+        <UsageCount Value="82"/>
         <Bookmarks Count="1">
           <Item0 Y="486" ID="1"/>
         </Bookmarks>
@@ -249,382 +252,384 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos X="3" Y="49"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit24>
       <Unit25>
         <Filename Value="../Utils/zipfile/tiCompressNone.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="114"/>
         <CursorPos Y="126"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit25>
       <Unit26>
         <Filename Value="../Utils/zipfile/dzlib.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
         <CursorPos X="104" Y="191"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit26>
       <Unit27>
         <Filename Value="../common/zipctnr.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="608"/>
         <CursorPos Y="624"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="10"/>
       </Unit27>
       <Unit28>
         <Filename Value="../common/zipitem.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="580"/>
         <CursorPos Y="626"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="10"/>
       </Unit28>
       <Unit29>
         <Filename Value="../common/zipreaderwriter.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="364"/>
         <CursorPos X="13" Y="379"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="10"/>
       </Unit29>
       <Unit30>
-        <Filename Value="../common/ziplocal.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="327"/>
-        <CursorPos Y="366"/>
-        <UsageCount Value="2"/>
-      </Unit30>
-      <Unit31>
         <Filename Value="/usr/share/lazarus/2.0.2/lcl/include/customform.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1208"/>
         <CursorPos Y="1224"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/classes/classesh.inc"/>
+        <EditorIndex Value="16"/>
+        <TopLine Value="770"/>
+        <CursorPos X="16" Y="781"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
       </Unit31>
       <Unit32>
-        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/classes/classesh.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="89"/>
-        <CursorPos X="38" Y="102"/>
-        <UsageCount Value="4"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="../common/zipfile.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="81"/>
-        <CursorPos Y="98"/>
-        <UsageCount Value="2"/>
-      </Unit33>
-      <Unit34>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/paszlib/src/zstream.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="47"/>
         <CursorPos X="95" Y="50"/>
-        <UsageCount Value="3"/>
-      </Unit34>
-      <Unit35>
+        <UsageCount Value="10"/>
+      </Unit32>
+      <Unit33>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/unix/unix.pp"/>
         <UnitName Value="Unix"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="77"/>
         <CursorPos X="10" Y="92"/>
-        <UsageCount Value="35"/>
-      </Unit35>
-      <Unit36>
-        <Filename Value="/usr/share/lazarus/2.0.2/lcl/grids.pas"/>
-        <UnitName Value="Grids"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="5747"/>
-        <CursorPos X="3" Y="5751"/>
-        <UsageCount Value="1"/>
-      </Unit36>
-      <Unit37>
+        <UsageCount Value="32"/>
+      </Unit33>
+      <Unit34>
         <Filename Value="/usr/share/lazarus/2.0.2/lcl/interfaces/gtk2/gtk2widgetset.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="5539"/>
         <CursorPos X="59" Y="5543"/>
-        <UsageCount Value="9"/>
-      </Unit37>
-      <Unit38>
+        <UsageCount Value="6"/>
+      </Unit34>
+      <Unit35>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-json/src/fpjsonrtti.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="57"/>
         <CursorPos X="64" Y="71"/>
-        <UsageCount Value="9"/>
-      </Unit38>
-      <Unit39>
+        <UsageCount Value="6"/>
+      </Unit35>
+      <Unit36>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-json/src/fpjson.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="591"/>
         <CursorPos X="48" Y="601"/>
-        <UsageCount Value="9"/>
-      </Unit39>
-      <Unit40>
+        <UsageCount Value="6"/>
+      </Unit36>
+      <Unit37>
         <Filename Value="/usr/lib/lazarus/1.8.2/lcl/include/customform.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1002"/>
         <CursorPos Y="1019"/>
-        <UsageCount Value="5"/>
-      </Unit40>
-      <Unit41>
+        <UsageCount Value="2"/>
+      </Unit37>
+      <Unit38>
         <Filename Value="../common/Zip/zipreaderwriter.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="44"/>
         <CursorPos X="18" Y="46"/>
-        <UsageCount Value="9"/>
-      </Unit41>
-      <Unit42>
+        <UsageCount Value="6"/>
+      </Unit38>
+      <Unit39>
         <Filename Value="../common/Zip/zipitem.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="449"/>
         <CursorPos X="64" Y="462"/>
-        <UsageCount Value="10"/>
-      </Unit42>
-      <Unit43>
+        <UsageCount Value="7"/>
+      </Unit39>
+      <Unit40>
         <Filename Value="../Utils/utils.zipfile.pas"/>
         <UnitName Value="Utils.zipfile"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="18"/>
         <CursorPos Y="30"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="68"/>
         <Bookmarks Count="1">
           <Item0 X="16" Y="800" ID="4"/>
         </Bookmarks>
-        <Loaded Value="True"/>
-      </Unit43>
-      <Unit44>
+      </Unit40>
+      <Unit41>
         <Filename Value="../common/Zip/ziplocal.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos X="3" Y="22"/>
-        <UsageCount Value="9"/>
-      </Unit44>
-      <Unit45>
+        <UsageCount Value="6"/>
+      </Unit41>
+      <Unit42>
         <Filename Value="../common/Zip/ziptypes.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="46"/>
         <CursorPos Y="60"/>
-        <UsageCount Value="9"/>
-      </Unit45>
-      <Unit46>
+        <UsageCount Value="6"/>
+      </Unit42>
+      <Unit43>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/hash/src/crc.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="33"/>
         <CursorPos X="10" Y="30"/>
-        <UsageCount Value="9"/>
-      </Unit46>
-      <Unit47>
+        <UsageCount Value="6"/>
+      </Unit43>
+      <Unit44>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-web/src/base/fphttpclient.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
         <CursorPos X="98" Y="41"/>
-        <UsageCount Value="7"/>
-      </Unit47>
-      <Unit48>
+        <UsageCount Value="4"/>
+      </Unit44>
+      <Unit45>
         <Filename Value="/usr/share/lazarus/2.0.2/lcl/intfgraphics.pas"/>
         <UnitName Value="IntfGraphics"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="3536"/>
         <CursorPos Y="3549"/>
-        <UsageCount Value="13"/>
-      </Unit48>
-      <Unit49>
+        <UsageCount Value="10"/>
+      </Unit45>
+      <Unit46>
         <Filename Value="/usr/share/lazarus/2.0.2/lcl/include/custombitmap.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="482"/>
         <CursorPos Y="502"/>
-        <UsageCount Value="9"/>
-      </Unit49>
-      <Unit50>
+        <UsageCount Value="6"/>
+      </Unit46>
+      <Unit47>
         <Filename Value="/usr/share/lazarus/2.0.2/lcl/include/fpimagebitmap.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="130"/>
         <CursorPos Y="141"/>
-        <UsageCount Value="11"/>
-      </Unit50>
-      <Unit51>
+        <UsageCount Value="8"/>
+      </Unit47>
+      <Unit48>
         <Filename Value="/usr/share/lazarus/2.0.2/lcl/include/picture.inc"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="582"/>
-        <CursorPos Y="597"/>
-        <UsageCount Value="10"/>
-      </Unit51>
-      <Unit52>
+        <CursorPos Y="595"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+      </Unit48>
+      <Unit49>
         <Filename Value="/usr/share/lazarus/2.0.2/components/lazutils/lazutf8classes.pas"/>
         <UnitName Value="LazUTF8Classes"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="140"/>
         <CursorPos Y="151"/>
-        <UsageCount Value="10"/>
-      </Unit52>
-      <Unit53>
+        <UsageCount Value="7"/>
+      </Unit49>
+      <Unit50>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-image/src/fpimage.pp"/>
         <UnitName Value="FPimage"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="33"/>
         <CursorPos X="31" Y="34"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-      </Unit53>
-      <Unit54>
+        <UsageCount Value="7"/>
+      </Unit50>
+      <Unit51>
         <Filename Value="backup/uthreadconvert.pas"/>
         <UnitName Value="uThreadConvert"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="39" Y="9"/>
-        <UsageCount Value="10"/>
-      </Unit54>
-      <Unit55>
+        <UsageCount Value="7"/>
+      </Unit51>
+      <Unit52>
         <Filename Value="backup/main.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1451"/>
         <CursorPos X="7" Y="1463"/>
-        <UsageCount Value="10"/>
-      </Unit55>
-      <Unit56>
+        <UsageCount Value="7"/>
+      </Unit52>
+      <Unit53>
         <Filename Value="backup/udatapool.pas"/>
         <UnitName Value="uDataPool"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="9"/>
-        <UsageCount Value="10"/>
-      </Unit56>
-      <Unit57>
+        <UsageCount Value="7"/>
+      </Unit53>
+      <Unit54>
         <Filename Value="backup/uthreadextract.pas"/>
         <UnitName Value="uThreadExtract"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="400"/>
         <CursorPos Y="412"/>
-        <UsageCount Value="10"/>
-      </Unit57>
-      <Unit58>
+        <UsageCount Value="7"/>
+      </Unit54>
+      <Unit55>
         <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
         <UnitName Value="Utils.NaturalSortStringList"/>
-        <EditorIndex Value="15"/>
-        <TopLine Value="12"/>
-        <CursorPos Y="24"/>
+        <EditorIndex Value="18"/>
+        <TopLine Value="203"/>
+        <CursorPos Y="223"/>
+        <UsageCount Value="25"/>
+        <Loaded Value="True"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="../Utils/naturalsortunit.pas"/>
+        <UnitName Value="NaturalSortUnit"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="45"/>
+        <CursorPos X="65" Y="56"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/inc/ustringh.inc"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="21"/>
+        <CursorPos X="11" Y="32"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="../Utils/uDCUtils.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="809"/>
+        <CursorPos Y="812"/>
+        <UsageCount Value="11"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/classes/stringl.inc"/>
+        <EditorIndex Value="17"/>
+        <TopLine Value="1497"/>
+        <CursorPos X="61" Y="1509"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-      </Unit58>
+      </Unit59>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="28" HistoryIndex="27">
       <Position1>
-        <Filename Value="uconfig.pas"/>
-        <Caret Line="130" TopLine="107"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="6" Column="27"/>
       </Position1>
       <Position2>
-        <Filename Value="config.pas"/>
-        <Caret Line="13" Column="10" TopLine="13"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="216" Column="41" TopLine="196"/>
       </Position2>
       <Position3>
-        <Filename Value="main.pas"/>
-        <Caret Line="333" TopLine="321"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="367" TopLine="351"/>
       </Position3>
       <Position4>
-        <Filename Value="main.pas"/>
-        <Caret Line="680" Column="2" TopLine="671"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="361" Column="23" TopLine="349"/>
       </Position4>
       <Position5>
-        <Filename Value="main.pas"/>
-        <Caret Line="683" Column="12" TopLine="671"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="216" TopLine="196"/>
       </Position5>
       <Position6>
-        <Filename Value="main.pas"/>
-        <Caret Line="684" Column="19" TopLine="671"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="18" Column="21" TopLine="7"/>
       </Position6>
       <Position7>
-        <Filename Value="main.pas"/>
-        <Caret Line="686" Column="31" TopLine="671"/>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/classes/classesh.inc"/>
+        <Caret Line="781" Column="16" TopLine="770"/>
       </Position7>
       <Position8>
-        <Filename Value="main.pas"/>
-        <Caret Line="688" Column="36" TopLine="671"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="16" TopLine="7"/>
       </Position8>
       <Position9>
-        <Filename Value="main.pas"/>
-        <Caret Line="690" Column="41" TopLine="671"/>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/classes/stringl.inc"/>
+        <Caret Line="1522" Column="24" TopLine="1516"/>
       </Position9>
       <Position10>
-        <Filename Value="uthreadextract.pas"/>
-        <Caret Line="591" TopLine="580"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="207" Column="75" TopLine="200"/>
       </Position10>
       <Position11>
-        <Filename Value="../Utils/utils.logger.pas"/>
-        <Caret Line="26" TopLine="14"/>
+        <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/objpas/classes/stringl.inc"/>
+        <Caret Line="1509" Column="61" TopLine="1497"/>
       </Position11>
       <Position12>
-        <Filename Value="uthreadextract.pas"/>
-        <Caret Line="18" TopLine="3"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="207" Column="69" TopLine="194"/>
       </Position12>
       <Position13>
-        <Filename Value="uthreadextract.pas"/>
-        <Caret Line="108" Column="9" TopLine="88"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="214" Column="22" TopLine="194"/>
       </Position13>
       <Position14>
-        <Filename Value="uthreadextract.pas"/>
-        <Caret Line="136" Column="9" TopLine="124"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="223" TopLine="203"/>
       </Position14>
       <Position15>
         <Filename Value="uthreadextract.pas"/>
-        <Caret Line="211" TopLine="197"/>
+        <Caret Line="362" TopLine="349"/>
       </Position15>
       <Position16>
-        <Filename Value="uthreadextract.pas"/>
-        <Caret Line="236" TopLine="230"/>
+        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="223" TopLine="203"/>
       </Position16>
       <Position17>
         <Filename Value="uthreadextract.pas"/>
-        <Caret Line="131" Column="49" TopLine="120"/>
+        <Caret Line="362" TopLine="349"/>
       </Position17>
       <Position18>
-        <Filename Value="main.pas"/>
-        <Caret Line="145" Column="41" TopLine="135"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="367" TopLine="349"/>
       </Position18>
       <Position19>
-        <Filename Value="webp.pas"/>
-        <Caret Line="392" Column="11" TopLine="370"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="350" Column="32" TopLine="350"/>
       </Position19>
       <Position20>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="463" Column="26" TopLine="452"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="87" Column="89" TopLine="80"/>
       </Position20>
       <Position21>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="481" Column="3" TopLine="459"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="128" Column="20" TopLine="108"/>
       </Position21>
       <Position22>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="528" Column="33" TopLine="520"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="142" Column="20" TopLine="122"/>
       </Position22>
       <Position23>
         <Filename Value="uthreadextract.pas"/>
-        <Caret Line="456" Column="24" TopLine="441"/>
+        <Caret Line="153" Column="20" TopLine="133"/>
       </Position23>
       <Position24>
-        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
-        <Caret Line="55" Column="57" TopLine="45"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="211" Column="20" TopLine="192"/>
       </Position24>
       <Position25>
-        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
-        <Caret Line="105" Column="47" TopLine="95"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="229" Column="17" TopLine="210"/>
       </Position25>
       <Position26>
-        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
-        <Caret Line="135" Column="32" TopLine="121"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="243" Column="17" TopLine="223"/>
       </Position26>
       <Position27>
         <Filename Value="uthreadextract.pas"/>
-        <Caret Line="456" Column="24" TopLine="441"/>
+        <Caret Line="393" Column="20" TopLine="373"/>
       </Position27>
       <Position28>
-        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
-        <Caret Line="173" TopLine="154"/>
+        <Filename Value="uthreadextract.pas"/>
+        <Caret Line="417" Column="20" TopLine="397"/>
       </Position28>
-      <Position29>
-        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
-        <Caret Line="61" Column="47" TopLine="52"/>
-      </Position29>
-      <Position30>
-        <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
-        <Caret Line="24" TopLine="12"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -632,28 +637,14 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="3">
+    <BreakPoints Count="1">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="uthreadextract.pas"/>
-        <Line Value="373"/>
+        <Line Value="412"/>
       </Item1>
-      <Item2>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uthreadextract.pas"/>
-        <Line Value="396"/>
-      </Item2>
-      <Item3>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uthreadextract.pas"/>
-        <Line Value="223"/>
-      </Item3>
     </BreakPoints>
     <Watches Count="9">
       <Item1>

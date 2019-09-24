@@ -471,6 +471,7 @@ begin
         fn := outz.GetNextFilename;
 
         ms := GetFileStream(i);
+        outz.AppendStream(ms, fn, now, zstream.clnone);
 
         if Assigned(CallBack) then
           CallBack(Self, ProgressID, i, FileCount + Length(Streams) -1, 'Rewriting file :' + FFilename);
@@ -488,7 +489,7 @@ begin
       if Assigned(CallBack) then
         CallBack(Self, ProgressID, 0, 0);
 
-      s := Filename;
+      s := TCbz.CleanFilename(FileName);
       outz.Close;
       Close;
       FinishRewrite(s, fname);
@@ -596,7 +597,7 @@ begin
       if Assigned(UserData.Progress) then
         UserData.Progress(Self, UserData.ProgressID, 0, 0);
 
-      s := Filename;
+      s := TCbz.CleanFilename(FileName);
       outz.Close;
       Close;
       FinishRewrite(s, fname);
@@ -613,23 +614,23 @@ end;
 
 function TCbz.FinishRewrite(const aName, fname : string):Boolean;
 var
-  newf : string;
   i : integer;
+  newf : String;
 begin
   result := false;
-  newf := TCbz.CleanFilename(aName);
   FileToTrash(aName);
+  newf := aName;
   i := 1;
-  while Sysutils.FileExists(newf) do
+  while Sysutils.FileExists(aName) do
   begin
-    newf := ChangeFileExt(newf, ' (' + inttostr(i)+').cbz');
+    newf := ChangeFileExt(aName, ' (' + inttostr(i)+').cbz');
     inc(i);
   end;
   if not Sysutils.FileExists(aName) then
   begin
     FFilename := newf;
     result := True;
-    CopyFile(fname, aName);
+    CopyFile(fname, newf);
     if Sysutils.FileExists(fName) then
       Sysutils.DeleteFile(fname);
   end;
@@ -672,7 +673,7 @@ begin
     if Assigned(CallBack) then
       CallBack(Self, ProgressID, 0, 0);
 
-    s := FileName;
+    s := TCbz.CleanFilename(FileName);
     outz.Close;
     Close;
     FinishRewrite(s, fname);
@@ -832,6 +833,7 @@ var
   UserData : TUserData;
   ar : TIntArray;
 begin
+  SetLength(ar, 0);
   UserData := CreateUserData(Indexes, True, soSuppr, ar, CallBack);
   result := DoOperation(@DoDeleteFunct, UserData, opDelete);
 end;
@@ -961,11 +963,9 @@ begin
 end;
 
 {$ifdef Mswindows}
-function CustomRunCommand(const cmdline:string;out outputstring:string):boolean;
+function CustomRunCommand(const cmdline:string):boolean;
 var
   p : TProcess;
-  exitstatus : integer;
-  ErrorString : String;
 begin
   p:=TProcess.create(nil);
   p.CommandLine := cmdline;
@@ -982,7 +982,7 @@ var
 
   function ConvertImageToBMP(const fimg : String):String;
   var
-    cmd, outs : string;
+    cmd : string;
   begin
     FLog.Log(ClassName + '.ConvertImageToBMP : ' +Fimg);
 
@@ -998,7 +998,7 @@ var
 {$elseif Defined(MsWindows)}
       cmd := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'dwebp.exe';
       cmd := cmd + ' -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
-      CustomRunCommand(cmd, outs);
+      CustomRunCommand(cmd);
 {$endif}
       FLog.Log(ClassName + '.ConvertImageToBMP Executing : ' + cmd);
 
@@ -1031,6 +1031,11 @@ begin
             if Sysutils.FileExists(fout) then
             try
               result := TBitmap.Create;
+{$ifdef Linux}
+              result.PixelFormat := pf24bit;
+{$else}
+              result.PixelFormat := pf32bit;
+{$endif}
               result.LoadFromFile(fout);
             finally
               Sysutils.DeleteFile(fout);
@@ -1167,11 +1172,14 @@ begin
   begin
     clconfig := TCleanFilename.Create;
     try
+      clconfig.WordList.Add('COMICS');
+      clconfig.WordList.Add('BDFR');
+      clconfig.WordList.Add('BD FR');
       p := ExtractFilePath(aFilename);
       e := ExtractFileExt(aFilename);
       f := ExtractFileName(aFilename);
       f := f.Replace(e, '').Replace('.', ' ').Replace('#', '').Replace('_', ' ');
-      f := CleanBDFR(f);
+      f := CleanBDFR(CleanBDFR(f));
       result := ifthen(p.Length > 0, IncludeTrailingPathDelimiter(p), '') + f.Trim + '.cbz';
     finally
       clconfig.Free;
@@ -1549,7 +1557,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 
   function ConvertImage(const fimg : String):String;
   var
-    cmd, outs : string;
+    cmd : string;
   begin
     aFLog.Log(ClassName + '.ConvertImage : ' +Fimg);
 
@@ -1560,7 +1568,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 {$if Defined(Darwin) or Defined(Linux)}
       fpsystem(cmd);
 {$elseif Defined(MsWindows)}
-      CustomRunCommand(cmd, outs);
+      CustomRunCommand(cmd);
 {$endif}
       aFLog.Log(ClassName + '.ConvertImage Executing : ' + cmd);
 
@@ -1635,6 +1643,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   begin
     p := TPicture.Create;
     try
+      aSrc.Position:=0;
       p.LoadFromStream(aSrc);
       aSrc.Clear;
       p.SaveToStreamWithFileExt(aSrc, 'bmp');
@@ -1642,10 +1651,6 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
       b := TBitmap.Create;
       try
         try
-//          b.PixelFormat:=pf24bit;
-//          b.Width:=p.Width;
-//          b.Height:=p.Height;
-//          b.Canvas.Draw(0, 0, p.Graphic);
           b.LoadFromStream(aSrc);
           result := BitmapToWebp(b, aDest);
         finally

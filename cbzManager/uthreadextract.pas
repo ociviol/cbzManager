@@ -165,14 +165,10 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
                                   Results: TStrings;
                                   Progress : TCbzProgressEvent; ProgressID : QWord;
                                   OnBadFile : TNotifyEvent);
-var
-  outs : String;
 {$ifdef Mswindows}
-  function _RunCommand(const cmdline:string;out outputstring:string):boolean; deprecated;
+  function _RunCommand(const cmdline:string):boolean;
   var
     p : TProcess;
-    exitstatus : integer;
-    ErrorString : String;
   begin
     p:=TProcess.create(nil);
     p.CommandLine := cmdline;
@@ -195,7 +191,8 @@ begin
   FProgress := Progress;
   FProgressID := ProgressID;
   FFiles := TStringList.Create;
-  FFiles.Sorted := True;
+  FFiles.SortStyle:=sslUser;
+  FFiles.Sorted := False;
 
   if not (self is TThreadZipExtract) then
   begin
@@ -208,7 +205,7 @@ begin
 {$if defined(Darwin) or defined(Linux)}
       fpSystem(FCmd);
 {$else}
-      _RunCommand(FCmd, outs);
+      _RunCommand(FCmd);
 {$endif}
       // get files
       GetFileNames(FFiles);
@@ -349,8 +346,19 @@ begin
 end;
 
 procedure TThreadExtract.GetFileNames(FileNames:TStringList);
+var
+  t : TNaturalSortStringList;
 begin
   GetFiles(FTmpDir, AllowedMasks, FileNames);
+
+  t := TNaturalSortStringList.Create;
+  try
+    t.Assign(Filenames);
+    t.Sort;
+    Filenames.Assign(t);
+  finally
+    t.Free;
+  end;
 end;
 
 procedure TThreadExtract.CopyFileToTemp(const aFileName: String);

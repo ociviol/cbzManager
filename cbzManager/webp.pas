@@ -313,10 +313,10 @@ begin
     try
       bmp.Width:= w;
       bmp.Height := h;
-{$ifdef MsWindows}
-      bmp.PixelFormat := pf32bit;
-{$else}
+{$ifdef Linux}
       bmp.PixelFormat := pf24bit;
+{$else}
+      bmp.PixelFormat := pf32bit;
 {$endif}
       bmp.BeginUpdate;
       try
@@ -374,9 +374,7 @@ begin
     end;
 
     try
-    {$if defined(Darwin)}
-      sz := DoWebpEncodeBGRA(p, w, h, stride, 90, @pout);
-    {$elseif defined(Linux)}
+    {$if defined(Linux)}
       sz := DoWebpEncodeBGR(p, w, h, stride, 75, @pout);
     {$else}
       sz := DoWebPEncodeBGRA(p, w, h, stride, 75, @pout);

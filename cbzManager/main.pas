@@ -416,10 +416,11 @@ end;
 procedure TMainFrm.SetAppCaption;
 begin
   Caption := GetFileVersionInternalName + ' (' + GetFileVersion + ')';
-  Caption := format('%s - Path : %s - %d Queues - %d Encoding threads',
+  Caption := format('%s - Path : %s - %d Queues - %d Encoding threads - Temp: %s',
                     [Caption, Fconfig.BdPathPath,
                     FThreadDataPool.PoolSize,
-                    FThreadDataPool.NbWorkers]);
+                    FThreadDataPool.NbWorkers,
+                    GetTempDir(True)]);
 end;
 
 procedure TMainFrm.EnableActions;
@@ -676,33 +677,39 @@ begin
   msg := '';
   if not FileExists(Fconfig.cwebp) then
   begin
-    msg := msg + 'cwebp not found, install using ' +
-{$ifdef darwin}
-          '''brew install webp''' + #13;
+    msg := msg + 'cwebp not found, ' +
+{$if defined(Darwin)}
+          'install using ''brew install webp''' + #13;
+{$elseif defined(Linux)}
+           'install using ''sudo apt install webp''' + #13;
 {$else}
-           '''sudo apt install webp''' + #13;
+   #13;
 {$endif}
   Flog.Log('required binary missing : cwebp.');
   end;
 
   if not FileExists(Fconfig.unrar) then
   begin
-    msg := msg + 'unrar not found, install using ' +
-    {$ifdef darwin}
-              '''brew install unrar''' + #13;
-    {$else}
-               '''sudo apt install unrar''' + #13;
-    {$endif}
+    msg := msg + 'unrar not found, ' +
+{$if defined(Darwin)}
+              'install using ''brew install unrar''' + #13;
+{$elseif defined(Linux)}
+               'install using ''sudo apt install unrar''' + #13;
+{$else}
+   #13;
+{$endif}
     Flog.Log('required binary missing : unrar.');
   end;
   if not FileExists(Fconfig.p7zip) then
   begin
-    msg := msg + '7z not found, install using ' +
-    {$ifdef darwin}
-              '''brew install p7zip''' + #13;
-    {$else}
-               '''sudo apt install p7zip-full''' + #13;
-    {$endif}
+    msg := msg + '7z not found, ' +
+{$if defined(Darwin)}
+              'install using ''brew install p7zip''' + #13;
+{$elseif defined(Linux)}
+               'install using ''sudo apt install p7zip-full''' + #13;
+{$else}
+   #13;
+{$endif}
     Flog.Log('required binary missing : p7zip.');
   end;
 {$if defined(Darwin)}
@@ -887,11 +894,16 @@ end;
 
 procedure JoinImages(b1, b2, bFinal: TBitmap);
 begin
-  bFinal.PixelFormat := b1.PixelFormat;
+  {$ifdef Linux}
+    bFinal.PixelFormat := pf24bit;
+  {$else}
+    bFinal.PixelFormat := pf32bit;
+  {$endif}
   bFinal.Width := b1.Width * 2;
   bFinal.Height := b1.Height;
+  bFinal.Canvas.AntialiasingMode:=amOn;
   bFinal.Canvas.Draw(0, 0, b1);
-  bFinal.Canvas.StretchDraw(Rect(b1.Width, 0, bFinal.Width, bFinal.Height), b2);
+  bFinal.Canvas.Draw(b1.Width, 0, b2);
 end;
 
 procedure TMainFrm.ActionHorizFlipExecute(Sender: TObject);
@@ -916,7 +928,10 @@ procedure TMainFrm.ActionJoinExecute(Sender: TObject);
 var
   lst: TIntArray;
   ar : TIntArray;
-  b1, b2, bFinal: TBitmap;
+  b1, b2 : Tbitmap;
+  bFinal: TBitmap;
+  ms : TMemoryStream;
+  ars : TStreamArray;
 begin
   if DrawGrid1.Position >= 0 then
   begin
@@ -933,17 +948,18 @@ begin
           bFinal := TBitmap.Create;
           try
             JoinImages(b1, b2, bFinal);
-            {
-              bfinal.PixelFormat := b1.PixelFormat;
-              bfinal.Width := b1.Width *2;
-              bfinal.Height := b1.Height;
-              bfinal.Canvas.Draw(0, 0, b1);
-              bfinal.Canvas.StretchDraw(Rect(b1.Width, 0, bfinal.Width-1, bfinal.Height-1), b2);
-            }
-            SetLength(ar, 1);
-            zf.Image[lst[0]] := bFinal;
-            ar[0] := lst[1];
-            zf.Delete(ar);
+            ms := TMemoryStream.Create;
+            bFinal.SaveToStream(ms);
+            // delete images
+            SetLength(ar, 2);
+            ar[0] := lst[0];
+            ar[1] := lst[1];
+            zf.Delete(ar, @Progress);
+            // insert joined image
+            SetLength(ars, 1);
+            ars[0] := ms;
+            zf.Insert(ars, lst[0]);
+            // re select
             DrawGrid1.Max := zf.ImageCount;
             DrawGrid1.Position := lst[0];
             DrawGrid1.Invalidate;
@@ -1201,7 +1217,9 @@ begin
       b := zf.Image[DrawGrid1.Position];
       try
         b1 := TBitmap.Create;
+        b1.Canvas.AntialiasingMode:=amOn;
         b2 := TBitmap.Create;
+        b2.Canvas.AntialiasingMode:=amOn;
         try
           b1.PixelFormat := b.PixelFormat;
           b2.PixelFormat := b.PixelFormat;

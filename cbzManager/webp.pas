@@ -4,14 +4,10 @@ unit webp;
 
 interface
 
-{$define DLL}
-{$define UseInternalWebp}
 
 uses
   Classes, SysUtils,
-{$ifdef DLL}
   dynlibs,
-{$endif}
   Graphics;
 
 type
@@ -21,7 +17,6 @@ type
   pint = ^integer;
   float = single;
 
-{$ifdef DLL}
   TWebPGetDecoderVersion = function:integer; cdecl;
   TWebPGetInfo = function(data : pbyte; data_size : int64; width : pint; height : pint):integer; cdecl;
   TWebPFree = procedure(p : pointer); cdecl;
@@ -95,17 +90,11 @@ type
   TWebpEncodeBGRA = function(bgr : pbyte; width, height, stride : integer;
                              quality_factor : float; output : ppbyte):integer; cdecl;
 
-{$endif}
 
 const
 {$if defined(darwin)}
-  {$ifndef DLL}
-   clibwebp = 'libwebp.a';
-   {$linklib /usr/local/lib/libwebp.a}
-   {$else}
    cpath = '/usr/local/lib';
    clibwebp = 'libwebp.dylib';
-  {$endif}
 {$elseif defined(Linux)}
    cpath = '/usr/lib';
    clibwebp = 'libwebp.so';
@@ -123,19 +112,11 @@ var
 function WebpToBitmap(data : pointer; size : int64):Tbitmap;
 function WebpFileToBitmap(const Filename : String):Tbitmap;
 function BitmapToWebp(aBitmap : TBitmap; aDest : TMemoryStream):Boolean;
-{$ifndef DLL}
-function WebPGetDecoderVersion:integer; cdecl; external clibwebp;
-function WebPGetInfo(data : pbyte; data_size : int64; width : pint; height : pint):integer; cdecl; external clibwebp;
-procedure WebPFree(p : pointer); cdecl; external clibwebp;
-function WebPDecodeBGRA(data : pbyte; data_size : int64; width : pint; height : pint):pbyte; cdecl; external clibwebp;
-{$else}
 function DoWebPGetDecoderVersion:integer;
 function DoWebPGetEncoderVersion:integer;
 function DoWebPGetInfo(data : pbyte; data_size : int64; width : pint; height : pint):integer;
 procedure DoWebPFree(p : pointer);
-{$endif}
 
-{$ifdef DLL}
 var
   PWebPGetDecoderVersion: TWebPGetDecoderVersion;
   PWebpGetEncoderVersion : TWebpGetEncoderVersion;
@@ -151,7 +132,6 @@ var
   PWebpEncodeRGBA : TWebpEncodeRGBA;
   PWebpEncodeBGR :TWebpEncodeBGR;
   PWebpEncodeBGRA : TWebpEncodeBGRA;
-{$endif}
 
 implementation
 
@@ -162,15 +142,12 @@ uses
   intfgraphics;
 
 
-{$ifdef DLL}
 var
   HWebplib : TLibHandle;
 {$ifdef Mswindows}
   HWebplibenc  : TLibHandle;
 {$endif}
-{$endif}
 
-{$ifdef DLL}
 procedure DoWebPFree(p : pointer);
 begin
   if HWebplib <> 0 then
@@ -179,7 +156,7 @@ end;
 
 function DoWebPGetDecoderVersion:integer;
 begin
-  if HWebplib <> 0 then
+  if (HWebplib <> 0) and Assigned(PWebPGetDecoderVersion) then
     result := PWebPGetDecoderVersion()
   else
     result := -1;
@@ -187,7 +164,7 @@ end;
 
 function DoWebPGetEncoderVersion:integer;
 begin
-  if HWebplib <> 0 then
+  if (HWebplib <> 0) and Assigned(PWebPGetEncoderVersion) then
     result := PWebPGetEncoderVersion()
   else
     result := -1;
@@ -284,7 +261,6 @@ begin
   else
     result := 0;
 end;
-{$endif}
 
 function WebpToBitmap(data : pointer; size : int64):Tbitmap;
 var
@@ -293,21 +269,16 @@ var
   w, h : smallint;
   y, psz : integer;
 begin
-{$ifdef DLL}
   if HWebplib = 0 then
     Exit(nil);
-{$endif}
+
+  bmp := TBitmap.Create;
   try
-    bmp := TBitmap.Create;
     psz := 4;
-{$ifdef DLL}
 {$ifdef Darwin}
     p := DoWebPDecodeARGB(data, size, @w, @h);
 {$else}
     p := DoWebPDecodeBGRA(data, size, @w, @h);
-{$endif}
-{$else}
-    p := WebPDecodeBGRA(data, size, @w, @h);
 {$endif}
     if p <> nil then
     try
@@ -330,14 +301,11 @@ begin
         bmp.EndUpdate;
       end;
     finally
-{$ifdef DLL}
       DoWebPFree(p);
-{$else}
-      WebPFree(p);
-{$endif}
     end;
     result := bmp;
   except
+    bmp.free;
     result := nil;
   end;
 end;
@@ -394,9 +362,8 @@ function WebpFileToBitmap(const Filename : String):Tbitmap;
 var
   m : TMemoryStream;
 begin
-{$ifdef DLL}
   if HWebplib = 0 then exit(nil);
-{$endif}
+
   m := TmemoryStream.Create;
   try
     m.LoadFromFile(Filename);
@@ -407,7 +374,6 @@ begin
   end;
 end;
 
-{$ifdef DLL}
 initialization
   HWebplib := 0;
   InternalcWebpAvail := False;
@@ -427,26 +393,27 @@ initialization
     PWebPDecodeBGRA := TWebPDecodeBGRA(GetProcedureAddress(HWebplib, 'WebPDecodeBGRA'));
     PWebPDecodeRGB := TWebPDecodeRGB(GetProcedureAddress(HWebplib, 'WebPDecodeRGB'));
     PWebPDecodeBGR := TWebPDecodeBGR(GetProcedureAddress(HWebplib, 'WebPDecodeBGR'));
-// internal Webp disable under Linux and Darwin for now
+{$ifndef MsWindows}
     InternalcWebpAvail := True;
+    PWebpGetEncoderVersion := TWebpGetEncoderVersion(GetProcedureAddress(HWebplib, 'WebPGetEncoderVersion'));
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplib, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplib, 'WebPEncodeRGBA'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplib, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplib, 'WebPEncodeBGRA'));
+{$endif}
   end;
 {$ifdef Mswindows}
-{$ifdef UseInternalWebp}
   HWebplibenc := LoadLibrary(cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}clibwebpenc);
   if HWebplibenc <> 0 then
   begin
     InternalcWebpAvail := True;
+    PWebpGetEncoderVersion := TWebpGetEncoderVersion(GetProcedureAddress(HWebplibenc, 'WebPGetEncoderVersion'));
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGBA'));
     PWebPEncodeLosslessBGR := TWebPEncodeLosslessBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeLosslessBGR'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGRA'));
   end;
-{$endif}
 {$endif}
 
 
@@ -458,7 +425,6 @@ finalization
     UnloadLibrary(HWebplibenc);
 {$endif}
 
-{$endif}
 
 end.
 

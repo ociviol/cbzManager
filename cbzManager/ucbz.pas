@@ -73,7 +73,7 @@ type
     FMode : TZipMode;
     FFileNameFormat : String;
     Flog : ILog;
-    FStampThread : Array[0..1] of TStampThread;
+    FStampThread : TStampThread;
     FInUndo : Boolean;
     FUndoList : TFPObjectList;
 
@@ -355,7 +355,7 @@ begin
   if FFilename <> FileName then
     FUndoList.Clear;
 
-  if Assigned(FStampThread[0]) then
+  if Assigned(FStampThread) then
     StopStampThread;
 
   ClearCache;
@@ -1333,37 +1333,30 @@ end;
 procedure TCbz.StartStampThread;
 var
   PID : Qword;
-  i : integer;
 begin
   PId := GetTickCount64;
-  for i := low(FStampThread) to High(FStampThread) do
+  if (FStampWidth > 0) and (FStampHeight > 0) then
   begin
-    if (FStampWidth > 0) and (FStampHeight > 0) then
-    begin
-      FStampThread[i] := TStampThread.Create(self, FStampSync, Pid, FNotify);
-      FLog.Log(Format('%s Starting thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread[i].ThreadID))]));
-    end
-    else
-      FStampThread[i] := nil;
-  end;
+    FStampThread := TStampThread.Create(self, FStampSync, Pid, FNotify);
+    FLog.Log(Format('%s Starting thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread.ThreadID))]));
+  end
+  else
+    FStampThread := nil;
 end;
 
 procedure TCbz.StopStampThread;
 var
-  i : integer;
   z : QWord;
 begin
-  for i := low(FStampThread) to High(FStampThread) do
-    if Assigned(FStampThread[i]) then
-    begin
-      FLog.Log(Format('%s Stopping thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread[i].ThreadID))]));
-      z := FStampThread[i].ProgressID;
-      FStampThread[i].StopThread;
-      if Assigned(FNotify) then
-        FNotify(z, -1);
-      //FreeANdNil(FStampThread[i]);
-      FStampThread[i] := nil;
-    end;
+  if Assigned(FStampThread) then
+  begin
+    FLog.Log(Format('%s Stopping thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread.ThreadID))]));
+    z := FStampThread.ProgressID;
+    FStampThread.StopThread;
+    if Assigned(FNotify) then
+      FNotify(z, -1);
+    FStampThread := nil;
+  end;
 end;
 
 function TCbz.MakeStamp(Index: Integer): Tbitmap;
@@ -1376,8 +1369,7 @@ var
   begin
     result := TBitmap.Create;
     result.PixelFormat := aSrc.PixelFormat;
-    result.Width := DestWidth;
-    result.Height := DestHeight;
+    result.SetSize(DestWidth, DestHeight);
     Result.Canvas.AntialiasingMode := amOn;
     Result.Canvas.StretchDraw(Rect(0, 0, DestWidth, DestHeight), aSrc);
   end;

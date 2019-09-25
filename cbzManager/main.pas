@@ -507,6 +507,7 @@ begin
   zf.Close;
   zf.Free;
   FConvertReport.Free;
+  FConfig.Free;
 
   Flog.Log('cbzManager destroyed.');
   // destroy logger
@@ -537,7 +538,7 @@ begin
   Update;
   Refresh;
   FClosing := True;
-  with TFormWait.Create(nil) do
+  with TFormWait.Create(self) do
   begin
     Show;
     Update;
@@ -808,12 +809,16 @@ begin
         HideCropTool;
         Image1.Visible := True;
         b := zf.Image[Index];
-        if Assigned(b) then
-        begin
-          pnlimgName.Caption := format('%s (%dx%d)',
-            [zf.FileNames[Index], b.Width, b.Height]);
+        try
           if Assigned(b) then
-            Image1.Picture.Bitmap := b;
+          begin
+            pnlimgName.Caption := format('%s (%dx%d)',
+              [zf.FileNames[Index], b.Width, b.Height]);
+            if Assigned(b) then
+              Image1.Picture.Bitmap := b;
+          end;
+        finally
+          b.free;
         end;
       end;
     end

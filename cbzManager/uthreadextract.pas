@@ -171,10 +171,14 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
     p : TProcess;
   begin
     p:=TProcess.create(nil);
-    p.CommandLine := cmdline;
-    p.ShowWindow:=swoHIDE;
-    p.Options:=[poWaitOnExit];
-    p.Execute;
+    try
+      p.CommandLine := cmdline;
+      p.ShowWindow:=swoHIDE;
+      p.Options:=[poWaitOnExit];
+      p.Execute;
+    finally
+      P.Free;
+    end;
   end;
 {$endif}
 begin

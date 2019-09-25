@@ -968,10 +968,14 @@ var
   p : TProcess;
 begin
   p:=TProcess.create(nil);
-  p.CommandLine := cmdline;
-  p.ShowWindow:=swoHIDE;
-  p.Options:=[poWaitOnExit];
-  p.Execute;
+  try
+    p.CommandLine := cmdline;
+    p.ShowWindow:=swoHIDE;
+    p.Options:=[poWaitOnExit];
+    p.Execute;
+  finally
+    P.Free;
+  end;
 end;
 {$endif}
 
@@ -1635,13 +1639,13 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   begin
     p := TPicture.Create;
     try
-      aSrc.Position:=0;
-      p.LoadFromStream(aSrc);
-      aSrc.Clear;
-      p.SaveToStreamWithFileExt(aSrc, 'bmp');
-      aSrc.Position:=0;
-      b := TBitmap.Create;
       try
+        aSrc.Position:=0;
+        p.LoadFromStream(aSrc);
+        aSrc.Clear;
+        p.SaveToStreamWithFileExt(aSrc, 'bmp');
+        aSrc.Position:=0;
+        b := TBitmap.Create;
         try
           b.LoadFromStream(aSrc);
           result := BitmapToWebp(b, aDest);
@@ -1649,7 +1653,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
           b.Free;
         end;
       finally
-        //p.Free;
+        p.Free;
       end;
     except
       result := False;

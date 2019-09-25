@@ -179,7 +179,7 @@ end;
 
 function DoWebPGetDecoderVersion:integer;
 begin
-  if HWebplib <> 0 then
+  if (HWebplib <> 0) and Assigned(PWebPGetDecoderVersion) then
     result := PWebPGetDecoderVersion()
   else
     result := -1;
@@ -187,7 +187,7 @@ end;
 
 function DoWebPGetEncoderVersion:integer;
 begin
-  if HWebplib <> 0 then
+  if (HWebplib <> 0) and Assigned(PWebPGetEncoderVersion) then
     result := PWebPGetEncoderVersion()
   else
     result := -1;
@@ -427,12 +427,14 @@ initialization
     PWebPDecodeBGRA := TWebPDecodeBGRA(GetProcedureAddress(HWebplib, 'WebPDecodeBGRA'));
     PWebPDecodeRGB := TWebPDecodeRGB(GetProcedureAddress(HWebplib, 'WebPDecodeRGB'));
     PWebPDecodeBGR := TWebPDecodeBGR(GetProcedureAddress(HWebplib, 'WebPDecodeBGR'));
-// internal Webp disable under Linux and Darwin for now
+{$ifndef MsWindows}
     InternalcWebpAvail := True;
+    PWebpGetEncoderVersion := TWebpGetEncoderVersion(GetProcedureAddress(HWebplib, 'WebPGetEncoderVersion'));
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplib, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplib, 'WebPEncodeRGBA'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplib, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplib, 'WebPEncodeBGRA'));
+{$endif}
   end;
 {$ifdef Mswindows}
 {$ifdef UseInternalWebp}
@@ -440,6 +442,7 @@ initialization
   if HWebplibenc <> 0 then
   begin
     InternalcWebpAvail := True;
+    PWebpGetEncoderVersion := TWebpGetEncoderVersion(GetProcedureAddress(HWebplibenc, 'WebPGetEncoderVersion'));
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGBA'));
     PWebPEncodeLosslessBGR := TWebPEncodeLosslessBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeLosslessBGR'));

@@ -256,7 +256,7 @@ uses
 {$endif}
   Utils.SoftwareVersion, uDataTypes,
   Utils.ZipFile, Utils.Graphics,
-  uLoadReport;
+  uLoadReport, uAbout;
 
 const
 //  CS_CONFIG = 'config';
@@ -653,8 +653,12 @@ end;
 
 procedure TMainFrm.mnuAboutClick(Sender: TObject);
 begin
-  ShowMessage(GetFileVersionInternalName + ' ' +
-              GetFileVersion + ' © ' + GetFileVersionCopyright);
+  with TfrmAbout.Create(Application) do
+  try
+    ShowModal;
+  finally
+    Free;
+  end;
 end;
 
 

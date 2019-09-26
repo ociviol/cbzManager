@@ -26,29 +26,23 @@ implementation
 
 uses
   Webp,
-  StrUtils,
   Utils.SoftwareVersion;
 
 { TfrmAbout }
 
 procedure TfrmAbout.FormCreate(Sender: TObject);
-var
-  dv, ev : integer;
 begin
-  dv := DoWebPGetDecoderVersion;
-  ev := DoWebPGetEncoderVersion;
-
   Label1.Caption := GetFileVersionInternalName + ' ' +
                     GetFileVersion + ' © ' + GetFileVersionCopyright;
   if not InternalcWebpAvail then
     Listbox1.Items.Add('Internal Webp Encoder unavailable.')
   else
-    Listbox1.Items.Add('Webp Encoder Version : ' + ifthen(ev > 0, IntToStr(ev), 'Unavailable'));
+    Listbox1.Items.Add('Webp Encoder Version : ' + DoWebPGetEncoderVersion);
 
   if not InternaldWebpAvail then
     Listbox1.Items.Add('Internal Webp Decoder unavailable.')
   else
-    Listbox1.Items.Add('Webp Decoder Version : ' + ifthen(dv > 0, IntToStr(dv), 'Unavailable'));
+    Listbox1.Items.Add('Webp Decoder Version : ' + DoWebPGetDecoderVersion);
 end;
 
 end.

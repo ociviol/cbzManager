@@ -34,8 +34,15 @@ procedure TfrmAbout.FormCreate(Sender: TObject);
 begin
   Label1.Caption := GetFileVersionInternalName + ' ' +
                     GetFileVersion + ' © ' + GetFileVersionCopyright;
-  Listbox1.Items.Add('Webp Encoder Version : ' + IntToStr(DoWebPGetEncoderVersion));
-  Listbox1.Items.Add('Webp Decoder Version : ' + IntToStr(DoWebPGetDecoderVersion));
+  if not InternalcWebpAvail then
+    Listbox1.Items.Add('Internal Webp Encoder unavailable.')
+  else
+    Listbox1.Items.Add('Webp Encoder Version : ' + IntToStr(DoWebPGetEncoderVersion));
+
+  if not InternaldWebpAvail then
+    Listbox1.Items.Add('Internal Webp Decoder unavailable.')
+  else
+    Listbox1.Items.Add('Webp Decoder Version : ' + IntToStr(DoWebPGetDecoderVersion));
 end;
 
 end.

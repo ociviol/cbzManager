@@ -17,7 +17,7 @@ type
   pint = ^integer;
   float = single;
 
-  TWebPGetDecoderVersion = function:integer; cdecl;
+  TWebPGetDecoderVersion = function:longint; cdecl;
   TWebPGetInfo = function(data : pbyte; data_size : int64; width : pint; height : pint):integer; cdecl;
   TWebPFree = procedure(p : pointer); cdecl;
 
@@ -54,7 +54,7 @@ type
   // Return the encoder's version number, packed in hexadecimal using 8bits for
   // each of major/minor/revision. E.g: v2.5.7 is 0x020507.
   // WEBP_EXTERN int WebPGetEncoderVersion(void);
-  TWebpGetEncoderVersion = function:integer; cdecl;
+  TWebpGetEncoderVersion = function:longint; cdecl;
 
   //------------------------------------------------------------------------------
   // One-stop-shop call! No questions asked:
@@ -112,8 +112,8 @@ var
 function WebpToBitmap(data : pointer; size : int64):Tbitmap;
 function WebpFileToBitmap(const Filename : String):Tbitmap;
 function BitmapToWebp(aBitmap : TBitmap; aDest : TMemoryStream):Boolean;
-function DoWebPGetDecoderVersion:integer;
-function DoWebPGetEncoderVersion:integer;
+function DoWebPGetDecoderVersion:string;
+function DoWebPGetEncoderVersion:string;
 function DoWebPGetInfo(data : pbyte; data_size : int64; width : pint; height : pint):integer;
 procedure DoWebPFree(p : pointer);
 
@@ -154,20 +154,27 @@ begin
     PWebPFree(p);
 end;
 
-function DoWebPGetDecoderVersion:integer;
+function HexToVer(const aHex : String):String; inline;
 begin
-  if (HWebplib <> 0) and Assigned(PWebPGetDecoderVersion) then
-    result := PWebPGetDecoderVersion()
-  else
-    result := -1;
+  result := copy(aHex, 1, 2) + '.' +
+            copy(aHex, 3, 2) + '.' +
+            copy(aHex, 5, 2);
 end;
 
-function DoWebPGetEncoderVersion:integer;
+function DoWebPGetDecoderVersion:string;
+begin
+  if (HWebplib <> 0) and Assigned(PWebPGetDecoderVersion) then
+    result := HexToVer(IntToHex(PWebPGetDecoderVersion(), 6))
+  else
+    result := 'Unavailable';
+end;
+
+function DoWebPGetEncoderVersion:string;
 begin
   if (HWebplib <> 0) and Assigned(PWebPGetEncoderVersion) then
-    result := PWebPGetEncoderVersion()
+    result := HexToVer(IntToHex(PWebPGetEncoderVersion(), 6))
   else
-    result := -1;
+    result := 'Unavailable';
 end;
 
 function DoWebPGetInfo(data : pbyte; data_size : int64; width : pint; height : pint):integer;

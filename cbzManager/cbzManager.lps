@@ -166,7 +166,6 @@
         <Filename Value="udataitem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataItem"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="156"/>
         <CursorPos X="25" Y="172"/>
@@ -518,14 +517,15 @@
       <Unit61>
         <Filename Value="uabout.pas"/>
         <UnitName Value="uAbout"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="26"/>
-        <CursorPos X="61" Y="43"/>
+        <TopLine Value="32"/>
+        <CursorPos X="96" Y="51"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit61>
     </Units>
-    <JumpHistory Count="17" HistoryIndex="16">
+    <JumpHistory Count="20" HistoryIndex="19">
       <Position1>
         <Filename Value="uthreadextract.pas"/>
         <Caret Line="367" TopLine="351"/>
@@ -594,6 +594,18 @@
         <Filename Value="uabout.pas"/>
         <Caret Line="43" Column="61" TopLine="26"/>
       </Position17>
+      <Position18>
+        <Filename Value="uabout.pas"/>
+        <Caret Line="51" Column="68" TopLine="30"/>
+      </Position18>
+      <Position19>
+        <Filename Value="uabout.pas"/>
+        <Caret Line="28" Column="7" TopLine="28"/>
+      </Position19>
+      <Position20>
+        <Filename Value="uabout.pas"/>
+        <Caret Line="29" Column="12" TopLine="28"/>
+      </Position20>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

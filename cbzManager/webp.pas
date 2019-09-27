@@ -30,8 +30,8 @@ type
 
     procedure Assign(aGraphic : TGraphic); overload;
     procedure Assign(aStream : TStream); overload;
-    procedure SaveToFile(const aFilename : String);
-    procedure SaveToStream(aStream : TStream);
+    procedure SaveToFile(const aFilename : String; QualityFactor : Single = 75);
+    procedure SaveToStream(aStream : TStream; QualityFactor : Single = 75);
     function GetBitmap:TBitmap;
 
     property Width : Integer read GetWidth;
@@ -420,7 +420,7 @@ begin
   end;
 end;
 
-function BitmapToWebp(aBitmap : TBitmap; aDest : TStream):Boolean;
+function BitmapToWebp(aBitmap : TBitmap; aDest : TStream; QualityFactor : Single):Boolean;
 var
   p, pin, pout : pbyte;
   sz, psz : integer;
@@ -453,9 +453,9 @@ begin
 
     try
     {$if defined(Linux)}
-      sz := DoWebpEncodeBGR(p, w, h, stride, 75, @pout);
+      sz := DoWebpEncodeBGR(p, w, h, stride, QualityFactor, @pout);
     {$else}
-      sz := DoWebPEncodeBGRA(p, w, h, stride, 75, @pout);
+      sz := DoWebPEncodeBGRA(p, w, h, stride, QualityFactor, @pout);
     {$endif}
       aDest.Write(pout^, sz);
       aDest.Position := 0;
@@ -594,13 +594,13 @@ begin
     FBitmap.LoadFromStream(aStream);
 end;
 
-procedure TWebpImage.SaveToFile(const aFilename: String);
+procedure TWebpImage.SaveToFile(const aFilename: String; QualityFactor : Single = 75);
 var
   m : TmemoryStream;
 begin
   m := TmemoryStream.Create;
   try
-    if not BitmapToWebp(FBitmap, m) then
+    if not BitmapToWebp(FBitmap, m, QualityFactor) then
       raise Exception.Create('Webp error saving to file');
     m.position := 0;
     m.SaveToFile(aFileName);
@@ -609,9 +609,9 @@ begin
   end;
 end;
 
-procedure TWebpImage.SaveToStream(aStream: TStream);
+procedure TWebpImage.SaveToStream(aStream: TStream; QualityFactor : Single = 75);
 begin
-  if not BitmapToWebp(FBitmap, aStream) then
+  if not BitmapToWebp(FBitmap, aStream, QualityFactor) then
     raise Exception.Create('Webp error saving to stream');
 end;
 

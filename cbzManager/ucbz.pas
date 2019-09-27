@@ -1659,7 +1659,11 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
         wi.Free;
       end;
     except
-      result := False;
+      on e: Exception do
+      begin
+        aFLog.Log('Internal convert : ' + e.Message);
+        result := False;
+      end;
     end;
   end;
 

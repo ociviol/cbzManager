@@ -1572,7 +1572,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
     if Sysutils.FileExists(fimg) then
     begin
       result := ChangeFileExt(fimg, '.webp');
-      cmd := cwebp + ' -mt -quiet "' + fimg + '" -o "' + result +'"';
+      cmd := cwebp + ' -mt -quiet -q ' + IntToStr(Integer(aWebpQuality)) + ' "' + fimg + '" -o "' + result +'"';
 {$if Defined(Darwin) or Defined(Linux)}
       fpsystem(cmd);
 {$elseif Defined(MsWindows)}

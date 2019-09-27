@@ -17,7 +17,7 @@ type
   TThreadDataPool = Class
   private
     FLog : ILog;
-    FWebpQualityFactor : single;
+    FWebpQualityFactor : PInteger;
     FPoolSync : TThreadList;
     FPool : TObjectList;
     FThreads : TList;
@@ -26,7 +26,7 @@ type
     function GetNbWorkers: Integer;
     procedure SetThreads(nbThreads : Integer);
   public
-    constructor Create(aPoolSize : Integer; Log : ILog; aNbThreads : Integer; aWebpQualityFactor : single);
+    constructor Create(aPoolSize : Integer; Log : ILog; aNbThreads : Integer; aWebpQualityFactor : PInteger);
     Destructor Destroy; override;
     procedure SetPerfs(aNbThreads : Integer);
     procedure Stop;
@@ -44,7 +44,7 @@ uses
 
 { TThreadDataPool }
 
-constructor TThreadDataPool.Create(aPoolSize : Integer; Log: ILog; aNbThreads : Integer; aWebpQualityFactor : single);
+constructor TThreadDataPool.Create(aPoolSize : Integer; Log: ILog; aNbThreads : Integer; aWebpQualityFactor : PInteger);
 var
   i : integer;
 begin

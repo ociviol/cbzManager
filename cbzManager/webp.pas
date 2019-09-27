@@ -223,10 +223,10 @@ const
  cpath = '/usr/lib';
  clibwebp = 'libwebp.so';
 {$else}
-clibwebp = 'libwebpdecoder.dll';
-clibwebpenc = 'libwebp.dll';
+  clibwebp = 'libwebpdecoder.dll';
+  clibwebpenc = 'libwebp.dll';
 var
-cpath : String;
+  cpath : String;
 {$endif}
 
 {

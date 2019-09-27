@@ -397,7 +397,7 @@ begin
 
   FThreadDataPool := TThreadDataPool.Create(FConfig.QueueSize,
                                             FLog, FConfig.NbThreads,
-                                            FConfig.WebpQuality);
+                                            @FConfig.WebpQuality);
   CreateConversionQueues;
   //
   if DirectoryExists(FConfig.BdPathPath) then

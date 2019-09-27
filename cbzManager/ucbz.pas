@@ -963,7 +963,7 @@ begin
 end;
 
 {$ifdef Mswindows}
-function CustomRunCommand(const cmdline:string):boolean;
+procedure CustomRunCommand(const cmdline:string);
 var
   p : TProcess;
 begin
@@ -980,9 +980,6 @@ end;
 {$endif}
 
 function TCbz.GetImage(Index: QWord): TBitmap;
-var
-  m : TMemoryStream;
-  fin, fout : string;
 
   function ConvertImageToBMP(const fimg : String):String;
   var
@@ -1017,6 +1014,11 @@ var
     else
       result := '';
   end;
+
+var
+  m : TMemoryStream;
+  fin, fout : string;
+  wi : TWebpImage;
 begin
   result := nil;
   with FStampSync.LockList do
@@ -1025,28 +1027,34 @@ begin
       m := GetFileStream(Index);
       if Assigned(m) then
       try
-        result := WebpToBitmap(m.Memory, m.Size);
-        if not Assigned(result) then
-        begin
-          fin := ChangeFileExt(_cbzGetTempFileName, '.webp');
-          m.SaveToFile(fin);
-          try
-            fout := ConvertImageToBMP(fin);
-            if Sysutils.FileExists(fout) then
+        wi := TWebpImage.Create(m);
+        try
+          result := wi.GetBitmap;
+          //result := WebpToBitmap(m.Memory, m.Size);
+          if not Assigned(result) then
+          begin
+            fin := ChangeFileExt(_cbzGetTempFileName, '.webp');
+            m.SaveToFile(fin);
             try
-              result := TBitmap.Create;
-{$ifdef Linux}
-              result.PixelFormat := pf24bit;
-{$else}
-              result.PixelFormat := pf32bit;
-{$endif}
-              result.LoadFromFile(fout);
+              fout := ConvertImageToBMP(fin);
+              if Sysutils.FileExists(fout) then
+              try
+                result := TBitmap.Create;
+  {$ifdef Linux}
+                result.PixelFormat := pf24bit;
+  {$else}
+                result.PixelFormat := pf32bit;
+  {$endif}
+                result.LoadFromFile(fout);
+              finally
+                Sysutils.DeleteFile(fout);
+              end;
             finally
-              Sysutils.DeleteFile(fout);
+              Sysutils.DeleteFile(fin);
             end;
-          finally
-            Sysutils.DeleteFile(fin);
           end;
+        finally
+          wi.free;
         end;
       finally
         m.Free;
@@ -1634,26 +1642,16 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 
   function InternalConvert(const aSrc, aDest : TMemoryStream):Boolean;
   var
-    b : TBitmap;
-    p : TPicture;
+    wi : TWebpImage;
   begin
-    p := TPicture.Create;
     try
+      aSrc.Position:=0;
+      wi := TWebpImage.Create(aSrc);
       try
-        aSrc.Position:=0;
-        p.LoadFromStream(aSrc);
-        aSrc.Clear;
-        p.SaveToStreamWithFileExt(aSrc, 'bmp');
-        aSrc.Position:=0;
-        b := TBitmap.Create;
-        try
-          b.LoadFromStream(aSrc);
-          result := BitmapToWebp(b, aDest);
-        finally
-          b.Free;
-        end;
+        wi.SaveToStream(aDest);
+        result := true;
       finally
-        p.Free;
+        wi.Free;
       end;
     except
       result := False;

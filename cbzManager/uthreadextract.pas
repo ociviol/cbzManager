@@ -166,7 +166,7 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
                                   Progress : TCbzProgressEvent; ProgressID : QWord;
                                   OnBadFile : TNotifyEvent);
 {$ifdef Mswindows}
-  function _RunCommand(const cmdline:string):boolean;
+  procedure _RunCommand(const cmdline:string);
   var
     p : TProcess;
   begin

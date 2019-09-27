@@ -5,11 +5,11 @@ unit Utils.Logger;
 interface
 
 uses
-  Classes, Sysutils,
+  Classes, Sysutils
 {$if defined(Linux) or defined(Darwin)}
-  cthreads,
+  ,cthreads
 {$endif}
-  Process; //system.generics.collections, system.ioutils;
+  ;
 
 type
   ILog = interface

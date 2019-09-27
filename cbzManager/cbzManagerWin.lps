@@ -42,9 +42,10 @@
       <Unit3>
         <Filename Value="webp.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="112"/>
-        <CursorPos X="3" Y="229"/>
+        <TopLine Value="583"/>
+        <CursorPos Y="608"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
           <Item0 X="57" Y="423" ID="2"/>
@@ -189,7 +190,6 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="19"/>
         <TopLine Value="509"/>
         <CursorPos Y="539"/>

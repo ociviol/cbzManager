@@ -596,16 +596,17 @@ end;
 
 procedure TWebpImage.SaveToFile(const aFilename: String; QualityFactor : Single = 75);
 var
-  m : TmemoryStream;
+  fs : TFileStream;
 begin
-  m := TmemoryStream.Create;
+  fs := TFileStream.Create(aFilename, fmCreate);
   try
-    if not BitmapToWebp(FBitmap, m, QualityFactor) then
+    try
+      SaveToStream(fs, QualityFactor);
+    except
       raise Exception.Create('Webp error saving to file');
-    m.position := 0;
-    m.SaveToFile(aFileName);
+    end;
   finally
-    m.free;
+    fs.free;
   end;
 end;
 

@@ -384,7 +384,8 @@ begin
   FIgnores := Tstringlist.Create;
 
   zf := TCbz.Create(FLog, DrawGrid1.DefaultColWidth - 5,
-    DrawGrid1.DefaultRowHeight - 5, @StampReady);
+                    DrawGrid1.DefaultRowHeight - 5,
+                    FConfig.WebpQuality, @StampReady);
 
   // check required programs
   if not CheckPrograms then
@@ -395,7 +396,8 @@ begin
   FConvertReport := TstringList.Create;
 
   FThreadDataPool := TThreadDataPool.Create(FConfig.QueueSize,
-                                            FLog, FConfig.NbThreads);
+                                            FLog, FConfig.NbThreads,
+                                            @FConfig.WebpQuality);
   CreateConversionQueues;
   //
   if DirectoryExists(FConfig.BdPathPath) then
@@ -1499,6 +1501,7 @@ begin
     speNbThreads.Value:= FConfig.NbThreads;
     speQueues.Value:=FConfig.QueueSize;
     cblogging.Checked:=Fconfig.Blog;
+    speWebpQuality.Value:=FConfig.WebpQuality;
     if ShowModal = mrOk then
     begin
       edtcwebp.Text:=Fconfig.cwebp;
@@ -1507,6 +1510,7 @@ begin
       Fconfig.Blog := cblogging.Checked;
       FConfig.QueueSize := speQueues.Value;
       Fconfig.NbThreads:=speNbThreads.Value;
+      FConfig.WebpQuality := speWebpQuality.Value;
       SaveConfig;
       FThreadDataPool.SetPerfs(FConfig.NbThreads);
       if Length(FWorkerThreads) > 2 then

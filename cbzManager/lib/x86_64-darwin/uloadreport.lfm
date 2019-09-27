@@ -1,13 +1,13 @@
 object frmReport: TfrmReport
-  Left = 452
+  Left = 446
   Height = 506
-  Top = 155
+  Top = 156
   Width = 777
   Caption = 'frmReport'
   ClientHeight = 506
   ClientWidth = 777
   Position = poMainFormCenter
-  LCLVersion = '2.0.2.0'
+  LCLVersion = '2.0.4.0'
   object Panel1: TPanel
     Left = 0
     Height = 26

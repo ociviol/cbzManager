@@ -1,7 +1,7 @@
 object ConfigFrm: TConfigFrm
-  Left = 539
+  Left = 540
   Height = 199
-  Top = 310
+  Top = 311
   Width = 493
   BorderStyle = bsDialog
   Caption = 'Config'
@@ -88,17 +88,17 @@ object ConfigFrm: TConfigFrm
     TabOrder = 5
   end
   object Label5: TLabel
-    Left = 216
+    Left = 156
     Height = 15
-    Top = 128
+    Top = 124
     Width = 98
     Caption = 'Encoding threads :'
     ParentColor = False
   end
   object speNbThreads: TSpinEdit
-    Left = 352
+    Left = 261
     Height = 23
-    Top = 122
+    Top = 120
     Width = 60
     MaxValue = 32
     MinValue = 1
@@ -108,13 +108,13 @@ object ConfigFrm: TConfigFrm
   object Label6: TLabel
     Left = 32
     Height = 15
-    Top = 128
+    Top = 124
     Width = 46
     Caption = 'Queues :'
     ParentColor = False
   end
   object speQueues: TSpinEdit
-    Left = 112
+    Left = 88
     Height = 23
     Top = 120
     Width = 60
@@ -146,6 +146,23 @@ object ConfigFrm: TConfigFrm
     Width = 23
     Caption = '...'
     OnClick = sb7zipClick
+  end
+  object Label7: TLabel
+    Left = 330
+    Height = 15
+    Top = 124
+    Width = 72
+    Caption = 'Webp Quality'
+    ParentColor = False
+  end
+  object speWebpQuality: TSpinEdit
+    Left = 409
+    Height = 23
+    Top = 120
+    Width = 60
+    MinValue = 10
+    TabOrder = 8
+    Value = 75
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.exe'

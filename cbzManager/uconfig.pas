@@ -26,6 +26,7 @@ type
     FWTop,
     FWWidth,
     FWHeight,
+    FWebpQuality,
     FWTreeViewWidth :Integer;
   public
     constructor Create;
@@ -44,6 +45,7 @@ type
     property WTop : Integer read FWTop write FWTop;
     property WWidth : Integer read FWWidth write FWWidth;
     property WHeight : Integer read FWHeight write FWHeight;
+    property WebpQuality : Integer read FWebpQuality write FWebpQuality;
     property WTreeViewWidth : Integer read FWTreeViewWidth write FWTreeViewWidth;
   end;
 
@@ -74,6 +76,7 @@ begin
   FQueueSize:=2;
   FNbThreads := 8;
   HighPerf:= False;
+  FWebpQuality := 75;
 end;
 
 class function TConfig.Load(const aFileName: String): TConfig;

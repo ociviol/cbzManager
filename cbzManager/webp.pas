@@ -11,7 +11,132 @@ uses
   Graphics;
 
 type
-  psmallint = ^smallint;
+
+  { TWebpImage }
+
+  TWebpImage = Class
+  private
+    FBitmap : TBitmap;
+    function GetHeight: Integer;
+    function GetWidth: Integer;
+  public
+    constructor Create; overload;
+    constructor Create(aBitmap : TBitmap); overload;
+    constructor Create(aStream : TStream); overload;
+    destructor Destroy; override;
+
+    class function WebpEncoderVersion:string;
+    class function WebpDecoderVersion:string;
+
+    procedure Assign(aGraphic : TGraphic); overload;
+    procedure Assign(aStream : TStream); overload;
+    procedure SaveToFile(const aFilename : String; QualityFactor : Single = 75);
+    procedure SaveToStream(aStream : TStream; QualityFactor : Single = 75);
+    function GetBitmap:TBitmap;
+
+    property Width : Integer read GetWidth;
+    property Height : Integer read GetHeight;
+  end;
+
+var
+  InternalcWebpAvail,
+  InternaldWebpAvail : boolean;
+
+implementation
+
+uses
+{$ifdef Mswindows}
+  Forms,
+{$endif}
+  intfgraphics;
+
+var
+  HWebplib : TLibHandle;
+{$ifdef Mswindows}
+  HWebplibenc  : TLibHandle;
+{$endif}
+
+
+const
+  // I/O image format identifiers.
+  FIF_UNKNOWN = -1;
+  FIF_BMP     = 0;
+//  FIF_ICO     = 1;
+  FIF_JPEG    = 2;
+//  FIF_JNG     = 3;
+  FIF_WEBP    = 4;
+  FIF_PNG     = 5;
+  FIF_JP2     = 6;
+  FIF_GIF     = 7;
+
+class function GetImageType(const aSrc : TStream; const aFileName : String = ''):Integer;
+var
+  //p : pbyte;
+  p : pbyte;
+  s : string;
+  oldpos : int64;
+begin
+  if Assigned(aSrc) then
+  begin
+    GetMem(p, 12);
+    try
+      oldpos := aSrc.Position;
+      aSrc.ReadBuffer(p^, 12);
+      aSrc.Position := oldpos;
+
+      if (p[0] = $FF) and (p[1] = $D8) then
+        Exit(FIF_JPEG);
+
+      if (p[0] = $89) and (p[1] = $50) and
+         (p[2] = $4E) and (p[3] = $47) and
+         (p[4] = $0D) and (p[5] = $0A) and
+         (p[6] = $1A) and (p[7] = $0A) then
+        Exit(FIF_PNG);
+
+      if (p[0] = $00) and (p[1] = $00) and (p[2] = $00) and
+         (p[3] = $0C) and (p[4] = $6A) and (p[5] = $50) and
+         (p[6] = $20) and (p[7] = $20) and (p[8] = $0D) and
+         (p[9] = $0A) then
+        Exit(FIF_JP2);
+
+      if ((p[0] = $47) and (p[1] = $49) and (p[2] = $46) and
+          (p[3] = $38) and (p[4] = $37) and (p[5] = $61)) or
+         ((p[0] = $47) and (p[1] = $49) and (p[2] = $46) and
+          (p[3] = $38) and (p[4] = $39) and (p[5] = $61)) then
+        Exit(FIF_GIF);
+
+      if (p[0] = $52) and (p[1] = $49) and (p[2] = $46) and
+         (p[3] = $46) and (p[8] = $57) and (p[9] = $45) and
+         (p[10] =$42) and (p[11] = $50) then
+        Exit(FIF_WEBP);
+
+      if (p[0] = $42) and (p[1] = $4D) then
+        Exit(FIF_BMP);
+    finally
+      FreeMem(p);
+    end;
+  end
+  else
+  begin
+    // test using FileName
+    s := ExtractFileExt(aFileName);
+    if s.ToLower = '.webp' then
+      Exit(FIF_WEBP);
+    if (s.ToLower = '.jpg') or (s.ToLower = '.jpeg') then
+      Exit(FIF_JPEG);
+    if (s.ToLower = '.jp2') or (s.ToLower = '.jpx') or (s.ToLower = '.j2k') then
+      Exit(FIF_JP2);
+    if s.ToLower = '.gif' then
+      Exit(FIF_GIF);
+    if s.ToLower = '.bmp' then
+      Exit(FIF_BMP);
+    if s.ToLower = '.png' then
+      Exit(FIF_PNG);
+  end;
+  result := FIF_UNKNOWN;
+end;
+
+type
   pbyte = ^byte;
   ppbyte = ^pbyte;
   pint = ^integer;
@@ -77,7 +202,6 @@ type
   //                                  float quality_factor, uint8_t** output);
   TWebpEncodeBGR = function(bgr : pbyte; width, height, stride : integer;
                             quality_factor : float; output : ppbyte):integer; cdecl;
-  TWebPEncodeLosslessBGR = function(bgr : pbyte; width, height, stride : integer; output : ppbyte):integer; cdecl;
   // WEBP_EXTERN size_t WebPEncodeRGBA(const uint8_t* rgba,
   //                                   int width, int height, int stride,
   //                                   float quality_factor, uint8_t** output);
@@ -93,11 +217,11 @@ type
 
 const
 {$if defined(darwin)}
-   cpath = '/usr/local/lib';
-   clibwebp = 'libwebp.dylib';
+ cpath = '/usr/local/lib';
+ clibwebp = 'libwebp.dylib';
 {$elseif defined(Linux)}
-   cpath = '/usr/lib';
-   clibwebp = 'libwebp.so';
+ cpath = '/usr/lib';
+ clibwebp = 'libwebp.so';
 {$else}
   clibwebp = 'libwebpdecoder.dll';
   clibwebpenc = 'libwebp.dll';
@@ -105,9 +229,10 @@ var
   cpath : String;
 {$endif}
 
+{
 var
-  InternalcWebpAvail,
-  InternaldWebpAvail : Boolean;
+InternalcWebpAvail,
+InternaldWebpAvail : Boolean;
 
 function WebpToBitmap(data : pointer; size : int64):Tbitmap;
 function WebpFileToBitmap(const Filename : String):Tbitmap;
@@ -116,6 +241,7 @@ function DoWebPGetDecoderVersion:string;
 function DoWebPGetEncoderVersion:string;
 function DoWebPGetInfo(data : pbyte; data_size : int64; width : pint; height : pint):integer;
 procedure DoWebPFree(p : pointer);
+}
 
 var
   PWebPGetDecoderVersion: TWebPGetDecoderVersion;
@@ -126,27 +252,12 @@ var
   PWebPDecodeARGB : TWebPDecodeARGB;
   PWebPDecodeBGRA : TWebPDecodeBGRA;
   PWebPDecodeRGB : TWebPDecodeRGB;
-  PWebPEncodeLosslessBGR : TWebPEncodeLosslessBGR;
   PWebPDecodeBGR : TWebPDecodeBGR;
   PWebpEncodeRGB : TWebpEncodeRGB;
   PWebpEncodeRGBA : TWebpEncodeRGBA;
   PWebpEncodeBGR :TWebpEncodeBGR;
   PWebpEncodeBGRA : TWebpEncodeBGRA;
 
-implementation
-
-uses
-{$ifdef Mswindows}
-  Forms,
-{$endif}
-  intfgraphics;
-
-
-var
-  HWebplib : TLibHandle;
-{$ifdef Mswindows}
-  HWebplibenc  : TLibHandle;
-{$endif}
 
 procedure DoWebPFree(p : pointer);
 begin
@@ -243,14 +354,6 @@ begin
     result := 0;
 end;
 
-function DoWebPEncodeLosslessBGR(bgr : pbyte; width, height, stride : integer; output : ppbyte):integer;
-begin
-  if HWebplib <> 0 then
-    result := PWebPEncodeLosslessBGR(bgr, width, height, stride, output)
-  else
-    result := 0;
-end;
-
 function DoWebpEncodeRGBA(bgr : pbyte; width, height, stride : integer;
                           quality_factor : float; output : ppbyte):integer;
 begin
@@ -317,7 +420,7 @@ begin
   end;
 end;
 
-function BitmapToWebp(aBitmap : TBitmap; aDest : TMemoryStream):Boolean;
+function BitmapToWebp(aBitmap : TBitmap; aDest : TStream; QualityFactor : Single):Boolean;
 var
   p, pin, pout : pbyte;
   sz, psz : integer;
@@ -350,9 +453,9 @@ begin
 
     try
     {$if defined(Linux)}
-      sz := DoWebpEncodeBGR(p, w, h, stride, 75, @pout);
+      sz := DoWebpEncodeBGR(p, w, h, stride, QualityFactor, @pout);
     {$else}
-      sz := DoWebPEncodeBGRA(p, w, h, stride, 75, @pout);
+      sz := DoWebPEncodeBGRA(p, w, h, stride, QualityFactor, @pout);
     {$endif}
       aDest.Write(pout^, sz);
       aDest.Position := 0;
@@ -381,17 +484,156 @@ begin
   end;
 end;
 
+{ TWebpImage }
+
+constructor TWebpImage.Create;
+begin
+  FBitmap := TBitmap.Create;
+  inherited;
+end;
+
+constructor TWebpImage.Create(aBitmap : TBitmap); overload;
+begin
+  Create;
+  Assign(aBitmap);
+end;
+
+constructor TWebpImage.Create(aStream : TStream); overload;
+begin
+  Create;
+  Assign(aStream);
+end;
+
+destructor TWebpImage.Destroy;
+begin
+  FBitmap.Free;
+  inherited Destroy;
+end;
+
+class function TWebpImage.WebpEncoderVersion:string;
+begin
+  if not InternalcWebpAvail then
+    raise Exception.Create('Webp Encoder unavailable !');
+  result := DoWebPGetEncoderVersion;
+end;
+
+class function TWebpImage.WebpDecoderVersion:string;
+begin
+  if not InternaldWebpAvail then
+    raise Exception.Create('Webp Decoder unavailable !');
+  result := DoWebPGetDecoderVersion;
+end;
+
+function TWebpImage.GetHeight: Integer;
+begin
+  result := FBitmap.Height;
+end;
+
+function TWebpImage.GetWidth: Integer;
+begin
+  result := FBitmap.Width;
+end;
+
+procedure TWebpImage.Assign(aGraphic: TGraphic);
+var
+  m : TMemoryStream;
+begin
+  m := TMemoryStream.Create;
+  try
+    aGraphic.SaveToStream(m);
+    Assign(m);
+  finally
+    m.Free;
+  end;
+end;
+
+procedure TWebpImage.Assign(aStream: TStream);
+var
+  p : TPicture;
+  m : TMemoryStream;
+  it : Integer;
+begin
+  it := GetImageType(aStream);
+
+  if it = FIF_WEBP then
+  begin
+   m := TMemoryStream.Create;
+   try
+     FBitmap.Free;
+     if aStream is TMemoryStream then
+       FBitmap := WebpToBitmap(TMemoryStream(aStream).Memory, aStream.Size)
+     else
+     begin
+        m.CopyFrom(aStream, aStream.Size);
+        m.Position := 0;
+        FBitmap := WebpToBitmap(m.Memory, aStream.Size)
+     end;
+    finally
+      m.Free;
+    end;
+  end
+  else
+  if it <> FIF_BMP then
+  begin
+    m := TMemoryStream.Create;
+    try
+      p := TPicture.Create;
+      try
+        p.LoadFromStream(aStream);
+        p.SaveToStreamWithFileExt(m, 'bmp');
+        m.position := 0;
+        FBitmap.LoadFromStream(m);
+      finally
+        p.Free;
+      end;
+    finally
+      m.free;
+    end;
+  end
+  else
+    FBitmap.LoadFromStream(aStream);
+end;
+
+procedure TWebpImage.SaveToFile(const aFilename: String; QualityFactor : Single = 75);
+var
+  fs : TFileStream;
+begin
+  fs := TFileStream.Create(aFilename, fmCreate);
+  try
+    try
+      SaveToStream(fs, QualityFactor);
+    except
+      raise Exception.Create('Webp error saving to file');
+    end;
+  finally
+    fs.free;
+  end;
+end;
+
+procedure TWebpImage.SaveToStream(aStream: TStream; QualityFactor : Single = 75);
+begin
+  if not BitmapToWebp(FBitmap, aStream, QualityFactor) then
+    raise Exception.Create('Webp error saving to stream');
+end;
+
+function TWebpImage.GetBitmap: TBitmap;
+begin
+  result := TBitmap.Create;
+  result.Assign(FBitmap);
+end;
+
+
 initialization
   HWebplib := 0;
-  InternalcWebpAvail := False;
-  InternaldWebpAvail := False;
+  InternalcWebpAvail := false;
+  InternaldWebpAvail := false;
 {$ifdef Mswindows}
   cpath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName));
 {$endif}
   HWebplib := LoadLibrary({$ifdef Mswindows} cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}{$endif} clibwebp);
   if HWebplib <> 0 then
   begin
-    InternaldWebpAvail := True;
+    InternaldWebpAvail := true;
     PWebPGetDecoderVersion := TWebPGetDecoderVersion(GetProcedureAddress(HWebplib, 'WebPGetDecoderVersion'));
     PWebPGetInfo := TWebPGetInfo(GetProcedureAddress(HWebplib, 'WebPGetInfo'));
     PWebPFree := TWebPFree(GetProcedureAddress(HWebplib, 'WebPFree'));
@@ -413,11 +655,10 @@ initialization
   HWebplibenc := LoadLibrary(cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}clibwebpenc);
   if HWebplibenc <> 0 then
   begin
-    InternalcWebpAvail := True;
+    InternalcWebpAvail := true;
     PWebpGetEncoderVersion := TWebpGetEncoderVersion(GetProcedureAddress(HWebplibenc, 'WebPGetEncoderVersion'));
     PWebpEncodeRGB := TWebpEncodeRGB(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGB'));
     PWebpEncodeRGBA := TWebpEncodeRGBA(GetProcedureAddress(HWebplibenc, 'WebPEncodeRGBA'));
-    PWebPEncodeLosslessBGR := TWebPEncodeLosslessBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeLosslessBGR'));
     PWebpEncodeBGR := TWebpEncodeBGR(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGR'));
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGRA'));
   end;

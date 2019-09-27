@@ -37,12 +37,12 @@ begin
   if not InternalcWebpAvail then
     Listbox1.Items.Add('Internal Webp Encoder unavailable.')
   else
-    Listbox1.Items.Add('Webp Encoder Version : ' + DoWebPGetEncoderVersion);
+    Listbox1.Items.Add('Webp Encoder Version : ' + TWebpImage.WebpDecoderVersion);
 
   if not InternaldWebpAvail then
     Listbox1.Items.Add('Internal Webp Decoder unavailable.')
   else
-    Listbox1.Items.Add('Webp Decoder Version : ' + DoWebPGetDecoderVersion);
+    Listbox1.Items.Add('Webp Decoder Version : ' + TWebpImage.WebpDecoderVersion);
 end;
 
 end.

@@ -24,11 +24,13 @@ type
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    Label7: TLabel;
     OpenDialog1: TOpenDialog;
     sbCwebp: TSpeedButton;
     sbUnrar: TSpeedButton;
     sb7zip: TSpeedButton;
     speNbThreads: TSpinEdit;
+    speWebpQuality: TSpinEdit;
     speQueues: TSpinEdit;
     procedure sb7zipClick(Sender: TObject);
     procedure sbCwebpClick(Sender: TObject);

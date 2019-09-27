@@ -14,11 +14,12 @@ uses
 type
   TThreadConvert = Class(TThread)
   private
+    FWebpQualityFactor : single;
     FDataPool : TThreadDataPool;
     FLog : ILog;
     function CopyBlock(const aSrc : TMemoryStream):TMemoryStream;
   public
-    constructor Create(DataPool : TThreadDataPool; Log : ILog);
+    constructor Create(DataPool : TThreadDataPool; Log : ILog; aWebpQualityFactor : single);
     procedure Execute; override;
     function IsTerminated:Boolean;
   End;
@@ -32,8 +33,9 @@ uses
 
 { ThreadConvert }
 
-constructor TThreadConvert.Create(DataPool: TThreadDataPool; Log : ILog);
+constructor TThreadConvert.Create(DataPool: TThreadDataPool; Log : ILog; aWebpQualityFactor : single);
 begin
+  FWebpQualityFactor := aWebpQualityFactor;
   FDataPool := DataPool;
   FLog := Log;
   inherited Create(False);
@@ -74,7 +76,7 @@ begin
                       Rec.Stream.LoadFromFile(Rec.Filename);
                       Rec.Filename := '';
                     end;
-                    Stout := TCbz.ConvertImageToStream(Rec.Stream, FLog);
+                    Stout := TCbz.ConvertImageToStream(Rec.Stream, FLog, FWebpQualityFactor);
                   end;
 
                 dtPdf: ; // StOut := PdfToStream(Rec.Index, Rec.Filename);

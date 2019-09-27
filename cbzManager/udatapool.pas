@@ -17,6 +17,7 @@ type
   TThreadDataPool = Class
   private
     FLog : ILog;
+    FWebpQualityFactor : single;
     FPoolSync : TThreadList;
     FPool : TObjectList;
     FThreads : TList;
@@ -25,7 +26,7 @@ type
     function GetNbWorkers: Integer;
     procedure SetThreads(nbThreads : Integer);
   public
-    constructor Create(aPoolSize : Integer; Log : ILog; aNbThreads : Integer);
+    constructor Create(aPoolSize : Integer; Log : ILog; aNbThreads : Integer; aWebpQualityFactor : single);
     Destructor Destroy; override;
     procedure SetPerfs(aNbThreads : Integer);
     procedure Stop;
@@ -43,13 +44,14 @@ uses
 
 { TThreadDataPool }
 
-constructor TThreadDataPool.Create(aPoolSize : Integer; Log: ILog; aNbThreads : Integer);
+constructor TThreadDataPool.Create(aPoolSize : Integer; Log: ILog; aNbThreads : Integer; aWebpQualityFactor : single);
 var
   i : integer;
 begin
   inherited Create;
   FThreads := TList.Create;
   FPoolSync := TThreadList.Create;
+  FWebpQualityFactor := aWebpQualityFactor;
   FLog := Log;
   FPool := TObjectList.Create;
   for i:=0 to {$ifdef MONO_THREAD} 1 {$else} aPoolSize - 1 {$endif} do
@@ -123,7 +125,7 @@ begin
   // increase
   while FThreads.Count < nbThreads do
   begin
-    FThreads.Add(TThreadConvert.Create(Self, FLog));
+    FThreads.Add(TThreadConvert.Create(Self, FLog, FWebpQualityFactor));
   end;
 end;
 

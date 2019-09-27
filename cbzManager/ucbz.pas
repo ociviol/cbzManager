@@ -1033,7 +1033,8 @@ begin
       try
         wi := TWebpImage.Create(m);
         try
-          result := wi.GetBitmap;
+          if InternaldWebpAvail then
+             result := wi.GetBitmap;
           //result := WebpToBitmap(m.Memory, m.Size);
           if not Assigned(result) then
           begin

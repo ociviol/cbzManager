@@ -274,6 +274,7 @@ begin
             end;
 
             FPoolData.AddItem2(nil, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
+            Sleep(50);
           end;
         end;
 

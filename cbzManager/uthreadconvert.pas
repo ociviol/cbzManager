@@ -92,7 +92,7 @@ begin
 
           try
             FDataPool.Pool[i].Put(Rec);
-            Sleep(10);
+            Sleep(50);
             if not Assigned(stOut) then
               Flog.Log('ThreadConvert skipped image (null stream) : ' + IntTostr(Rec.Index));
           except

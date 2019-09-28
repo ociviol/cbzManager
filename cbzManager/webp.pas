@@ -339,7 +339,7 @@ end;
 function DoWebpEncodeRGB(bgr : pbyte; width, height, stride : integer;
                          quality_factor : float; output : ppbyte):integer;
 begin
-  if HWebplib <> 0 then
+  if {$ifdef MsWindows}HWebplibenc{$else}HWebplib{$endif} <> 0 then
     result := PWebPEncodeRGB(bgr, width, height, stride, quality_factor, output)
   else
     result := 0;
@@ -348,7 +348,7 @@ end;
 function DoWebpEncodeBGR(bgr : pbyte; width, height, stride : integer;
                          quality_factor : float; output : ppbyte):integer;
 begin
-  if HWebplib <> 0 then
+  if {$ifdef MsWindows}HWebplibenc{$else}HWebplib{$endif} <> 0 then
     result := PWebPEncodeBGR(bgr, width, height, stride, quality_factor, output)
   else
     result := 0;
@@ -357,7 +357,7 @@ end;
 function DoWebpEncodeRGBA(bgr : pbyte; width, height, stride : integer;
                           quality_factor : float; output : ppbyte):integer;
 begin
-  if HWebplib <> 0 then
+  if {$ifdef MsWindows}HWebplibenc{$else}HWebplib{$endif} <> 0 then
     result := PWebPEncodeRGBA(bgr, width, height, stride, quality_factor, output)
   else
     result := 0;
@@ -366,7 +366,7 @@ end;
 function DoWebpEncodeBGRA(bgr : pbyte; width, height, stride : integer;
                          quality_factor : float; output : ppbyte):integer;
 begin
-  if HWebplib <> 0 then
+  if {$ifdef MsWindows}HWebplibenc{$else}HWebplib{$endif} <> 0 then
     result := PWebPEncodeBGRA(bgr, width, height, stride, quality_factor, output)
   else
     result := 0;

@@ -379,13 +379,6 @@ begin
 end;
 
 function TCbzWorkerThread.Convert(const aFilename : String; arcType : TArcType; Operations : TImgOperations):String;
-var
-  s, fname, newf : string;
-  i : integer;
-  ThreadExtract : TThreadExtract;
-  BeginDate : TDateTime;
-  Rec : TDataRec;
-  //MetaData : TDictionary<String, TMemoryStream>;
 
   function CopyStream(Stream : TStream):TMemoryStream;
   begin
@@ -394,6 +387,16 @@ var
     result.CopyFrom(Stream, Stream.Size);
     result.Position := 0;
   end;
+
+var
+  s, fname, newf : string;
+  i : integer;
+  ThreadExtract : TThreadExtract;
+  BeginDate : TDateTime;
+  Rec : TDataRec;
+  LastAskedID : Integer;
+  LastAskedDate : TDateTime;
+
 begin
   BeginDate := now;
   if Assigned(FProgress) then
@@ -436,14 +439,19 @@ begin
 
         i := 0;
         Rec := nil;
+        LastAskedID := -1;
         while not FPoolData.Empty or ThreadExtract.Working do
         begin
+          if LastAskedID <> i then
+          begin
+            LastAskedID:=i;
+            LastAskedDate:=now;
+          end;
+
           while (not FPoolData.GetOut(i, Rec)) do
           begin
             if (Terminated or FCanceled or ThreadExtract.HasError) then
             begin
-              //if Assigned(Rec.Stream) then
-              //  Rec.Stream.Free;
               if Assigned(Rec) then
                 FreeAndNil(Rec);
               Exit;
@@ -452,6 +460,12 @@ begin
             Sleep(2000);
             if not ThreadExtract.Working and (ThreadExtract.NbFiles = 0) then
               break;
+          end;
+
+          if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 60) then
+          begin
+            FLog.Log('TCbzWorkerThread.Convert : Timeout on item : ' + IntTostr(i));
+            FCanceled := True;
           end;
 
           if Assigned(Rec) and Assigned(Rec.Stream) then

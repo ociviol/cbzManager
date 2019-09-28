@@ -457,9 +457,12 @@ begin
     {$else}
       sz := DoWebPEncodeBGRA(p, w, h, stride, QualityFactor, @pout);
     {$endif}
-      aDest.Write(pout^, sz);
-      aDest.Position := 0;
-      result := True;
+      if sz > 0 then
+      begin
+        aDest.Write(pout^, sz);
+        aDest.Position := 0;
+        result := True;
+      end;
     finally
       DoWebPFree(pout);
     end;

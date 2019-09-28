@@ -512,7 +512,6 @@ begin
   if (index < 0) or (index > Pred(fileheadercount)) then
     raise Exception.CreateFmt('File "%s" not found !', [AFileName]);
 
-
   result := GetFileStream(Index);
 end;
 

@@ -514,22 +514,19 @@ begin
         Filenames := TNaturalSortStringList.Create;
         //MetaFiles := TStringlist.Create;
         try
-          f := Cbz.GetFileNames;
-          for i := 0 to length(f) - 1 do
-            //if Tcbz.IsMetaFile(f[i]) then
-            //  MetaFiles.AddObject(f[i], TObject(i))
-            //else
-            if Tcbz.AllowedFile(f[i]) then
-              Filenames.AddObject(f[i], TObject(-1))
+          for i := 0 to Cbz.FileCount - 1 do
+            if Tcbz.AllowedFile(cbz.FileNames[i]) then
+              Filenames.AddObject(cbz.FileNames[i], TObject(pointer(i)));
+          {
             else
             if f[i].ToLower.EndsWith('zip') or
                f[i].ToLower.EndsWith('rar') or
                f[i].ToLower.EndsWith('cbz') or
                f[i].ToLower.EndsWith('cbr') then
             begin
-              cbz.Extract(f[i], ExtractFilePath(FFilename));
+              cbz.Extract(cbz.FileNames[i], ExtractFilePath(FFilename));
             end;
-
+           }
           Filenames.Sort;
           FMax := Max(0, FNbfiles - 1);
           FMsg := '(Writing : ' + TCbz.CleanFilename(ExtractFilename(FFilename)) + ')';
@@ -546,7 +543,7 @@ begin
               Exit;
             end;
 
-            AddBlock(Filenames[i], -1);
+            AddBlock(Filenames[i], Integer(pointer(Filenames.Objects[i])));
           end;
           {
           for i := 0 to MetaFiles.Count - 1 do

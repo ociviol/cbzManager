@@ -460,12 +460,14 @@ begin
             Sleep(2000);
             if not ThreadExtract.Working and (ThreadExtract.NbFiles = 0) then
               break;
-          end;
 
-          if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 60) then
-          begin
-            FLog.Log('TCbzWorkerThread.Convert : Timeout on item : ' + IntTostr(i));
-            FCanceled := True;
+            if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 30) then
+            begin
+              FLog.Log('TCbzWorkerThread.Convert : Timeout on item : ' + IntTostr(i));
+              FResults.Add('Conversion of file "' + aFilename + '" timed out, retry using the refresh menu');
+              FCanceled := True;
+              Synchronize(@DoOnBadFile);
+            end;
           end;
 
           if Assigned(Rec) and Assigned(Rec.Stream) then

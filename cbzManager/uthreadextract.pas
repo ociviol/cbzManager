@@ -440,7 +440,7 @@ begin
   FTmpDir := '';
   Cbz := TCbz.Create(Log);
   Cbz.Open(Filename, zmRead);
-  FNbFiles := Cbz.FileCount; //AllowedFileCount;
+  FNbFiles := Cbz.AllowedFileCount;
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);
 end;
@@ -451,7 +451,7 @@ var
   Results : TStringList;
   i : integer;
   Filenames : TNaturalSortStringList;
-  MetaFiles : TStringlist;
+  //MetaFiles : TStringlist;
   f : TStringArray;
 
   procedure AddBlock(const aFilename : String; Index : Integer;
@@ -512,7 +512,7 @@ begin
 
         // extract
         Filenames := TNaturalSortStringList.Create;
-        MetaFiles := TStringlist.Create;
+        //MetaFiles := TStringlist.Create;
         try
           f := Cbz.GetFileNames;
           for i := 0 to length(f) - 1 do
@@ -562,7 +562,7 @@ begin
           end;
           }
         finally
-          MetaFiles.Free;
+          //MetaFiles.Free;
           Filenames.Free;
         end;
         Cbz.Close;

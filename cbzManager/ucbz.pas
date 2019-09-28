@@ -137,6 +137,7 @@ type
     procedure Close;
     function IsWebp(Index : Integer):Boolean;
 
+    function AllowedFileCount:Integer;
     procedure ClearUndo;
     function CanUndo:Boolean;
     procedure Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TCbzProgressEvent = nil);
@@ -1321,6 +1322,16 @@ end;
 function TCbz.IsWebp(Index : Integer):Boolean;
 begin
   result := LowerCase(ExtractFileExt(Filenames[Index])) = '.webp';
+end;
+
+function TCbz.AllowedFileCount: Integer;
+var
+  i : integer;
+begin
+  result := 0;
+  for i := 0 to FileCount - 1 do
+    if AllowedFile(FileNames[i]) then
+      inc(result);
 end;
 
 procedure TCbz.ClearUndo;

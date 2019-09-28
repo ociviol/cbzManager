@@ -424,7 +424,9 @@ begin
       //MetaData := TDictionary<String, TMemoryStream>.Create;
       FCbz := TCBz.Create(FLog);
       try
-        FFilesToProcess := ThreadExtract.NbFiles;
+        repeat
+          FFilesToProcess := ThreadExtract.NbFiles;
+        until FFilesToProcess > 0;
 
         FJobPool.FSync.LockList;
         try

@@ -18,9 +18,8 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="879"/>
-        <CursorPos Y="902"/>
+        <CursorPos X="40" Y="884"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="2">
           <Item0 Y="397"/>
@@ -187,8 +186,9 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="13"/>
-        <TopLine Value="7"/>
+        <TopLine Value="453"/>
         <CursorPos X="39" Y="12"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -515,7 +515,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uAbout"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="26"/>
+        <TopLine Value="25"/>
         <CursorPos X="27" Y="34"/>
         <UsageCount Value="28"/>
         <Loaded Value="True"/>

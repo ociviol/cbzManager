@@ -91,10 +91,11 @@ begin
           end;
 
           try
-            FDataPool.Pool[i].Put(Rec);
-            Sleep(50);
             if not Assigned(stOut) then
-              Flog.Log('ThreadConvert skipped image (null stream) : ' + IntTostr(Rec.Index));
+              Flog.Log('ThreadConvert skipped image (null stream) : ' + IntTostr(Rec.Index))
+            else
+              FDataPool.Pool[i].Put(Rec);
+            Sleep(50);
           except
             on e: Exception do
             begin

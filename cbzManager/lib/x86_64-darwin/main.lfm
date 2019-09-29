@@ -5,7 +5,7 @@ object MainFrm: TMainFrm
   Width = 908
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 591
+  ClientHeight = 594
   ClientWidth = 908
   Menu = MainMenu1
   OnClose = FormClose
@@ -15,7 +15,7 @@ object MainFrm: TMainFrm
   LCLVersion = '2.0.4.0'
   object TreeView1: TTreeView
     Left = 0
-    Height = 422
+    Height = 425
     Top = 0
     Width = 286
     Align = alLeft
@@ -32,17 +32,17 @@ object MainFrm: TMainFrm
   end
   object Panel1: TPanel
     Left = 291
-    Height = 422
+    Height = 425
     Top = 0
     Width = 617
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 422
+    ClientHeight = 425
     ClientWidth = 617
     TabOrder = 1
     object DrawGrid1: TDrawGrid
       Left = 467
-      Height = 369
+      Height = 372
       Top = 53
       Width = 150
       Align = alRight
@@ -68,7 +68,7 @@ object MainFrm: TMainFrm
     end
     object Image1: TImage
       Left = 0
-      Height = 369
+      Height = 372
       Top = 53
       Width = 467
       AntialiasingMode = amOn
@@ -176,14 +176,14 @@ object MainFrm: TMainFrm
         Left = 1
         Height = 21
         Top = 4
-        Width = 38
+        Width = 29
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Left : '
         ParentColor = False
       end
       object speLeft: TSpinEdit
-        Left = 39
+        Left = 30
         Height = 24
         Top = 1
         Width = 62
@@ -192,17 +192,17 @@ object MainFrm: TMainFrm
         TabOrder = 0
       end
       object Label2: TLabel
-        Left = 311
+        Left = 285
         Height = 21
         Top = 4
-        Width = 54
+        Width = 45
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Height : '
         ParentColor = False
       end
       object speBottom: TSpinEdit
-        Left = 365
+        Left = 330
         Height = 24
         Top = 1
         Width = 62
@@ -211,17 +211,17 @@ object MainFrm: TMainFrm
         TabOrder = 1
       end
       object Label3: TLabel
-        Left = 198
+        Left = 182
         Height = 21
         Top = 4
-        Width = 51
+        Width = 41
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Width : '
         ParentColor = False
       end
       object speRight: TSpinEdit
-        Left = 249
+        Left = 223
         Height = 24
         Top = 1
         Width = 62
@@ -230,17 +230,17 @@ object MainFrm: TMainFrm
         TabOrder = 2
       end
       object Label4: TLabel
-        Left = 101
+        Left = 92
         Height = 21
         Top = 4
-        Width = 35
+        Width = 28
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Top : '
         ParentColor = False
       end
       object speTop: TSpinEdit
-        Left = 136
+        Left = 120
         Height = 24
         Top = 1
         Width = 62
@@ -273,7 +273,7 @@ object MainFrm: TMainFrm
   object pnlProgress: TPanel
     Left = 0
     Height = 50
-    Top = 541
+    Top = 544
     Width = 908
     Align = alBottom
     BevelOuter = bvNone
@@ -281,14 +281,14 @@ object MainFrm: TMainFrm
   end
   object Splitter1: TSplitter
     Left = 286
-    Height = 422
+    Height = 425
     Top = 0
     Width = 5
   end
   object memoLog: TMemo
     Left = 0
     Height = 119
-    Top = 422
+    Top = 425
     Width = 908
     Align = alBottom
     Lines.Strings = (

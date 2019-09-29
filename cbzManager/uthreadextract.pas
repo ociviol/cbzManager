@@ -533,6 +533,7 @@ begin
             end;
 
             AddBlock(Filenames[i], Integer(pointer(Filenames.Objects[i])));
+            Sleep(20);
           end;
         finally
           Filenames.Free;

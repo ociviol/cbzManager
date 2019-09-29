@@ -672,12 +672,14 @@ begin
           FLog.Log(ClassName + ' Job started : ' + FCurJob.Filename);
           NewFile := Convert(FCurJob.Filename, FCurJob.arcType, FCurJob.Operations);
 
-          FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
-          FJobpool.DeleteJob(FCurJob.Filename);
-
           // timedout re run job
           if FTimeOut then
-            FJobpool.AddJob(FCurJob.Filename, FCurJob.arcType);
+            FJobpool.SetJobStatus(FCurJob.Filename, jsWaiting)
+          else
+          begin
+            FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
+            FJobpool.DeleteJob(FCurJob.Filename);
+          end;
 
           FCurJob := nil;
           if (not Terminated) and FileExists(NewFile) and

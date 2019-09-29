@@ -55,7 +55,8 @@ type
 
   TCbzWorkerThread = Class(TThread)
   private
-    FCanceled : Boolean;
+    FCanceled,
+    FTimeOut: Boolean;
     FProgress : TCbzProgressEvent;
     FAddFile : TAddFileProc;
     FProgressID : QWord;
@@ -668,14 +669,21 @@ begin
         if FileExists(FCurJob.Filename) then
         begin
           FCanceled := false;
+          FTimeOut := False;
           fname := FCurJob.Filename;
           FLog.Log(ClassName + ' Job started : ' + FCurJob.Filename);
           NewFile := Convert(FCurJob.Filename, FCurJob.arcType, FCurJob.Operations);
 
           FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
           FJobpool.DeleteJob(FCurJob.Filename);
+
+          // timedout re run job
+          if FTimeOut then
+            FJobpool.AddJob(FCurJob.Filename, FCurJob.arcType);
+
           FCurJob := nil;
-          if (not Terminated) and FileExists(NewFile) and not FCanceled then
+          if (not Terminated) and FileExists(NewFile) and
+             (not FCanceled or not FTimeOut) then
           begin
             FLog.Log(ClassName + ' Job finished : ' + fname);
             FNewFile := newfile;

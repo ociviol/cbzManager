@@ -1,7 +1,11 @@
 unit uWorkerThread;
 
+{
+ Ollivier Civiol - 2019
+ ollivie@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
-
 
 interface
 uses
@@ -675,7 +679,7 @@ begin
 
           // timedout re run job
           if FTimeOut then
-            FJobpool.SetJobStatus(FCurJob.Filename, jsWaiting);
+            FJobpool.SetJobStatus(FCurJob.Filename, jsWaiting)
           else
           begin
             FJobpool.SetJobStatus(FCurJob.Filename, jsDone);

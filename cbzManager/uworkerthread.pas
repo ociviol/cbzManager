@@ -1,7 +1,11 @@
 unit uWorkerThread;
 
+{
+ Ollivier Civiol - 2019
+ ollivie@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
-
 
 interface
 uses
@@ -55,7 +59,8 @@ type
 
   TCbzWorkerThread = Class(TThread)
   private
-    FCanceled : Boolean;
+    FCanceled,
+    FTimeOut: Boolean;
     FProgress : TCbzProgressEvent;
     FAddFile : TAddFileProc;
     FProgressID : QWord;
@@ -463,11 +468,12 @@ begin
             if not ThreadExtract.Working and (ThreadExtract.NbFiles = 0) then
               break;
 
-            if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 30) then
+            if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 15) then
             begin
               FLog.Log('TCbzWorkerThread.Convert : Timeout on item : ' + IntTostr(i));
-              FResults.Add('Conversion of file "' + aFilename + '" timed out, retry using the refresh menu');
+              FResults.Add('Conversion of file "' + ExtractFileName(aFilename) + '" timed out, job will be run again');
               FCanceled := True;
+              FTimeOut:=True;
               Synchronize(@DoOnBadFile);
             end;
           end;
@@ -551,8 +557,6 @@ begin
             Flog.Log('TCbzWorkerThread Rename ' + fname + ' -> ' + newf);
             CopyFile(fname, newf);
             DeleteFile(fname);
-            FResults.Add(FormatDateTime('hh:nn:ss' ,now) + 'Sucessfuly converted ' + aFilename +
-                         ' to ' + newf + ' in : ' + GetElapsed(now, BeginDate));
           end;
         end
         else
@@ -668,14 +672,23 @@ begin
         if FileExists(FCurJob.Filename) then
         begin
           FCanceled := false;
+          FTimeOut := False;
           fname := FCurJob.Filename;
           FLog.Log(ClassName + ' Job started : ' + FCurJob.Filename);
           NewFile := Convert(FCurJob.Filename, FCurJob.arcType, FCurJob.Operations);
 
-          FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
-          FJobpool.DeleteJob(FCurJob.Filename);
+          // timedout re run job
+          if FTimeOut then
+            FJobpool.SetJobStatus(FCurJob.Filename, jsWaiting)
+          else
+          begin
+            FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
+            FJobpool.DeleteJob(FCurJob.Filename);
+          end;
+
           FCurJob := nil;
-          if (not Terminated) and FileExists(NewFile) and not FCanceled then
+          if (not Terminated) and FileExists(NewFile) and
+             (not FCanceled or not FTimeOut) then
           begin
             FLog.Log(ClassName + ' Job finished : ' + fname);
             FNewFile := newfile;

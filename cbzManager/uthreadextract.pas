@@ -1,5 +1,10 @@
 unit uThreadExtract;
 
+{
+ Ollivier Civiol - 2019
+ ollivie@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
 
 interface
@@ -202,7 +207,7 @@ begin
   begin
     FMax := 1;
     FCur := 0;
-    FMsg := 'Processing file : ' + FFilename;
+    FMsg := 'Processing file : ' + ExtractFileName(FFilename);
     Synchronize(@DoProgress);
     try
       // extract
@@ -451,8 +456,6 @@ var
   Results : TStringList;
   i : integer;
   Filenames : TNaturalSortStringList;
-  //MetaFiles : TStringlist;
-  f : TStringArray;
 
   procedure AddBlock(const aFilename : String; Index : Integer;
                      DataType : TDataType = dtImage);
@@ -481,27 +484,52 @@ begin
       try
         try
           Filenames := TNaturalSortStringList.Create;
-          // test
-          FMax := Cbz.FileCount-1;
-          for i := 0 to Cbz.FileCount -1 do
-          begin
-            if Tcbz.AllowedFile(cbz.FileNames[i]) then
+          try
+            // test
+            FMax := Cbz.FileCount-1;
+            for i := 0 to Cbz.FileCount -1 do
             begin
-              FMsg := 'Testing' + ExtractFileName(FFilename) + ' (' +
-                       ExtractFilename(Cbz.Filenames[i].Replace('/', '\')) + ')';
-
-              if Assigned(FProgress) then
+              if Tcbz.AllowedFile(cbz.FileNames[i]) then
               begin
-                FCur := i;
-                Synchronize(@DoProgress);
+                FMsg := 'Testing' + ExtractFileName(FFilename) + ' (' +
+                         ExtractFilename(Cbz.Filenames[i].Replace('/', '\')) + ')';
+
+                if Assigned(FProgress) then
+                begin
+                  FCur := i;
+                  Synchronize(@DoProgress);
+                end;
+
+                if not Cbz.TestFile(i) then
+                  raise TCBzErrorFileException.Create(FormatDateTime('hh:nn:ss' ,now) +
+                                                    ' Cannot process ' + FFileName + ' because it has errors.');
+                Filenames.AddObject(cbz.FileNames[i], TObject(pointer(i)));
               end;
 
-              if not Cbz.TestFile(i) then
-                raise TCBzErrorFileException.Create(FormatDateTime('hh:nn:ss' ,now) +
-                                                  ' Cannot process ' + FFileName + ' because it has errors.');
-              Filenames.AddObject(cbz.FileNames[i], TObject(pointer(i)));
-            end;
+              if Terminated then
+              begin
+                FPoolData.ClearLists;
+                Cbz.Close;
+                Exit;
+              end;
 
+              Sleep(10);
+            end;
+          finally
+            Results.free;
+          end;
+
+          FNbFiles := Cbz.AllowedFileCount;
+          FMax := Max(0, FNbfiles - 1);
+          FMsg := '(Writing : ' + TCbz.CleanFilename(ExtractFilename(FFilename)) + ')';
+          FCur := 0;
+
+          if Assigned(FProgress) then
+            Synchronize(@DoProgress);
+
+          Filenames.Sort;
+          for i := 0 to Filenames.Count - 1 do
+          begin
             if Terminated then
             begin
               FPoolData.ClearLists;
@@ -509,20 +537,12 @@ begin
               Exit;
             end;
 
-            Sleep(10);
+            AddBlock(Filenames[i], Integer(pointer(Filenames.Objects[i])));
+            Sleep(20);
           end;
         finally
-          Results.free;
           Filenames.Free;
         end;
-
-        FNbFiles := Cbz.AllowedFileCount;
-        FMax := Max(0, FNbfiles - 1);
-        FMsg := '(Writing : ' + TCbz.CleanFilename(ExtractFilename(FFilename)) + ')';
-        FCur := 0;
-
-        if Assigned(FProgress) then
-          Synchronize(@DoProgress);
 
         Cbz.Close;
         if NbFiles = 0 then

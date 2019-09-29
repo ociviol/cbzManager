@@ -1,5 +1,10 @@
 unit uDataTypes;
 
+{
+ Ollivier Civiol - 2019
+ ollivie@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
 
 interface

@@ -674,12 +674,10 @@ begin
 
           // timedout re run job
           if FTimeOut then
-            FJobpool.SetJobStatus(FCurJob.Filename, jsWaiting)
-          else
-          begin
-            FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
-            FJobpool.DeleteJob(FCurJob.Filename);
-          end;
+            FJobpool.AddJob(FCurJob.Filename, FCurJob.arcType);
+
+          FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
+          FJobpool.DeleteJob(FCurJob.Filename);
 
           FCurJob := nil;
           if (not Terminated) and FileExists(NewFile) and

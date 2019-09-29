@@ -440,7 +440,7 @@ begin
   FTmpDir := '';
   Cbz := TCbz.Create(Log);
   Cbz.Open(Filename, zmRead);
-  FNbFiles := Cbz.AllowedFileCount;
+  FNbFiles := 0;
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);
 end;
@@ -480,22 +480,27 @@ begin
       Results := TStringList.Create;
       try
         try
+          Filenames := TNaturalSortStringList.Create;
           // test
           FMax := Cbz.FileCount-1;
           for i := 0 to Cbz.FileCount -1 do
           begin
-            FMsg := 'Testing' + ExtractFileName(FFilename) + ' (' +
-                     ExtractFilename(Cbz.Filenames[i].Replace('/', '\')) + ')';
-
-            if Assigned(FProgress) then
+            if Tcbz.AllowedFile(cbz.FileNames[i]) then
             begin
-              FCur := i;
-              Synchronize(@DoProgress);
-            end;
+              FMsg := 'Testing' + ExtractFileName(FFilename) + ' (' +
+                       ExtractFilename(Cbz.Filenames[i].Replace('/', '\')) + ')';
 
-            if not Cbz.TestFile(i) then
-              raise TCBzErrorFileException.Create(FormatDateTime('hh:nn:ss' ,now) +
+              if Assigned(FProgress) then
+              begin
+                FCur := i;
+                Synchronize(@DoProgress);
+              end;
+
+              if not Cbz.TestFile(i) then
+                raise TCBzErrorFileException.Create(FormatDateTime('hh:nn:ss' ,now) +
                                                   ' Cannot process ' + FFileName + ' because it has errors.');
+              Filenames.AddObject(cbz.FileNames[i], TObject(pointer(i)));
+            end;
 
             if Terminated then
             begin
@@ -504,67 +509,25 @@ begin
               Exit;
             end;
 
-            Sleep(50);
+            Sleep(10);
           end;
         finally
           Results.free;
-        end;
-
-        // extract
-        Filenames := TNaturalSortStringList.Create;
-        //MetaFiles := TStringlist.Create;
-        try
-          for i := 0 to Cbz.FileCount - 1 do
-            if Tcbz.AllowedFile(cbz.FileNames[i]) then
-              Filenames.AddObject(cbz.FileNames[i], TObject(pointer(i)));
-          {
-            else
-            if f[i].ToLower.EndsWith('zip') or
-               f[i].ToLower.EndsWith('rar') or
-               f[i].ToLower.EndsWith('cbz') or
-               f[i].ToLower.EndsWith('cbr') then
-            begin
-              cbz.Extract(cbz.FileNames[i], ExtractFilePath(FFilename));
-            end;
-           }
-          Filenames.Sort;
-          FMax := Max(0, FNbfiles - 1);
-          FMsg := '(Writing : ' + TCbz.CleanFilename(ExtractFilename(FFilename)) + ')';
-          FCur := 0;
-          if Assigned(FProgress) then
-            Synchronize(@DoProgress);
-
-          for i := 0 to Filenames.Count - 1 do
-          begin
-            if Terminated then
-            begin
-              FPoolData.ClearLists;
-              Cbz.Close;
-              Exit;
-            end;
-
-            AddBlock(Filenames[i], Integer(pointer(Filenames.Objects[i])));
-          end;
-          {
-          for i := 0 to MetaFiles.Count - 1 do
-          begin
-            if Terminated then
-            begin
-              FPoolData.ClearLists;
-              Cbz.Close;
-              Exit;
-            end;
-
-            AddBlock(MetaFiles[i], Integer(MetaFiles.Objects[i]), dtMeta);
-          end;
-          }
-        finally
-          //MetaFiles.Free;
           Filenames.Free;
         end;
+
+        FNbFiles := Cbz.AllowedFileCount;
+        FMax := Max(0, FNbfiles - 1);
+        FMsg := '(Writing : ' + TCbz.CleanFilename(ExtractFilename(FFilename)) + ')';
+        FCur := 0;
+
+        if Assigned(FProgress) then
+          Synchronize(@DoProgress);
+
         Cbz.Close;
         if NbFiles = 0 then
           FileToTrash(FFilename);
+
         Terminate;
       except
         on e: Exception do

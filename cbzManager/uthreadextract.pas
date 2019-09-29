@@ -202,7 +202,7 @@ begin
   begin
     FMax := 1;
     FCur := 0;
-    FMsg := 'Processing file : ' + FFilename;
+    FMsg := 'Processing file : ' + ExtractFileName(FFilename);
     Synchronize(@DoProgress);
     try
       // extract

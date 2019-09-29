@@ -469,6 +469,7 @@ begin
               FLog.Log('TCbzWorkerThread.Convert : Timeout on item : ' + IntTostr(i));
               FResults.Add('Conversion of file "' + ExtractFileName(aFilename) + '" timed out, job will be run again');
               FCanceled := True;
+              FTimeOut:=True;
               Synchronize(@DoOnBadFile);
             end;
           end;
@@ -674,10 +675,12 @@ begin
 
           // timedout re run job
           if FTimeOut then
-            FJobpool.AddJob(FCurJob.Filename, FCurJob.arcType);
-
-          FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
-          FJobpool.DeleteJob(FCurJob.Filename);
+            FJobpool.SetJobStatus(FCurJob.Filename, jsWaiting);
+          else
+          begin
+            FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
+            FJobpool.DeleteJob(FCurJob.Filename);
+          end;
 
           FCurJob := nil;
           if (not Terminated) and FileExists(NewFile) and

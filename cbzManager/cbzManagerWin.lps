@@ -191,11 +191,11 @@
         <UnitName Value="uWorkerThread"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="13"/>
-        <TopLine Value="666"/>
-        <CursorPos X="14" Y="686"/>
+        <TopLine Value="456"/>
+        <CursorPos X="78" Y="467"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
-          <Item0 X="24" Y="666" ID="1"/>
+          <Item0 X="24" Y="664" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit18>
@@ -696,7 +696,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="uworkerthread.pas"/>
-        <Line Value="579"/>
+        <Line Value="577"/>
       </Item11>
     </BreakPoints>
     <Watches Count="10">

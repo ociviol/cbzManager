@@ -464,10 +464,10 @@ begin
             if not ThreadExtract.Working and (ThreadExtract.NbFiles = 0) then
               break;
 
-            if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 30) then
+            if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 15) then
             begin
               FLog.Log('TCbzWorkerThread.Convert : Timeout on item : ' + IntTostr(i));
-              FResults.Add('Conversion of file "' + aFilename + '" timed out, retry using the refresh menu');
+              FResults.Add('Conversion of file "' + ExtractFileName(aFilename) + '" timed out, job will be run again');
               FCanceled := True;
               Synchronize(@DoOnBadFile);
             end;
@@ -552,8 +552,6 @@ begin
             Flog.Log('TCbzWorkerThread Rename ' + fname + ' -> ' + newf);
             CopyFile(fname, newf);
             DeleteFile(fname);
-            FResults.Add(FormatDateTime('hh:nn:ss' ,now) + 'Sucessfuly converted ' + aFilename +
-                         ' to ' + newf + ' in : ' + GetElapsed(now, BeginDate));
           end;
         end
         else

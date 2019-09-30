@@ -144,6 +144,7 @@ type
     function AllowedFileCount:Integer;
     procedure ClearUndo;
     function CanUndo:Boolean;
+    procedure Add(Streams : TStreamArray; CallBack : TCbzProgressEvent = nil);
     procedure Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TCbzProgressEvent = nil);
     procedure Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
     procedure VerticalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
@@ -466,7 +467,7 @@ begin
       begin
         for i := 0 to Length(Streams) do
         begin
-          SetLength(Indexes, Length(Indexes) + i);
+          SetLength(Indexes, Length(Indexes) + 1);
           Indexes[i] := FileCount + i;
         end;
         SetLength(ar, 0);
@@ -480,7 +481,11 @@ begin
         fn := outz.GetNextFilename;
 
         ms := GetFileStream(i);
-        outz.AppendStream(ms, fn, now, zstream.clnone);
+        try
+           outz.AppendStream(ms, fn, now, zstream.clnone);
+        finally
+          ms.Free;
+        end;
 
         if Assigned(CallBack) then
           CallBack(Self, ProgressID, i, FileCount + Length(Streams) -1, 'Rewriting file :' + FFilename);
@@ -813,6 +818,10 @@ begin
 end;
 {$endregion}
 
+procedure TCbz.Add(Streams : TStreamArray; CallBack : TCbzProgressEvent = nil);
+begin
+  DoAdd(Streams, CallBack);
+end;
 
 procedure TCbz.Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
 var

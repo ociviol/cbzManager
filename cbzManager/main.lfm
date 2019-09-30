@@ -1,7 +1,7 @@
 object MainFrm: TMainFrm
-  Left = 201
+  Left = 749
   Height = 614
-  Top = 115
+  Top = 264
   Width = 908
   Align = alBottom
   Caption = 'cbzManager'
@@ -434,8 +434,14 @@ object MainFrm: TMainFrm
     object N7: TMenuItem
       Caption = '-'
     end
-    object MenuItem23: TMenuItem
-      Action = ActionRewriteManga
+    object MenuItem12: TMenuItem
+      Caption = 'File Operations'
+      object MenuItem23: TMenuItem
+        Action = ActionRewriteManga
+      end
+      object MenuItem31: TMenuItem
+        Action = ActionAppend
+      end
     end
     object N8: TMenuItem
       Caption = '-'
@@ -532,6 +538,10 @@ object MainFrm: TMainFrm
     object ActionCropTool: TAction
       Caption = 'Crop tool'
       OnExecute = ActionCropToolExecute
+    end
+    object ActionAppend: TAction
+      Caption = 'Append File'
+      OnExecute = ActionAppendExecute
     end
   end
   object PopupMenu2: TPopupMenu

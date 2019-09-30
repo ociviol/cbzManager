@@ -30,6 +30,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionAppend: TAction;
     ActionCropTool: TAction;
     ActionRewriteManga: TAction;
     ActionUndoAll: TAction;
@@ -69,6 +70,7 @@ type
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
+    MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
     MenuItem14: TMenuItem;
     MenuItem15: TMenuItem;
@@ -87,6 +89,7 @@ type
     MenuItem28: TMenuItem;
     MenuItem29: TMenuItem;
     MenuItem30: TMenuItem;
+    MenuItem31: TMenuItem;
     N10: TMenuItem;
     N9: TMenuItem;
     N8: TMenuItem;
@@ -126,6 +129,7 @@ type
     speTop: TSpinEdit;
     Splitter1: TSplitter;
     TreeView1: TTreeView;
+    procedure ActionAppendExecute(Sender: TObject);
     procedure ActionChooseFolderExecute(Sender: TObject);
     procedure ActionCropToolExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
@@ -194,6 +198,7 @@ type
     Fignores : TStringlist;
 
     procedure HideCropTool;
+    procedure AppenFile(const aFileName : String);
     procedure SaveConfig;
     function CheckPrograms:boolean;
     procedure FillTreeView(const Path: String);
@@ -466,6 +471,7 @@ begin
   ActionCropTool.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position >= 0);
 
   // files
+  ActionAppend.Enabled := (zf.Mode <> zmClosed);
   ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
   ActionChooseFolder.Enabled := not FInFill;
   //ActionRewrite.Enabled := Assigned(TreeView1.Selected) and
@@ -1041,6 +1047,59 @@ begin
       FillTreeView(FConfig.BdPathPath);
       SetAppCaption;
     end;
+end;
+
+procedure TMainFrm.AppenFile(const aFileName : String);
+var
+  tmpz : TCbz;
+  i : longint;
+  sar : TStreamArray;
+  rpos : integer;
+begin
+  tmpz := TCbz.Create(FLog);
+  try
+    SetLength(sar, 0);
+    rpos := DrawGrid1.Position;
+    try
+      tmpz.Open(aFileName, zmRead);
+      for i:=0 to tmpz.FileCount-1 do
+        if TCbz.AllowedFile(tmpz.FileNames[i]) then
+        begin
+          SetLength(sar, length(sar)+1);
+          sar[length(sar)-1] := tmpz.GetFileStream(i);
+        end;
+        zf.Add(sar, @Progress);
+        // refresh
+        DrawGrid1.Max := zf.ImageCount;
+        DrawGrid1.Position := rpos;
+        DrawGrid1.Invalidate;
+        Application.QueueAsyncCall(@AfterCellSelect, 0);
+    finally
+      for i:=low(sar) to high(sar) do
+        if Assigned(sar[i]) then
+          sar[i].Free;
+    end;
+  finally
+    tmpz.Free;
+  end;
+end;
+
+procedure TMainFrm.ActionAppendExecute(Sender: TObject);
+var
+  i : integer;
+begin
+  with TOpenDialog.Create(Self) do
+  try
+    Title := 'Choose cbz to append';
+    Filter := 'Cbz files (*.cbz)|*.cbz';
+    Options:=[ofHideReadOnly,ofAllowMultiSelect,ofPathMustExist,ofFileMustExist,
+              ofNoTestFileCreate,ofEnableSizing,ofDontAddToRecent,ofViewDetail];
+    if Execute then
+      for i:=0 to Files.Count-1 do
+        AppenFile(Files[i]);
+  finally
+    Free;
+  end;
 end;
 
 procedure TMainFrm.ActionCropToolExecute(Sender: TObject);

@@ -2,7 +2,7 @@ unit Utils.Gridhelper;
 
 {
  Ollivier Civiol - 2019
- ollivie@civiol.eu
+ ollivier@civiol.eu
  https://ollivierciviolsoftware.wordpress.com/
 }
 {$mode objfpc}{$H+}

@@ -634,7 +634,10 @@ begin
     FThreadDataPool.RemovePool(length(FWorkerThreads) - 1);
     SetLength(FWorkerThreads, Length(FWorkerThreads) - 1);
     if aFile <> '' then
-      FJobpool.AddJob(aFile, aType);
+      if FConfig.DeleteFile then
+        FJobpool.AddJob(aFile, aType, [opConvert, opDeleteFile])
+      else
+        FJobpool.AddJob(aFile, aType);
   end;
 end;
 
@@ -1507,6 +1510,7 @@ begin
     speQueues.Value:=FConfig.QueueSize;
     cblogging.Checked:=Fconfig.Blog;
     speWebpQuality.Value:=FConfig.WebpQuality;
+    cbDeleteFile.Checked := FConfig.DeleteFile;
     if ShowModal = mrOk then
     begin
       edtcwebp.Text:=Fconfig.cwebp;
@@ -1516,6 +1520,7 @@ begin
       FConfig.QueueSize := speQueues.Value;
       Fconfig.NbThreads:=speNbThreads.Value;
       FConfig.WebpQuality := speWebpQuality.Value;
+      FConfig.DeleteFile := cbDeleteFile.Checked;
       SaveConfig;
       FThreadDataPool.SetPerfs(FConfig.NbThreads);
       if Length(FWorkerThreads) > 2 then
@@ -1673,9 +1678,9 @@ begin
 
     if (arcType <> arcZip) and (arcType <> arcUnknown) then
     begin
-      //if FConfig.Moveoriginaltotrash then
-      //  FJobpool.AddJob(aFileName, arcType, [opConvert, opDeleteFile])
-      //else
+      if FConfig.DeleteFile then
+        FJobpool.AddJob(aFileName, arcType, [opConvert, opDeleteFile])
+      else
         FJobpool.AddJob(aFileName, arcType);
     end
     else if (arcType = arcZip) and not FJobpool.FileInQueue(aFileName) then

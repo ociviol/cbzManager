@@ -12,7 +12,6 @@ interface
 uses
   Classes, SysUtils, contnrs,
   Utils.ZipFile,
-  //zipctnr,
   Utils.Logger, Utils.Graphics,
   uDataTypes,
 {$if defined(Linux) or defined(Darwin)}

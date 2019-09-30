@@ -938,16 +938,6 @@ end;
 
 procedure FileToTrash(const aFileName: String);
 begin
-  {
-  matugenos@mat-pc:~$ ls .local/share/Trash/info/
-    README.md.trashinfo
-  matugenos@mat-pc:~$ ls .local/share/Trash/files/
-    README.md
-  matugenos@mat-pc:~$ cat .local/share/Trash/info/README.md.trashinfo
-    [Trash Info]
-    Path=/home/matugenos/Dev/Lazarus/README.md
-    DeletionDate=2019-07-30T00:07:27
-  }
   DeleteFile(aFileName);
 end;
 

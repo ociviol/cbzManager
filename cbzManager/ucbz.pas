@@ -2,7 +2,7 @@ unit uCbz;
 
 {
  Ollivier Civiol - 2019
- ollivie@civiol.eu
+ ollivier@civiol.eu
  https://ollivierciviolsoftware.wordpress.com/
 }
 {$mode objfpc}{$H+}
@@ -12,7 +12,6 @@ interface
 uses
   Classes, SysUtils, contnrs,
   Utils.ZipFile,
-  //zipctnr,
   Utils.Logger, Utils.Graphics,
   uDataTypes,
 {$if defined(Linux) or defined(Darwin)}
@@ -145,6 +144,7 @@ type
     function AllowedFileCount:Integer;
     procedure ClearUndo;
     function CanUndo:Boolean;
+    procedure Add(Streams : TStreamArray; CallBack : TCbzProgressEvent = nil);
     procedure Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TCbzProgressEvent = nil);
     procedure Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
     procedure VerticalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
@@ -467,7 +467,7 @@ begin
       begin
         for i := 0 to Length(Streams) do
         begin
-          SetLength(Indexes, Length(Indexes) + i);
+          SetLength(Indexes, Length(Indexes) + 1);
           Indexes[i] := FileCount + i;
         end;
         SetLength(ar, 0);
@@ -481,7 +481,11 @@ begin
         fn := outz.GetNextFilename;
 
         ms := GetFileStream(i);
-        outz.AppendStream(ms, fn, now, zstream.clnone);
+        try
+           outz.AppendStream(ms, fn, now, zstream.clnone);
+        finally
+          ms.Free;
+        end;
 
         if Assigned(CallBack) then
           CallBack(Self, ProgressID, i, FileCount + Length(Streams) -1, 'Rewriting file :' + FFilename);
@@ -814,6 +818,10 @@ begin
 end;
 {$endregion}
 
+procedure TCbz.Add(Streams : TStreamArray; CallBack : TCbzProgressEvent = nil);
+begin
+  DoAdd(Streams, CallBack);
+end;
 
 procedure TCbz.Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
 var
@@ -938,16 +946,6 @@ end;
 
 procedure FileToTrash(const aFileName: String);
 begin
-  {
-  matugenos@mat-pc:~$ ls .local/share/Trash/info/
-    README.md.trashinfo
-  matugenos@mat-pc:~$ ls .local/share/Trash/files/
-    README.md
-  matugenos@mat-pc:~$ cat .local/share/Trash/info/README.md.trashinfo
-    [Trash Info]
-    Path=/home/matugenos/Dev/Lazarus/README.md
-    DeletionDate=2019-07-30T00:07:27
-  }
   DeleteFile(aFileName);
 end;
 

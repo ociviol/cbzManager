@@ -2,7 +2,7 @@ unit uWorkerThread;
 
 {
  Ollivier Civiol - 2019
- ollivie@civiol.eu
+ ollivier@civiol.eu
  https://ollivierciviolsoftware.wordpress.com/
 }
 {$mode objfpc}{$H+}
@@ -538,7 +538,10 @@ begin
             FileToTrash(aFileName)
           else
           begin
-            s := aFileName + '.old';
+            s :=  IncludeTrailingPathDelimiter(ExtractFilePath(aFileName)) + 'Done';
+            if not DirectoryExists(s) then
+              ForceDirectories(s);
+            s := IncludeTrailingPathDelimiter(s) + ExtractFileName(aFileName) + '.old';
             while FileExists(s) do
               s := s + '.old';
 

@@ -1,7 +1,7 @@
 object MainFrm: TMainFrm
-  Left = 244
+  Left = 749
   Height = 614
-  Top = 187
+  Top = 264
   Width = 908
   Align = alBottom
   Caption = 'cbzManager'
@@ -192,7 +192,7 @@ object MainFrm: TMainFrm
         TabOrder = 0
       end
       object Label2: TLabel
-        Left = 285
+        Left = 286
         Height = 21
         Top = 4
         Width = 45
@@ -202,7 +202,7 @@ object MainFrm: TMainFrm
         ParentColor = False
       end
       object speBottom: TSpinEdit
-        Left = 330
+        Left = 331
         Height = 24
         Top = 1
         Width = 62
@@ -211,7 +211,7 @@ object MainFrm: TMainFrm
         TabOrder = 1
       end
       object Label3: TLabel
-        Left = 182
+        Left = 183
         Height = 21
         Top = 4
         Width = 41
@@ -221,7 +221,7 @@ object MainFrm: TMainFrm
         ParentColor = False
       end
       object speRight: TSpinEdit
-        Left = 223
+        Left = 224
         Height = 24
         Top = 1
         Width = 62
@@ -233,14 +233,14 @@ object MainFrm: TMainFrm
         Left = 92
         Height = 21
         Top = 4
-        Width = 28
+        Width = 29
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Top : '
         ParentColor = False
       end
       object speTop: TSpinEdit
-        Left = 120
+        Left = 121
         Height = 24
         Top = 1
         Width = 62
@@ -434,8 +434,14 @@ object MainFrm: TMainFrm
     object N7: TMenuItem
       Caption = '-'
     end
-    object MenuItem23: TMenuItem
-      Action = ActionRewriteManga
+    object MenuItem12: TMenuItem
+      Caption = 'File Operations'
+      object MenuItem23: TMenuItem
+        Action = ActionRewriteManga
+      end
+      object MenuItem31: TMenuItem
+        Action = ActionAppend
+      end
     end
     object N8: TMenuItem
       Caption = '-'
@@ -532,6 +538,10 @@ object MainFrm: TMainFrm
     object ActionCropTool: TAction
       Caption = 'Crop tool'
       OnExecute = ActionCropToolExecute
+    end
+    object ActionAppend: TAction
+      Caption = 'Append File'
+      OnExecute = ActionAppendExecute
     end
   end
   object PopupMenu2: TPopupMenu

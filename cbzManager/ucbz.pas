@@ -77,7 +77,7 @@ type
     FMode : TZipMode;
     FFileNameFormat : String;
     Flog : ILog;
-    FStampThread : TStampThread;
+    FStampThread : Array[0..3] of TStampThread;
     FInUndo : Boolean;
     FUndoList : TFPObjectList;
     FWebpQualityFactor : single;
@@ -365,7 +365,7 @@ begin
   if FFilename <> FileName then
     FUndoList.Clear;
 
-  if Assigned(FStampThread) then
+  if Assigned(FStampThread[0]) then
     StopStampThread;
 
   ClearCache;
@@ -1364,30 +1364,37 @@ end;
 procedure TCbz.StartStampThread;
 var
   PID : Qword;
+  i : integer;
 begin
   PId := GetTickCount64;
-  if (FStampWidth > 0) and (FStampHeight > 0) then
+  for i := low(FStampThread) to High(FStampThread) do
   begin
-    FStampThread := TStampThread.Create(self, FStampSync, Pid, FNotify);
-    FLog.Log(Format('%s Starting thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread.ThreadID))]));
-  end
-  else
-    FStampThread := nil;
+    if (FStampWidth > 0) and (FStampHeight > 0) then
+    begin
+      FStampThread[i] := TStampThread.Create(self, FStampSync, Pid, FNotify);
+      FLog.Log(Format('%s Starting thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread[i].ThreadID))]));
+    end
+    else
+      FStampThread[i] := nil;
+  end;
 end;
 
 procedure TCbz.StopStampThread;
 var
   z : QWord;
+  i : integer;
 begin
-  if Assigned(FStampThread) then
-  begin
-    FLog.Log(Format('%s Stopping thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread.ThreadID))]));
-    z := FStampThread.ProgressID;
-    FStampThread.StopThread;
-    if Assigned(FNotify) then
-      FNotify(z, -1);
-    FStampThread := nil;
-  end;
+  for i := low(FStampThread) to High(FStampThread) do
+    if Assigned(FStampThread[i]) then
+    begin
+      FLog.Log(Format('%s Stopping thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread[i].ThreadID))]));
+      z := FStampThread[i].ProgressID;
+      FStampThread[i].StopThread;
+      if Assigned(FNotify) then
+        FNotify(z, -1);
+      //FreeANdNil(FStampThread[i]);
+      FStampThread[i] := nil;
+    end;
 end;
 
 function TCbz.MakeStamp(Index: Integer): Tbitmap;

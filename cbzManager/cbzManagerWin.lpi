@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
-      <BuildNr Value="131"/>
+      <BuildNr Value="132"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>
@@ -32,7 +32,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../Utils"/>
+            <OtherUnitFiles Value="../../Utils"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -84,7 +84,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../Utils;../common"/>
+            <OtherUnitFiles Value="../../Utils"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -131,7 +131,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="24">
+    <Units Count="15">
       <Unit0>
         <Filename Value="cbzManagerWin.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -155,113 +155,68 @@
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="../Utils/utils.graphics.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.Graphics"/>
-      </Unit4>
-      <Unit5>
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="../Utils/utils.logger.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.Logger"/>
-      </Unit6>
-      <Unit7>
+      </Unit4>
+      <Unit5>
         <Filename Value="udatatypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataTypes"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="../Utils/utils.searchfiles.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.Searchfiles"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="../Utils/utils.strings.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.Strings"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="../Utils/utils.arrays.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.Arrays"/>
-      </Unit10>
-      <Unit11>
-        <Filename Value="../Utils/utils.files.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.Files"/>
-      </Unit11>
-      <Unit12>
+      </Unit5>
+      <Unit6>
         <Filename Value="frmwait.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormWait"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit12>
-      <Unit13>
-        <Filename Value="../Utils/utils.gridhelper.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.Gridhelper"/>
-      </Unit13>
-      <Unit14>
-        <Filename Value="../Utils/utils.softwareversion.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.SoftwareVersion"/>
-      </Unit14>
-      <Unit15>
+      </Unit6>
+      <Unit7>
         <Filename Value="udatapool.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataPool"/>
-      </Unit15>
-      <Unit16>
+      </Unit7>
+      <Unit8>
         <Filename Value="udataitem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataItem"/>
-      </Unit16>
-      <Unit17>
+      </Unit8>
+      <Unit9>
         <Filename Value="uthreadconvert.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
-      </Unit17>
-      <Unit18>
+      </Unit9>
+      <Unit10>
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-      </Unit18>
-      <Unit19>
+      </Unit10>
+      <Unit11>
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-      </Unit19>
-      <Unit20>
-        <Filename Value="../Utils/utils.masks.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.Masks"/>
-      </Unit20>
-      <Unit21>
+      </Unit11>
+      <Unit12>
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-      </Unit21>
-      <Unit22>
+      </Unit12>
+      <Unit13>
         <Filename Value="uloadreport.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmReport"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uLoadReport"/>
-      </Unit22>
-      <Unit23>
+      </Unit13>
+      <Unit14>
         <Filename Value="uabout.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmAbout"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uAbout"/>
-      </Unit23>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -271,7 +226,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../Utils;../common"/>
+      <OtherUnitFiles Value="../../Utils"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

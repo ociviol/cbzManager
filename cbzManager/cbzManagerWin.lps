@@ -58,8 +58,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="1577"/>
-        <CursorPos Y="1603"/>
+        <TopLine Value="1581"/>
+        <CursorPos Y="1601"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
           <Item0 X="14" Y="1656" ID="3"/>
@@ -110,8 +110,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="75"/>
-        <CursorPos Y="87"/>
+        <TopLine Value="65"/>
+        <CursorPos Y="85"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -121,8 +121,8 @@
         <UnitName Value="uWorkerThread"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="13"/>
-        <TopLine Value="505"/>
-        <CursorPos Y="520"/>
+        <TopLine Value="514"/>
+        <CursorPos Y="534"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit10>
@@ -506,124 +506,124 @@
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="1597" TopLine="1577"/>
+        <Filename Value="uthreadconvert.pas"/>
+        <Caret Line="22" Column="23"/>
       </Position1>
       <Position2>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="1601" TopLine="1577"/>
+        <Filename Value="uthreadconvert.pas"/>
+        <Caret Line="43" Column="21" TopLine="9"/>
       </Position2>
       <Position3>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="1603" TopLine="1580"/>
+        <Filename Value="uthreadconvert.pas"/>
+        <Caret Line="85" Column="94" TopLine="52"/>
       </Position3>
       <Position4>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="1605" TopLine="1580"/>
+        <Filename Value="uthreadconvert.pas"/>
+        <Caret Line="185" Column="24" TopLine="164"/>
       </Position4>
       <Position5>
-        <Filename Value="uthreadconvert.pas"/>
-        <Caret Line="87" TopLine="78"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="770" Column="29" TopLine="750"/>
       </Position5>
       <Position6>
-        <Filename Value="uworkerthread.pas"/>
-        <Caret Line="484" TopLine="464"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="135" Column="96" TopLine="115"/>
       </Position6>
       <Position7>
-        <Filename Value="udataitem.pas"/>
-        <Caret Line="101" Column="16" TopLine="77"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="770" Column="93" TopLine="750"/>
       </Position7>
       <Position8>
-        <Filename Value="udataitem.pas"/>
-        <Caret Line="357" Column="8" TopLine="334"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="83" Column="34" TopLine="59"/>
       </Position8>
       <Position9>
-        <Filename Value="../../../../../../lazarus/fpc/3.0.4/source/rtl/objpas/classes/classesh.inc"/>
-        <Caret Line="360" Column="15" TopLine="339"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="311" Column="12" TopLine="289"/>
       </Position9>
       <Position10>
-        <Filename Value="udataitem.pas"/>
-        <Caret Line="101" Column="16" TopLine="74"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="83" Column="26" TopLine="62"/>
       </Position10>
       <Position11>
-        <Filename Value="udataitem.pas"/>
-        <Caret Line="352" Column="3" TopLine="349"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="302" Column="18" TopLine="281"/>
       </Position11>
       <Position12>
-        <Filename Value="uthreadconvert.pas"/>
-        <Caret Line="106" Column="13" TopLine="75"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="127" Column="57" TopLine="106"/>
       </Position12>
       <Position13>
-        <Filename Value="uworkerthread.pas"/>
-        <Caret Line="680" TopLine="660"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1773" Column="99" TopLine="1747"/>
       </Position13>
       <Position14>
-        <Filename Value="uworkerthread.pas"/>
-        <Caret Line="484" TopLine="484"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1759" Column="21" TopLine="1738"/>
       </Position14>
       <Position15>
         <Filename Value="ucbz.pas"/>
-        <Caret Line="1735" TopLine="1714"/>
+        <Caret Line="119" Column="100" TopLine="100"/>
       </Position15>
       <Position16>
         <Filename Value="ucbz.pas"/>
-        <Caret Line="1630" TopLine="1610"/>
+        <Caret Line="136" Column="44" TopLine="120"/>
       </Position16>
       <Position17>
         <Filename Value="ucbz.pas"/>
-        <Caret Line="1597" TopLine="1577"/>
+        <Caret Line="1617" Column="23" TopLine="1611"/>
       </Position17>
       <Position18>
         <Filename Value="ucbz.pas"/>
-        <Caret Line="1603" TopLine="1577"/>
+        <Caret Line="1601" TopLine="1571"/>
       </Position18>
       <Position19>
         <Filename Value="uthreadconvert.pas"/>
-        <Caret Line="87" TopLine="75"/>
+        <Caret Line="85" Column="76" TopLine="65"/>
       </Position19>
       <Position20>
-        <Filename Value="uworkerthread.pas"/>
-        <Caret Line="516" TopLine="491"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1716" TopLine="1696"/>
       </Position20>
       <Position21>
-        <Filename Value="uworkerthread.pas"/>
-        <Caret Line="574" TopLine="554"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1717" TopLine="1633"/>
       </Position21>
       <Position22>
         <Filename Value="uworkerthread.pas"/>
-        <Caret Line="521" TopLine="467"/>
+        <Caret Line="575" TopLine="555"/>
       </Position22>
       <Position23>
         <Filename Value="uthreadconvert.pas"/>
-        <Caret Line="87" TopLine="75"/>
+        <Caret Line="85" TopLine="65"/>
       </Position23>
       <Position24>
         <Filename Value="uworkerthread.pas"/>
-        <Caret Line="533" TopLine="505"/>
+        <Caret Line="581" TopLine="555"/>
       </Position24>
       <Position25>
-        <Filename Value="uworkerthread.pas"/>
-        <Caret Line="520" TopLine="505"/>
+        <Filename Value="uthreadconvert.pas"/>
+        <Caret Line="85" TopLine="65"/>
       </Position25>
       <Position26>
         <Filename Value="uworkerthread.pas"/>
-        <Caret Line="485" TopLine="465"/>
+        <Caret Line="603" TopLine="583"/>
       </Position26>
       <Position27>
-        <Filename Value="uworkerthread.pas"/>
-        <Caret Line="523" TopLine="503"/>
+        <Filename Value="uthreadconvert.pas"/>
+        <Caret Line="85" TopLine="65"/>
       </Position27>
       <Position28>
-        <Filename Value="uworkerthread.pas"/>
-        <Caret Line="603" Column="22" TopLine="575"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1601" TopLine="1581"/>
       </Position28>
       <Position29>
         <Filename Value="uworkerthread.pas"/>
-        <Caret Line="576" TopLine="568"/>
+        <Caret Line="591" TopLine="555"/>
       </Position29>
       <Position30>
         <Filename Value="uworkerthread.pas"/>
-        <Caret Line="582" TopLine="568"/>
+        <Caret Line="603" TopLine="583"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -632,7 +632,7 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="19">
+    <BreakPoints Count="15">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
@@ -679,93 +679,65 @@
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="uworkerthread.pas"/>
-        <Line Value="591"/>
+        <Source Value="main.pas"/>
+        <Line Value="643"/>
       </Item7>
       <Item8>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="643"/>
+        <Line Value="1098"/>
       </Item8>
       <Item9>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="1098"/>
+        <Source Value="ucbz.pas"/>
+        <Line Value="856"/>
       </Item9>
       <Item10>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbz.pas"/>
-        <Line Value="856"/>
+        <Line Value="817"/>
       </Item10>
       <Item11>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbz.pas"/>
-        <Line Value="817"/>
+        <Line Value="532"/>
       </Item11>
       <Item12>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbz.pas"/>
-        <Line Value="532"/>
+        <Source Value="uthreadextract.pas"/>
+        <Line Value="221"/>
       </Item12>
       <Item13>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="uthreadextract.pas"/>
-        <Line Value="221"/>
+        <Line Value="228"/>
       </Item13>
       <Item14>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="uthreadextract.pas"/>
-        <Line Value="228"/>
+        <Source Value="uworkerthread.pas"/>
+        <Line Value="517"/>
       </Item14>
       <Item15>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="uworkerthread.pas"/>
-        <Line Value="603"/>
-      </Item15>
-      <Item16>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uworkerthread.pas"/>
-        <Line Value="581"/>
-      </Item16>
-      <Item17>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uworkerthread.pas"/>
-        <Line Value="575"/>
-      </Item17>
-      <Item18>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uworkerthread.pas"/>
-        <Line Value="517"/>
-      </Item18>
-      <Item19>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uworkerthread.pas"/>
         <Line Value="534"/>
-      </Item19>
+      </Item15>
     </BreakPoints>
     <Watches Count="10">
       <Item1>

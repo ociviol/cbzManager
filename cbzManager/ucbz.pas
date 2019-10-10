@@ -355,12 +355,24 @@ begin
   FLog.Log(Format('%s %s "%s"', [ClassName, 'Open', FFilename]));
   FMode := OpenMode;
   FileName := aFileName;
-  ACtive := True;
 
   if (OpenMode in [zmWrite, zmReadWrite]) then
-    FFileNameFormat := Format('%%.%dd', [NbCharFileName])
+  begin
+    FFileNameFormat := Format('%%.%dd', [NbCharFileName]);
+    Comment := CbzComment +
+        {$if defined(darwin)}
+              ' OsX' +
+        {$elseif defined(Linux)}
+              ' Linux' +
+        {$else}
+              ' Windows' +
+        {$endif}
+              ' v' + GetFileVersion;
+  end
   else
     FFileNameFormat := Format('%%.%dd', [IntToStr(FileCount).Length]);
+
+  Active := True;
 
   if FFilename <> FileName then
     FUndoList.Clear;
@@ -385,9 +397,6 @@ begin
   StopStampThread;
   ClearCache;
 //  FData.Clear;
-  if Mode in [zmWrite, zmReadWrite] then
-    Comment := 'Created using cbzManager version ' +
-               GetFileVersion;
 
 //  FModified := False;
   Active := False;

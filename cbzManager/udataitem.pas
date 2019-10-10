@@ -1,5 +1,10 @@
 unit uDataItem;
 
+{
+ Ollivier Civiol - 2019
+ ollivier@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
 
 interface
@@ -173,12 +178,6 @@ begin
   With LockList do
   try
     //FIndexList.Clear;
-    try
-      for i := 0 to Count - 1 do
-        TDataRec(Items[i]).Free;
-    except
-    end;
-
     try
       for i := 0 to Count - 1 do
         TDataRec(Items[i]).Free;

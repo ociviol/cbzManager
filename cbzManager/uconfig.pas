@@ -1,11 +1,20 @@
 unit uConfig;
 
+{
+ Ollivier Civiol - 2019
+ ollivier@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, fpjson, fpjsonrtti;
+  Classes, SysUtils,
+{$if defined(Linux) or defined(Darwin)}
+  cthreads,
+{$endif}
+  fpjson, fpjsonrtti;
 
 type
 
@@ -15,23 +24,30 @@ type
 
   private
     FBdPathPath: String;
-    FBlog: Boolean;
-    Fcwebp: String;
+    FBlog,
+    FDeleteFile,
     FHighPerf: Boolean;
+    Fcwebp,
+    Funrar,
     Fp7zip: String;
     FQueueSize,
     FNbThreads : Integer;
-    Funrar: String;
     FWleft,
     FWTop,
     FWWidth,
     FWHeight,
+    FWebpQuality,
     FWTreeViewWidth :Integer;
   public
     constructor Create;
     class function Load(const aFileName : String):TConfig;
     procedure Save(const aFileName : String);
   published
+    property Wleft : Integer read FWleft write FWleft;
+    property WTop : Integer read FWTop write FWTop;
+    property WWidth : Integer read FWWidth write FWWidth;
+    property WHeight : Integer read FWHeight write FWHeight;
+    property WTreeViewWidth : Integer read FWTreeViewWidth write FWTreeViewWidth;
     property Blog : Boolean read FBlog write FBlog;
     property BdPathPath: String read FBdPathPath write FBdPathPath;
     property cwebp: String read Fcwebp write Fcwebp;
@@ -40,11 +56,8 @@ type
     property QueueSize : Integer read FQueueSize write FQueueSize;
     property HighPerf : Boolean read FHighPerf write FHighPerf;
     property NbThreads : Integer read FNbThreads write FNbThreads;
-    property Wleft : Integer read FWleft write FWleft;
-    property WTop : Integer read FWTop write FWTop;
-    property WWidth : Integer read FWWidth write FWWidth;
-    property WHeight : Integer read FWHeight write FWHeight;
-    property WTreeViewWidth : Integer read FWTreeViewWidth write FWTreeViewWidth;
+    property WebpQuality : Integer read FWebpQuality write FWebpQuality;
+    property DeleteFile : Boolean read FDeleteFile write FDeleteFile;
   end;
 
 implementation
@@ -58,6 +71,7 @@ uses
 
 constructor TConfig.Create;
 begin
+  inherited;
 {$if defined(Darwin)}
   Fcwebp := '/usr/local/bin/cwebp';
   Fp7zip := '/usr/local/bin/7z';
@@ -74,6 +88,8 @@ begin
   FQueueSize:=2;
   FNbThreads := 8;
   HighPerf:= False;
+  FWebpQuality := 75;
+  FDeleteFile := False;
 end;
 
 class function TConfig.Load(const aFileName: String): TConfig;
@@ -84,20 +100,19 @@ begin
   result := TConfig.Create;
   try
     DeStreamer := TJSONDeStreamer.Create(nil);
-    if FileExists(aFileName) then
-    begin
-      t := TStringList.Create;
-      try
-        t.LoadFromFile(aFileName);
+    try
+      if FileExists(aFileName) then
+      begin
+        t := TStringList.Create;
         try
+          t.LoadFromFile(aFileName);
           DeStreamer.JSONToObject(t[0], result);
         finally
-          DeStreamer.Free;
-        end;
-
-      finally
-        t.Free;
-      end
+          t.Free;
+        end
+      end;
+    finally
+      DeStreamer.Free;
     end;
   except
   end;

@@ -1,7 +1,11 @@
 unit uWorkerThread;
 
+{
+ Ollivier Civiol - 2019
+ ollivier@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
-
 
 interface
 uses
@@ -55,7 +59,8 @@ type
 
   TCbzWorkerThread = Class(TThread)
   private
-    FCanceled : Boolean;
+    FCanceled,
+    FTimeOut: Boolean;
     FProgress : TCbzProgressEvent;
     FAddFile : TAddFileProc;
     FProgressID : QWord;
@@ -379,13 +384,6 @@ begin
 end;
 
 function TCbzWorkerThread.Convert(const aFilename : String; arcType : TArcType; Operations : TImgOperations):String;
-var
-  s, fname, newf : string;
-  i : integer;
-  ThreadExtract : TThreadExtract;
-  BeginDate : TDateTime;
-  Rec : TDataRec;
-  //MetaData : TDictionary<String, TMemoryStream>;
 
   function CopyStream(Stream : TStream):TMemoryStream;
   begin
@@ -394,6 +392,16 @@ var
     result.CopyFrom(Stream, Stream.Size);
     result.Position := 0;
   end;
+
+var
+  s, fname, newf : string;
+  i : integer;
+  ThreadExtract : TThreadExtract;
+  BeginDate : TDateTime;
+  Rec : TDataRec;
+  LastAskedID : Integer;
+  LastAskedDate : TDateTime;
+
 begin
   BeginDate := now;
   if Assigned(FProgress) then
@@ -421,7 +429,12 @@ begin
       //MetaData := TDictionary<String, TMemoryStream>.Create;
       FCbz := TCBz.Create(FLog);
       try
-        FFilesToProcess := ThreadExtract.NbFiles;
+        repeat
+          FFilesToProcess := ThreadExtract.NbFiles;
+        until (FFilesToProcess > 0) or ThreadExtract.HasError;
+
+        if ThreadExtract.HasError then
+          Exit;
 
         FJobPool.FSync.LockList;
         try
@@ -436,14 +449,19 @@ begin
 
         i := 0;
         Rec := nil;
+        LastAskedID := -1;
         while not FPoolData.Empty or ThreadExtract.Working do
         begin
+          if LastAskedID <> i then
+          begin
+            LastAskedID:=i;
+            LastAskedDate:=now;
+          end;
+
           while (not FPoolData.GetOut(i, Rec)) do
           begin
             if (Terminated or FCanceled or ThreadExtract.HasError) then
             begin
-              //if Assigned(Rec.Stream) then
-              //  Rec.Stream.Free;
               if Assigned(Rec) then
                 FreeAndNil(Rec);
               Exit;
@@ -452,6 +470,16 @@ begin
             Sleep(2000);
             if not ThreadExtract.Working and (ThreadExtract.NbFiles = 0) then
               break;
+
+            if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 15) then
+            begin
+              FLog.Log('TCbzWorkerThread.Convert : Timeout on item : ' + IntTostr(i));
+              FResults.Add('Conversion of file "' + ExtractFileName(aFilename) + '" timed out, job will be run again');
+              FCanceled := True;
+              FTimeOut:=True;
+              Synchronize(@DoOnBadFile);
+              raise Exception.Create('Timeout on file : ' + ExtractFileName(aFilename));
+            end;
           end;
 
           if Assigned(Rec) and Assigned(Rec.Stream) then
@@ -486,7 +514,9 @@ begin
           else
           begin
             FLog.Log('TCbzWorkerThread ConvertImage ' + IntToStr(i) + ' failed.');
-            inc(i);
+            FCanceled := True;
+            Synchronize(@DoOnBadFile);
+            raise Exception.Create('Conversion of file "' + ExtractFileName(aFilename) + '" Canceled because could not convert image ' + IntTostr(i));
           end;
 
           if FPoolData.Empty and not ThreadExtract.Working then
@@ -514,7 +544,10 @@ begin
             FileToTrash(aFileName)
           else
           begin
-            s := aFileName + '.old';
+            s :=  IncludeTrailingPathDelimiter(ExtractFilePath(aFileName)) + 'Done';
+            if not DirectoryExists(s) then
+              ForceDirectories(s);
+            s := IncludeTrailingPathDelimiter(s) + ExtractFileName(aFileName) + '.old';
             while FileExists(s) do
               s := s + '.old';
 
@@ -533,8 +566,6 @@ begin
             Flog.Log('TCbzWorkerThread Rename ' + fname + ' -> ' + newf);
             CopyFile(fname, newf);
             DeleteFile(fname);
-            FResults.Add(FormatDateTime('hh:nn:ss' ,now) + 'Sucessfuly converted ' + aFilename +
-                         ' to ' + newf + ' in : ' + GetElapsed(now, BeginDate));
           end;
         end
         else
@@ -650,14 +681,23 @@ begin
         if FileExists(FCurJob.Filename) then
         begin
           FCanceled := false;
+          FTimeOut := False;
           fname := FCurJob.Filename;
           FLog.Log(ClassName + ' Job started : ' + FCurJob.Filename);
           NewFile := Convert(FCurJob.Filename, FCurJob.arcType, FCurJob.Operations);
 
-          FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
-          FJobpool.DeleteJob(FCurJob.Filename);
+          // timedout re run job
+          if FTimeOut then
+            FJobpool.SetJobStatus(FCurJob.Filename, jsWaiting)
+          else
+          begin
+            FJobpool.SetJobStatus(FCurJob.Filename, jsDone);
+            FJobpool.DeleteJob(FCurJob.Filename);
+          end;
+
           FCurJob := nil;
-          if (not Terminated) and FileExists(NewFile) and not FCanceled then
+          if (not Terminated) and FileExists(NewFile) and
+             (not FCanceled or not FTimeOut) then
           begin
             FLog.Log(ClassName + ' Job finished : ' + fname);
             FNewFile := newfile;

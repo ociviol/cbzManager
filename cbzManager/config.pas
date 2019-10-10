@@ -1,5 +1,10 @@
 unit config;
 
+{
+ Ollivier Civiol - 2019
+ ollivier@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
 
 interface
@@ -16,6 +21,7 @@ type
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     cblogging: TCheckBox;
+    cbDeleteFile: TCheckBox;
     edtcwebp: TEdit;
     edtunrar: TEdit;
     edtp7zip: TEdit;
@@ -24,11 +30,13 @@ type
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    Label7: TLabel;
     OpenDialog1: TOpenDialog;
     sbCwebp: TSpeedButton;
     sbUnrar: TSpeedButton;
     sb7zip: TSpeedButton;
     speNbThreads: TSpinEdit;
+    speWebpQuality: TSpinEdit;
     speQueues: TSpinEdit;
     procedure sb7zipClick(Sender: TObject);
     procedure sbCwebpClick(Sender: TObject);

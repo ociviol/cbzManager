@@ -1,5 +1,10 @@
 unit uLoadReport;
 
+{
+ Ollivier Civiol - 2019
+ ollivier@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
 
 interface

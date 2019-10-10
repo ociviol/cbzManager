@@ -1,5 +1,10 @@
 unit uDataTypes;
 
+{
+ Ollivier Civiol - 2019
+ ollivier@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
 
 interface
@@ -8,6 +13,7 @@ uses
   Classes, SysUtils;
 
 type
+  PInteger = ^Integer;
   TImgOperation = (opNone, opFlipH, opFlipV, opRotateL, opRotateR,
                    opCropBorders, opSplit, opConvert, opDeleteFile);
   TImgOperations = set of TImgOperation;

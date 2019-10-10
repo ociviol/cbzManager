@@ -1,5 +1,10 @@
 unit uThreadExtract;
 
+{
+ Ollivier Civiol - 2019
+ ollivier@civiol.eu
+ https://ollivierciviolsoftware.wordpress.com/
+}
 {$mode objfpc}{$H+}
 
 interface
@@ -166,15 +171,19 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
                                   Progress : TCbzProgressEvent; ProgressID : QWord;
                                   OnBadFile : TNotifyEvent);
 {$ifdef Mswindows}
-  function _RunCommand(const cmdline:string):boolean;
+  procedure _RunCommand(const cmdline:string);
   var
     p : TProcess;
   begin
     p:=TProcess.create(nil);
-    p.CommandLine := cmdline;
-    p.ShowWindow:=swoHIDE;
-    p.Options:=[poWaitOnExit];
-    p.Execute;
+    try
+      p.CommandLine := cmdline;
+      p.ShowWindow:=swoHIDE;
+      p.Options:=[poWaitOnExit];
+      p.Execute;
+    finally
+      P.Free;
+    end;
   end;
 {$endif}
 begin
@@ -198,10 +207,11 @@ begin
   begin
     FMax := 1;
     FCur := 0;
-    FMsg := 'Processing file : ' + FFilename;
+    FMsg := 'Processing file : ' + ExtractFileName(FFilename);
     Synchronize(@DoProgress);
     try
       // extract
+      FLog.Log('Running : ' + FCmd);
 {$if defined(Darwin) or defined(Linux)}
       fpSystem(FCmd);
 {$else}
@@ -209,6 +219,7 @@ begin
 {$endif}
       // get files
       GetFileNames(FFiles);
+      FLog.Log('Found : ' + IntToStr(FFiles.Count) + ' Files');
       FNbFiles := FFiles.Count;
 
       if FFiles.Count = 0 then
@@ -270,6 +281,7 @@ begin
             end;
 
             FPoolData.AddItem2(nil, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
+            Sleep(50);
           end;
         end;
 
@@ -435,7 +447,7 @@ begin
   FTmpDir := '';
   Cbz := TCbz.Create(Log);
   Cbz.Open(Filename, zmRead);
-  FNbFiles := Cbz.FileCount; //AllowedFileCount;
+  FNbFiles := 0;
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);
 end;
@@ -446,8 +458,6 @@ var
   Results : TStringList;
   i : integer;
   Filenames : TNaturalSortStringList;
-  MetaFiles : TStringlist;
-  f : TStringArray;
 
   procedure AddBlock(const aFilename : String; Index : Integer;
                      DataType : TDataType = dtImage);
@@ -475,63 +485,55 @@ begin
       Results := TStringList.Create;
       try
         try
-          // test
-          FMax := Cbz.FileCount-1;
-          for i := 0 to Cbz.FileCount -1 do
-          begin
-            FMsg := 'Testing' + ExtractFileName(FFilename) + ' (' +
-                     ExtractFilename(Cbz.Filenames[i].Replace('/', '\')) + ')';
+          Filenames := TNaturalSortStringList.Create;
+          try
+            // test
+            FMax := Cbz.FileCount-1;
+            for i := 0 to Cbz.FileCount -1 do
+            begin
+              if Tcbz.AllowedFile(cbz.FileNames[i]) then
+              begin
+                FMsg := 'Testing : ' + ExtractFileName(FFilename) + ' (' +
+                         ExtractFilename(Cbz.Filenames[i].Replace('/', '\')) + ')';
 
+                if Assigned(FProgress) then
+                begin
+                  FCur := i;
+                  Synchronize(@DoProgress);
+                end;
+
+                if not Cbz.TestFile(i) then
+                  raise TCBzErrorFileException.Create(FormatDateTime('hh:nn:ss' ,now) +
+                                                    ' Cannot process ' + FFileName + ' because it has errors.');
+                Filenames.AddObject(cbz.FileNames[i], TObject(pointer(i)));
+              end;
+
+              if Terminated then
+              begin
+                FPoolData.ClearLists;
+                Cbz.Close;
+                Exit;
+              end;
+
+              Sleep(10);
+            end;
+          finally
+            Results.free;
+            FMax := 0;
+            FCur := 0;
             if Assigned(FProgress) then
-            begin
-              FCur := i;
-              Synchronize(@DoProgress);
-            end;
-
-            if not Cbz.TestFile(i) then
-              raise TCBzErrorFileException.Create(FormatDateTime('hh:nn:ss' ,now) +
-                                                  ' Cannot process ' + FFileName + ' because it has errors.');
-
-            if Terminated then
-            begin
-              FPoolData.ClearLists;
-              Cbz.Close;
-              Exit;
-            end;
-
-            Sleep(50);
+               Synchronize(@DoProgress);
           end;
-        finally
-          Results.free;
-        end;
 
-        // extract
-        Filenames := TNaturalSortStringList.Create;
-        MetaFiles := TStringlist.Create;
-        try
-          f := Cbz.GetFileNames;
-          for i := 0 to length(f) - 1 do
-            //if Tcbz.IsMetaFile(f[i]) then
-            //  MetaFiles.AddObject(f[i], TObject(i))
-            //else
-            if Tcbz.AllowedFile(f[i]) then
-              Filenames.AddObject(f[i], TObject(-1))
-            else
-            if f[i].ToLower.EndsWith('zip') or
-               f[i].ToLower.EndsWith('rar') or
-               f[i].ToLower.EndsWith('cbz') or
-               f[i].ToLower.EndsWith('cbr') then
-            begin
-              cbz.Extract(f[i], ExtractFilePath(FFilename));
-            end;
-
-          Filenames.Sort;
+          FNbFiles := Cbz.AllowedFileCount;
           FMax := Max(0, FNbfiles - 1);
           FMsg := '(Writing : ' + TCbz.CleanFilename(ExtractFilename(FFilename)) + ')';
           FCur := 0;
+
           if Assigned(FProgress) then
             Synchronize(@DoProgress);
 
+          Filenames.Sort;
           for i := 0 to Filenames.Count - 1 do
           begin
             if Terminated then
@@ -541,28 +543,17 @@ begin
               Exit;
             end;
 
-            AddBlock(Filenames[i], -1);
+            AddBlock(Filenames[i], Integer(pointer(Filenames.Objects[i])));
+            Sleep(20);
           end;
-          {
-          for i := 0 to MetaFiles.Count - 1 do
-          begin
-            if Terminated then
-            begin
-              FPoolData.ClearLists;
-              Cbz.Close;
-              Exit;
-            end;
-
-            AddBlock(MetaFiles[i], Integer(MetaFiles.Objects[i]), dtMeta);
-          end;
-          }
         finally
-          MetaFiles.Free;
           Filenames.Free;
         end;
+
         Cbz.Close;
         if NbFiles = 0 then
           FileToTrash(FFilename);
+
         Terminate;
       except
         on e: Exception do

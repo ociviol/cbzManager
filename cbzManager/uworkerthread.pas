@@ -478,6 +478,7 @@ begin
               FCanceled := True;
               FTimeOut:=True;
               Synchronize(@DoOnBadFile);
+              raise Exception.Create('Timeout on file : ' + ExtractFileName(aFilename));
             end;
           end;
 
@@ -514,8 +515,8 @@ begin
           begin
             FLog.Log('TCbzWorkerThread ConvertImage ' + IntToStr(i) + ' failed.');
             FCanceled := True;
-            FResults.Add('Conversion of file "' + ExtractFileName(aFilename) + '" Canceled because could not convert image ' + IntTostr(i));
             Synchronize(@DoOnBadFile);
+            raise Exception.Create('Conversion of file "' + ExtractFileName(aFilename) + '" Canceled because could not convert image ' + IntTostr(i));
           end;
 
           if FPoolData.Empty and not ThreadExtract.Working then

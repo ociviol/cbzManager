@@ -431,7 +431,10 @@ begin
       try
         repeat
           FFilesToProcess := ThreadExtract.NbFiles;
-        until FFilesToProcess > 0;
+        until (FFilesToProcess > 0) or ThreadExtract.HasError;
+
+        if ThreadExtract.HasError then
+          Exit;
 
         FJobPool.FSync.LockList;
         try
@@ -510,7 +513,9 @@ begin
           else
           begin
             FLog.Log('TCbzWorkerThread ConvertImage ' + IntToStr(i) + ' failed.');
-            inc(i);
+            FCanceled := True;
+            FResults.Add('Conversion of file "' + ExtractFileName(aFilename) + '" Canceled because could not convert image ' + IntTostr(i));
+            Synchronize(@DoOnBadFile);
           end;
 
           if FPoolData.Empty and not ThreadExtract.Working then

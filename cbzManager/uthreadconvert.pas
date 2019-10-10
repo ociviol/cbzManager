@@ -81,7 +81,11 @@ begin
                       Rec.Stream.LoadFromFile(Rec.Filename);
                       Rec.Filename := '';
                     end;
-                    Stout := TCbz.ConvertImageToStream(Rec.Stream, FLog, FWebpQualityFactor^);
+                    try
+                      Stout := TCbz.ConvertImageToStream(Rec.Stream, FLog, FWebpQualityFactor^);
+                    except
+                      Stout := nil;
+                    end;
                   end;
 
                 dtPdf: ; // StOut := PdfToStream(Rec.Index, Rec.Filename);

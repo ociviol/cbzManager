@@ -1733,7 +1733,10 @@ begin
         if SysUtils.FileExists(cwebp) then
         begin
           if not ExternalConvert(aSrc, Result) then
+          begin
             FreeAndNil(Result);
+            raise Exception.Create('Could not convert image.');
+          end;
         end
         else
           raise Exception.Create('cwebp not found.');
@@ -1748,6 +1751,7 @@ begin
       if Assigned(result) then
         FreeAndNil(result);
       aFLog.Log(ClassName + '.ConvertImage failed : ' + e.Message);
+      raise;
     end;
   end;
 end;

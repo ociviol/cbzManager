@@ -80,7 +80,7 @@ type
     FStampThread : Array[0..3] of TStampThread;
     FInUndo : Boolean;
     FUndoList : TFPObjectList;
-    FWebpQualityFactor : single;
+    FWebpQualityFactor : Integer;
 
     procedure AddUndo(Indexes : TIntArray; Operation : TOperation; Streams : TStreamArray);
     function GetImage(Index: QWord): TBitmap;
@@ -116,7 +116,7 @@ type
                             var  Stream : TMemoryStream;
                             const outz : Tcbz):TRewriteOperation;
 
-    class function ConvertBitmapToStream(const fimg : TBitmap; aFLog : ILog; aWebpQuality : single):TMemoryStream;
+    class function ConvertBitmapToStream(const fimg : TBitmap; aFLog : ILog; aWebpQuality : Integer):TMemoryStream;
     function DoFlipFunct(Index : Integer; UserData : TUserData;
                           var  Stream : TMemoryStream;
                           const outz : Tcbz):TRewriteOperation;
@@ -124,15 +124,15 @@ type
     function MakeStamp(Index : Integer):Tbitmap;
   public
     constructor Create(Log : ILog; const aStampWidth : Integer = -1; const aStampHeight : Integer = -1;
-                       const WebpQualityFactor : single = 75;
+                       const WebpQualityFactor : Integer = 75;
                        aNotify : TStampReadyEvent = nil); reintroduce;
     destructor Destroy; override;
 
     class function GetArcType(Stream : TFileStream):TArcType;
     class function GetArcType(const aFilename : String):TArcType;
     class function GetImageType(const aSrc : TMemoryStream; const aFileName : String = ''):Integer;
-    class function ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILog; aWebpQuality : single):TMemoryStream; overload;
-    class function ConvertImageToStream(const fimg : String; aFLog : ILog; aWebpQuality : single):TMemoryStream; overload;
+    class function ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILog; aWebpQuality : Integer):TMemoryStream; overload;
+    class function ConvertImageToStream(const fimg : String; aFLog : ILog; aWebpQuality : Integer):TMemoryStream; overload;
     class function AllowedFile(const aFilename : String):Boolean;
     class function CleanFilename(const aFilename : String; bForce: Boolean = True):String;
 
@@ -301,7 +301,7 @@ end;
 
 constructor TCbz.Create(Log: ILog;
                         const aStampWidth: Integer; const aStampHeight: Integer;
-                        const WebpQualityFactor : single = 75;
+                        const WebpQualityFactor : Integer = 75;
                         aNotify: TStampReadyEvent = nil);
 begin
   FLog := Log;
@@ -355,12 +355,24 @@ begin
   FLog.Log(Format('%s %s "%s"', [ClassName, 'Open', FFilename]));
   FMode := OpenMode;
   FileName := aFileName;
-  ACtive := True;
 
   if (OpenMode in [zmWrite, zmReadWrite]) then
-    FFileNameFormat := Format('%%.%dd', [NbCharFileName])
+  begin
+    FFileNameFormat := Format('%%.%dd', [NbCharFileName]);
+    Comment := CbzComment +
+        {$if defined(darwin)}
+              ' OsX' +
+        {$elseif defined(Linux)}
+              ' Linux' +
+        {$else}
+              ' Windows' +
+        {$endif}
+              ' v' + GetFileVersion;
+  end
   else
     FFileNameFormat := Format('%%.%dd', [IntToStr(FileCount).Length]);
+
+  Active := True;
 
   if FFilename <> FileName then
     FUndoList.Clear;
@@ -385,9 +397,6 @@ begin
   StopStampThread;
   ClearCache;
 //  FData.Clear;
-  if Mode in [zmWrite, zmReadWrite] then
-    Comment := 'Created using cbzManager version ' +
-               GetFileVersion;
 
 //  FModified := False;
   Active := False;
@@ -1559,7 +1568,7 @@ begin
   result := FIF_UNKNOWN;
 end;
 
-class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILog; aWebpQuality : single):TMemoryStream;
+class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILog; aWebpQuality : Integer):TMemoryStream;
 
   function cwebp:String;
   begin
@@ -1733,7 +1742,10 @@ begin
         if SysUtils.FileExists(cwebp) then
         begin
           if not ExternalConvert(aSrc, Result) then
+          begin
             FreeAndNil(Result);
+            raise Exception.Create('Could not convert image.');
+          end;
         end
         else
           raise Exception.Create('cwebp not found.');
@@ -1748,11 +1760,12 @@ begin
       if Assigned(result) then
         FreeAndNil(result);
       aFLog.Log(ClassName + '.ConvertImage failed : ' + e.Message);
+      raise;
     end;
   end;
 end;
 
-class function TCbz.ConvertBitmapToStream(const fimg : TBitmap; aFLog : ILog; aWebpQuality : single):TMemoryStream;
+class function TCbz.ConvertBitmapToStream(const fimg : TBitmap; aFLog : ILog; aWebpQuality : Integer):TMemoryStream;
 var
   ms : TMemoryStream;
 begin
@@ -1766,7 +1779,7 @@ begin
   end;
 end;
 
-class function TCbz.ConvertImageToStream(const fimg : String; aFLog : ILog; aWebpQuality : single):TMemoryStream;
+class function TCbz.ConvertImageToStream(const fimg : String; aFLog : ILog; aWebpQuality : Integer):TMemoryStream;
 var
   ms : TmemoryStream;
 begin

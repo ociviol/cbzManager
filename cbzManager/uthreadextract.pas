@@ -211,6 +211,7 @@ begin
     Synchronize(@DoProgress);
     try
       // extract
+      FLog.Log('Running : ' + FCmd);
 {$if defined(Darwin) or defined(Linux)}
       fpSystem(FCmd);
 {$else}
@@ -218,6 +219,7 @@ begin
 {$endif}
       // get files
       GetFileNames(FFiles);
+      FLog.Log('Found : ' + IntToStr(FFiles.Count) + ' Files');
       FNbFiles := FFiles.Count;
 
       if FFiles.Count = 0 then
@@ -491,7 +493,7 @@ begin
             begin
               if Tcbz.AllowedFile(cbz.FileNames[i]) then
               begin
-                FMsg := 'Testing' + ExtractFileName(FFilename) + ' (' +
+                FMsg := 'Testing : ' + ExtractFileName(FFilename) + ' (' +
                          ExtractFilename(Cbz.Filenames[i].Replace('/', '\')) + ')';
 
                 if Assigned(FProgress) then
@@ -517,6 +519,10 @@ begin
             end;
           finally
             Results.free;
+            FMax := 0;
+            FCur := 0;
+            if Assigned(FProgress) then
+               Synchronize(@DoProgress);
           end;
 
           FNbFiles := Cbz.AllowedFileCount;

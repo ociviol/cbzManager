@@ -81,7 +81,11 @@ begin
                       Rec.Stream.LoadFromFile(Rec.Filename);
                       Rec.Filename := '';
                     end;
-                    Stout := TCbz.ConvertImageToStream(Rec.Stream, FLog, FWebpQualityFactor^);
+                    try
+                      Stout := TCbz.ConvertImageToStream(Rec.Stream, FLog, FWebpQualityFactor^);
+                    except
+                      Stout := nil;
+                    end;
                   end;
 
                 dtPdf: ; // StOut := PdfToStream(Rec.Index, Rec.Filename);
@@ -97,9 +101,9 @@ begin
 
           try
             if not Assigned(stOut) then
-              Flog.Log('ThreadConvert skipped image (null stream) : ' + IntTostr(Rec.Index))
-            else
-              FDataPool.Pool[i].Put(Rec);
+              Flog.Log('ThreadConvert skipped image (null stream) : ' + IntTostr(Rec.Index));
+
+            FDataPool.Pool[i].Put(Rec);
             Sleep(50);
           except
             on e: Exception do

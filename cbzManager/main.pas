@@ -311,14 +311,20 @@ begin
         ar := v.Split([',']);
 
         for i:=low(ar) to high(ar) do
-  {$IFDEF Drawin}
+  {$IF defined(Drawin)}
           if ar[i].StartsWith('osx:') then
           begin
             v := copy(ar[i], 5, length(ar[i]));
             break;
           end;
-  {$ELSE}
+  {$ELSEif Defined(Linux)}
           if ar[i].StartsWith('linux:') then
+          begin
+            v := copy(ar[i], 7, length(ar[i]));
+            break;
+          end;
+  {$ELSE}
+          if ar[i].StartsWith('winos:') then
           begin
             v := copy(ar[i], 7, length(ar[i]));
             break;
@@ -422,7 +428,13 @@ begin
   if TThreadCheckVersion(Sender).FNeedUpdate then
     if MessageDlg('A new version is available, do you want to update ?',
                   mtConfirmation, MbYesNo, 0) = MrYes then
-      OpenUrl('https://ollivierciviolsoftware.wordpress.com');
+{$if Defined(Darwin)}
+      OpenUrl('https://github.com/ociviol/cbzManager/tree/master/precompiled%20binairies/Mac%20OsX');
+{$elseif Defined(Linux)}
+      OpenUrl('https://github.com/ociviol/cbzManager/tree/master/precompiled%20binairies/Linux');
+{$else}
+      OpenUrl('https://github.com/ociviol/cbzManager/tree/master/precompiled%20binairies/Windows');
+{$endif}
 end;
 
 procedure TMainFrm.SetAppCaption;

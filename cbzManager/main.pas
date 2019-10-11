@@ -311,7 +311,7 @@ begin
         ar := v.Split([',']);
 
         for i:=low(ar) to high(ar) do
-  {$IF defined(Drawin)}
+  {$if defined(Darwin)}
           if ar[i].StartsWith('osx:') then
           begin
             v := copy(ar[i], 5, length(ar[i]));
@@ -323,7 +323,7 @@ begin
             v := copy(ar[i], 7, length(ar[i]));
             break;
           end;
-  {$ELSE}
+  {$ELSEif Defined(MsWindows)}
           if ar[i].StartsWith('winos:') then
           begin
             v := copy(ar[i], 7, length(ar[i]));

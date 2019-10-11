@@ -27,3 +27,5 @@ precompiled binairies/Windows/cbzManager.exe
 /cbzManager/cbzManager.json
 *.a
 cbzManager/lib/x86_64-win64/libimputils.naturalsortstringlist.a
+/precompiled binairies/Linux/Files/cbzManager.zip
+/precompiled binairies/Linux/Files/cbzManager

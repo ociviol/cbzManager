@@ -90,6 +90,7 @@ type
     MenuItem29: TMenuItem;
     MenuItem30: TMenuItem;
     MenuItem31: TMenuItem;
+    MenuItem32: TMenuItem;
     N10: TMenuItem;
     N9: TMenuItem;
     N8: TMenuItem;
@@ -121,6 +122,7 @@ type
     pnlimgName: TPanel;
     PopupMenu1: TPopupMenu;
     PopupMenu2: TPopupMenu;
+    PopupMenu3: TPopupMenu;
     SelectDirectoryDialog1: TSelectDirectoryDialog;
     Shape1: TShape;
     speLeft: TSpinEdit;
@@ -491,7 +493,7 @@ begin
   //ActionJoinFiles.Enabled := TreeView1.SelectionCount > 1;
   //ActionRename.Enabled := Assigned(TreeView1.Selected) and
   //  (TreeView1.SelectionCount = 1) and not(TreeView1.Selected.HasChildren);
-  //ActionRefresh.Enabled := (FPath.Length > 0) and not FInFill;
+  ActionRefresh.Enabled := (FConfig.BdPathPath.Length > 0) and not FInFill;
   //ActionTest.Enabled := Assigned(TreeView1.Selected);
   //ActionFixFilenames.Enabled := Assigned(TreeView1.Selected);
   //ActionCollapsenodes.Enabled := Assigned(TreeView1.Selected) and
@@ -1853,6 +1855,7 @@ begin
 
   FInFill := False;
   FThreadSearchFiles := nil;
+  EnableActions;
 end;
 
 procedure TMainFrm.FillTreeView(const Path: String);

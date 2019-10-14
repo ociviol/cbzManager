@@ -30,6 +30,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionRenameFile: TAction;
     ActionAppend: TAction;
     ActionCropTool: TAction;
     ActionRewriteManga: TAction;
@@ -91,6 +92,8 @@ type
     MenuItem30: TMenuItem;
     MenuItem31: TMenuItem;
     MenuItem32: TMenuItem;
+    MenuItem33: TMenuItem;
+    N11: TMenuItem;
     N10: TMenuItem;
     N9: TMenuItem;
     N8: TMenuItem;
@@ -144,6 +147,7 @@ type
     procedure ActionMoveToTopExecute(Sender: TObject);
     procedure ActionMoveupExecute(Sender: TObject);
     procedure ActionRefreshExecute(Sender: TObject);
+    procedure ActionRenameFileExecute(Sender: TObject);
     procedure ActionRewriteMangaExecute(Sender: TObject);
     procedure ActionRot90Execute(Sender: TObject);
     procedure ActionRotm90Execute(Sender: TObject);
@@ -225,12 +229,16 @@ type
     function SelectedGridItems: TIntArray;
     procedure SetAppCaption;
     procedure EnableActions;
+    procedure ResetViewControls;
+    procedure OpenFileForview(aNode : TTreeNode);
 
     procedure AfterCellSelect(data : int64);
     procedure CheckVersionTerminate(Sender : TObject);
   public
 
   end;
+
+  { TTreeNodeEx }
 
   TTreeNodeEx = Class Helper for TTreeNode
   private
@@ -491,8 +499,9 @@ begin
   //ActionRewrite.Enabled := Assigned(TreeView1.Selected) and
   //  (TreeView1.SelectionCount = 1);
   //ActionJoinFiles.Enabled := TreeView1.SelectionCount > 1;
-  //ActionRename.Enabled := Assigned(TreeView1.Selected) and
-  //  (TreeView1.SelectionCount = 1) and not(TreeView1.Selected.HasChildren);
+  ActionRenameFile.Enabled := Assigned(TreeView1.Selected) and
+                             (TreeView1.SelectionCount = 1) and
+                             not (TreeView1.Selected.HasChildren);
   ActionRefresh.Enabled := (FConfig.BdPathPath.Length > 0) and not FInFill;
   //ActionTest.Enabled := Assigned(TreeView1.Selected);
   //ActionFixFilenames.Enabled := Assigned(TreeView1.Selected);
@@ -859,51 +868,54 @@ begin
   end;
 end;
 
+procedure TMainFrm.ResetViewControls;
+begin
+  zf.Close;
+  with DrawGrid1 do
+  begin
+    FoldPos := -1;
+    RowCount := 1;
+    Row := 0;
+    Refresh;
+  end;
+  Image1.Picture.Clear;
+  pnlimgName.Caption := '';
+  EnableActions;
+end;
+
+procedure TMainFrm.OpenFileForview(aNode : TTreeNode);
+begin
+  aNode.Data := nil;
+  TreeView1.Refresh;
+  zf.Open(aNode.Path, zmRead);
+  zf.Progress := @Progress;
+  with DrawGrid1 do
+  begin
+    Visible := False;
+    Max := zf.ImageCount;
+    Position := 0;
+    Visible := True;
+    Application.QueueAsyncCall(@AfterCellSelect, 0);
+  end;
+end;
 
 procedure TMainFrm.TreeView1Change(Sender: TObject; Node: TTreeNode);
-  procedure EnableControls(State: Boolean);
-  begin
-    zf.Close;
-    with DrawGrid1 do
-    begin
-      FoldPos := -1;
-      RowCount := 1;
-      Row := 0;
-      Refresh;
-    end;
-    Image1.Picture.Clear;
-    pnlimgName.Caption := '';
-    EnableActions;
-    // Application.ProcessMessages;
-  end;
-
 begin
   if TreeView1.SelectionCount = 1 then
     if Assigned(Node) and not Node.HasChildren then
     begin
       if FileExists(Node.Path) then
       begin
-        EnableControls(True);
+        ResetViewControls;
         try
-          Node.Data := nil;
-          TreeView1.Refresh;
-          zf.Open(Node.Path, zmRead);
-          zf.Progress := @Progress;
-          with DrawGrid1 do
-          begin
-            Visible := False;
-            Max := zf.ImageCount;
-            Position := 0;
-            Visible := True;
-            Application.QueueAsyncCall(@AfterCellSelect, 0);
-          end;
+          OpenFileForview(Node);
         except
         end;
       end;
     end
     else
     begin
-      EnableControls(False);
+      ResetViewControls;
       zf.ClearUndo;
     end;
 end;
@@ -1250,6 +1262,29 @@ end;
 procedure TMainFrm.ActionRefreshExecute(Sender: TObject);
 begin
   FillTreeView(FConfig.BdPathPath);
+end;
+
+procedure TMainFrm.ActionRenameFileExecute(Sender: TObject);
+var
+  old, new : string;
+begin
+  old := ExtractFileName(TreeView1.Selected.Path);
+  if FileExists(old) then
+  begin
+    repeat
+      new := InputBox('Rename File', 'Input new Filename', old);
+      if FileExists(new) then
+        ShowMessage('File "' + new + '" already exists !');
+    until (new = '') or (new = old) or not FileExists(new);
+    if (new <> '') and (new <> old) then
+    begin
+      ResetViewControls;
+      old := TreeView1.Selected.Path;
+      TreeView1.Selected.Text := new;
+      new := TreeView1.Selected.Path;
+      RenameFile(old, new);
+    end;
+  end;
 end;
 
 procedure TMainFrm.ActionRewriteMangaExecute(Sender: TObject);

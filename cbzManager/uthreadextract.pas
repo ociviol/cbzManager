@@ -181,6 +181,8 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
       p.ShowWindow:=swoHIDE;
       p.Options:=[poWaitOnExit];
       p.Execute;
+      if p.ExitCode <> 0 then
+        raise Exception.Create('Error while extracting file "' + ExtractFilename(FFilename) + '"');
     finally
       P.Free;
     end;
@@ -223,17 +225,12 @@ begin
       FNbFiles := FFiles.Count;
 
       if FFiles.Count = 0 then
-      //  raise Exception.Create(FormatDateTime('hh:nn:ss' ,now) +
-      //                         ' Cannot process ' + FFileName + ' no files found.');
-      FHasError := True;
+        FHasError := True;
     Except
       FFiles.Free;
       FHasError := True;
       if FTmpDir <> '' then
         DeleteDirectory(FTmpDir, False);
-//{$ifdef Darwin or Linux}
-//      fpsystem('rm -Rf ' + FTmpDir);
-//{$endif}
       raise;
     end;
   end;
@@ -417,9 +414,9 @@ begin
   FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
   ForceDirectories(FTmpDir);
 {$if defined(Darwin) or defined(Linux)}
-  FCmd := Format('%s e -y ''%s'' ''%s''', [Unrar, FtmpFileName, FTmpDir]);
+  FCmd := Format('%s e -y ''%s'' -o''%s''', [SevenZip, FtmpFileName, FTmpDir]);
 {$else}
-  FCmd := Format('%s e -y %s %s', [Unrar, FtmpFileName, FTmpDir]);
+  FCmd := Format('%s e -y %s -o%s', [SevenZip, FtmpFileName, FTmpDir]);
 {$endif}
   inherited Create(aOwner, Filename, Operations, PoolData, Log,
                    Results, Progress, ProgressID, OnBadFile);

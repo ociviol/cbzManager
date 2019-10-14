@@ -15,7 +15,7 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="1025"/>
         <CursorPos X="21" Y="1038"/>
         <UsageCount Value="54"/>
@@ -28,10 +28,12 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="400"/>
-        <CursorPos X="22" Y="411"/>
+        <CursorPos X="15" Y="421"/>
         <UsageCount Value="54"/>
+        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="main.pas"/>
@@ -39,7 +41,7 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="307"/>
         <CursorPos X="19" Y="314"/>
         <UsageCount Value="54"/>
@@ -116,7 +118,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="34"/>
+        <TopLine Value="134"/>
         <CursorPos X="28" Y="71"/>
         <UsageCount Value="54"/>
         <Loaded Value="True"/>
@@ -125,8 +127,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="209"/>
         <CursorPos Y="223"/>
         <UsageCount Value="54"/>
@@ -479,7 +480,7 @@
       <Unit60>
         <Filename Value="../../../fpcupdeluxe/lazarus/lcl/intfgraphics.pas"/>
         <UnitName Value="IntfGraphics"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="398"/>
         <CursorPos X="3" Y="232"/>
         <UsageCount Value="10"/>

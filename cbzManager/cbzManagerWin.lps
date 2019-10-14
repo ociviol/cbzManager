@@ -480,7 +480,7 @@
         <Loaded Value="True"/>
       </Unit55>
       <Unit56>
-        <Filename Value="../../../../../../lazarus/lcl/include/picture.inc"/>
+        <Filename Value="../../../../lazarus/lcl/include/picture.inc"/>
         <EditorIndex Value="15"/>
         <TopLine Value="633"/>
         <CursorPos Y="653"/>
@@ -488,7 +488,7 @@
         <Loaded Value="True"/>
       </Unit56>
       <Unit57>
-        <Filename Value="../../../../../../lazarus/fpc/3.0.4/source/rtl/objpas/classes/classesh.inc"/>
+        <Filename Value="../../../../lazarus/fpc/3.0.4/source/rtl/objpas/classes/classesh.inc"/>
         <EditorIndex Value="11"/>
         <TopLine Value="339"/>
         <CursorPos X="15" Y="360"/>
@@ -496,7 +496,7 @@
         <Loaded Value="True"/>
       </Unit57>
       <Unit58>
-        <Filename Value="../../../../../../lazarus/fpc/3.0.4/source/rtl/objpas/classes/lists.inc"/>
+        <Filename Value="../../../../lazarus/fpc/3.0.4/source/rtl/objpas/classes/lists.inc"/>
         <EditorIndex Value="12"/>
         <TopLine Value="988"/>
         <CursorPos X="5" Y="990"/>

@@ -1,12 +1,12 @@
 object MainFrm: TMainFrm
-  Left = 749
+  Left = 297
   Height = 614
-  Top = 264
-  Width = 908
+  Top = 148
+  Width = 907
   Align = alBottom
   Caption = 'cbzManager'
   ClientHeight = 594
-  ClientWidth = 908
+  ClientWidth = 907
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
@@ -20,6 +20,7 @@ object MainFrm: TMainFrm
     Width = 286
     Align = alLeft
     HideSelection = False
+    PopupMenu = PopupMenu3
     ReadOnly = True
     RightClickSelect = True
     SelectionFontColor = 14868449
@@ -34,14 +35,14 @@ object MainFrm: TMainFrm
     Left = 291
     Height = 425
     Top = 0
-    Width = 617
+    Width = 616
     Align = alClient
     BevelOuter = bvNone
     ClientHeight = 425
-    ClientWidth = 617
+    ClientWidth = 616
     TabOrder = 1
     object DrawGrid1: TDrawGrid
-      Left = 467
+      Left = 466
       Height = 372
       Top = 53
       Width = 150
@@ -70,7 +71,7 @@ object MainFrm: TMainFrm
       Left = 0
       Height = 372
       Top = 53
-      Width = 467
+      Width = 466
       AntialiasingMode = amOn
       Align = alClient
       Center = True
@@ -82,14 +83,14 @@ object MainFrm: TMainFrm
       Left = 0
       Height = 27
       Top = 0
-      Width = 617
+      Width = 616
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 27
-      ClientWidth = 617
+      ClientWidth = 616
       TabOrder = 1
       object btnLast: TButton
-        Left = 567
+        Left = 566
         Height = 27
         Top = 0
         Width = 50
@@ -98,7 +99,7 @@ object MainFrm: TMainFrm
         TabOrder = 0
       end
       object btnFirst: TButton
-        Left = 517
+        Left = 516
         Height = 27
         Top = 0
         Width = 50
@@ -107,7 +108,7 @@ object MainFrm: TMainFrm
         TabOrder = 1
       end
       object btnHorizFlip: TButton
-        Left = 357
+        Left = 356
         Height = 27
         Top = 0
         Width = 80
@@ -116,7 +117,7 @@ object MainFrm: TMainFrm
         TabOrder = 2
       end
       object btnVertFlip: TButton
-        Left = 437
+        Left = 436
         Height = 27
         Top = 0
         Width = 80
@@ -125,7 +126,7 @@ object MainFrm: TMainFrm
         TabOrder = 3
       end
       object btnRotateRight: TButton
-        Left = 277
+        Left = 276
         Height = 27
         Top = 0
         Width = 80
@@ -134,7 +135,7 @@ object MainFrm: TMainFrm
         TabOrder = 4
       end
       object btnRotateLeft: TButton
-        Left = 197
+        Left = 196
         Height = 27
         Top = 0
         Width = 80
@@ -146,7 +147,7 @@ object MainFrm: TMainFrm
         Left = 0
         Height = 27
         Top = 0
-        Width = 197
+        Width = 196
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 6
@@ -166,10 +167,10 @@ object MainFrm: TMainFrm
       Left = 0
       Height = 26
       Top = 27
-      Width = 617
+      Width = 616
       Align = alTop
       ClientHeight = 26
-      ClientWidth = 617
+      ClientWidth = 616
       TabOrder = 2
       Visible = False
       object Label1: TLabel
@@ -249,7 +250,7 @@ object MainFrm: TMainFrm
         TabOrder = 3
       end
       object btnCrop: TButton
-        Left = 466
+        Left = 465
         Height = 24
         Top = 1
         Width = 75
@@ -259,7 +260,7 @@ object MainFrm: TMainFrm
         TabOrder = 4
       end
       object btnCancel: TButton
-        Left = 541
+        Left = 540
         Height = 24
         Top = 1
         Width = 75
@@ -274,7 +275,7 @@ object MainFrm: TMainFrm
     Left = 0
     Height = 50
     Top = 544
-    Width = 908
+    Width = 907
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
@@ -289,7 +290,7 @@ object MainFrm: TMainFrm
     Left = 0
     Height = 119
     Top = 425
-    Width = 908
+    Width = 907
     Align = alBottom
     Lines.Strings = (
       ''
@@ -543,12 +544,29 @@ object MainFrm: TMainFrm
       Caption = 'Append File'
       OnExecute = ActionAppendExecute
     end
+    object ActionRenameFile: TAction
+      Caption = 'Rename File'
+      OnExecute = ActionRenameFileExecute
+    end
   end
   object PopupMenu2: TPopupMenu
     left = 508
     top = 315
     object MenuItem30: TMenuItem
       Action = ActionCropTool
+    end
+  end
+  object PopupMenu3: TPopupMenu
+    left = 100
+    top = 192
+    object MenuItem32: TMenuItem
+      Action = ActionRefresh
+    end
+    object N11: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem33: TMenuItem
+      Action = ActionRenameFile
     end
   end
 end

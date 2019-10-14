@@ -418,10 +418,10 @@ begin
     ThreadExtract := nil;
     try
       case arcType of
-        arcZip:  ThreadExtract := TThreadZipExtract.Create(Self, aFilename, Operations, FPoolData, FLog, FResults, FProgress, FProgressID, FOnBadFile);
+        arcZip, //:  ThreadExtract := TThreadZipExtract.Create(Self, aFilename, Operations, FPoolData, FLog, FResults, FProgress, FProgressID, FOnBadFile);
+        arc7Zip: ThreadExtract := TThread7ZipExtract.Create(Self, aFilename, Operations, FPoolData, FLog, FResults, FProgress, FProgressID, FOnBadFile);
         arcRar:  ThreadExtract := TThreadRarExtract.Create(Self, aFilename, Operations, FPoolData, FLog, FResults, FProgress, FProgressID, FOnBadFile);
         arcPdf:  ; //ThreadExtract := TThreadPdfExtract.Create(Self, aFilename, Operations, FPoolData, FLog, FResults, FProgress, FProgressID, FOnBadFile);
-        arc7Zip: ThreadExtract := TThread7ZipExtract.Create(Self, aFilename, Operations, FPoolData, FLog, FResults, FProgress, FProgressID, FOnBadFile);
         arcUnknown: exit;
       end;
 

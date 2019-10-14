@@ -39,7 +39,6 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <TopLine Value="307"/>
         <CursorPos X="19" Y="314"/>
@@ -126,8 +125,10 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <CursorPos X="14" Y="10"/>
+        <TopLine Value="209"/>
+        <CursorPos Y="223"/>
         <UsageCount Value="54"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -492,7 +493,7 @@
         <UsageCount Value="10"/>
       </Unit61>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="1131" Column="24" TopLine="1123"/>
@@ -609,6 +610,10 @@
         <Filename Value="main.pas"/>
         <Caret Line="247" Column="18" TopLine="221"/>
       </Position29>
+      <Position30>
+        <Filename Value="main.pas"/>
+        <Caret Line="314" Column="19" TopLine="307"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

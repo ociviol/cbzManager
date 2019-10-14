@@ -220,7 +220,7 @@ begin
       _RunCommand(FCmd);
 {$endif}
       // get files
-èè      GetFileNames(FFiles);
+      GetFileNames(FFiles);
       FLog.Log('Found : ' + IntToStr(FFiles.Count) + ' Files');
       FNbFiles := FFiles.Count;
 

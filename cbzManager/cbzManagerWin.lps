@@ -128,11 +128,11 @@
         <UnitName Value="uThreadExtract"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="17"/>
-        <TopLine Value="388"/>
-        <CursorPos X="36" Y="420"/>
+        <TopLine Value="183"/>
+        <CursorPos X="3" Y="223"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
-          <Item0 X="31" Y="416" ID="1"/>
+          <Item0 X="31" Y="413" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit11>
@@ -641,7 +641,7 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="13">
+    <BreakPoints Count="12">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
@@ -726,13 +726,6 @@
         <Source Value="main.pas"/>
         <Line Value="1271"/>
       </Item12>
-      <Item13>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uthreadextract.pas"/>
-        <Line Value="221"/>
-      </Item13>
     </BreakPoints>
     <Watches Count="10">
       <Item1>

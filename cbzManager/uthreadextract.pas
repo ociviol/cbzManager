@@ -181,6 +181,8 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
       p.ShowWindow:=swoHIDE;
       p.Options:=[poWaitOnExit];
       p.Execute;
+      if p.ExitCode <> 0 then
+        raise Exception.Create('Error while extracting file "' + ExtractFilename(FFilename) + '"');
     finally
       P.Free;
     end;
@@ -218,22 +220,17 @@ begin
       _RunCommand(FCmd);
 {$endif}
       // get files
-      GetFileNames(FFiles);
+èè      GetFileNames(FFiles);
       FLog.Log('Found : ' + IntToStr(FFiles.Count) + ' Files');
       FNbFiles := FFiles.Count;
 
       if FFiles.Count = 0 then
-      //  raise Exception.Create(FormatDateTime('hh:nn:ss' ,now) +
-      //                         ' Cannot process ' + FFileName + ' no files found.');
-      FHasError := True;
+        FHasError := True;
     Except
       FFiles.Free;
       FHasError := True;
       if FTmpDir <> '' then
         DeleteDirectory(FTmpDir, False);
-//{$ifdef Darwin or Linux}
-//      fpsystem('rm -Rf ' + FTmpDir);
-//{$endif}
       raise;
     end;
   end;

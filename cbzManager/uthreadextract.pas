@@ -181,6 +181,8 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
       p.ShowWindow:=swoHIDE;
       p.Options:=[poWaitOnExit];
       p.Execute;
+      if p.ExitCode <> 0 then
+        raise Exception.Create('Error while extracting file "' + ExtractFilename(FFilename) + '"');
     finally
       P.Free;
     end;
@@ -223,17 +225,12 @@ begin
       FNbFiles := FFiles.Count;
 
       if FFiles.Count = 0 then
-      //  raise Exception.Create(FormatDateTime('hh:nn:ss' ,now) +
-      //                         ' Cannot process ' + FFileName + ' no files found.');
-      FHasError := True;
+        FHasError := True;
     Except
       FFiles.Free;
       FHasError := True;
       if FTmpDir <> '' then
         DeleteDirectory(FTmpDir, False);
-//{$ifdef Darwin or Linux}
-//      fpsystem('rm -Rf ' + FTmpDir);
-//{$endif}
       raise;
     end;
   end;
@@ -375,7 +372,8 @@ end;
 
 procedure TThreadExtract.CopyFileToTemp(const aFileName: String);
 begin
-  FTmpFileName := GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(GetThreadID)) + IntToStr(QWord(GetTickCount64)));
+  FTmpFileName := GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(GetThreadID)) +
+                                  StringReplace(ExtractFileName(aFileName), ' ', '', [rfReplaceAll]));
   CopyFile(aFileName, FTmpFileName);
 end;
 

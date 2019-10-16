@@ -372,7 +372,8 @@ end;
 
 procedure TThreadExtract.CopyFileToTemp(const aFileName: String);
 begin
-  FTmpFileName := GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(GetThreadID)) + IntToStr(QWord(GetTickCount64)));
+  FTmpFileName := GetTempFileName(GetTempDir, 'Cbz' + IntToStr(QWord(GetThreadID)) +
+                                  StringReplace(ExtractFileName(aFileName), ' ', '', [rfReplaceAll]));
   CopyFile(aFileName, FTmpFileName);
 end;
 
@@ -387,7 +388,7 @@ constructor TThreadRarExtract.Create(aOwner : TObject; const Filename: String;
                                      OnBadFile : TNotifyEvent);
 begin
   CopyFileToTemp(FileName);
-  FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
+  FTmpDir := GetTempDir + 'fld' + StringReplace(ExtractFileName(Filename), ' ', '', [rfReplaceAll]);
   ForceDirectories(FTmpDir);
 {$if defined(Darwin) or defined(Linux)}
   FCmd := Format('%s e -y ''%s'' ''%s''', [Unrar, FtmpFileName, FTmpDir]);
@@ -411,7 +412,7 @@ constructor TThread7ZipExtract.Create(aOwner: TObject; const Filename: String;
   OnBadFile: TNotifyEvent);
 begin
   CopyFileToTemp(FileName);
-  FTmpDir := GetTempDir + 'fld' + ExtractFileName(FTmpFileName);
+  FTmpDir := GetTempDir + 'fld' + StringReplace(ExtractFileName(Filename), ' ', '', [rfReplaceAll]);
   ForceDirectories(FTmpDir);
 {$if defined(Darwin) or defined(Linux)}
   FCmd := Format('%s e -y ''%s'' -o''%s''', [SevenZip, FtmpFileName, FTmpDir]);

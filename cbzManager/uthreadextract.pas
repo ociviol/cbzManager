@@ -163,10 +163,22 @@ begin
 end;
 
 function CleanFileName(const aFileName : String):String;
+  function ReplaceAccents(const aStr: String): string;
+  var
+    i:integer;
+    Str: ansistring;
+  begin
+    Str:=UTF8ToANSI(aStr);
+    for i:=1 to length(Str) do
+      if aStr[i]>#127 then Str[i]:='z';
+    result:=ANSITOUTF8(Str);
+  end;
+
 begin
   result := StringReplace(aFileName, ' ', '', [rfReplaceAll]);
   result := StringReplace(result, '''', '', [rfReplaceAll]);
   result := StringReplace(result, '"', '', [rfReplaceAll]);
+  result := ReplaceAccents(Result);
 end;
 
 { TThreadExtract }

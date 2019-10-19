@@ -18,7 +18,8 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="1250"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="426"/>
         <CursorPos Y="1271"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="2">
@@ -126,7 +127,6 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="14"/>
         <TopLine Value="379"/>
         <CursorPos X="99" Y="415"/>

@@ -29,3 +29,4 @@ precompiled binairies/Windows/cbzManager.exe
 cbzManager/lib/x86_64-win64/libimputils.naturalsortstringlist.a
 /precompiled binairies/Linux/Files/cbzManager.zip
 /precompiled binairies/Linux/Files/cbzManager
+cbzManager/lib/x86_64-darwin/main.lfm

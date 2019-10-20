@@ -27,9 +27,9 @@ const
   SZipSign : array[0..1] of Byte = (byte('7'), byte('z'));
   PdfSign : array[0..3] of AnsiChar = ('%', 'P', 'D', 'F');
 
-  AllowedMasks : array[0..4] of string = ('*.jpg', '*.jpeg', '*.png', '*.webp', '*.jp2');
-  AllowedExts  : array[0..4] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2');
-  AllowedImgs  : array[0..4] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2');
+  AllowedMasks : array[0..5] of string = ('*.jpg', '*.jpeg', '*.png', '*.webp', '*.jp2', '*.gif');
+  AllowedExts  : array[0..5] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif');
+  AllowedImgs  : array[0..5] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif');
 
 type
 

@@ -283,10 +283,6 @@ begin
         if not FHasError then
         begin
           FMax := FFiles.Count;
-          FCur := 0;
-          FMsg := '(Writing ' + TCbz.CleanFilename(ExtractFilename(FFilename)) + ')';
-          if Assigned(FProgress) then
-            Synchronize(@DoProgress);
 
           for i := 0 to FFiles.Count - 1 do
           begin
@@ -297,9 +293,15 @@ begin
             end;
 
             FPoolData.AddItem2(nil, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
-            Sleep(50);
+            FCur := i;
+            FMsg := '(' + ExtractFileName(FFilename) + ') Loading images ...';
+            Synchronize(@DoProgress);
           end;
         end;
+
+        FCur := 0;
+        FMsg := 'Starting conversion ...';
+        Synchronize(@DoProgress);
 
         Terminate;
       except

@@ -502,7 +502,7 @@ begin
               if Assigned(FProgress) then
               begin
                 FCur := i;
-                FMsg := '(Writing :' + ExtractFilename(newf) + ') Adding :' + s +
+                FMsg := 'Writing ' + ExtractFilename(newf) + ' : Adding :' + s +
                         ' (' + GetETA(FStartDate, i, FFilesToProcess) + ')';
                 Synchronize(@DoProgress);
               end;

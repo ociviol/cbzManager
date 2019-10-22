@@ -1880,7 +1880,7 @@ begin
                 begin
                   FCur := i;
                   Synchronize(@DoProgress);
-                  Sleep(10);
+                  Sleep(50);
                 end;
             end
             else
@@ -1900,7 +1900,7 @@ begin
                   begin
                     FCur := j;
                     Synchronize(@DoProgress);
-                    Sleep(10);
+                    Sleep(50);
                   end;
               end
               else

@@ -77,7 +77,7 @@ type
     FMode : TZipMode;
     FFileNameFormat : String;
     Flog : ILog;
-    FStampThread : Array[0..3] of TStampThread;
+    FStampThread : Array[0..1] of TStampThread;
     FInUndo : Boolean;
     FUndoList : TFPObjectList;
     FWebpQualityFactor : Integer;

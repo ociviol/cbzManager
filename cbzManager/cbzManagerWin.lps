@@ -18,7 +18,6 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="271"/>
         <CursorPos X="3" Y="287"/>
         <UsageCount Value="204"/>
@@ -56,7 +55,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="520"/>
+        <TopLine Value="1862"/>
         <CursorPos Y="541"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
@@ -88,7 +87,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataPool"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="22"/>
+        <TopLine Value="56"/>
         <CursorPos X="5" Y="7"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -107,9 +106,10 @@
         <Filename Value="uthreadconvert.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="40"/>
-        <CursorPos Y="85"/>
+        <TopLine Value="78"/>
+        <CursorPos X="21" Y="107"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -118,7 +118,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="406"/>
+        <TopLine Value="307"/>
         <CursorPos X="19" Y="421"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>

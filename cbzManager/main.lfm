@@ -5,17 +5,17 @@ object MainFrm: TMainFrm
   Width = 907
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 614
+  ClientHeight = 594
   ClientWidth = 907
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.0.4.0'
   object TreeView1: TTreeView
     Left = 0
-    Height = 445
+    Height = 425
     Top = 0
     Width = 286
     Align = alLeft
@@ -33,17 +33,17 @@ object MainFrm: TMainFrm
   end
   object Panel1: TPanel
     Left = 291
-    Height = 445
+    Height = 425
     Top = 0
     Width = 616
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 445
+    ClientHeight = 425
     ClientWidth = 616
     TabOrder = 1
     object DrawGrid1: TDrawGrid
       Left = 466
-      Height = 392
+      Height = 372
       Top = 53
       Width = 150
       Align = alRight
@@ -69,7 +69,7 @@ object MainFrm: TMainFrm
     end
     object Image1: TImage
       Left = 0
-      Height = 392
+      Height = 372
       Top = 53
       Width = 466
       AntialiasingMode = amOn
@@ -177,14 +177,14 @@ object MainFrm: TMainFrm
         Left = 1
         Height = 21
         Top = 4
-        Width = 35
+        Width = 29
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Left : '
         ParentColor = False
       end
       object speLeft: TSpinEdit
-        Left = 36
+        Left = 30
         Height = 24
         Top = 1
         Width = 62
@@ -193,17 +193,17 @@ object MainFrm: TMainFrm
         TabOrder = 0
       end
       object Label2: TLabel
-        Left = 302
+        Left = 285
         Height = 21
         Top = 4
-        Width = 51
+        Width = 45
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Height : '
         ParentColor = False
       end
       object speBottom: TSpinEdit
-        Left = 353
+        Left = 330
         Height = 24
         Top = 1
         Width = 62
@@ -212,17 +212,17 @@ object MainFrm: TMainFrm
         TabOrder = 1
       end
       object Label3: TLabel
-        Left = 193
+        Left = 182
         Height = 21
         Top = 4
-        Width = 47
+        Width = 41
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Width : '
         ParentColor = False
       end
       object speRight: TSpinEdit
-        Left = 240
+        Left = 223
         Height = 24
         Top = 1
         Width = 62
@@ -231,17 +231,17 @@ object MainFrm: TMainFrm
         TabOrder = 2
       end
       object Label4: TLabel
-        Left = 98
+        Left = 92
         Height = 21
         Top = 4
-        Width = 33
+        Width = 28
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Top : '
         ParentColor = False
       end
       object speTop: TSpinEdit
-        Left = 131
+        Left = 120
         Height = 24
         Top = 1
         Width = 62
@@ -274,7 +274,7 @@ object MainFrm: TMainFrm
   object pnlProgress: TPanel
     Left = 0
     Height = 50
-    Top = 564
+    Top = 544
     Width = 907
     Align = alBottom
     BevelOuter = bvNone
@@ -282,14 +282,14 @@ object MainFrm: TMainFrm
   end
   object Splitter1: TSplitter
     Left = 286
-    Height = 445
+    Height = 425
     Top = 0
     Width = 5
   end
   object memoLog: TMemo
     Left = 0
     Height = 119
-    Top = 445
+    Top = 425
     Width = 907
     Align = alBottom
     Lines.Strings = (
@@ -300,8 +300,8 @@ object MainFrm: TMainFrm
     Visible = False
   end
   object MainMenu1: TMainMenu
-    Left = 89
-    Top = 51
+    left = 89
+    top = 51
     object mnuFile: TMenuItem
       Caption = 'File'
       object mnuChooseFolder: TMenuItem
@@ -365,13 +365,13 @@ object MainFrm: TMainFrm
     end
   end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
-    Left = 96
-    Top = 120
+    left = 96
+    top = 120
   end
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu1Popup
-    Left = 808
-    Top = 232
+    left = 808
+    top = 232
     object MenuItem3: TMenuItem
       Action = ActionDelete
     end
@@ -455,8 +455,8 @@ object MainFrm: TMainFrm
     end
   end
   object ActionList1: TActionList
-    Left = 208
-    Top = 96
+    left = 208
+    top = 96
     object ActionLast: TAction
       Caption = 'Last'
       Enabled = False
@@ -550,15 +550,15 @@ object MainFrm: TMainFrm
     end
   end
   object PopupMenu2: TPopupMenu
-    Left = 508
-    Top = 315
+    left = 508
+    top = 315
     object MenuItem30: TMenuItem
       Action = ActionCropTool
     end
   end
   object PopupMenu3: TPopupMenu
-    Left = 100
-    Top = 192
+    left = 100
+    top = 192
     object MenuItem32: TMenuItem
       Action = ActionRefresh
     end

@@ -120,8 +120,6 @@ type
     function DoFlipFunct(Index : Integer; UserData : TUserData;
                           var  Stream : TMemoryStream;
                           const outz : Tcbz):TRewriteOperation;
-  protected
-    function MakeStamp(Index : Integer):Tbitmap;
   public
     constructor Create(Log : ILog; const aStampWidth : Integer = -1; const aStampHeight : Integer = -1;
                        const WebpQualityFactor : Integer = 75;
@@ -155,6 +153,7 @@ type
     procedure Undo(CallBack : TCbzProgressEvent);
     function RewriteManga(CallBack : TCbzProgressEvent = nil):String;
     procedure Invert(Index1, Index2 : Integer; CallBack : TCbzProgressEvent = nil);
+    function GenerateStamp(Index : Integer):Tbitmap;
 
     property ImageCount:Integer read GetImageCount;
     property Progress : TCbzProgressEvent read FCallBack write FCallBack;
@@ -384,7 +383,8 @@ begin
   if Assigned(StampCache) then
     RecupSavedStamps;
 
-  StartStampThread;
+  if Assigned(FNotify) then
+    StartStampThread;
 end;
 
 procedure TCbz.Close;
@@ -1406,7 +1406,7 @@ begin
     end;
 end;
 
-function TCbz.MakeStamp(Index: Integer): Tbitmap;
+function TCbz.GenerateStamp(Index: Integer): Tbitmap;
 var
   b : TBitmap;
   ratio : extended;
@@ -1817,7 +1817,7 @@ begin
         MakeStampResult := Cache.IndexOf(IntToStr(MakeStampIndex)) >= 0;
         if not MakeStampResult then
         begin
-          Cache.AddObject(IntTostr(MakeStampIndex), MakeStamp(MakeStampIndex));
+          Cache.AddObject(IntTostr(MakeStampIndex), GenerateStamp(MakeStampIndex));
         end;
       finally
         FStampSync.UnlockList;

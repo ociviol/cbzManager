@@ -23,6 +23,7 @@ type
   TConfig = Class(Tpersistent)
 
   private
+    FAlbumArt: Boolean;
     FBdPathPath: String;
     FBlog,
     FDeleteFile,
@@ -58,6 +59,7 @@ type
     property NbThreads : Integer read FNbThreads write FNbThreads;
     property WebpQuality : Integer read FWebpQuality write FWebpQuality;
     property DeleteFile : Boolean read FDeleteFile write FDeleteFile;
+    property DoAlbumart : Boolean read FAlbumArt write FAlbumart;
   end;
 
 implementation
@@ -90,6 +92,7 @@ begin
   HighPerf:= False;
   FWebpQuality := 75;
   FDeleteFile := False;
+  FAlbumart := False;
 end;
 
 class function TConfig.Load(const aFileName: String): TConfig;

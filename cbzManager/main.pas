@@ -204,6 +204,7 @@ type
     Fignores : TStringlist;
 
     procedure HideCropTool;
+    procedure CheckAlbumArt(const aFilename : string);
     procedure AppenFile(const aFileName : String);
     procedure SaveConfig;
     function CheckPrograms:boolean;
@@ -820,6 +821,47 @@ procedure TMainFrm.HideCropTool;
 begin
   PanelCrop.Visible:=false;
   Shape1.Visible:=False;
+end;
+
+procedure TMainFrm.CheckAlbumArt(const aFilename: string);
+var
+  b : TBitmap;
+  p : TPicture;
+  s1,s2 : string;
+begin
+  s1 := ChangeFileExt(aFilename, '.bmp');
+  s2 := ChangeFileExt(aFilename, '.jpg');
+  if not FileExists(s2) then
+  try
+    with TCbz.Create(FLog, DrawGrid1.DefaultColWidth - 5,
+                     DrawGrid1.DefaultRowHeight - 5) do
+    try
+      Open(aFileName, zmRead);
+      b := GenerateStamp(0);
+      try
+        b.SaveToFile(s1);
+        try
+          p := TPicture.Create;
+          Try
+            p.LoadFromFile(s1);
+            P.SaveToFile(s2, '.jpg');
+          finally
+            p.Free;
+          end;
+        finally
+          if Sysutils.FileExists(s1) then
+            Sysutils.DeleteFile(s1);
+        end;
+      finally
+        b.free;
+      end;
+    finally
+      Free;
+    end;
+  except
+    on e: exception do
+      FLog.Log('Error generating album art :' + e.Message);
+  end;
 end;
 
 procedure TMainFrm.SetMainImage(Index: Integer);
@@ -1613,6 +1655,7 @@ begin
     cblogging.Checked:=Fconfig.Blog;
     speWebpQuality.Value:=FConfig.WebpQuality;
     cbDeleteFile.Checked := FConfig.DeleteFile;
+    cbAlbumArt.Checked := FConfig.DoAlbumart;
     if ShowModal = mrOk then
     begin
       edtcwebp.Text:=Fconfig.cwebp;
@@ -1623,6 +1666,7 @@ begin
       Fconfig.NbThreads:=speNbThreads.Value;
       FConfig.WebpQuality := speWebpQuality.Value;
       FConfig.DeleteFile := cbDeleteFile.Checked;
+      FConfig.DoAlbumart := cbAlbumArt.Checked;
       SaveConfig;
       FThreadDataPool.SetPerfs(FConfig.NbThreads);
       if Length(FWorkerThreads) > 2 then
@@ -1789,57 +1833,60 @@ begin
       //not InOpList(aFileName) then
     begin
       with TZipFile.Create do
+      try
         try
+          Filename := aFileName;
+          Active := True;
           try
-            Filename := aFileName;
-            Active := True;
-            try
-              if FileCount > 0 then
+            if FileCount > 0 then
+            begin
+              cmt := Comment;
+              if Length(cmt) >= Length(CbzComment) then
+                cmt := Copy(cmt, 1, Length(CbzComment));
+
+              fname := ExtractFileName(FileNames[0]);
+              if (cmt <> CbzComment) or
+                (LowerCase(ExtractFileExt(fname)) <> '.webp') or
+                (fname <> format(format('%%.%dd', [IntToStr(FileCount).Length]
+                ) + '.webp', [1])) then
               begin
-                cmt := Comment;
-                if Length(cmt) >= Length(CbzComment) then
-                  cmt := Copy(cmt, 1, Length(CbzComment));
-
-                fname := ExtractFileName(FileNames[0]);
-                if (cmt <> CbzComment) or
-                  (LowerCase(ExtractFileExt(fname)) <> '.webp') or
-                  (fname <> format(format('%%.%dd', [IntToStr(FileCount).Length]
-                  ) + '.webp', [1])) then
-                begin
-                  //if FConfig.Moveoriginaltotrash then
-                  //  FJobpool.AddJob(aFileName, arcZip,
-                  //    [opConvert, opDeleteFile])
-                  //else
-                    FJobpool.AddJob(aFileName);
-                  Exit;
-                end;
+                //if FConfig.Moveoriginaltotrash then
+                //  FJobpool.AddJob(aFileName, arcZip,
+                //    [opConvert, opDeleteFile])
+                //else
+                  FJobpool.AddJob(aFileName);
+                Exit;
               end;
-            except
             end;
-
-            aNode := GetNode(aFileName);
-            Result := FindNode(aFileName);
-            if not Assigned(Result) then
-            begin
-              Result := TreeView1.Items.AddChild(aNode,
-                ExtractFileName(aFileName));
-              Result.Data := Pointer(Integer(IsNew));
-              if IsNew then
-                TreeView1.CustomSort(@NodeSort);
-            end;
-            ExpandParents(Result.Parent);
-
           except
-            on e: Exception do
-            begin
-              FLog.Log('Error reading file :' + e.Message);
-              FIgnores.Add(aFileName);
-              Exit;
-            end;
           end;
-        finally
-          Free;
+
+          aNode := GetNode(aFileName);
+          Result := FindNode(aFileName);
+          if not Assigned(Result) then
+          begin
+            Result := TreeView1.Items.AddChild(aNode,
+              ExtractFileName(aFileName));
+            Result.Data := Pointer(Integer(IsNew));
+            if IsNew then
+              TreeView1.CustomSort(@NodeSort);
+          end;
+          ExpandParents(Result.Parent);
+
+        except
+          on e: Exception do
+          begin
+            FLog.Log('Error reading file :' + e.Message);
+            FIgnores.Add(aFileName);
+            Exit;
+          end;
         end;
+      finally
+        Free;
+      end;
+
+      if FConfig.DoAlbumart then
+        CheckAlbumArt(aFilename);
     end
     else if Assigned(FIgnores) and not FJobpool.FileInQueue(aFileName) then
     //and not InOpList(aFileName) then

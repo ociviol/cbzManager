@@ -22,6 +22,7 @@ type
     BitBtn2: TBitBtn;
     cblogging: TCheckBox;
     cbDeleteFile: TCheckBox;
+    cbAlbumArt: TCheckBox;
     edtcwebp: TEdit;
     edtunrar: TEdit;
     edtp7zip: TEdit;

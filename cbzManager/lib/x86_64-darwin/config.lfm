@@ -1,11 +1,11 @@
 object ConfigFrm: TConfigFrm
   Left = 542
-  Height = 183
+  Height = 204
   Top = 312
   Width = 464
   BorderStyle = bsDialog
   Caption = 'Config'
-  ClientHeight = 183
+  ClientHeight = 204
   ClientWidth = 464
   Position = poMainFormCenter
   LCLVersion = '2.0.4.0'
@@ -28,7 +28,7 @@ object ConfigFrm: TConfigFrm
   object BitBtn1: TBitBtn
     Left = 293
     Height = 30
-    Top = 145
+    Top = 166
     Width = 75
     Caption = 'Ok'
     Default = True
@@ -38,7 +38,7 @@ object ConfigFrm: TConfigFrm
   object BitBtn2: TBitBtn
     Left = 378
     Height = 30
-    Top = 145
+    Top = 166
     Width = 75
     Cancel = True
     Caption = 'Cancel'
@@ -171,6 +171,14 @@ object ConfigFrm: TConfigFrm
     Width = 142
     Caption = 'Delete file after convert'
     TabOrder = 9
+  end
+  object cbAlbumArt: TCheckBox
+    Left = 13
+    Height = 19
+    Top = 177
+    Width = 177
+    Caption = 'Generate album art (.jpeg file)'
+    TabOrder = 10
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.exe'

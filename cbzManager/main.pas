@@ -30,6 +30,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionSelectAll: TAction;
     ActionRenameFile: TAction;
     ActionAppend: TAction;
     ActionCropTool: TAction;
@@ -93,6 +94,7 @@ type
     MenuItem31: TMenuItem;
     MenuItem32: TMenuItem;
     MenuItem33: TMenuItem;
+    MenuItem34: TMenuItem;
     N11: TMenuItem;
     N10: TMenuItem;
     N9: TMenuItem;
@@ -151,6 +153,7 @@ type
     procedure ActionRewriteMangaExecute(Sender: TObject);
     procedure ActionRot90Execute(Sender: TObject);
     procedure ActionRotm90Execute(Sender: TObject);
+    procedure ActionSelectAllExecute(Sender: TObject);
     procedure ActionSplitImageExecute(Sender: TObject);
     procedure ActionUndoAllExecute(Sender: TObject);
     procedure ActionUndoExecute(Sender: TObject);
@@ -473,6 +476,7 @@ begin
   //  (Length(SelectedGridItems) = 1);
   //ActionExportSelection.Enabled := (zf.Mode <> zmClosed) and
   //(Length(SelectedGridItems) >= 1);
+  ActionSelectAll.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0);
   ActionMoveUp.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position > 0);
   ActionMoveDown.Enabled := (zf.Mode <> zmClosed) and
     (DrawGrid1.Position < zf.ImageCount - 1);
@@ -512,9 +516,9 @@ begin
   //ActionReader.Enabled := (zf.Mode <> zmClosed);
   // btns
   ActionRotm90.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-    (Length(SelectedGridItems) = 1);
+    (Length(SelectedGridItems) >= 1);
   ActionRot90.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-    (Length(SelectedGridItems) = 1);
+    (Length(SelectedGridItems) >= 1);
   ActionFirst.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
     (DrawGrid1.Position > 0);
   ActionLast.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
@@ -1363,6 +1367,18 @@ begin
     SetMainImage(DrawGrid1.Position);
   finally
     Screen.Cursor := crDefault;
+  end;
+end;
+
+procedure TMainFrm.ActionSelectAllExecute(Sender: TObject);
+var
+  i : integer;
+begin
+  with DrawGrid1 do
+  begin
+    for i := 0 to RowCount - 1 do
+      Selected[i] := true;
+    Invalidate;
   end;
 end;
 

@@ -384,6 +384,9 @@ object MainFrm: TMainFrm
     object MenuItem5: TMenuItem
       Action = ActionLast
     end
+    object MenuItem34: TMenuItem
+      Action = ActionSelectAll
+    end
     object N4: TMenuItem
       Caption = '-'
     end
@@ -547,6 +550,10 @@ object MainFrm: TMainFrm
     object ActionRenameFile: TAction
       Caption = 'Rename File'
       OnExecute = ActionRenameFileExecute
+    end
+    object ActionSelectAll: TAction
+      Caption = 'Select All'
+      OnExecute = ActionSelectAllExecute
     end
   end
   object PopupMenu2: TPopupMenu

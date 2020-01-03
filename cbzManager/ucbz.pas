@@ -583,7 +583,12 @@ begin
       begin
         ms := nil;
         if UserFunction(i, UserData, ms, outz) = roSkip then
+        begin
+          if Assigned(UserData.Progress) then
+            UserData.Progress(Self, UserData.ProgressID, Outz.FileCount, cnt,
+                              'Rewriting file :' + FFilename);
           Continue;
+        end;
 
         Ext := ExtractFileExt(FileNames[i]);
         fn := ChangeFileExt(outz.GetNextFilename, Ext);

@@ -22,7 +22,7 @@ Lazarus >= 2.0.4
 	cwebp : 	sudo apt install webp
 	libwebp : 	sudo apt install libwebp-dev
 
-Max OsX (use HomeBrew):
+Max OsX (use HomeBrew : https://brew.sh/):
 Lazarus trunk >= 2.1.0
 
 	unzip : 	brew install unzip

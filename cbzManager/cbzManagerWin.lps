@@ -7,7 +7,7 @@
       <Unit0>
         <Filename Value="cbzManagerWin.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <CursorPos Y="20"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
@@ -35,7 +35,8 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="25"/>
         <CursorPos X="18" Y="52"/>
         <UsageCount Value="204"/>
@@ -45,7 +46,7 @@
       <Unit3>
         <Filename Value="webp.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="437"/>
         <CursorPos Y="444"/>
         <UsageCount Value="204"/>
@@ -55,8 +56,7 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="568"/>
         <CursorPos Y="585"/>
         <UsageCount Value="204"/>
@@ -69,7 +69,7 @@
         <Filename Value="udatatypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataTypes"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="12"/>
         <CursorPos X="5" Y="7"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
@@ -88,7 +88,7 @@
         <Filename Value="udatapool.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataPool"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="56"/>
         <CursorPos X="5" Y="7"/>
         <UsageCount Value="200"/>
@@ -98,7 +98,7 @@
         <Filename Value="udataitem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataItem"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="349"/>
         <CursorPos X="3" Y="352"/>
         <UsageCount Value="200"/>
@@ -108,7 +108,7 @@
         <Filename Value="uthreadconvert.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="78"/>
         <CursorPos X="21" Y="107"/>
         <UsageCount Value="200"/>
@@ -118,7 +118,7 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="307"/>
         <CursorPos X="19" Y="421"/>
         <UsageCount Value="200"/>
@@ -128,7 +128,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="374"/>
         <CursorPos Y="381"/>
         <UsageCount Value="200"/>
@@ -138,7 +138,7 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="73"/>
         <CursorPos X="22" Y="95"/>
         <UsageCount Value="229"/>
@@ -151,7 +151,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uLoadReport"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="16"/>
         <CursorPos X="5" Y="7"/>
         <UsageCount Value="164"/>
         <Loaded Value="True"/>
@@ -163,7 +163,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uAbout"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="20"/>
         <CursorPos X="70" Y="41"/>
         <UsageCount Value="93"/>
@@ -471,7 +471,7 @@
       <Unit55>
         <Filename Value="../../Utils/utils.zipfile.pas"/>
         <UnitName Value="Utils.zipfile"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="373"/>
         <CursorPos Y="404"/>
         <UsageCount Value="12"/>
@@ -479,11 +479,10 @@
       </Unit55>
       <Unit56>
         <Filename Value="../../../../lazarus/lcl/include/picture.inc"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="577"/>
         <CursorPos Y="595"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
       </Unit56>
       <Unit57>
         <Filename Value="../../../../lazarus/fpc/3.0.4/source/rtl/objpas/classes/classesh.inc"/>
@@ -502,7 +501,7 @@
       <Unit59>
         <Filename Value="../../Utils/utils.softwareversion.pas"/>
         <UnitName Value="Utils.SoftwareVersion"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="21"/>
         <CursorPos Y="29"/>
         <UsageCount Value="12"/>
@@ -511,7 +510,7 @@
       <Unit60>
         <Filename Value="../../Utils/utils.graphics.pas"/>
         <UnitName Value="Utils.Graphics"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="41"/>
         <CursorPos X="40" Y="49"/>
         <UsageCount Value="10"/>

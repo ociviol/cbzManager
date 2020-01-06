@@ -27,10 +27,10 @@ Lazarus trunk >= 2.1.0
 
 	unzip : 	brew install unzip
 	unrar: 		brew install unrar
-	7z : 		brew install p7zip-full
+	7z : 		brew install p7zip
 	cwebp,
-	dwebp : 	brew install webp
-	libwebp : 	brew install libwebp-dev
+	dwebp,
+	libwebp : 	brew install webp
 
 If you want to collaborate, do not hesitate to contact me.
 

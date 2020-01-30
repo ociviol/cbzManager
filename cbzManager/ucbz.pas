@@ -77,7 +77,7 @@ type
     FMode : TZipMode;
     FFileNameFormat : String;
     Flog : ILog;
-    FStampThread : Array[0..1] of TStampThread;
+    FStampThread : Array[0..0] of TStampThread;
     FInUndo : Boolean;
     FUndoList : TFPObjectList;
     FWebpQualityFactor : Integer;
@@ -1872,7 +1872,7 @@ begin
       if {(GetCount < ImgCount) and} (ImgCount > 0) then
       begin
         // get all others
-        for I := 0 to ImgCount - 1 do
+        for I := 0 to ImgCount div 2 do //ImgCount - 1 do
         begin
           if not Terminated then
           begin
@@ -1893,7 +1893,7 @@ begin
           end;
 
           j := (ImgCount - 1) - i;
-          if j >= 0 then
+          if (j >= 0) and (j > ImgCount div 2) then
             if not Terminated then
             begin
               MakeStampIndex := j;

@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="11"/>
     <BuildModes Active="Debug"/>
-    <Units Count="62">
+    <Units Count="60">
       <Unit0>
         <Filename Value="cbzManagerWin.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -18,13 +18,14 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="1339"/>
-        <CursorPos X="46" Y="1353"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="313"/>
+        <CursorPos Y="308"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="3">
-          <Item0 Y="453"/>
-          <Item1 X="37" Y="917" ID="2"/>
-          <Item2 X="3" Y="1379" ID="1"/>
+          <Item0 Y="443"/>
+          <Item1 X="37" Y="907" ID="2"/>
+          <Item2 X="3" Y="1369" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -46,8 +47,8 @@
         <Filename Value="webp.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="437"/>
-        <CursorPos Y="444"/>
+        <TopLine Value="430"/>
+        <CursorPos Y="452"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -55,10 +56,9 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="8"/>
-        <TopLine Value="61"/>
-        <CursorPos X="30" Y="80"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="1671"/>
+        <CursorPos Y="1688"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
           <Item0 X="14" Y="1670" ID="3"/>
@@ -69,7 +69,7 @@
         <Filename Value="udatatypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataTypes"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="14"/>
         <CursorPos X="5" Y="7"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
@@ -98,7 +98,7 @@
         <Filename Value="udataitem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataItem"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="349"/>
         <CursorPos X="3" Y="352"/>
         <UsageCount Value="200"/>
@@ -118,7 +118,7 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="307"/>
         <CursorPos X="19" Y="421"/>
         <UsageCount Value="200"/>
@@ -128,7 +128,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="17"/>
         <TopLine Value="374"/>
         <CursorPos Y="381"/>
         <UsageCount Value="200"/>
@@ -151,9 +151,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uLoadReport"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="18"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="164"/>
+        <UsageCount Value="177"/>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
@@ -166,7 +166,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="20"/>
         <CursorPos X="70" Y="41"/>
-        <UsageCount Value="93"/>
+        <UsageCount Value="106"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit14>
@@ -175,56 +175,56 @@
         <UnitName Value="Utils.Graphics"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="204"/>
+        <UsageCount Value="203"/>
       </Unit15>
       <Unit16>
         <Filename Value="../Utils/utils.logger.pas"/>
         <UnitName Value="Utils.Logger"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="204"/>
+        <UsageCount Value="203"/>
       </Unit16>
       <Unit17>
         <Filename Value="../Utils/utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="204"/>
+        <UsageCount Value="203"/>
       </Unit17>
       <Unit18>
         <Filename Value="../Utils/utils.strings.pas"/>
         <UnitName Value="Utils.Strings"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="204"/>
+        <UsageCount Value="203"/>
       </Unit18>
       <Unit19>
         <Filename Value="../Utils/utils.arrays.pas"/>
         <UnitName Value="Utils.Arrays"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="204"/>
+        <UsageCount Value="203"/>
       </Unit19>
       <Unit20>
         <Filename Value="../Utils/utils.files.pas"/>
         <UnitName Value="Utils.Files"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="204"/>
+        <UsageCount Value="203"/>
       </Unit20>
       <Unit21>
         <Filename Value="../Utils/utils.gridhelper.pas"/>
         <UnitName Value="Utils.Gridhelper"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="200"/>
+        <UsageCount Value="199"/>
       </Unit21>
       <Unit22>
         <Filename Value="../Utils/utils.softwareversion.pas"/>
         <UnitName Value="Utils.SoftwareVersion"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="200"/>
+        <UsageCount Value="199"/>
       </Unit22>
       <Unit23>
         <Filename Value="../Utils/utils.masks.pas"/>
@@ -232,7 +232,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="59"/>
         <CursorPos X="8" Y="99"/>
-        <UsageCount Value="231"/>
+        <UsageCount Value="230"/>
       </Unit23>
       <Unit24>
         <Filename Value="../Utils/zipfile/zipfile.pas"/>
@@ -240,7 +240,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
         <CursorPos X="99" Y="21"/>
-        <UsageCount Value="75"/>
+        <UsageCount Value="74"/>
         <Bookmarks Count="1">
           <Item0 Y="486" ID="1"/>
         </Bookmarks>
@@ -250,14 +250,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="114"/>
         <CursorPos Y="126"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit25>
       <Unit26>
         <Filename Value="/usr/share/lazarus/2.0.2/lcl/include/customform.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1208"/>
         <CursorPos Y="1224"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit26>
       <Unit27>
         <Filename Value="/usr/share/fpcsrc/3.0.4/rtl/unix/unix.pp"/>
@@ -265,385 +265,372 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="77"/>
         <CursorPos X="10" Y="92"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="24"/>
       </Unit27>
       <Unit28>
-        <Filename Value="/usr/share/lazarus/2.0.2/lcl/grids.pas"/>
-        <UnitName Value="Grids"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="5747"/>
-        <CursorPos X="3" Y="5751"/>
-        <UsageCount Value="1"/>
-      </Unit28>
-      <Unit29>
         <Filename Value="/usr/lib/lazarus/1.8.2/lcl/include/customform.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1002"/>
         <CursorPos Y="1019"/>
-        <UsageCount Value="5"/>
-      </Unit29>
-      <Unit30>
+        <UsageCount Value="4"/>
+      </Unit28>
+      <Unit29>
         <Filename Value="../common/Zip/zipitem.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="449"/>
         <CursorPos X="64" Y="462"/>
-        <UsageCount Value="10"/>
-      </Unit30>
-      <Unit31>
+        <UsageCount Value="9"/>
+      </Unit29>
+      <Unit30>
         <Filename Value="../Utils/utils.zipfile.pas"/>
         <UnitName Value="Utils.zipfile"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
         <CursorPos X="3" Y="57"/>
-        <UsageCount Value="122"/>
+        <UsageCount Value="121"/>
         <Bookmarks Count="1">
           <Item0 X="16" Y="802" ID="4"/>
         </Bookmarks>
-      </Unit31>
-      <Unit32>
+      </Unit30>
+      <Unit31>
         <Filename Value="/usr/share/lazarus/2.0.2/lcl/intfgraphics.pas"/>
         <UnitName Value="IntfGraphics"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="3536"/>
         <CursorPos Y="3549"/>
-        <UsageCount Value="3"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="/usr/share/lazarus/2.0.2/lcl/include/fpimagebitmap.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="130"/>
-        <CursorPos Y="141"/>
-        <UsageCount Value="1"/>
-      </Unit33>
-      <Unit34>
+        <UsageCount Value="2"/>
+      </Unit31>
+      <Unit32>
         <Filename Value="/usr/share/lazarus/2.0.2/lcl/include/picture.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="582"/>
         <CursorPos Y="597"/>
-        <UsageCount Value="10"/>
-      </Unit34>
-      <Unit35>
+        <UsageCount Value="9"/>
+      </Unit32>
+      <Unit33>
         <Filename Value="/usr/share/lazarus/2.0.2/components/lazutils/lazutf8classes.pas"/>
         <UnitName Value="LazUTF8Classes"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="140"/>
         <CursorPos Y="151"/>
-        <UsageCount Value="10"/>
-      </Unit35>
-      <Unit36>
+        <UsageCount Value="9"/>
+      </Unit33>
+      <Unit34>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-image/src/fpimage.pp"/>
         <UnitName Value="FPimage"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="33"/>
         <CursorPos X="31" Y="34"/>
-        <UsageCount Value="10"/>
-      </Unit36>
-      <Unit37>
+        <UsageCount Value="9"/>
+      </Unit34>
+      <Unit35>
         <Filename Value="../../../lazarus/fpc/3.0.4/source/packages/fcl-process/src/process.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="564"/>
         <CursorPos X="79" Y="549"/>
-        <UsageCount Value="7"/>
-      </Unit37>
-      <Unit38>
+        <UsageCount Value="6"/>
+      </Unit35>
+      <Unit36>
         <Filename Value="../../../lazarus/lcl/include/winapih.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="18"/>
         <CursorPos Y="18"/>
-        <UsageCount Value="7"/>
-      </Unit38>
-      <Unit39>
-        <Filename Value="../../../lazarus/lcl/include/fpimagebitmap.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="125"/>
-        <CursorPos Y="141"/>
-        <UsageCount Value="1"/>
-      </Unit39>
-      <Unit40>
+        <UsageCount Value="6"/>
+      </Unit36>
+      <Unit37>
         <Filename Value="../../../lazarus/lcl/include/picture.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="577"/>
         <CursorPos Y="595"/>
-        <UsageCount Value="13"/>
-      </Unit40>
-      <Unit41>
+        <UsageCount Value="12"/>
+      </Unit37>
+      <Unit38>
         <Filename Value="../../../lazarus/lcl/graphics.pp"/>
         <UnitName Value="Graphics"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1755"/>
         <CursorPos X="29" Y="1852"/>
-        <UsageCount Value="13"/>
-      </Unit41>
-      <Unit42>
+        <UsageCount Value="12"/>
+      </Unit38>
+      <Unit39>
         <Filename Value="../Utils/utils.naturalsortstringlist.pas"/>
         <UnitName Value="Utils.NaturalSortStringList"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="16" Y="210"/>
-        <UsageCount Value="59"/>
-      </Unit42>
-      <Unit43>
+        <UsageCount Value="58"/>
+      </Unit39>
+      <Unit40>
         <Filename Value="../Utils/naturalsortunit.pas"/>
         <UnitName Value="NaturalSortUnit"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="25" Y="47"/>
-        <UsageCount Value="24"/>
-      </Unit43>
-      <Unit44>
+        <UsageCount Value="23"/>
+      </Unit40>
+      <Unit41>
         <Filename Value="../Utils/unaturalsort.pas"/>
         <UnitName Value="uNaturalSort"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="176"/>
         <CursorPos X="41" Y="191"/>
-        <UsageCount Value="5"/>
-      </Unit44>
-      <Unit45>
+        <UsageCount Value="4"/>
+      </Unit41>
+      <Unit42>
         <Filename Value="../../../lazarus/fpc/3.0.4/source/rtl/win64/windows.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="32"/>
         <CursorPos X="11" Y="35"/>
-        <UsageCount Value="5"/>
-      </Unit45>
-      <Unit46>
+        <UsageCount Value="4"/>
+      </Unit42>
+      <Unit43>
         <Filename Value="../../../lazarus/fpc/3.0.4/source/rtl/win/wininc/func.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="939"/>
         <CursorPos X="19" Y="965"/>
-        <UsageCount Value="5"/>
-      </Unit46>
-      <Unit47>
+        <UsageCount Value="4"/>
+      </Unit43>
+      <Unit44>
         <Filename Value="../../../lazarus/lcl/include/rasterimage.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="470"/>
         <CursorPos X="22" Y="474"/>
-        <UsageCount Value="36"/>
-      </Unit47>
-      <Unit48>
+        <UsageCount Value="35"/>
+      </Unit44>
+      <Unit45>
         <Filename Value="../../../lazarus/fpc/3.0.4/source/rtl/objpas/sysutils/sysutilh.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="10" Y="29"/>
-        <UsageCount Value="36"/>
-      </Unit48>
-      <Unit49>
+        <UsageCount Value="35"/>
+      </Unit45>
+      <Unit46>
         <Filename Value="../../../lazarus/components/lazutils/graphtype.pp"/>
         <UnitName Value="GraphType"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="212"/>
         <CursorPos X="5" Y="199"/>
-        <UsageCount Value="35"/>
-      </Unit49>
-      <Unit50>
+        <UsageCount Value="34"/>
+      </Unit46>
+      <Unit47>
         <Filename Value="../../../lazarus/lcl/include/graphic.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="231"/>
         <CursorPos X="3" Y="233"/>
-        <UsageCount Value="14"/>
-      </Unit50>
-      <Unit51>
+        <UsageCount Value="13"/>
+      </Unit47>
+      <Unit48>
         <Filename Value="../../../lazarus/lcl/include/bitmap.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="168"/>
         <CursorPos X="28" Y="168"/>
-        <UsageCount Value="13"/>
-      </Unit51>
-      <Unit52>
+        <UsageCount Value="12"/>
+      </Unit48>
+      <Unit49>
         <Filename Value="../../../lazarus/fpc/3.0.4/source/packages/fcl-image/src/fpimage.pp"/>
         <UnitName Value="FPimage"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="200"/>
         <CursorPos X="3" Y="205"/>
-        <UsageCount Value="13"/>
-      </Unit52>
-      <Unit53>
+        <UsageCount Value="12"/>
+      </Unit49>
+      <Unit50>
         <Filename Value="../../../lazarus/lcl/intfgraphics.pas"/>
         <UnitName Value="IntfGraphics"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="516"/>
         <CursorPos X="20" Y="543"/>
-        <UsageCount Value="13"/>
-      </Unit53>
-      <Unit54>
+        <UsageCount Value="12"/>
+      </Unit50>
+      <Unit51>
         <Filename Value="../../../lazarus/fpc/3.0.4/source/rtl/objpas/classes/classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="310"/>
         <CursorPos X="42" Y="327"/>
-        <UsageCount Value="11"/>
-      </Unit54>
-      <Unit55>
+        <UsageCount Value="10"/>
+      </Unit51>
+      <Unit52>
         <Filename Value="../../Utils/utils.zipfile.pas"/>
         <UnitName Value="Utils.zipfile"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="686"/>
         <CursorPos X="22" Y="710"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="19"/>
         <Loaded Value="True"/>
-      </Unit55>
-      <Unit56>
+      </Unit52>
+      <Unit53>
         <Filename Value="../../../../lazarus/lcl/include/picture.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="577"/>
         <CursorPos Y="595"/>
-        <UsageCount Value="12"/>
-      </Unit56>
-      <Unit57>
+        <UsageCount Value="11"/>
+      </Unit53>
+      <Unit54>
         <Filename Value="../../../../lazarus/fpc/3.0.4/source/rtl/objpas/classes/classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="339"/>
         <CursorPos X="15" Y="360"/>
-        <UsageCount Value="10"/>
-      </Unit57>
-      <Unit58>
+        <UsageCount Value="9"/>
+      </Unit54>
+      <Unit55>
         <Filename Value="../../../../lazarus/fpc/3.0.4/source/rtl/objpas/classes/lists.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="988"/>
         <CursorPos X="5" Y="990"/>
-        <UsageCount Value="10"/>
-      </Unit58>
-      <Unit59>
+        <UsageCount Value="9"/>
+      </Unit55>
+      <Unit56>
         <Filename Value="../../Utils/utils.softwareversion.pas"/>
         <UnitName Value="Utils.SoftwareVersion"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="21"/>
         <CursorPos Y="29"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="19"/>
         <Loaded Value="True"/>
-      </Unit59>
-      <Unit60>
+      </Unit56>
+      <Unit57>
         <Filename Value="../../Utils/utils.graphics.pas"/>
         <UnitName Value="Utils.Graphics"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="41"/>
         <CursorPos X="40" Y="49"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="17"/>
         <Loaded Value="True"/>
-      </Unit60>
-      <Unit61>
+      </Unit57>
+      <Unit58>
         <Filename Value="../../../../lazarus/lcl/include/rasterimage.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="635"/>
-        <CursorPos Y="653"/>
-        <UsageCount Value="10"/>
-      </Unit61>
+        <EditorIndex Value="8"/>
+        <TopLine Value="821"/>
+        <CursorPos Y="839"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="../../../../lazarus/lcl/include/custombitmap.inc"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="471"/>
+        <CursorPos Y="503"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+      </Unit59>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="main.pas"/>
-        <Caret Line="1379" Column="7" TopLine="1357"/>
+        <Filename Value="../../../../lazarus/lcl/include/custombitmap.inc"/>
+        <Caret Line="183" TopLine="164"/>
       </Position1>
       <Position2>
-        <Filename Value="main.pas"/>
-        <Caret Line="1444" Column="25" TopLine="1309"/>
+        <Filename Value="../../../../lazarus/lcl/include/custombitmap.inc"/>
+        <Caret Line="503" TopLine="471"/>
       </Position2>
       <Position3>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="1681" Column="39" TopLine="1669"/>
+        <Filename Value="../../../../lazarus/lcl/include/rasterimage.inc"/>
+        <Caret Line="518" TopLine="500"/>
       </Position3>
       <Position4>
-        <Filename Value="main.pas"/>
-        <Caret Line="1376" Column="36" TopLine="1360"/>
+        <Filename Value="webp.pas"/>
+        <Caret Line="435" TopLine="416"/>
       </Position4>
       <Position5>
-        <Filename Value="main.pas"/>
-        <Caret Line="60" Column="14" TopLine="43"/>
+        <Filename Value="webp.pas"/>
+        <Caret Line="436" TopLine="416"/>
       </Position5>
       <Position6>
-        <Filename Value="main.pas"/>
-        <Caret Line="61" Column="14" TopLine="43"/>
+        <Filename Value="../../../../lazarus/lcl/include/rasterimage.inc"/>
+        <Caret Line="839" TopLine="821"/>
       </Position6>
       <Position7>
-        <Filename Value="main.pas"/>
-        <Caret Line="1353" Column="46" TopLine="1339"/>
+        <Filename Value="webp.pas"/>
+        <Caret Line="436" TopLine="416"/>
       </Position7>
       <Position8>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="147" Column="15" TopLine="129"/>
+        <Filename Value="webp.pas"/>
+        <Caret Line="441" TopLine="416"/>
       </Position8>
       <Position9>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="843" Column="26" TopLine="833"/>
+        <Filename Value="webp.pas"/>
+        <Caret Line="444" TopLine="416"/>
       </Position9>
       <Position10>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="107" Column="14" TopLine="91"/>
+        <Filename Value="webp.pas"/>
+        <Caret Line="445" TopLine="416"/>
       </Position10>
       <Position11>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="589" Column="15" TopLine="575"/>
+        <Filename Value="webp.pas"/>
+        <Caret Line="449" TopLine="420"/>
       </Position11>
       <Position12>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="585" TopLine="575"/>
+        <Filename Value="webp.pas"/>
+        <Caret Line="450" TopLine="421"/>
       </Position12>
       <Position13>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="593" TopLine="575"/>
+        <Filename Value="webp.pas"/>
+        <Caret Line="451" TopLine="422"/>
       </Position13>
       <Position14>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="594" TopLine="575"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="1353" Column="46" TopLine="1339"/>
       </Position14>
       <Position15>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="596" TopLine="575"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="261" Column="16" TopLine="246"/>
       </Position15>
       <Position16>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="597" TopLine="575"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="318" TopLine="304"/>
       </Position16>
       <Position17>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="598" TopLine="575"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="330" TopLine="311"/>
       </Position17>
       <Position18>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="597" TopLine="575"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="318" TopLine="311"/>
       </Position18>
       <Position19>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="612" TopLine="595"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="330" TopLine="311"/>
       </Position19>
       <Position20>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="615" TopLine="595"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="331" TopLine="311"/>
       </Position20>
       <Position21>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="617" TopLine="595"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="345" TopLine="317"/>
       </Position21>
       <Position22>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="618" TopLine="595"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="331" TopLine="317"/>
       </Position22>
       <Position23>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="619" TopLine="595"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="345" TopLine="317"/>
       </Position23>
       <Position24>
-        <Filename Value="config.pas"/>
-        <Caret Line="52" Column="18" TopLine="25"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="331" TopLine="317"/>
       </Position24>
       <Position25>
-        <Filename Value="../../Utils/utils.zipfile.pas"/>
-        <Caret Line="702" Column="10" TopLine="691"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="345" TopLine="317"/>
       </Position25>
       <Position26>
-        <Filename Value="../../Utils/utils.zipfile.pas"/>
-        <Caret Line="29" Column="20" TopLine="19"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="331" TopLine="317"/>
       </Position26>
       <Position27>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="585" TopLine="568"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="345" TopLine="317"/>
       </Position27>
       <Position28>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="1890" Column="54" TopLine="1886"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="331" TopLine="317"/>
       </Position28>
       <Position29>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="91" Column="20" TopLine="74"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="345" TopLine="317"/>
       </Position29>
       <Position30>
-        <Filename Value="ucbz.pas"/>
-        <Caret Line="1383" Column="3" TopLine="1376"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="347" TopLine="319"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -652,27 +639,27 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="4">
+    <BreakPoints Count="7">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="669"/>
+        <Line Value="659"/>
       </Item1>
       <Item2>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="1168"/>
+        <Line Value="1158"/>
       </Item2>
       <Item3>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="1317"/>
+        <Line Value="1307"/>
       </Item3>
       <Item4>
         <Kind Value="bpkSource"/>
@@ -681,6 +668,27 @@
         <Source Value="ucbz.pas"/>
         <Line Value="1272"/>
       </Item4>
+      <Item5>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ucbz.pas"/>
+        <Line Value="1744"/>
+      </Item5>
+      <Item6>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="webp.pas"/>
+        <Line Value="623"/>
+      </Item6>
+      <Item7>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="webp.pas"/>
+        <Line Value="434"/>
+      </Item7>
     </BreakPoints>
     <Watches Count="10">
       <Item1>

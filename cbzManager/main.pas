@@ -305,7 +305,6 @@ procedure TThreadCheckVersion.Execute;
 var
   t : TStringList;
   i : integer;
-  ar : Array of String;
   v : string;
 begin
   try
@@ -313,34 +312,25 @@ begin
     try
       t := TStringList.Create;
       try
-        SimpleGet('https://ollivierciviolsoftware.wordpress.com/version/', t);
+        SimpleGet('https://filedn.com/ld6vdapF8EELCrRa1IVpQwu/version.txt', t);
 
-        with t do
-          for i := 0 to Count - 1 do
-            if Strings[i].StartsWith('<meta property="og:description" content=') then
-                v := copy(Strings[i], 41, length(Strings[i])-44);
-
-        v := StringReplace(v, '"', '', [rfReplaceAll]);
-        v := StringReplace(v, ' ', ',', [rfReplaceAll]);
-        ar := v.Split([',']);
-
-        for i:=low(ar) to high(ar) do
+        for i:=0 to t.Count - 1 do
   {$if defined(Darwin)}
-          if ar[i].StartsWith('osx:') then
+          if t[i].StartsWith('osx:') then
           begin
-            v := copy(ar[i], 5, length(ar[i]));
+            v := copy(t[i], 5, length(t[i]));
             break;
           end;
   {$ELSEif Defined(Linux)}
-          if ar[i].StartsWith('linux:') then
+          if t[i].StartsWith('linux:') then
           begin
-            v := copy(ar[i], 7, length(ar[i]));
+            v := copy(t[i], 7, length(t[i]));
             break;
           end;
   {$ELSEif Defined(MsWindows)}
-          if ar[i].StartsWith('winos:') then
+          if t[i].StartsWith('winos:') then
           begin
-            v := copy(ar[i], 7, length(ar[i]));
+            v := copy(t[i], 7, length(t[i]));
             break;
           end;
   {$ENDIF}

@@ -27,6 +27,7 @@ type
     FBdPathPath: String;
     FBlog,
     FDeleteFile,
+    FShowStats,
     FHighPerf: Boolean;
     Fcwebp,
     Funrar,
@@ -60,6 +61,7 @@ type
     property WebpQuality : Integer read FWebpQuality write FWebpQuality;
     property DeleteFile : Boolean read FDeleteFile write FDeleteFile;
     property DoAlbumart : Boolean read FAlbumArt write FAlbumart;
+    property ShowStats : Boolean read FShowStats write FShowStats;
   end;
 
 implementation

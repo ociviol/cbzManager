@@ -19,13 +19,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="313"/>
-        <CursorPos Y="308"/>
+        <TopLine Value="1414"/>
+        <CursorPos X="30" Y="1436"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="3">
-          <Item0 Y="443"/>
-          <Item1 X="37" Y="907" ID="2"/>
-          <Item2 X="3" Y="1369" ID="1"/>
+          <Item0 Y="456"/>
+          <Item1 X="37" Y="962" ID="2"/>
+          <Item2 X="3" Y="1432" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -37,7 +37,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="25"/>
+        <TopLine Value="13"/>
         <CursorPos X="18" Y="52"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
@@ -119,8 +119,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
         <EditorIndex Value="15"/>
-        <TopLine Value="307"/>
-        <CursorPos X="19" Y="421"/>
+        <TopLine Value="28"/>
+        <CursorPos X="16" Y="51"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit10>
@@ -139,8 +139,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="73"/>
-        <CursorPos X="22" Y="95"/>
+        <TopLine Value="47"/>
+        <CursorPos X="56" Y="64"/>
         <UsageCount Value="229"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -153,7 +153,7 @@
         <UnitName Value="uLoadReport"/>
         <EditorIndex Value="18"/>
         <CursorPos X="5" Y="7"/>
-        <UsageCount Value="177"/>
+        <UsageCount Value="178"/>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
@@ -166,7 +166,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="20"/>
         <CursorPos X="70" Y="41"/>
-        <UsageCount Value="106"/>
+        <UsageCount Value="107"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit14>
@@ -513,124 +513,124 @@
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="../../../../lazarus/lcl/include/custombitmap.inc"/>
-        <Caret Line="183" TopLine="164"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="331" TopLine="317"/>
       </Position1>
       <Position2>
-        <Filename Value="../../../../lazarus/lcl/include/custombitmap.inc"/>
-        <Caret Line="503" TopLine="471"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="345" TopLine="317"/>
       </Position2>
       <Position3>
-        <Filename Value="../../../../lazarus/lcl/include/rasterimage.inc"/>
-        <Caret Line="518" TopLine="500"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="331" TopLine="317"/>
       </Position3>
       <Position4>
-        <Filename Value="webp.pas"/>
-        <Caret Line="435" TopLine="416"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="345" TopLine="317"/>
       </Position4>
       <Position5>
-        <Filename Value="webp.pas"/>
-        <Caret Line="436" TopLine="416"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="331" TopLine="317"/>
       </Position5>
       <Position6>
-        <Filename Value="../../../../lazarus/lcl/include/rasterimage.inc"/>
-        <Caret Line="839" TopLine="821"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="345" TopLine="317"/>
       </Position6>
       <Position7>
-        <Filename Value="webp.pas"/>
-        <Caret Line="436" TopLine="416"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="331" TopLine="317"/>
       </Position7>
       <Position8>
-        <Filename Value="webp.pas"/>
-        <Caret Line="441" TopLine="416"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="345" TopLine="317"/>
       </Position8>
       <Position9>
-        <Filename Value="webp.pas"/>
-        <Caret Line="444" TopLine="416"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="347" TopLine="319"/>
       </Position9>
       <Position10>
-        <Filename Value="webp.pas"/>
-        <Caret Line="445" TopLine="416"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="308" TopLine="312"/>
       </Position10>
       <Position11>
-        <Filename Value="webp.pas"/>
-        <Caret Line="449" TopLine="420"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="309" TopLine="309"/>
       </Position11>
       <Position12>
-        <Filename Value="webp.pas"/>
-        <Caret Line="450" TopLine="421"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="308" TopLine="308"/>
       </Position12>
       <Position13>
-        <Filename Value="webp.pas"/>
-        <Caret Line="451" TopLine="422"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="309" TopLine="309"/>
       </Position13>
       <Position14>
         <Filename Value="main.pas"/>
-        <Caret Line="1353" Column="46" TopLine="1339"/>
+        <Caret Line="314" TopLine="314"/>
       </Position14>
       <Position15>
         <Filename Value="main.pas"/>
-        <Caret Line="261" Column="16" TopLine="246"/>
+        <Caret Line="315" TopLine="315"/>
       </Position15>
       <Position16>
         <Filename Value="main.pas"/>
-        <Caret Line="318" TopLine="304"/>
+        <Caret Line="316" TopLine="316"/>
       </Position16>
       <Position17>
         <Filename Value="main.pas"/>
-        <Caret Line="330" TopLine="311"/>
+        <Caret Line="315" TopLine="315"/>
       </Position17>
       <Position18>
         <Filename Value="main.pas"/>
-        <Caret Line="318" TopLine="311"/>
+        <Caret Line="317" TopLine="317"/>
       </Position18>
       <Position19>
         <Filename Value="main.pas"/>
-        <Caret Line="330" TopLine="311"/>
+        <Caret Line="398" Column="41" TopLine="377"/>
       </Position19>
       <Position20>
         <Filename Value="main.pas"/>
-        <Caret Line="331" TopLine="311"/>
+        <Caret Line="1387" TopLine="1369"/>
       </Position20>
       <Position21>
-        <Filename Value="main.pas"/>
-        <Caret Line="345" TopLine="317"/>
+        <Filename Value="uconfig.pas"/>
+        <Caret Line="64" Column="56" TopLine="47"/>
       </Position21>
       <Position22>
         <Filename Value="main.pas"/>
-        <Caret Line="331" TopLine="317"/>
+        <Caret Line="1387" Column="27" TopLine="1369"/>
       </Position22>
       <Position23>
         <Filename Value="main.pas"/>
-        <Caret Line="345" TopLine="317"/>
+        <Caret Line="1388" Column="42" TopLine="1369"/>
       </Position23>
       <Position24>
         <Filename Value="main.pas"/>
-        <Caret Line="331" TopLine="317"/>
+        <Caret Line="401" Column="43" TopLine="380"/>
       </Position24>
       <Position25>
         <Filename Value="main.pas"/>
-        <Caret Line="345" TopLine="317"/>
+        <Caret Line="826" TopLine="813"/>
       </Position25>
       <Position26>
         <Filename Value="main.pas"/>
-        <Caret Line="331" TopLine="317"/>
+        <Caret Line="827" Column="82" TopLine="809"/>
       </Position26>
       <Position27>
         <Filename Value="main.pas"/>
-        <Caret Line="345" TopLine="317"/>
+        <Caret Line="855" Column="62" TopLine="838"/>
       </Position27>
       <Position28>
         <Filename Value="main.pas"/>
-        <Caret Line="331" TopLine="317"/>
+        <Caret Line="821" Column="16" TopLine="808"/>
       </Position28>
       <Position29>
         <Filename Value="main.pas"/>
-        <Caret Line="345" TopLine="317"/>
+        <Caret Line="1435" Column="15" TopLine="1414"/>
       </Position29>
       <Position30>
         <Filename Value="main.pas"/>
-        <Caret Line="347" TopLine="319"/>
+        <Caret Line="716" Column="30" TopLine="697"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -639,27 +639,27 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="7">
+    <BreakPoints Count="8">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="659"/>
+        <Line Value="672"/>
       </Item1>
       <Item2>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="1158"/>
+        <Line Value="1213"/>
       </Item2>
       <Item3>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="1307"/>
+        <Line Value="1362"/>
       </Item3>
       <Item4>
         <Kind Value="bpkSource"/>
@@ -689,6 +689,13 @@
         <Source Value="webp.pas"/>
         <Line Value="434"/>
       </Item7>
+      <Item8>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="1432"/>
+      </Item8>
     </BreakPoints>
     <Watches Count="10">
       <Item1>

@@ -30,6 +30,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionShowStats: TAction;
     ActionSelectAll: TAction;
     ActionRenameFile: TAction;
     ActionAppend: TAction;
@@ -67,6 +68,10 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
+    Label5: TLabel;
+    lbConvThreads: TListBox;
+    lblFilesInQueue: TLabel;
+    lbQueue: TListBox;
     MainMenu1: TMainMenu;
     memoLog: TMemo;
     MenuItem1: TMenuItem;
@@ -95,6 +100,7 @@ type
     MenuItem32: TMenuItem;
     MenuItem33: TMenuItem;
     MenuItem34: TMenuItem;
+    MenuItem35: TMenuItem;
     N11: TMenuItem;
     N10: TMenuItem;
     N9: TMenuItem;
@@ -121,10 +127,12 @@ type
     mnuExit: TMenuItem;
     mnuFile: TMenuItem;
     Panel1: TPanel;
+    Panel2: TPanel;
     PanelCrop: TPanel;
     pnlProgress: TPanel;
     Panel3: TPanel;
     pnlimgName: TPanel;
+    pnlStats: TPanel;
     PopupMenu1: TPopupMenu;
     PopupMenu2: TPopupMenu;
     PopupMenu3: TPopupMenu;
@@ -135,6 +143,7 @@ type
     speRight: TSpinEdit;
     speTop: TSpinEdit;
     Splitter1: TSplitter;
+    Timerstats: TTimer;
     TreeView1: TTreeView;
     procedure ActionAppendExecute(Sender: TObject);
     procedure ActionChooseFolderExecute(Sender: TObject);
@@ -154,6 +163,7 @@ type
     procedure ActionRot90Execute(Sender: TObject);
     procedure ActionRotm90Execute(Sender: TObject);
     procedure ActionSelectAllExecute(Sender: TObject);
+    procedure ActionShowStatsExecute(Sender: TObject);
     procedure ActionSplitImageExecute(Sender: TObject);
     procedure ActionUndoAllExecute(Sender: TObject);
     procedure ActionUndoExecute(Sender: TObject);
@@ -185,6 +195,7 @@ type
     procedure speLeftChange(Sender: TObject);
     procedure speRightChange(Sender: TObject);
     procedure speTopChange(Sender: TObject);
+    procedure TimerstatsTimer(Sender: TObject);
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
     procedure TreeView1CustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
       State: TCustomDrawState; var DefaultDraw: Boolean);
@@ -386,6 +397,8 @@ begin
     Height := FConfig.WHeight;
   if FConfig.WTreeViewWidth <> 0 then
     TreeView1.Width := FConfig.WTreeViewWidth;
+  pnlStats.Visible := FConfig.ShowStats;
+  Timerstats.Enabled:=FConfig.ShowStats;
   // start logger
   FLog := GetILog(
 {$if defined(Darwin) or defined(Linux)}
@@ -803,6 +816,48 @@ procedure TMainFrm.speTopChange(Sender: TObject);
 begin
   Shape1.Top := speTop.Value;
   speBottom.MaxValue:=(Image1.top+(Image1.DestRect.Bottom - Image1.DestRect.Top))-shape1.top;
+end;
+
+procedure TMainFrm.TimerstatsTimer(Sender: TObject);
+var
+  i, nbZ, nbR, nbP, nbIn, nbOut: Integer;
+  lst: TStringlist;
+begin
+  FJobpool.Stats(nbZ, nbR, nbP);
+  lblFilesInQueue.Caption := format('Files to process : Zip:%d   Rar:%d   Pdf:%d', [nbZ, nbR, nbP]);
+  with lbQueue, Items do
+  begin
+    BeginUpdate;
+    try
+      if count <> FJobpool.count then
+      begin
+        Clear;
+        lst := FJobpool.JobFileNames;
+        try
+          Items.Assign(lst);
+        finally
+          lst.Free;
+        end;
+      end;
+    finally
+      EndUpdate;
+    end;
+  end;
+
+  with lbConvThreads.Items do
+  begin
+    BeginUpdate;
+    try
+      Clear;
+      for i := 0 to FThreadDataPool.PoolSize - 1 do
+      begin
+        FThreadDataPool.Pool[i].Stats(nbIn, nbOut);
+        Add(format('Thread %d - Images awaiting encoding :%d', [i + 1, nbIn]));
+      end;
+    finally
+      EndUpdate;
+    end;
+  end;
 end;
 
 procedure TMainFrm.AfterCellSelect(data : int64);
@@ -1370,6 +1425,15 @@ begin
       Selected[i] := true;
     Invalidate;
   end;
+end;
+
+procedure TMainFrm.ActionShowStatsExecute(Sender: TObject);
+begin
+  FConfig.ShowStats := not FConfig.ShowStats;
+  pnlStats.Visible:=FConfig.ShowStats;
+  Timerstats.Enabled:=FConfig.ShowStats;
+  FConfig.Save(FConfigFile);
+  Flog.Log('Config saved.');
 end;
 
 procedure TMainFrm.ActionSplitImageExecute(Sender: TObject);

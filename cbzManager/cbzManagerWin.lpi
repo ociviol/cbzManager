@@ -17,8 +17,8 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <MinorVersionNr Value="9"/>
-      <BuildNr Value="160"/>
+      <MajorVersionNr Value="1"/>
+      <BuildNr Value="1"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable LegalCopyright="Ollivier Civiol 2019" ProductName="cbzManager" InternalName="cbzManager" Comments="Comic books manager" FileDescription="Comic books manager" OriginalFilename="cbzManager" CompanyName="Ollivier Civiol"/>
     </VersionInfo>

@@ -448,7 +448,7 @@ begin
   if TThreadCheckVersion(Sender).FNeedUpdate then
     if MessageDlg('A new version is available, do you want to update ?',
                   mtConfirmation, MbYesNo, 0) = MrYes then
-      OpenUrl('https://ollivierciviolsoftware.wordpress.com/');
+      OpenUrl('http://www.civiol.com/');
 end;
 
 procedure TMainFrm.SetAppCaption;

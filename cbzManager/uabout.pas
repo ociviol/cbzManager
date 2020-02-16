@@ -20,6 +20,7 @@ type
     Label1: TLabel;
     ListBox1: TListBox;
     procedure FormCreate(Sender: TObject);
+    procedure Label1Click(Sender: TObject);
   private
   public
   end;
@@ -30,6 +31,7 @@ implementation
 {$R *.lfm}
 
 uses
+  lclIntf,
   Webp,
   Utils.SoftwareVersion;
 
@@ -48,6 +50,11 @@ begin
     Listbox1.Items.Add('Internal Webp Decoder unavailable.')
   else
     Listbox1.Items.Add('Webp Decoder Version : ' + TWebpImage.WebpDecoderVersion);
+end;
+
+procedure TfrmAbout.Label1Click(Sender: TObject);
+begin
+  OpenUrl('http://www.civiol.com/');
 end;
 
 end.

@@ -1,49 +1,31 @@
 object MainFrm: TMainFrm
-  Left = 851
-  Height = 614
-  Top = 357
-  Width = 907
+  Left = 945
+  Height = 729
+  Top = 261
+  Width = 960
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 594
-  ClientWidth = 907
+  ClientHeight = 709
+  ClientWidth = 960
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
   LCLVersion = '2.0.4.0'
-  object TreeView1: TTreeView
-    Left = 0
-    Height = 425
-    Top = 0
-    Width = 286
-    Align = alLeft
-    HideSelection = False
-    PopupMenu = PopupMenu3
-    ReadOnly = True
-    RightClickSelect = True
-    SelectionFontColor = 14868449
-    ShowRoot = False
-    TabOrder = 0
-    OnChange = TreeView1Change
-    OnCustomDrawItem = TreeView1CustomDrawItem
-    Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
-    TreeLinePenStyle = psDashDot
-  end
   object Panel1: TPanel
-    Left = 291
-    Height = 425
+    Left = 274
+    Height = 540
     Top = 0
-    Width = 616
+    Width = 686
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 425
-    ClientWidth = 616
-    TabOrder = 1
+    ClientHeight = 540
+    ClientWidth = 686
+    TabOrder = 0
     object DrawGrid1: TDrawGrid
-      Left = 466
-      Height = 372
+      Left = 536
+      Height = 487
       Top = 53
       Width = 150
       Align = alRight
@@ -69,9 +51,9 @@ object MainFrm: TMainFrm
     end
     object Image1: TImage
       Left = 0
-      Height = 372
+      Height = 487
       Top = 53
-      Width = 466
+      Width = 536
       AntialiasingMode = amOn
       Align = alClient
       Center = True
@@ -83,14 +65,14 @@ object MainFrm: TMainFrm
       Left = 0
       Height = 27
       Top = 0
-      Width = 616
+      Width = 686
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 27
-      ClientWidth = 616
+      ClientWidth = 686
       TabOrder = 1
       object btnLast: TButton
-        Left = 566
+        Left = 636
         Height = 27
         Top = 0
         Width = 50
@@ -99,7 +81,7 @@ object MainFrm: TMainFrm
         TabOrder = 0
       end
       object btnFirst: TButton
-        Left = 516
+        Left = 586
         Height = 27
         Top = 0
         Width = 50
@@ -108,7 +90,7 @@ object MainFrm: TMainFrm
         TabOrder = 1
       end
       object btnHorizFlip: TButton
-        Left = 356
+        Left = 426
         Height = 27
         Top = 0
         Width = 80
@@ -117,7 +99,7 @@ object MainFrm: TMainFrm
         TabOrder = 2
       end
       object btnVertFlip: TButton
-        Left = 436
+        Left = 506
         Height = 27
         Top = 0
         Width = 80
@@ -126,7 +108,7 @@ object MainFrm: TMainFrm
         TabOrder = 3
       end
       object btnRotateRight: TButton
-        Left = 276
+        Left = 346
         Height = 27
         Top = 0
         Width = 80
@@ -135,7 +117,7 @@ object MainFrm: TMainFrm
         TabOrder = 4
       end
       object btnRotateLeft: TButton
-        Left = 196
+        Left = 266
         Height = 27
         Top = 0
         Width = 80
@@ -147,7 +129,7 @@ object MainFrm: TMainFrm
         Left = 0
         Height = 27
         Top = 0
-        Width = 196
+        Width = 266
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 6
@@ -167,10 +149,10 @@ object MainFrm: TMainFrm
       Left = 0
       Height = 26
       Top = 27
-      Width = 616
+      Width = 686
       Align = alTop
       ClientHeight = 26
-      ClientWidth = 616
+      ClientWidth = 686
       TabOrder = 2
       Visible = False
       object Label1: TLabel
@@ -250,7 +232,7 @@ object MainFrm: TMainFrm
         TabOrder = 3
       end
       object btnCrop: TButton
-        Left = 465
+        Left = 535
         Height = 24
         Top = 1
         Width = 75
@@ -260,7 +242,7 @@ object MainFrm: TMainFrm
         TabOrder = 4
       end
       object btnCancel: TButton
-        Left = 540
+        Left = 610
         Height = 24
         Top = 1
         Width = 75
@@ -274,30 +256,106 @@ object MainFrm: TMainFrm
   object pnlProgress: TPanel
     Left = 0
     Height = 50
-    Top = 544
-    Width = 907
+    Top = 659
+    Width = 960
     Align = alBottom
     BevelOuter = bvNone
-    TabOrder = 2
+    TabOrder = 1
   end
   object Splitter1: TSplitter
-    Left = 286
-    Height = 425
+    Left = 269
+    Height = 540
     Top = 0
     Width = 5
   end
   object memoLog: TMemo
     Left = 0
     Height = 119
-    Top = 425
-    Width = 907
+    Top = 540
+    Width = 960
     Align = alBottom
     Lines.Strings = (
       ''
     )
     ScrollBars = ssAutoBoth
-    TabOrder = 4
+    TabOrder = 3
     Visible = False
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 540
+    Top = 0
+    Width = 269
+    Align = alLeft
+    Caption = 'Panel2'
+    ClientHeight = 540
+    ClientWidth = 269
+    TabOrder = 4
+    object TreeView1: TTreeView
+      Left = 1
+      Height = 359
+      Top = 1
+      Width = 286
+      Align = alLeft
+      HideSelection = False
+      PopupMenu = PopupMenu3
+      ReadOnly = True
+      RightClickSelect = True
+      SelectionFontColor = 14868449
+      ShowRoot = False
+      TabOrder = 0
+      OnChange = TreeView1Change
+      OnCustomDrawItem = TreeView1CustomDrawItem
+      Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
+      TreeLinePenStyle = psDashDot
+    end
+    object pnlStats: TPanel
+      Left = 1
+      Height = 179
+      Top = 360
+      Width = 267
+      Align = alBottom
+      BevelInner = bvLowered
+      ClientHeight = 179
+      ClientWidth = 267
+      TabOrder = 1
+      Visible = False
+      object lblFilesInQueue: TLabel
+        Left = 8
+        Height = 1
+        Top = 8
+        Width = 1
+        ParentColor = False
+      end
+      object Label5: TLabel
+        Left = 8
+        Height = 15
+        Top = 29
+        Width = 198
+        Caption = 'Files in queue (right click to remove) :'
+        ParentColor = False
+      end
+      object lbConvThreads: TListBox
+        Left = 2
+        Height = 55
+        Top = 122
+        Width = 263
+        Align = alBottom
+        ItemHeight = 0
+        TabOrder = 0
+      end
+      object lbQueue: TListBox
+        Left = 2
+        Height = 74
+        Top = 48
+        Width = 263
+        Align = alBottom
+        ItemHeight = 0
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+      end
+    end
   end
   object MainMenu1: TMainMenu
     left = 89
@@ -330,6 +388,10 @@ object MainFrm: TMainFrm
       object mnuConfig: TMenuItem
         Caption = 'Config'
         OnClick = mnuConfigClick
+      end
+      object MenuItem35: TMenuItem
+        Action = ActionShowStats
+        AutoCheck = True
       end
       object N9: TMenuItem
         Caption = '-'
@@ -555,6 +617,10 @@ object MainFrm: TMainFrm
       Caption = 'Select All'
       OnExecute = ActionSelectAllExecute
     end
+    object ActionShowStats: TAction
+      Caption = 'Show Stats'
+      OnExecute = ActionShowStatsExecute
+    end
   end
   object PopupMenu2: TPopupMenu
     left = 508
@@ -575,5 +641,10 @@ object MainFrm: TMainFrm
     object MenuItem33: TMenuItem
       Action = ActionRenameFile
     end
+  end
+  object Timerstats: TTimer
+    OnTimer = TimerstatsTimer
+    left = 170
+    top = 204
   end
 end

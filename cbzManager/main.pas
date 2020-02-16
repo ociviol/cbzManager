@@ -296,15 +296,6 @@ uses
   Utils.ZipFile, Utils.Graphics,
   uLoadReport, uAbout, uFileCleaner;
 
-const
-//  CS_CONFIG = 'config';
-{$if defined(Darwin) or defined(Linux)}
-  CS_CONFIG_PATH = '.config/cbzManager';
-  CS_CONFIG_JSON = '/config.json';
-{$else}
-  CS_CONFIG_PATH = 'cbzManager';
-{$endif}
-
 { TThreadCheckVersion }
 
 constructor TThreadCheckVersion.Create(aTerminate: TNotifyEvent);

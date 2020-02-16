@@ -5,7 +5,7 @@ object MainFrm: TMainFrm
   Width = 960
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 709
+  ClientHeight = 706
   ClientWidth = 960
   Menu = MainMenu1
   OnClose = FormClose
@@ -15,17 +15,17 @@ object MainFrm: TMainFrm
   LCLVersion = '2.0.4.0'
   object Panel1: TPanel
     Left = 274
-    Height = 540
+    Height = 537
     Top = 0
     Width = 686
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 540
+    ClientHeight = 537
     ClientWidth = 686
     TabOrder = 0
     object DrawGrid1: TDrawGrid
       Left = 536
-      Height = 487
+      Height = 484
       Top = 53
       Width = 150
       Align = alRight
@@ -51,7 +51,7 @@ object MainFrm: TMainFrm
     end
     object Image1: TImage
       Left = 0
-      Height = 487
+      Height = 484
       Top = 53
       Width = 536
       AntialiasingMode = amOn
@@ -159,14 +159,14 @@ object MainFrm: TMainFrm
         Left = 1
         Height = 21
         Top = 4
-        Width = 29
+        Width = 38
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Left : '
         ParentColor = False
       end
       object speLeft: TSpinEdit
-        Left = 30
+        Left = 39
         Height = 24
         Top = 1
         Width = 62
@@ -175,17 +175,17 @@ object MainFrm: TMainFrm
         TabOrder = 0
       end
       object Label2: TLabel
-        Left = 285
+        Left = 311
         Height = 21
         Top = 4
-        Width = 45
+        Width = 54
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Height : '
         ParentColor = False
       end
       object speBottom: TSpinEdit
-        Left = 330
+        Left = 365
         Height = 24
         Top = 1
         Width = 62
@@ -194,17 +194,17 @@ object MainFrm: TMainFrm
         TabOrder = 1
       end
       object Label3: TLabel
-        Left = 182
+        Left = 198
         Height = 21
         Top = 4
-        Width = 41
+        Width = 51
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Width : '
         ParentColor = False
       end
       object speRight: TSpinEdit
-        Left = 223
+        Left = 249
         Height = 24
         Top = 1
         Width = 62
@@ -213,17 +213,17 @@ object MainFrm: TMainFrm
         TabOrder = 2
       end
       object Label4: TLabel
-        Left = 92
+        Left = 101
         Height = 21
         Top = 4
-        Width = 28
+        Width = 35
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Top : '
         ParentColor = False
       end
       object speTop: TSpinEdit
-        Left = 120
+        Left = 136
         Height = 24
         Top = 1
         Width = 62
@@ -256,7 +256,7 @@ object MainFrm: TMainFrm
   object pnlProgress: TPanel
     Left = 0
     Height = 50
-    Top = 659
+    Top = 656
     Width = 960
     Align = alBottom
     BevelOuter = bvNone
@@ -264,14 +264,14 @@ object MainFrm: TMainFrm
   end
   object Splitter1: TSplitter
     Left = 269
-    Height = 540
+    Height = 537
     Top = 0
     Width = 5
   end
   object memoLog: TMemo
     Left = 0
     Height = 119
-    Top = 540
+    Top = 537
     Width = 960
     Align = alBottom
     Lines.Strings = (
@@ -283,17 +283,17 @@ object MainFrm: TMainFrm
   end
   object Panel2: TPanel
     Left = 0
-    Height = 540
+    Height = 537
     Top = 0
     Width = 269
     Align = alLeft
     Caption = 'Panel2'
-    ClientHeight = 540
+    ClientHeight = 537
     ClientWidth = 269
     TabOrder = 4
     object TreeView1: TTreeView
       Left = 1
-      Height = 359
+      Height = 356
       Top = 1
       Width = 267
       Align = alClient
@@ -312,7 +312,7 @@ object MainFrm: TMainFrm
     object pnlStats: TPanel
       Left = 1
       Height = 179
-      Top = 360
+      Top = 357
       Width = 267
       Align = alBottom
       BevelInner = bvLowered
@@ -329,9 +329,9 @@ object MainFrm: TMainFrm
       end
       object Label5: TLabel
         Left = 8
-        Height = 15
+        Height = 17
         Top = 29
-        Width = 198
+        Width = 247
         Caption = 'Files in queue (right click to remove) :'
         ParentColor = False
       end
@@ -342,7 +342,9 @@ object MainFrm: TMainFrm
         Width = 263
         Align = alBottom
         ItemHeight = 0
+        ScrollWidth = 261
         TabOrder = 0
+        TopIndex = -1
       end
       object lbQueue: TListBox
         Left = 2
@@ -352,8 +354,10 @@ object MainFrm: TMainFrm
         Align = alBottom
         ItemHeight = 0
         ParentShowHint = False
+        ScrollWidth = 261
         ShowHint = True
         TabOrder = 1
+        TopIndex = -1
       end
     end
   end

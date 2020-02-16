@@ -31,6 +31,13 @@ const
   AllowedExts  : array[0..5] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif');
   AllowedImgs  : array[0..5] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif');
 
+{$if defined(Darwin) or defined(Linux)}
+  CS_CONFIG_PATH = '.config/cbzManager';
+  CS_CONFIG_JSON = '/config.json';
+{$else}
+  CS_CONFIG_PATH = 'cbzManager';
+{$endif}
+
 type
 
   { TUndoObject }

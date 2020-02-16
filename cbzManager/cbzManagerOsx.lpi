@@ -25,7 +25,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
-      <BuildNr Value="73"/>
+      <BuildNr Value="74"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="cbzManager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManagerOsX" ProductName="cbzManager"/>
     </VersionInfo>
@@ -42,7 +42,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../Utils"/>
+            <OtherUnitFiles Value="../../Utils;../../XmlReader/XmlDoc"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -87,7 +87,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../Utils"/>
+            <OtherUnitFiles Value="../../Utils;../../XmlReader/XmlDoc"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -133,7 +133,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="14">
+    <Units Count="15">
       <Unit0>
         <Filename Value="cbzManagerOsx.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -205,6 +205,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="Utils.zipfile"/>
       </Unit13>
+      <Unit14>
+        <Filename Value="../../XmlReader/XmlDoc/uxmldoc.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -214,7 +218,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../Utils"/>
+      <OtherUnitFiles Value="../../Utils;../../XmlReader/XmlDoc"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

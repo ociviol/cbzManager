@@ -30,6 +30,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionFileCleaner: TAction;
     ActionShowStats: TAction;
     ActionSelectAll: TAction;
     ActionRenameFile: TAction;
@@ -101,6 +102,7 @@ type
     MenuItem33: TMenuItem;
     MenuItem34: TMenuItem;
     MenuItem35: TMenuItem;
+    MenuItem36: TMenuItem;
     N11: TMenuItem;
     N10: TMenuItem;
     N9: TMenuItem;
@@ -149,6 +151,7 @@ type
     procedure ActionChooseFolderExecute(Sender: TObject);
     procedure ActionCropToolExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
+    procedure ActionFileCleanerExecute(Sender: TObject);
     procedure ActionFirstExecute(Sender: TObject);
     procedure ActionHorizFlipExecute(Sender: TObject);
     procedure ActionJoinExecute(Sender: TObject);
@@ -291,7 +294,7 @@ uses
 {$endif}
   Utils.SoftwareVersion, uDataTypes,
   Utils.ZipFile, Utils.Graphics,
-  uLoadReport, uAbout;
+  uLoadReport, uAbout, uFileCleaner;
 
 const
 //  CS_CONFIG = 'config';
@@ -1147,6 +1150,16 @@ begin
       Screen.Cursor := crDefault;
     end;
   end;
+end;
+
+procedure TMainFrm.ActionFileCleanerExecute(Sender: TObject);
+begin
+  with TTFormFilenameCleanerConfig.Create(Application) do
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
 end;
 
 procedure TMainFrm.ActionChooseFolderExecute(Sender: TObject);

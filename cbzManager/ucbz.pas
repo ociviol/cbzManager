@@ -133,6 +133,7 @@ type
     class function ConvertImageToStream(const fimg : String; aFLog : ILog; aWebpQuality : Integer):TMemoryStream; overload;
     class function AllowedFile(const aFilename : String):Boolean;
     class function CleanFilename(const aFilename : String; bForce: Boolean = True):String;
+    class function FilenameCleaningConfigFile:String;
 
     procedure Open(const aFileName: string; OpenMode: TZipMode;
                    StampCache: TStringList = nil; NbCharFileName : Integer = 0); reintroduce;
@@ -215,7 +216,7 @@ uses
 {$else}
   process, Forms,
 {$endif}
-  Utils.Files, zstream;
+  Utils.Files, zstream, uXmldoc;
 
 
 { TUndoObject }
@@ -249,45 +250,39 @@ end;
 { TCleanFilename }
 
 constructor TCleanFilename.Create;
-//var
-//  Xdoc : IXmlDoc;
-//  Node : IXmlElement;
-//  i : integer;
+var
+  Node : TXmlElement;
+  i : integer;
 begin
   inherited;
   FWordList := TStringlist.Create;
-
+  {
   FRemoveDots := True;
   FWordList.Add('-');
   FWordList.Add('BD FR');
   FRemoveUnderscores := True;
   FRemoveBetweenParent := True;
-
-  {
-  XDoc := GetIXmlDoc;
-  with IXmlDoc do
-  try
-    if TFile.Exists(TCbz.FilenameCleaningConfigFile) then
-      with XDoc do
-      begin
-        LoadFromFile(TCbz.FilenameCleaningConfigFile);
-        with DocumentElement.GetNode('Config') do
-        begin
-          FRemoveDots := GetAttributeBool('RemoveDots', True);
-          FRemoveDashes := GetAttributeBool('RemoveDashes', True);
-          if FRemoveDashes then
-            FWordList.Add('-');
-          FRemoveUnderscores := GetAttributeBool('Value', True);
-          FRemoveBetweenParent := GetAttributeBool('Value', True);
-          Node := GetNode('Keywords');
-          for i := 0 to Node.NbElements - 1 do
-            FWordList.Add(Node.Elements[i].Text);
-        end;
-      end;
-  finally
-    XDoc := nil;
-  end;
   }
+
+  if FileExists(TCbz.FilenameCleaningConfigFile) then
+    with TXmlDoc.Create do
+    try
+      LoadFromFile(TCbz.FilenameCleaningConfigFile);
+      with DocumentElement.GetNode('Config') do
+      begin
+        FRemoveDots := GetAttributeBool('RemoveDots', True);
+        FRemoveDashes := GetAttributeBool('RemoveDashes', True);
+        if FRemoveDashes then
+          FWordList.Add('-');
+        FRemoveUnderscores := GetAttributeBool('Value', True);
+        FRemoveBetweenParent := GetAttributeBool('Value', True);
+        Node := GetNode('Keywords');
+        for i := 0 to Node.NbElements - 1 do
+          FWordList.Add(Node.Elements[i].Text);
+      end;
+    finally
+      Free;
+    end;
 end;
 
 destructor TCleanFilename.Destroy;
@@ -1145,7 +1140,13 @@ var
         s := Copy(s, 1, i-1).Trim.TrimRight(['-']).Trim;
     end;
     }
+    if clconfig.RemoveDots then
+      s := s.Replace('.', ' ');
     if clconfig.RemoveDashes then
+      s := s.Replace('-', ' ');
+    if clconfig.RemoveUnderscores then
+      s := s.Replace('_', ' ');
+
     begin
       s := ReplaceStr(s, ' -', '');
       s := ReplaceStr(s, '- ', '');
@@ -1207,13 +1208,10 @@ begin
   begin
     clconfig := TCleanFilename.Create;
     try
-      clconfig.WordList.Add('COMICS');
-      clconfig.WordList.Add('BDFR');
-      clconfig.WordList.Add('BD FR');
       p := ExtractFilePath(aFilename);
       e := ExtractFileExt(aFilename);
       f := ExtractFileName(aFilename);
-      f := f.Replace(e, '').Replace('.', ' ').Replace('#', '').Replace('_', ' ');
+      f := f.Replace(e, '');
       f := CleanBDFR(CleanBDFR(f));
       result := ifthen(p.Length > 0, IncludeTrailingPathDelimiter(p), '') + f.Trim + '.cbz';
     finally
@@ -1222,6 +1220,16 @@ begin
   end
   else
     result := ChangeFileExt(aFilename, '.cbz');
+end;
+
+class function TCbz.FilenameCleaningConfigFile: String;
+begin
+{$if defined(Darwin) or defined(Linux)}
+  result := expandfilename('~/') + CS_CONFIG_PATH + '/'
+{$else}
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName))
+{$endif}
+  + 'FilenameCleaningConfig.xml';
 end;
 
 class function TCbz.AllowedFile(const aFilename : String):Boolean;

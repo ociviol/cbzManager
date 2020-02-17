@@ -95,6 +95,7 @@ begin
   FWebpQuality := 75;
   FDeleteFile := False;
   FAlbumart := False;
+  FShowStats := False;
 end;
 
 class function TConfig.Load(const aFileName: String): TConfig;

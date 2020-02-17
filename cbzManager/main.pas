@@ -391,7 +391,9 @@ begin
     Height := FConfig.WHeight;
   if FConfig.WTreeViewWidth <> 0 then
     TreeView1.Width := FConfig.WTreeViewWidth;
+
   pnlStats.Visible := FConfig.ShowStats;
+  MenuItem35.Checked := FConfig.ShowStats;
   Timerstats.Enabled:=FConfig.ShowStats;
   // start logger
   FLog := GetILog(

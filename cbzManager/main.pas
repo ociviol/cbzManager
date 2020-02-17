@@ -439,7 +439,13 @@ begin
   if TThreadCheckVersion(Sender).FNeedUpdate then
     if MessageDlg('A new version is available, do you want to update ?',
                   mtConfirmation, MbYesNo, 0) = MrYes then
-      OpenUrl('http://www.civiol.com/');
+{$if defined(Darwin)}
+      OpenUrl('https://github.com/ociviol/cbzManager/blob/master/precompiled%20binairies/Mac%20OsX/cbzManagerOsx.zip');
+{$elseif defined(Linux)}
+      OpenUrl('https://github.com/ociviol/cbzManager/blob/master/precompiled%20binairies/Linux/cbzManager.zip');
+{$else}
+      OpenUrl('https://github.com/ociviol/cbzManager/blob/master/precompiled%20binairies/Windows/cbzManager.zip');
+{$endif}
 end;
 
 procedure TMainFrm.SetAppCaption;

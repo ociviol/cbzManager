@@ -826,7 +826,7 @@ var
   lst: TStringlist;
 begin
   FJobpool.Stats(nbZ, nbR, nbP);
-  lblFilesInQueue.Caption := format('Files to process : Zip:%d   Rar:%d   Pdf:%d', [nbZ, nbR, nbP]);
+  lblFilesInQueue.Caption := format('Files to process : Zip:%d   Rar:%d', [nbZ, nbR]); //    Pdf:%d', [nbZ, nbR, nbP]);
   with lbQueue, Items do
   begin
     BeginUpdate;

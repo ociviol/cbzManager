@@ -55,6 +55,7 @@ type
     ActionFirst: TAction;
     ActionLast: TAction;
     ActionList1: TActionList;
+    Addtoqueue1: TMenuItem;
     btnCancel: TButton;
     btnFirst: TButton;
     btnHorizFlip: TButton;
@@ -138,6 +139,8 @@ type
     PopupMenu1: TPopupMenu;
     PopupMenu2: TPopupMenu;
     PopupMenu3: TPopupMenu;
+    PopupMenuQueue: TPopupMenu;
+    Removefromlist1: TMenuItem;
     SelectDirectoryDialog1: TSelectDirectoryDialog;
     Shape1: TShape;
     speLeft: TSpinEdit;
@@ -171,6 +174,7 @@ type
     procedure ActionUndoAllExecute(Sender: TObject);
     procedure ActionUndoExecute(Sender: TObject);
     procedure ActionVertFlipExecute(Sender: TObject);
+    procedure Addtoqueue1Click(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnCropClick(Sender: TObject);
     procedure DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
@@ -194,6 +198,8 @@ type
     procedure mnuExitClick(Sender: TObject);
     procedure mnuSetDefaultPathClick(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
+    procedure PopupMenuQueuePopup(Sender: TObject);
+    procedure Removefromlist1Click(Sender: TObject);
     procedure speBottomChange(Sender: TObject);
     procedure speLeftChange(Sender: TObject);
     procedure speRightChange(Sender: TObject);
@@ -796,6 +802,23 @@ end;
 procedure TMainFrm.PopupMenu1Popup(Sender: TObject);
 begin
   EnableActions;
+end;
+
+procedure TMainFrm.PopupMenuQueuePopup(Sender: TObject);
+begin
+  with lbQueue do
+  begin
+    Removefromlist1.Enabled := ItemIndex >= 0;
+    if ItemIndex >= 0 then
+      Removefromlist1.Enabled := FJobpool.JobStatus[ItemIndex] = jsWaiting;
+  end;
+end;
+
+procedure TMainFrm.Removefromlist1Click(Sender: TObject);
+begin
+  with lbQueue do
+    if ItemIndex >= 0 then
+      FJobpool.DeleteJob(Items[ItemIndex]);
 end;
 
 procedure TMainFrm.speBottomChange(Sender: TObject);
@@ -1544,6 +1567,22 @@ begin
       DrawGrid1.Position := rpos;
     finally
       Screen.Cursor := crDefault;
+    end;
+  end;
+end;
+
+procedure TMainFrm.Addtoqueue1Click(Sender: TObject);
+var
+  arcType: TArcType;
+begin
+  with TOpenDialog.Create(Application) do
+  begin
+    Filter := 'Cbz files|*.cbz|Zip files|*.zip|Rar files|*.rar|Cbr files|*.cbr|Pdf files|*.pdf';
+    if Execute then
+    begin
+      arcType := TCbz.GetArcType(FileName);
+      if arcType <> arcUnknown then
+        FJobpool.AddJob(FileName, arcPdf)
     end;
   end;
 end;

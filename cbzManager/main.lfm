@@ -1,7 +1,7 @@
 object MainFrm: TMainFrm
-  Left = 589
+  Left = 786
   Height = 729
-  Top = 210
+  Top = 222
   Width = 960
   Align = alBottom
   Caption = 'cbzManager'
@@ -353,6 +353,7 @@ object MainFrm: TMainFrm
         Align = alBottom
         ItemHeight = 0
         ParentShowHint = False
+        PopupMenu = PopupMenuQueue
         ScrollWidth = 261
         ShowHint = True
         TabOrder = 1
@@ -655,5 +656,18 @@ object MainFrm: TMainFrm
     OnTimer = TimerstatsTimer
     left = 170
     top = 204
+  end
+  object PopupMenuQueue: TPopupMenu
+    OnPopup = PopupMenuQueuePopup
+    left = 160
+    top = 416
+    object Removefromlist1: TMenuItem
+      Caption = 'Remove from list'
+      OnClick = Removefromlist1Click
+    end
+    object Addtoqueue1: TMenuItem
+      Caption = 'Add to queue'
+      OnClick = Addtoqueue1Click
+    end
   end
 end

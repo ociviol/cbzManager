@@ -276,8 +276,11 @@ type
   TThreadCheckVersion = Class(TThread)
   protected
     FNeedUpdate : Boolean;
+    FUpdateVersion : String;
+    Flog : ILog;
   public
-    constructor Create(aTerminate : TNotifyEvent);
+    constructor Create(Log : ILog; aTerminate : TNotifyEvent);
+    destructor Destroy; override;
     procedure Execute; override;
   end;
 
@@ -294,7 +297,8 @@ implementation
 
 uses
   Config, LclIntf,
-  Utils.Strings, frmwait, fpHttpClient,
+  Utils.Strings, frmwait,
+  fpHttpClient, fpopenssl, openssl,
 {$if defined(Darwin) or defined(Linux)}
   unix,
 {$endif}
@@ -302,21 +306,28 @@ uses
   Utils.ZipFile, Utils.Graphics,
   uLoadReport, uAbout, uFileCleaner;
 
+
 { TThreadCheckVersion }
 
-constructor TThreadCheckVersion.Create(aTerminate: TNotifyEvent);
+constructor TThreadCheckVersion.Create(Log : ILog; aTerminate: TNotifyEvent);
 begin
+  Flog := Log;
   FNeedUpdate := false;
   OnTerminate := aTerminate;
   FreeOnTerminate:=True;
   inherited Create(false);
 end;
 
+destructor TThreadCheckVersion.Destroy;
+begin
+  Flog := nil;
+  inherited Destroy;
+end;
+
 procedure TThreadCheckVersion.Execute;
 var
   t : TStringList;
   i : integer;
-  v : string;
 begin
   try
     with TFPHTTPClient.Create(nil) do
@@ -329,24 +340,24 @@ begin
   {$if defined(Darwin)}
           if t[i].StartsWith('osx:') then
           begin
-            v := copy(t[i], 5, length(t[i]));
+            FUpdateVersion := copy(t[i], 5, length(t[i]));
             break;
           end;
   {$ELSEif Defined(Linux)}
           if t[i].StartsWith('linux:') then
           begin
-            v := copy(t[i], 7, length(t[i]));
+            FUpdateVersion := copy(t[i], 7, length(t[i]));
             break;
           end;
   {$ELSEif Defined(MsWindows)}
           if t[i].StartsWith('winos:') then
           begin
-            v := copy(t[i], 7, length(t[i]));
+            FUpdateVersion := copy(t[i], 7, length(t[i]));
             break;
           end;
   {$ENDIF}
-          if v <> '' then
-            FNeedUpdate := CompareVersion(GetFileVersion, v) > 0;
+          if FUpdateVersion <> '' then
+            FNeedUpdate := CompareVersion(GetFileVersion, FUpdateVersion) > 0;
       finally
         t.Free;
       end;
@@ -354,6 +365,8 @@ begin
       Free;
     end;
   except
+    on e: Exception do
+      Flog.Log('TThreadCheckVersion.Execute : Error : ' + E.Message);
   end;
 
   Terminate;
@@ -396,7 +409,7 @@ begin
   if FConfig.WHeight <> 0 then
     Height := FConfig.WHeight;
   if FConfig.WTreeViewWidth <> 0 then
-    TreeView1.Width := FConfig.WTreeViewWidth;
+    Panel2.Width := FConfig.WTreeViewWidth;
 
   pnlStats.Visible := FConfig.ShowStats;
   MenuItem35.Checked := FConfig.ShowStats;
@@ -439,21 +452,23 @@ begin
     FillTreeView(FConfig.BdPathPath);
 
   SetAppCaption;
-  TThreadCheckVersion.Create(@CheckVersionTerminate);
+  TThreadCheckVersion.Create(FLog, @CheckVersionTerminate);
 end;
 
 procedure TMainFrm.CheckVersionTerminate(Sender : TObject);
 begin
   if TThreadCheckVersion(Sender).FNeedUpdate then
-    if MessageDlg('A new version is available, do you want to update ?',
+    if MessageDlg('A new version is available, do you want to download the update ?',
                   mtConfirmation, MbYesNo, 0) = MrYes then
+    begin
 {$if defined(Darwin)}
-      OpenUrl('https://github.com/ociviol/cbzManager/blob/master/precompiled%20binairies/Mac%20OsX/cbzManagerOsx.zip');
+      OpenUrl('https://filedn.com/ld6vdapF8EELCrRa1IVpQwu/cbzManager/OpenSource/cbzmanagerOsX.zip');
 {$elseif defined(Linux)}
-      OpenUrl('https://github.com/ociviol/cbzManager/blob/master/precompiled%20binairies/Linux/cbzManager.zip');
+      OpenUrl('https://filedn.com/ld6vdapF8EELCrRa1IVpQwu/cbzManager/OpenSource/cbzmanagerLinux.zip');
 {$else}
-      OpenUrl('https://github.com/ociviol/cbzManager/blob/master/precompiled%20binairies/Windows/cbzManager.zip');
+      OpenUrl('https://filedn.com/ld6vdapF8EELCrRa1IVpQwu/cbzManager/OpenSource/cbzmanagerWin.zip');
 {$endif}
+    end;
 end;
 
 procedure TMainFrm.SetAppCaption;
@@ -718,7 +733,7 @@ begin
   FConfig.WTop := Top;
   FConfig.WWidth := Width;
   FConfig.WHeight := Height;
-  FConfig.WTreeViewWidth := TreeView1.Width;
+  FConfig.WTreeViewWidth := Panel2.Width;
 
   FConfig.Save(FConfigFile);
   Flog.Log('Config saved.');

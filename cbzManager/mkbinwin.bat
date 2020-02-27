@@ -3,7 +3,7 @@ C:\lazarus\fpc\3.0.4\bin\x86_64-win64\fpc.exe -B -Twin64 -MObjFPC -Scghi -CX -O3
 
 copy .\Bin-Win\*.* "..\precompiled binairies\Windows"
 cd "..\precompiled binairies\Windows"
-del cbzManager.zip
-7z a -tzip -sdel cbzManager.zip *.exe *.dll
+del cbzManagerWin.zip
+7z a -tzip -sdel cbzManagerWin.zip *.exe *.dll
 del *.exe *.dll
 pause

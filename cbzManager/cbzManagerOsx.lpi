@@ -25,7 +25,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="2"/>
+      <BuildNr Value="3"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="cbzManager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManagerOsX" ProductName="cbzManager"/>
     </VersionInfo>

@@ -98,7 +98,7 @@ end;
 
 class function TConfig.Load(const aFileName: String): TConfig;
 begin
-  result := TConfig(TJsonObject.Load(aFilename, TConfig));
+  result := TConfig(TJsonObject.Load(aFilename, TConfig.Create));
 end;
 
 

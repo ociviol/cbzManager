@@ -397,9 +397,18 @@ begin
   FConfigFile := FConfigFile + CS_CONFIG_JSON;
 {$else}
   FConfigFile := ChangeFileExt(Application.ExeName, '.json');
+  if not FileExists(FConfigFile) then
+    FConfigFile := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'config.json';
 {$endif}
   // load config
   FConfig := TConfig.Load(FConfigFile);
+{$if Defined(MsWindows)}
+  if FConfigFile = ChangeFileExt(Application.ExeName, '.json') then
+  begin
+    DeleteFile(FConfigFile);
+    FConfigFile := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'config.json';
+  end;
+{$endif}
   if FConfig.Wleft <> 0 then
     left := FConfig.Wleft;
   if FConfig.WTop <> 0 then

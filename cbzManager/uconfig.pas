@@ -10,18 +10,17 @@ unit uConfig;
 interface
 
 uses
-  Classes, SysUtils,
+  Classes, SysUtils, utils.Json
 {$if defined(Linux) or defined(Darwin)}
-  cthreads,
+  cthreads
 {$endif}
-  fpjson, fpjsonrtti;
+  ;
 
 type
 
   { TConfig }
 
-  TConfig = Class(Tpersistent)
-
+  TConfig = Class(TJsonObject)
   private
     FAlbumArt: Boolean;
     FBdPathPath: String;
@@ -43,7 +42,6 @@ type
   public
     constructor Create;
     class function Load(const aFileName : String):TConfig;
-    procedure Save(const aFileName : String);
   published
     property Wleft : Integer read FWleft write FWleft;
     property WTop : Integer read FWTop write FWTop;
@@ -99,53 +97,10 @@ begin
 end;
 
 class function TConfig.Load(const aFileName: String): TConfig;
-var
-  DeStreamer: TJSONDeStreamer;
-  t : TStringList;
 begin
-  result := TConfig.Create;
-  try
-    DeStreamer := TJSONDeStreamer.Create(nil);
-    try
-      if FileExists(aFileName) then
-      begin
-        t := TStringList.Create;
-        try
-          t.LoadFromFile(aFileName);
-          DeStreamer.JSONToObject(t[0], result);
-        finally
-          t.Free;
-        end
-      end;
-    finally
-      DeStreamer.Free;
-    end;
-  except
-  end;
+  result := TConfig(TJsonObject.Load(aFilename, TConfig));
 end;
 
-procedure TConfig.Save(const aFileName: String);
-var
-  Streamer: TJSONStreamer;
-  s : String;
-  t : TStringList;
-begin
-  Streamer := TJSONStreamer.Create(nil);
-  try
-    Streamer.Options := Streamer.Options + [jsoTStringsAsArray]; // Save strings as JSON array
-    // JSON convert and output
-    s := Streamer.ObjectToJSONString(Self);
-    t := TStringList.Create;
-    try
-      t.add(s);
-      t.SaveToFile(aFileName);
-    finally
-      t.free;
-    end;
-  finally
-    Streamer.Free;
-  end;
-end;
 
 end.
 

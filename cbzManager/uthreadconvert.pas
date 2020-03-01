@@ -104,7 +104,7 @@ begin
               Flog.Log('ThreadConvert skipped image (null stream) : ' + IntTostr(Rec.Index));
 
             FDataPool.Pool[i].Put(Rec);
-            Sleep(50);
+            Sleep(100);
           except
             on e: Exception do
             begin
@@ -115,7 +115,7 @@ begin
           end;
         end;
 
-        Sleep(100);
+        Sleep(250);
       end;
 
       if i >= FDataPool.PoolSize then

@@ -298,7 +298,7 @@ implementation
 uses
   Config, LclIntf,
   Utils.Strings, frmwait,
-  fpHttpClient, fpopenssl, openssl,
+  fpHttpClient, //fpopenssl, openssl,
 {$if defined(Darwin) or defined(Linux)}
   unix,
 {$endif}

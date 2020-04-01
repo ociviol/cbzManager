@@ -659,7 +659,7 @@ initialization
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplib, 'WebPEncodeBGRA'));
 {$endif}
   end;
-(*
+
 {$ifdef Mswindows}
   HWebplibenc := LoadLibrary(cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}clibwebpenc);
   if HWebplibenc <> 0 then
@@ -672,7 +672,7 @@ initialization
     PWebpEncodeBGRA := TWebpEncodeBGRA(GetProcedureAddress(HWebplibenc, 'WebPEncodeBGRA'));
   end;
 {$endif}
- *)
+
 
 finalization
   if HWebplib <> 0 then

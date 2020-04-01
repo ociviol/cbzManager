@@ -1243,6 +1243,9 @@ class function TCbz.AllowedFile(const aFilename : String):Boolean;
 var
   ext : String;
 begin
+  if ExtractFilename(aFilename)[1] = '.' then
+    Exit(False);
+
   ext := ExtractFileExt(aFilename);
   result := AllowedExt(ext);
 end;

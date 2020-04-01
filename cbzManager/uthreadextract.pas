@@ -292,10 +292,14 @@ begin
               Exit;
             end;
 
-            FPoolData.AddItem2(nil, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
-            FCur := i;
-            FMsg := '(' + ExtractFileName(FFilename) + ') Loading images ...';
-            Synchronize(@DoProgress);
+            if Tcbz.AllowedFile(FFiles[i]) then
+            begin
+              FPoolData.AddItem2(nil, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
+              FCur := i;
+              FMsg := '(' + ExtractFileName(FFilename) + ') Loading images ...';
+              Synchronize(@DoProgress);
+              Sleep(10);
+            end;
           end;
         end;
 

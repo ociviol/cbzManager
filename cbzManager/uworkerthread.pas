@@ -12,7 +12,7 @@ uses
   SysUtils,
   Classes, Graphics,
   uCbz, Utils.Logger, uDataItem,
-  uDataTypes
+  uDataTypes, Utils.Searchfiles
 {$if defined(Darwin) or defined(Linux)}
   ,cthreads
 {$endif}
@@ -57,9 +57,8 @@ type
     property JobStatus[Index:Integer] : TJobStatus read GetJobStatus;
   End;
 
-  TCbzWorkerThread = Class(TThread)
+  TCbzWorkerThread = Class(TCancellableThread)
   private
-    FCanceled,
     FTimeOut: Boolean;
     FProgress : TCbzProgressEvent;
     FAddFile : TAddFileProc;
@@ -96,7 +95,6 @@ type
                        Results : TStrings; OnBadFile : TNotifyEvent); reintroduce;
     destructor Destroy; override;
     procedure Execute; override;
-    procedure Cancel(Sender : TObject);
     procedure Terminate; reintroduce;
     property CurJob : TJobPoolRec read FCurJob;
   End;
@@ -112,6 +110,8 @@ uses
   //, uStrings
   ;
 
+
+{ TJobPool }
 
 constructor TJobPool.Create(Log : ILog);
 begin
@@ -629,21 +629,6 @@ end;
 procedure TCbzWorkerThread.DoDisableButton;
 begin
   TButton(FSender).Enabled := false;
-end;
-
-procedure TCbzWorkerThread.Cancel(Sender : TObject);
-begin
-  FJobPool.FSync.LockList;
-  try
-    FCanceled := true;
-  finally;
-    FJobPool.FSync.UnLockList;
-  end;
-  FSender := Sender;
-  if Assigned(FSender) then
-    Synchronize(@DoDisableButton);
-  if Suspended then
-    Resume;
 end;
 
 procedure TCbzWorkerThread.DoAddFile;

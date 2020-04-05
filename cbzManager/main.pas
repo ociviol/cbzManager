@@ -2151,7 +2151,7 @@ begin
             Width := Self.ClientWidth div 4;
           end;
 
-          if (Sender is TCbzWorkerThread) {or (Sender is TThreadDoOperations)} then
+          if (Sender is TCancellableThread) then
           begin
             FButton := TButton.Create(Self);
             with FButton do
@@ -2161,8 +2161,8 @@ begin
               Left := FProgressBar.Left + FProgressBar.Width + 10;
               Width := Canvas.TextWidth(Caption) + 20;
               Parent := FPanel;
-              if (Sender is TCbzWorkerThread) then
-                OnClick := @TCbzWorkerThread(Sender).Cancel;
+              if (Sender is TCancellableThread) then
+                OnClick := @TCancellableThread(Sender).Cancel;
               //else if (Sender is TThreadDoOperations) then
               //  OnClick := TThreadDoOperations(Sender).Cancel
             end;

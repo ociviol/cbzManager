@@ -17,8 +17,9 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="2137"/>
-        <CursorPos Y="2156"/>
+        <CursorPos Y="2154"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="3">
           <Item0 Y="497"/>
@@ -53,8 +54,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="1772"/>
-        <CursorPos Y="1789"/>
+        <TopLine Value="1898"/>
+        <CursorPos X="23" Y="1927"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
           <Item0 X="14" Y="1681" ID="3"/>
@@ -115,7 +116,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
         <EditorIndex Value="10"/>
-        <TopLine Value="46"/>
+        <TopLine Value="384"/>
         <CursorPos X="19" Y="60"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -494,7 +495,6 @@
       <Unit58>
         <Filename Value="../../Utils/utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <TopLine Value="79"/>
         <CursorPos Y="98"/>
@@ -617,11 +617,11 @@
       </Position28>
       <Position29>
         <Filename Value="../../Utils/utils.searchfiles.pas"/>
-        <Caret Line="98" TopLine="228"/>
+        <Caret Line="240" TopLine="229"/>
       </Position29>
       <Position30>
-        <Filename Value="../../Utils/utils.searchfiles.pas"/>
-        <Caret Line="240" TopLine="229"/>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1927" Column="23" TopLine="1898"/>
       </Position30>
     </JumpHistory>
     <RunParams>

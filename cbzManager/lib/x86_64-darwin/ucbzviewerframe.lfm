@@ -1,0 +1,410 @@
+object CbzViewerFrame: TCbzViewerFrame
+  Left = 0
+  Height = 704
+  Top = 0
+  Width = 783
+  Align = alClient
+  ClientHeight = 704
+  ClientWidth = 783
+  TabOrder = 0
+  DesignLeft = 1085
+  DesignTop = 149
+  object Panel1: TPanel
+    Left = 0
+    Height = 704
+    Top = 0
+    Width = 783
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 704
+    ClientWidth = 783
+    TabOrder = 0
+    object DrawGrid1: TDrawGrid
+      Left = 633
+      Height = 532
+      Top = 53
+      Width = 150
+      Align = alRight
+      ColCount = 1
+      DefaultColWidth = 120
+      DefaultDrawing = False
+      DefaultRowHeight = 160
+      DragMode = dmAutomatic
+      ExtendedSelect = False
+      FixedCols = 0
+      FixedRows = 0
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goThumbTracking, goSmoothScroll, goDontScrollPartCell]
+      PopupMenu = pmGrid
+      RowCount = 1
+      TabOrder = 0
+      OnDrawCell = DrawGrid1DrawCell
+      OnSelectCell = DrawGrid1SelectCell
+    end
+    object Image1: TImage
+      Left = 0
+      Height = 532
+      Top = 53
+      Width = 633
+      AntialiasingMode = amOn
+      Align = alClient
+      Center = True
+      PopupMenu = pmImage
+      Proportional = True
+      Stretch = True
+    end
+    object Panel3: TPanel
+      Left = 0
+      Height = 27
+      Top = 0
+      Width = 783
+      Align = alTop
+      BevelOuter = bvNone
+      ClientHeight = 27
+      ClientWidth = 783
+      TabOrder = 1
+      object btnLast: TButton
+        Left = 733
+        Height = 27
+        Top = 0
+        Width = 50
+        Action = ActionLast
+        Align = alRight
+        TabOrder = 0
+      end
+      object btnFirst: TButton
+        Left = 683
+        Height = 27
+        Top = 0
+        Width = 50
+        Action = ActionFirst
+        Align = alRight
+        TabOrder = 1
+      end
+      object btnHorizFlip: TButton
+        Left = 523
+        Height = 27
+        Top = 0
+        Width = 80
+        Action = ActionHorizFlip
+        Align = alRight
+        TabOrder = 2
+      end
+      object btnVertFlip: TButton
+        Left = 603
+        Height = 27
+        Top = 0
+        Width = 80
+        Action = ActionVertFlip
+        Align = alRight
+        TabOrder = 3
+      end
+      object btnRotateRight: TButton
+        Left = 443
+        Height = 27
+        Top = 0
+        Width = 80
+        Action = ActionRot90
+        Align = alRight
+        TabOrder = 4
+      end
+      object btnRotateLeft: TButton
+        Left = 363
+        Height = 27
+        Top = 0
+        Width = 80
+        Action = ActionRotm90
+        Align = alRight
+        TabOrder = 5
+      end
+      object pnlimgName: TPanel
+        Left = 0
+        Height = 27
+        Top = 0
+        Width = 363
+        Align = alClient
+        BevelOuter = bvNone
+        TabOrder = 6
+      end
+    end
+    object Shape1: TShape
+      Left = 10
+      Height = 184
+      Top = 0
+      Width = 1
+      Brush.Style = bsClear
+      Pen.Mode = pmNot
+      Pen.Style = psDashDot
+      Visible = False
+    end
+    object PanelCrop: TPanel
+      Left = 0
+      Height = 26
+      Top = 27
+      Width = 783
+      Align = alTop
+      ClientHeight = 26
+      ClientWidth = 783
+      TabOrder = 2
+      Visible = False
+      object Label1: TLabel
+        Left = 1
+        Height = 21
+        Top = 4
+        Width = 29
+        Align = alLeft
+        BorderSpacing.Top = 3
+        Caption = 'Left : '
+        ParentColor = False
+      end
+      object speLeft: TSpinEdit
+        Left = 30
+        Height = 24
+        Top = 1
+        Width = 62
+        Align = alLeft
+        TabOrder = 0
+      end
+      object Label2: TLabel
+        Left = 285
+        Height = 21
+        Top = 4
+        Width = 45
+        Align = alLeft
+        BorderSpacing.Top = 3
+        Caption = 'Height : '
+        ParentColor = False
+      end
+      object speBottom: TSpinEdit
+        Left = 330
+        Height = 24
+        Top = 1
+        Width = 62
+        Align = alLeft
+        TabOrder = 1
+      end
+      object Label3: TLabel
+        Left = 182
+        Height = 21
+        Top = 4
+        Width = 41
+        Align = alLeft
+        BorderSpacing.Top = 3
+        Caption = 'Width : '
+        ParentColor = False
+      end
+      object speRight: TSpinEdit
+        Left = 223
+        Height = 24
+        Top = 1
+        Width = 62
+        Align = alLeft
+        TabOrder = 2
+      end
+      object Label4: TLabel
+        Left = 92
+        Height = 21
+        Top = 4
+        Width = 28
+        Align = alLeft
+        BorderSpacing.Top = 3
+        Caption = 'Top : '
+        ParentColor = False
+      end
+      object speTop: TSpinEdit
+        Left = 120
+        Height = 24
+        Top = 1
+        Width = 62
+        Align = alLeft
+        TabOrder = 3
+      end
+      object btnCrop: TButton
+        Left = 632
+        Height = 24
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Crop'
+        TabOrder = 4
+      end
+      object btnCancel: TButton
+        Left = 707
+        Height = 24
+        Top = 1
+        Width = 75
+        Align = alRight
+        Caption = 'Cancel'
+        TabOrder = 5
+      end
+    end
+    object memoLog: TMemo
+      Left = 0
+      Height = 119
+      Top = 585
+      Width = 783
+      Align = alBottom
+      Lines.Strings = (
+        ''
+      )
+      ScrollBars = ssAutoBoth
+      TabOrder = 3
+      Visible = False
+    end
+  end
+  object pmGrid: TPopupMenu
+    left = 696
+    top = 272
+    object MenuItem3: TMenuItem
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem4: TMenuItem
+    end
+    object MenuItem5: TMenuItem
+    end
+    object MenuItem34: TMenuItem
+    end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem14: TMenuItem
+      Caption = 'Flip'
+      object MenuItem16: TMenuItem
+      end
+      object MenuItem15: TMenuItem
+      end
+    end
+    object MenuItem6: TMenuItem
+      Caption = 'Rotate'
+      object MenuItem7: TMenuItem
+      end
+      object MenuItem17: TMenuItem
+      end
+    end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem11: TMenuItem
+    end
+    object MenuItem13: TMenuItem
+    end
+    object N6: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem18: TMenuItem
+      Caption = 'Move'
+      object MenuItem19: TMenuItem
+      end
+      object MenuItem20: TMenuItem
+      end
+      object MenuItem21: TMenuItem
+      end
+      object MenuItem22: TMenuItem
+      end
+    end
+    object N7: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem12: TMenuItem
+      Caption = 'File Operations'
+      object MenuItem23: TMenuItem
+      end
+      object MenuItem31: TMenuItem
+      end
+    end
+    object N8: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem8: TMenuItem
+    end
+    object MenuItem9: TMenuItem
+    end
+  end
+  object pmImage: TPopupMenu
+    left = 536
+    top = 343
+    object MenuItem30: TMenuItem
+    end
+  end
+  object ActionList1: TActionList
+    left = 236
+    top = 124
+    object ActionLast: TAction
+      Caption = 'Last'
+      Enabled = False
+      OnExecute = ActionLastExecute
+    end
+    object ActionFirst: TAction
+      Caption = 'First'
+      Enabled = False
+      OnExecute = ActionFirstExecute
+    end
+    object ActionHorizFlip: TAction
+      Caption = 'Horiz Flip'
+      Enabled = False
+      OnExecute = ActionHorizFlipExecute
+    end
+    object ActionVertFlip: TAction
+      Caption = 'Vert Flip'
+      Enabled = False
+      OnExecute = ActionVertFlipExecute
+    end
+    object ActionRot90: TAction
+      Caption = 'Rotate 90'
+      Enabled = False
+      OnExecute = ActionRot90Execute
+    end
+    object ActionRotm90: TAction
+      Caption = 'Rotate -90'
+      Enabled = False
+      OnExecute = ActionRotm90Execute
+    end
+    object ActionDelete: TAction
+      Caption = 'Delete'
+      Enabled = False
+    end
+    object ActionMoveup: TAction
+      Caption = 'Move Up'
+    end
+    object ActionMoveDown: TAction
+      Caption = 'Move Down'
+    end
+    object ActionMoveToTop: TAction
+      Caption = 'Move To Top'
+    end
+    object ActionMoveToBottom: TAction
+      Caption = 'Move To Bottom'
+    end
+    object ActionRefresh: TAction
+      Caption = 'Refresh'
+    end
+    object ActionJoin: TAction
+      Caption = 'Join Images'
+    end
+    object ActionSplitImage: TAction
+      Caption = 'Split Image'
+    end
+    object ActionUndo: TAction
+      Caption = 'Undo'
+    end
+    object ActionUndoAll: TAction
+      Caption = 'Undo All'
+    end
+    object ActionRewriteManga: TAction
+      Caption = 'Rewrite Manga'
+    end
+    object ActionCropTool: TAction
+      Caption = 'Crop tool'
+    end
+    object ActionAppend: TAction
+      Caption = 'Append File'
+    end
+    object ActionSelectAll: TAction
+      Caption = 'Select All'
+    end
+    object ActionShowStats: TAction
+      Caption = 'Show Stats'
+    end
+  end
+end

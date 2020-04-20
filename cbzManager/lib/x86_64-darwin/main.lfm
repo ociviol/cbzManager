@@ -1,7 +1,7 @@
 object MainFrm: TMainFrm
-  Left = 786
+  Left = 392
   Height = 729
-  Top = 222
+  Top = 236
   Width = 960
   Align = alBottom
   Caption = 'cbzManager'
@@ -371,6 +371,12 @@ object MainFrm: TMainFrm
       object MenuItem10: TMenuItem
         Action = ActionRefresh
       end
+      object N12: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem37: TMenuItem
+        Action = ActionLibrary
+      end
       object N2: TMenuItem
         Caption = '-'
       end
@@ -631,6 +637,10 @@ object MainFrm: TMainFrm
       Caption = 'Filename Cleaner'
       OnExecute = ActionFileCleanerExecute
     end
+    object ActionLibrary: TAction
+      Caption = 'Library'
+      OnExecute = ActionLibraryExecute
+    end
   end
   object PopupMenu2: TPopupMenu
     left = 508
@@ -659,8 +669,8 @@ object MainFrm: TMainFrm
   end
   object PopupMenuQueue: TPopupMenu
     OnPopup = PopupMenuQueuePopup
-    left = 160
-    top = 416
+    left = 152
+    top = 376
     object Removefromlist1: TMenuItem
       Caption = 'Remove from list'
       OnClick = Removefromlist1Click

@@ -1,31 +1,27 @@
-object MainFrm: TMainFrm
-  Left = 79
-  Height = 729
-  Top = 218
-  Width = 960
-  Align = alBottom
-  Caption = 'cbzManager'
-  ClientHeight = 709
-  ClientWidth = 960
-  Menu = MainMenu1
-  OnClose = FormClose
-  OnCreate = FormCreate
-  OnDestroy = FormDestroy
-  OnShow = FormShow
-  LCLVersion = '2.0.4.0'
+object CbzViewerFrame: TCbzViewerFrame
+  Left = 0
+  Height = 704
+  Top = 0
+  Width = 783
+  Align = alClient
+  ClientHeight = 704
+  ClientWidth = 783
+  TabOrder = 0
+  DesignLeft = 1085
+  DesignTop = 149
   object Panel1: TPanel
-    Left = 274
-    Height = 659
+    Left = 0
+    Height = 704
     Top = 0
-    Width = 686
+    Width = 783
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 659
-    ClientWidth = 686
+    ClientHeight = 704
+    ClientWidth = 783
     TabOrder = 0
     object DrawGrid1: TDrawGrid
-      Left = 536
-      Height = 487
+      Left = 633
+      Height = 532
       Top = 53
       Width = 150
       Align = alRight
@@ -38,26 +34,21 @@ object MainFrm: TMainFrm
       FixedCols = 0
       FixedRows = 0
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goThumbTracking, goSmoothScroll, goDontScrollPartCell]
-      PopupMenu = PopupMenu1
+      PopupMenu = pmGrid
       RowCount = 1
       TabOrder = 0
-      OnDragDrop = DrawGrid1DragDrop
-      OnDragOver = DrawGrid1DragOver
       OnDrawCell = DrawGrid1DrawCell
-      OnKeyUp = DrawGrid1KeyUp
-      OnMouseDown = DrawGrid1MouseDown
-      OnMouseEnter = DrawGrid1MouseEnter
       OnSelectCell = DrawGrid1SelectCell
     end
     object Image1: TImage
       Left = 0
-      Height = 487
+      Height = 532
       Top = 53
-      Width = 536
+      Width = 633
       AntialiasingMode = amOn
       Align = alClient
       Center = True
-      PopupMenu = PopupMenu2
+      PopupMenu = pmImage
       Proportional = True
       Stretch = True
     end
@@ -65,14 +56,14 @@ object MainFrm: TMainFrm
       Left = 0
       Height = 27
       Top = 0
-      Width = 686
+      Width = 783
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 27
-      ClientWidth = 686
+      ClientWidth = 783
       TabOrder = 1
       object btnLast: TButton
-        Left = 636
+        Left = 733
         Height = 27
         Top = 0
         Width = 50
@@ -81,7 +72,7 @@ object MainFrm: TMainFrm
         TabOrder = 0
       end
       object btnFirst: TButton
-        Left = 586
+        Left = 683
         Height = 27
         Top = 0
         Width = 50
@@ -90,7 +81,7 @@ object MainFrm: TMainFrm
         TabOrder = 1
       end
       object btnHorizFlip: TButton
-        Left = 426
+        Left = 523
         Height = 27
         Top = 0
         Width = 80
@@ -99,7 +90,7 @@ object MainFrm: TMainFrm
         TabOrder = 2
       end
       object btnVertFlip: TButton
-        Left = 506
+        Left = 603
         Height = 27
         Top = 0
         Width = 80
@@ -108,7 +99,7 @@ object MainFrm: TMainFrm
         TabOrder = 3
       end
       object btnRotateRight: TButton
-        Left = 346
+        Left = 443
         Height = 27
         Top = 0
         Width = 80
@@ -117,7 +108,7 @@ object MainFrm: TMainFrm
         TabOrder = 4
       end
       object btnRotateLeft: TButton
-        Left = 266
+        Left = 363
         Height = 27
         Top = 0
         Width = 80
@@ -129,7 +120,7 @@ object MainFrm: TMainFrm
         Left = 0
         Height = 27
         Top = 0
-        Width = 266
+        Width = 363
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 6
@@ -149,10 +140,10 @@ object MainFrm: TMainFrm
       Left = 0
       Height = 26
       Top = 27
-      Width = 686
+      Width = 783
       Align = alTop
       ClientHeight = 26
-      ClientWidth = 686
+      ClientWidth = 783
       TabOrder = 2
       Visible = False
       object Label1: TLabel
@@ -171,7 +162,6 @@ object MainFrm: TMainFrm
         Top = 1
         Width = 62
         Align = alLeft
-        OnChange = speLeftChange
         TabOrder = 0
       end
       object Label2: TLabel
@@ -190,7 +180,6 @@ object MainFrm: TMainFrm
         Top = 1
         Width = 62
         Align = alLeft
-        OnChange = speBottomChange
         TabOrder = 1
       end
       object Label3: TLabel
@@ -209,7 +198,6 @@ object MainFrm: TMainFrm
         Top = 1
         Width = 62
         Align = alLeft
-        OnChange = speRightChange
         TabOrder = 2
       end
       object Label4: TLabel
@@ -228,35 +216,32 @@ object MainFrm: TMainFrm
         Top = 1
         Width = 62
         Align = alLeft
-        OnChange = speTopChange
         TabOrder = 3
       end
       object btnCrop: TButton
-        Left = 535
+        Left = 632
         Height = 24
         Top = 1
         Width = 75
         Align = alRight
         Caption = 'Crop'
-        OnClick = btnCropClick
         TabOrder = 4
       end
       object btnCancel: TButton
-        Left = 610
+        Left = 707
         Height = 24
         Top = 1
         Width = 75
         Align = alRight
         Caption = 'Cancel'
-        OnClick = btnCancelClick
         TabOrder = 5
       end
     end
     object memoLog: TMemo
       Left = 0
       Height = 119
-      Top = 540
-      Width = 686
+      Top = 585
+      Width = 783
       Align = alBottom
       Lines.Strings = (
         ''
@@ -266,194 +251,19 @@ object MainFrm: TMainFrm
       Visible = False
     end
   end
-  object pnlProgress: TPanel
-    Left = 0
-    Height = 50
-    Top = 659
-    Width = 960
-    Align = alBottom
-    BevelOuter = bvNone
-    TabOrder = 1
-  end
-  object Splitter1: TSplitter
-    Left = 269
-    Height = 659
-    Top = 0
-    Width = 5
-  end
-  object Panel2: TPanel
-    Left = 0
-    Height = 659
-    Top = 0
-    Width = 269
-    Align = alLeft
-    Caption = 'Panel2'
-    ClientHeight = 659
-    ClientWidth = 269
-    TabOrder = 3
-    object TreeView1: TTreeView
-      Left = 1
-      Height = 478
-      Top = 1
-      Width = 267
-      Align = alClient
-      HideSelection = False
-      PopupMenu = PopupMenu3
-      ReadOnly = True
-      RightClickSelect = True
-      SelectionFontColor = 14868449
-      ShowRoot = False
-      TabOrder = 0
-      OnChange = TreeView1Change
-      OnCustomDrawItem = TreeView1CustomDrawItem
-      Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
-      TreeLinePenStyle = psDashDot
-    end
-    object pnlStats: TPanel
-      Left = 1
-      Height = 179
-      Top = 479
-      Width = 267
-      Align = alBottom
-      BevelInner = bvLowered
-      ClientHeight = 179
-      ClientWidth = 267
-      TabOrder = 1
-      Visible = False
-      object lblFilesInQueue: TLabel
-        Left = 8
-        Height = 1
-        Top = 8
-        Width = 1
-        ParentColor = False
-      end
-      object Label5: TLabel
-        Left = 8
-        Height = 15
-        Top = 29
-        Width = 198
-        Caption = 'Files in queue (right click to remove) :'
-        ParentColor = False
-      end
-      object lbConvThreads: TListBox
-        Left = 2
-        Height = 55
-        Top = 122
-        Width = 263
-        Align = alBottom
-        ItemHeight = 0
-        ScrollWidth = 261
-        TabOrder = 0
-      end
-      object lbQueue: TListBox
-        Left = 2
-        Height = 74
-        Top = 48
-        Width = 263
-        Align = alBottom
-        ItemHeight = 0
-        ParentShowHint = False
-        PopupMenu = PopupMenuQueue
-        ScrollWidth = 261
-        ShowHint = True
-        TabOrder = 1
-      end
-    end
-  end
-  object MainMenu1: TMainMenu
-    left = 89
-    top = 51
-    object mnuFile: TMenuItem
-      Caption = 'File'
-      object mnuChooseFolder: TMenuItem
-        Action = ActionChooseFolder
-      end
-      object MenuItem10: TMenuItem
-        Action = ActionRefresh
-      end
-      object N2: TMenuItem
-        Caption = '-'
-      end
-      object mnuSetDefaultPath: TMenuItem
-        Caption = 'Set as default path'
-        OnClick = mnuSetDefaultPathClick
-      end
-      object N1: TMenuItem
-        Caption = '-'
-      end
-      object mnuExit: TMenuItem
-        Caption = 'Exit'
-        OnClick = mnuExitClick
-      end
-    end
-    object MenuItem1: TMenuItem
-      Caption = 'Edit'
-      object mnuConfig: TMenuItem
-        Caption = 'Config'
-        OnClick = mnuConfigClick
-      end
-      object MenuItem35: TMenuItem
-        Action = ActionShowStats
-        AutoCheck = True
-      end
-      object N9: TMenuItem
-        Caption = '-'
-      end
-      object MenuItem25: TMenuItem
-        Caption = 'Move'
-        object MenuItem26: TMenuItem
-          Action = ActionMoveToTop
-        end
-        object MenuItem27: TMenuItem
-          Action = ActionMoveup
-        end
-        object MenuItem28: TMenuItem
-          Action = ActionMoveDown
-        end
-        object MenuItem29: TMenuItem
-          Action = ActionMoveToBottom
-        end
-      end
-      object N10: TMenuItem
-        Caption = '-'
-      end
-      object MenuItem24: TMenuItem
-        Action = ActionRewriteManga
-      end
-      object MenuItem36: TMenuItem
-        Action = ActionFileCleaner
-      end
-    end
-    object MenuItem2: TMenuItem
-      Caption = '?'
-      object mnuAbout: TMenuItem
-        Caption = 'About'
-        OnClick = mnuAboutClick
-      end
-    end
-  end
-  object SelectDirectoryDialog1: TSelectDirectoryDialog
-    left = 96
-    top = 120
-  end
-  object PopupMenu1: TPopupMenu
-    OnPopup = PopupMenu1Popup
-    left = 808
-    top = 232
+  object pmGrid: TPopupMenu
+    left = 696
+    top = 272
     object MenuItem3: TMenuItem
-      Action = ActionDelete
     end
     object N3: TMenuItem
       Caption = '-'
     end
     object MenuItem4: TMenuItem
-      Action = ActionFirst
     end
     object MenuItem5: TMenuItem
-      Action = ActionLast
     end
     object MenuItem34: TMenuItem
-      Action = ActionSelectAll
     end
     object N4: TMenuItem
       Caption = '-'
@@ -461,29 +271,23 @@ object MainFrm: TMainFrm
     object MenuItem14: TMenuItem
       Caption = 'Flip'
       object MenuItem16: TMenuItem
-        Action = ActionHorizFlip
       end
       object MenuItem15: TMenuItem
-        Action = ActionVertFlip
       end
     end
     object MenuItem6: TMenuItem
       Caption = 'Rotate'
       object MenuItem7: TMenuItem
-        Action = ActionRot90
       end
       object MenuItem17: TMenuItem
-        Action = ActionRotm90
       end
     end
     object N5: TMenuItem
       Caption = '-'
     end
     object MenuItem11: TMenuItem
-      Action = ActionJoin
     end
     object MenuItem13: TMenuItem
-      Action = ActionSplitImage
     end
     object N6: TMenuItem
       Caption = '-'
@@ -491,16 +295,12 @@ object MainFrm: TMainFrm
     object MenuItem18: TMenuItem
       Caption = 'Move'
       object MenuItem19: TMenuItem
-        Action = ActionMoveup
       end
       object MenuItem20: TMenuItem
-        Action = ActionMoveDown
       end
       object MenuItem21: TMenuItem
-        Action = ActionMoveToTop
       end
       object MenuItem22: TMenuItem
-        Action = ActionMoveToBottom
       end
     end
     object N7: TMenuItem
@@ -509,25 +309,27 @@ object MainFrm: TMainFrm
     object MenuItem12: TMenuItem
       Caption = 'File Operations'
       object MenuItem23: TMenuItem
-        Action = ActionRewriteManga
       end
       object MenuItem31: TMenuItem
-        Action = ActionAppend
       end
     end
     object N8: TMenuItem
       Caption = '-'
     end
     object MenuItem8: TMenuItem
-      Action = ActionUndo
     end
     object MenuItem9: TMenuItem
-      Action = ActionUndoAll
+    end
+  end
+  object pmImage: TPopupMenu
+    left = 536
+    top = 343
+    object MenuItem30: TMenuItem
     end
   end
   object ActionList1: TActionList
-    left = 208
-    top = 96
+    left = 236
+    top = 124
     object ActionLast: TAction
       Caption = 'Last'
       Enabled = False
@@ -561,113 +363,48 @@ object MainFrm: TMainFrm
     object ActionDelete: TAction
       Caption = 'Delete'
       Enabled = False
-      OnExecute = ActionDeleteExecute
     end
     object ActionMoveup: TAction
       Caption = 'Move Up'
-      OnExecute = ActionMoveupExecute
     end
     object ActionMoveDown: TAction
       Caption = 'Move Down'
-      OnExecute = ActionMoveDownExecute
     end
     object ActionMoveToTop: TAction
       Caption = 'Move To Top'
-      OnExecute = ActionMoveToTopExecute
     end
     object ActionMoveToBottom: TAction
       Caption = 'Move To Bottom'
-      OnExecute = ActionMoveToBottomExecute
-    end
-    object ActionChooseFolder: TAction
-      Caption = 'Choose Folder'
-      OnExecute = ActionChooseFolderExecute
     end
     object ActionRefresh: TAction
       Caption = 'Refresh'
-      OnExecute = ActionRefreshExecute
     end
     object ActionJoin: TAction
       Caption = 'Join Images'
-      OnExecute = ActionJoinExecute
     end
     object ActionSplitImage: TAction
       Caption = 'Split Image'
-      OnExecute = ActionSplitImageExecute
     end
     object ActionUndo: TAction
       Caption = 'Undo'
-      OnExecute = ActionUndoExecute
     end
     object ActionUndoAll: TAction
       Caption = 'Undo All'
-      OnExecute = ActionUndoAllExecute
     end
     object ActionRewriteManga: TAction
       Caption = 'Rewrite Manga'
-      OnExecute = ActionRewriteMangaExecute
     end
     object ActionCropTool: TAction
       Caption = 'Crop tool'
-      OnExecute = ActionCropToolExecute
     end
     object ActionAppend: TAction
       Caption = 'Append File'
-      OnExecute = ActionAppendExecute
-    end
-    object ActionRenameFile: TAction
-      Caption = 'Rename File'
-      OnExecute = ActionRenameFileExecute
     end
     object ActionSelectAll: TAction
       Caption = 'Select All'
-      OnExecute = ActionSelectAllExecute
     end
     object ActionShowStats: TAction
       Caption = 'Show Stats'
-      OnExecute = ActionShowStatsExecute
-    end
-    object ActionFileCleaner: TAction
-      Caption = 'Filename Cleaner'
-      OnExecute = ActionFileCleanerExecute
-    end
-  end
-  object PopupMenu2: TPopupMenu
-    left = 508
-    top = 315
-    object MenuItem30: TMenuItem
-      Action = ActionCropTool
-    end
-  end
-  object PopupMenu3: TPopupMenu
-    left = 100
-    top = 192
-    object MenuItem32: TMenuItem
-      Action = ActionRefresh
-    end
-    object N11: TMenuItem
-      Caption = '-'
-    end
-    object MenuItem33: TMenuItem
-      Action = ActionRenameFile
-    end
-  end
-  object Timerstats: TTimer
-    OnTimer = TimerstatsTimer
-    left = 170
-    top = 204
-  end
-  object PopupMenuQueue: TPopupMenu
-    OnPopup = PopupMenuQueuePopup
-    left = 160
-    top = 416
-    object Removefromlist1: TMenuItem
-      Caption = 'Remove from list'
-      OnClick = Removefromlist1Click
-    end
-    object Addtoqueue1: TMenuItem
-      Caption = 'Add to queue'
-      OnClick = Addtoqueue1Click
     end
   end
 end

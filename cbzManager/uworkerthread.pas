@@ -565,7 +565,8 @@ begin
             result := newf;
             Flog.Log('TCbzWorkerThread Rename ' + fname + ' -> ' + newf);
             CopyFile(fname, newf);
-            DeleteFile(fname);
+            if FileExists(newf) then
+              DeleteFile(fname);
           end;
         end
         else

@@ -563,6 +563,9 @@ var
 begin
   it := GetImageType(aStream);
 
+  if it < 0 then
+    Exit;
+
   if it = FIF_WEBP then
   begin
    m := TMemoryStream.Create;

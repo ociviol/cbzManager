@@ -161,7 +161,8 @@ type
     procedure Undo(CallBack : TCbzProgressEvent);
     function RewriteManga(CallBack : TCbzProgressEvent = nil):String;
     procedure Invert(Index1, Index2 : Integer; CallBack : TCbzProgressEvent = nil);
-    function GenerateStamp(Index : Integer):Tbitmap;
+    function GenerateStamp(Index : Integer):Tbitmap; overload;
+    function GenerateStamp(Index, aStampWidth, aStampHeight : Integer):Tbitmap; overload;
 
     property ImageCount:Integer read GetImageCount;
     property Progress : TCbzProgressEvent read FCallBack write FCallBack;
@@ -661,7 +662,7 @@ begin
     FFilename := newf;
     result := True;
     CopyFile(fname, newf);
-    if Sysutils.FileExists(fName) then
+    if Sysutils.FileExists(newf) then
       Sysutils.DeleteFile(fname);
   end;
 end;
@@ -1430,6 +1431,11 @@ begin
 end;
 
 function TCbz.GenerateStamp(Index: Integer): Tbitmap;
+begin
+  result := GenerateStamp(Index, FStampWidth, FStampHeight);
+end;
+
+function TCbz.GenerateStamp(Index, aStampWidth, aStampHeight : Integer):Tbitmap;
 var
   b : TBitmap;
   ratio : extended;
@@ -1457,9 +1463,9 @@ begin
       if h > w then
       begin
         ratio := w / h;
-        h := FStampHeight;
+        h := aStampHeight;
         w := round(h * ratio);
-        while w > FStampWidth do
+        while w > aStampWidth do
         begin
           dec(h);
           w := round(h * ratio);
@@ -1468,9 +1474,9 @@ begin
       else
       begin
         ratio := h / w;
-        w := FStampWidth;
+        w := aStampWidth;
         h := round(w * ratio);
-        while h > FStampHeight do
+        while h > aStampHeight do
         begin
           dec(w);
           h := round(w * ratio);

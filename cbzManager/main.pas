@@ -424,13 +424,14 @@ begin
   MenuItem35.Checked := FConfig.ShowStats;
   Timerstats.Enabled:=FConfig.ShowStats;
   // start logger
+
   FLog := GetILog(
 {$if defined(Darwin) or defined(Linux)}
     expandfilename('~/') + CS_CONFIG_PATH + '/' +
 {$else}
     IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Logs\' +
 {$endif}
-    'cbzManager.log', FConfig.bLog);
+    'cbzManager.log', FConfig.DoLog);
 
   Flog.Log('cbzManager started.');
 
@@ -1166,7 +1167,7 @@ end;
 
 procedure TMainFrm.ActionFirstExecute(Sender: TObject);
 begin
-   if zf.Mode <> zmClosed then
+  if zf.Mode <> zmClosed then
   begin
     DrawGrid1.Position := 0;
     Application.QueueAsyncCall(@AfterCellSelect, 0);
@@ -1310,7 +1311,7 @@ end;
 
 procedure TMainFrm.ActionLastExecute(Sender: TObject);
 begin
-   if zf.Mode <> zmClosed then
+  if zf.Mode <> zmClosed then
   begin
     DrawGrid1.Position := zf.ImageCount - 1;
     Application.QueueAsyncCall(@AfterCellSelect, 0);
@@ -1797,7 +1798,7 @@ begin
     edtp7zip.Text:=Fconfig.p7zip;
     speNbThreads.Value:= FConfig.NbThreads;
     speQueues.Value:=FConfig.QueueSize;
-    cblogging.Checked:=Fconfig.Blog;
+    cblogging.Checked:=Fconfig.DoLog;
     speWebpQuality.Value:=FConfig.WebpQuality;
     cbDeleteFile.Checked := FConfig.DeleteFile;
     cbAlbumArt.Checked := FConfig.DoAlbumart;
@@ -1806,7 +1807,7 @@ begin
       edtcwebp.Text:=Fconfig.cwebp;
       Fconfig.unrar := edtunrar.Text;
       Fconfig.p7zip := edtp7zip.Text;
-      Fconfig.Blog := cblogging.Checked;
+      Fconfig.DoLog := cblogging.Checked;
       FConfig.QueueSize := speQueues.Value;
       Fconfig.NbThreads:=speNbThreads.Value;
       FConfig.WebpQuality := speWebpQuality.Value;
@@ -2098,7 +2099,7 @@ begin
     zf.Close;
   end;
 
-  FThreadSearchFiles := ThreadedSearchFiles(Path, '*.cbz;*.cbr;*.zip;*.rar;*.pdf', @AddFileToTree2, @SearchEnded,
+  FThreadSearchFiles := ThreadedSearchFiles(Path, '*.cbz;*.cbr;*.zip;*.rar', @AddFileToTree2, @SearchEnded,
                                             @Progress, //str_scanning
                                             'scanning : ', [sfoRecurse, sfoFolders]);
 end;

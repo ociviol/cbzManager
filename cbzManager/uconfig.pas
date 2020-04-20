@@ -48,7 +48,7 @@ type
     property WWidth : Integer read FWWidth write FWWidth;
     property WHeight : Integer read FWHeight write FWHeight;
     property WTreeViewWidth : Integer read FWTreeViewWidth write FWTreeViewWidth;
-    property Blog : Boolean read FBlog write FBlog;
+    property DoLog : Boolean read FBlog write FBlog;
     property BdPathPath: String read FBdPathPath write FBdPathPath;
     property cwebp: String read Fcwebp write Fcwebp;
     property unrar: String read Funrar write Funrar;

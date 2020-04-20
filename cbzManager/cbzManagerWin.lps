@@ -17,7 +17,6 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="382"/>
         <CursorPos X="25" Y="404"/>
@@ -201,9 +200,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="355"/>
-        <CursorPos X="3" Y="453"/>
+        <TopLine Value="461"/>
+        <CursorPos X="32" Y="492"/>
         <UsageCount Value="52"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="331" ID="1"/>

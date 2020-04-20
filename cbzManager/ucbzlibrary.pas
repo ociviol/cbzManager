@@ -489,6 +489,7 @@ begin
       dgLibrary.RowCount := aRow + 1;
     if dgLibrary.IsCellVisible(aCol, aRow) then
       dgLibrary.InvalidateCell(aCol, aRow);
+    Application.ProcessMessages;
   end;
 end;
 

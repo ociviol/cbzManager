@@ -9,7 +9,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Sysutils,
   Forms, main, config, webp, uCbz, Utils.ZipFile, frmwait, uDataPool, uDataItem,
-  uThreadConvert, uWorkerThread, uThreadExtract, uConfig, uCbzLibrary, utils.Logger;
+  uThreadConvert, uWorkerThread, uThreadExtract, uConfig;
 
 {$R *.res}
 begin
@@ -17,7 +17,6 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TMainFrm, MainFrm);
-  //Application.CreateForm(TCbzLibrary, CbzLibrary);
   Application.Run;
 end.
 

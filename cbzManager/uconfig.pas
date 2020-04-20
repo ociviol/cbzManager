@@ -28,6 +28,7 @@ type
     FDeleteFile,
     FShowStats,
     FHighPerf: Boolean;
+    FLibPath: String;
     Fcwebp,
     Funrar,
     Fp7zip: String;
@@ -60,6 +61,7 @@ type
     property DeleteFile : Boolean read FDeleteFile write FDeleteFile;
     property DoAlbumart : Boolean read FAlbumArt write FAlbumart;
     property ShowStats : Boolean read FShowStats write FShowStats;
+    property LibPath : String read FLibPath write FLibPath;
   end;
 
 implementation

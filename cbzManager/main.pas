@@ -1326,7 +1326,22 @@ end;
 procedure TMainFrm.ActionLibraryExecute(Sender: TObject);
 begin
   if not Assigned(FLibrary) then
-    FLibrary := TCbzLibrary.Create(Application);
+  begin
+    if not DirectoryExists(FConfig.LibPath) then
+      with TSelectDirectoryDialog.Create(Self) do
+      try
+        if Execute then
+          FConfig.LibPath := Filename;
+      finally
+      end;
+
+    if DirectoryExists(FConfig.LibPath) then
+    begin
+      FLibrary := TCbzLibrary.Create(Application);
+      FLibrary.RootPath:=FConfig.LibPath;
+      FLibrary.BringToFront;
+    end;
+  end;
   FLibrary.Show;
 end;
 

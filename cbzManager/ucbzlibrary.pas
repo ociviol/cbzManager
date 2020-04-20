@@ -12,13 +12,6 @@ uses
 {$endif}
   Utils.SearchFiles, utils.Logger;
 
-const
-{$if defined(Linux)}
-  CS_Path = '/media/psf/Livres/bds/Star Trek';
-{$elseif defined(Darwin)}
-{$elseif defined(sWindows)}
-  CS_Path = 'V:\bds';
-{$endif}
 
 type
 
@@ -90,7 +83,7 @@ type
                        const aPos, aMax: Integer; const Msg: String = '');
     property CacheFileName : String read GetCacheFileName;
   public
-
+     property RootPath : String read FRootPath write FRootPath;
   end;
 
 
@@ -113,6 +106,7 @@ const
 
 function TFileItem.GetImg: TBitmap;
 begin
+  (*
   if not Assigned(FImg) then
     if FileExists(CacheFilename) then
     begin
@@ -120,11 +114,12 @@ begin
       FImg.LoadFromFile(CacheFilename);
     end
   else
+  *)
     with TCbz.Create(FLog) do
     try
       Open(FFilename, zmRead);
       Fimg := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
-      FImg.SaveToFile(CacheFilename);
+      //FImg.SaveToFile(CacheFilename);
     finally
       free;
     end;
@@ -288,20 +283,10 @@ begin
     'cbzLibrary.log', True);
 
   Flog.Log('cbzLibrary started.');
-  FRootPath := CS_Path;
-  FCurrentPath := FRootPath;
-  btnTopPath.Caption:=FRootPath;
-  FLvl := length(FCurrentPath.Split([PathDelim]));
-
   FFileList := TItemList.Create;
   FBtnList := TList.Create;
   FVisibleList := TStringlist.Create;
   FVisibleList.Sorted:=True;
-
-  if not FileExists(CacheFileName) then
-    FThreadSearchFiles := ThreadedSearchFiles(FRootPath, '*.cbz', @FoundFile, @SearchEnded,
-                                              @Progress, //str_scanning
-                                              'scanning : ', [sfoRecurse]);
 
   for c := 'Z' downto 'A' do
     with TSpeedButton.Create(self) do
@@ -337,6 +322,14 @@ end;
 
 procedure TCbzLibrary.FormShow(Sender: TObject);
 begin
+  FCurrentPath := FRootPath;
+  btnTopPath.Caption:=FRootPath;
+  FLvl := length(FCurrentPath.Split([PathDelim]));
+
+  if not FileExists(CacheFileName) then
+    FThreadSearchFiles := ThreadedSearchFiles(FRootPath, '*.cbz', @FoundFile, @SearchEnded,
+                                              @Progress, //str_scanning
+                                              'scanning : ', [sfoRecurse]);
   Application.QueueAsyncCall(@AfterShow, 0);
 end;
 

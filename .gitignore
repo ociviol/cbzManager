@@ -33,4 +33,5 @@ cbzManager/lib/x86_64-darwin/main.lfm
 .DS_Store
 *.part
 cbzManager/Logs/*
+cbzManager/Library/*
 

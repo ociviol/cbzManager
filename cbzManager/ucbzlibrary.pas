@@ -106,7 +106,6 @@ const
 
 function TFileItem.GetImg: TBitmap;
 begin
-  (*
   if not Assigned(FImg) then
     if FileExists(CacheFilename) then
     begin
@@ -114,12 +113,11 @@ begin
       FImg.LoadFromFile(CacheFilename);
     end
   else
-  *)
     with TCbz.Create(FLog) do
     try
       Open(FFilename, zmRead);
       Fimg := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
-      //FImg.SaveToFile(CacheFilename);
+      FImg.SaveToFile(CacheFilename);
     finally
       free;
     end;
@@ -452,7 +450,7 @@ procedure TCbzLibrary.SearchEnded(Sender: TObject);
 begin
   FThreadSearchFiles := nil;
   StatusBar1.SimpleText := 'Done.';
-  //FFileList.SaveToFile(GetCacheFileName);
+  FFileList.SaveToFile(GetCacheFileName);
 end;
 
 function TCbzLibrary.FoundFile(const aFileName: string; IsNew: Boolean

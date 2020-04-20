@@ -61,7 +61,7 @@ end;
 procedure TFrmCbzViewer.FormCreate(Sender: TObject);
 begin
   Height := Screen.Height - 100;
-  Width := round(Height * 0.75);
+  Width := round(Height * 0.80);
 end;
 
 end.

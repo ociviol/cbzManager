@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="9"/>
+      <BuildNr Value="10"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>
@@ -197,26 +197,29 @@
         <UnitName Value="uThreadExtract"/>
       </Unit11>
       <Unit12>
-        <Filename Value="../Utils/utils.masks.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.Masks"/>
-      </Unit12>
-      <Unit13>
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-      </Unit13>
-      <Unit14>
+      </Unit12>
+      <Unit13>
         <Filename Value="uloadreport.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmReport"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uLoadReport"/>
-      </Unit14>
-      <Unit15>
+      </Unit13>
+      <Unit14>
         <Filename Value="../../XmlReader/XmlDoc/uxmldoc.pas"/>
         <IsPartOfProject Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="ucbzlibrary.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="CbzLibrary"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uCbzLibrary"/>
       </Unit15>
     </Units>
   </ProjectOptions>

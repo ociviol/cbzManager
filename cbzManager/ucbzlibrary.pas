@@ -13,7 +13,12 @@ uses
   Utils.SearchFiles, utils.Logger;
 
 const
+{$if defined(Linux)}
+  CS_Path = '/media/psf/Livres/bds/Star Trek';
+{$elseif defined(Darwin)}
+{$elseif defined(sWindows)}
   CS_Path = 'V:\bds';
+{$endif}
 
 type
 
@@ -192,13 +197,10 @@ var
   a : TStringArray;
   i : integer;
 begin
-  {$if defined(MsWindows)}
   a := aPath.Split([PathDelim]);
   result := '';
   for i:=0 to lvl do
     result := result + a[i] + PathDelim;
-  {$else}
-  {$endif}
 end;
 
 function GetLastPath(const aPath : String):string;
@@ -248,13 +250,16 @@ var
   s : String;
 begin
   s := FVisibleList[(dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col];
-  if FileExists(s) then
-    ShowComics(FLog, s)
-  else
+  if DirectoryExists(s) then
   begin
     FCurrentPath := s;
     FillGrid;
-  end;
+  end
+  else
+  if FileExists(s) then
+    ShowComics(FLog, s)
+  else
+  ;
 end;
 
 procedure TCbzLibrary.btnTopPathClick(Sender: TObject);

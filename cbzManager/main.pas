@@ -19,7 +19,7 @@ uses
 {$if defined(Darwin) or defined(Linux)}
   cthreads,
 {$endif}
-  Utils.Arrays, uDataPool, uWorkerThread, uConfig;
+  Utils.Arrays, uDataPool, uWorkerThread, uConfig, uCbzLibrary;
 
 type
   TProgressRec = class
@@ -30,6 +30,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionLibrary: TAction;
     ActionFileCleaner: TAction;
     ActionShowStats: TAction;
     ActionSelectAll: TAction;
@@ -104,6 +105,8 @@ type
     MenuItem34: TMenuItem;
     MenuItem35: TMenuItem;
     MenuItem36: TMenuItem;
+    MenuItem37: TMenuItem;
+    N12: TMenuItem;
     N11: TMenuItem;
     N10: TMenuItem;
     N9: TMenuItem;
@@ -159,6 +162,7 @@ type
     procedure ActionHorizFlipExecute(Sender: TObject);
     procedure ActionJoinExecute(Sender: TObject);
     procedure ActionLastExecute(Sender: TObject);
+    procedure ActionLibraryExecute(Sender: TObject);
     procedure ActionMoveDownExecute(Sender: TObject);
     procedure ActionMoveToBottomExecute(Sender: TObject);
     procedure ActionMoveToTopExecute(Sender: TObject);
@@ -225,6 +229,7 @@ type
     FConvertReport : TstringList;
     FLastUPdate : TDateTime;
     Fignores : TStringlist;
+    FLibrary : TCbzLibrary;
 
     procedure HideCropTool;
     procedure CheckAlbumArt(const aFilename : string);
@@ -1316,6 +1321,13 @@ begin
     DrawGrid1.Position := zf.ImageCount - 1;
     Application.QueueAsyncCall(@AfterCellSelect, 0);
   end;
+end;
+
+procedure TMainFrm.ActionLibraryExecute(Sender: TObject);
+begin
+  if not Assigned(FLibrary) then
+    FLibrary := TCbzLibrary.Create(Application);
+  FLibrary.Show;
 end;
 
 procedure TMainFrm.ActionMoveDownExecute(Sender: TObject);

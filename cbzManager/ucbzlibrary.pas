@@ -22,6 +22,7 @@ type
     FFilename : String;
     FImg : TBitmap;
     FLog : ILog;
+    FText: String;
     function GetCacheFilename: String;
     function GetImg: TBitmap;
   public
@@ -31,6 +32,7 @@ type
     property Img:TBitmap read GetImg;
     property Filename : String read FFilename;
     property CacheFilename : String read GetCacheFilename;
+    property Text : String Read FText write FText;
   end;
 
   { TItemList }
@@ -47,6 +49,7 @@ type
 
   TCbzLibrary = class(TForm)
     btnTopPath: TButton;
+    ComboBox1: TComboBox;
     dgLibrary: TDrawGrid;
     pnlbtns: TPanel;
     pnlPath: TPanel;
@@ -218,8 +221,12 @@ begin
     with dgLibrary, Canvas do
     begin
       FillRect(aRect);
-      b := TFileItem(FVisibleList.Objects[p]).Img;
-      s :=  GetLastPath(FVisibleList[p]); // GetLastPath(ExtractFilePath(TFileItem(FVisibleList.Objects[p]).Filename));
+      with TFileItem(FVisibleList.Objects[p]) do
+      begin
+        b := Img;
+        s := GetLastPath(FVisibleList[p]);
+        Text := s;
+      end;
       X := (DefaultColWidth - b.Width) div 2;
       Y := 2; //(DefaultRowHeight - b.Height) div 2;
       Draw(aRect.Left + X, aRect.Top + Y, b);
@@ -292,7 +299,7 @@ begin
       Caption := c;
       align := altop;
       parent := pnlbtns;
-      enabled := false;
+      //enabled := false;
       onclick := @btnletterclick;
     end;
 
@@ -344,8 +351,25 @@ begin
 end;
 
 procedure TCbzLibrary.btnletterclick(sender: Tobject);
+var
+  p, c, r, i : integer;
+  s, ltr : string;
 begin
-
+  p := -1;
+  for i:= 0 to FVisibleList.Count - 1 do
+  begin
+    ltr := TSpeedButton(Sender).Caption[1];
+    s := TFileItem(FVisibleList.Objects[i]).Text.ToUpper;
+    if s.StartsWith(ltr) then
+    begin
+      p := i;
+      r := p div dgLibrary.ColCount;
+      c := p - (r * dgLibrary.ColCount);
+      dgLibrary.Row := r;
+      dgLibrary.col := c;
+      break;
+    end;
+  end;
 end;
 
 procedure TCbzLibrary.AfterShow(data : int64);

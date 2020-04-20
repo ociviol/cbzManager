@@ -32,3 +32,5 @@ cbzManager/lib/x86_64-win64/libimputils.naturalsortstringlist.a
 cbzManager/lib/x86_64-darwin/main.lfm
 .DS_Store
 *.part
+cbzManager/Logs/*
+

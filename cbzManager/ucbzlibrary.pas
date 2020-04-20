@@ -227,6 +227,9 @@ begin
       Y := 2; //(DefaultRowHeight - b.Height) div 2;
       Draw(aRect.Left + X, aRect.Top + Y, b);
 
+      {$if defined(Darwin)}
+      Font.Color := clWhite;
+      {$endif}
       r := aRect;
       r.top := r.Bottom - (TextHeight(s) * 3);
       ts.Wordbreak:=True;

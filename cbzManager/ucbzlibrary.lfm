@@ -13,7 +13,7 @@ object CbzLibrary: TCbzLibrary
   LCLVersion = '2.0.4.0'
   object dgLibrary: TDrawGrid
     Left = 50
-    Height = 659
+    Height = 661
     Top = 46
     Width = 1097
     Align = alClient
@@ -46,8 +46,8 @@ object CbzLibrary: TCbzLibrary
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 23
-    Top = 715
+    Height = 21
+    Top = 717
     Width = 1157
     Panels = <>
   end
@@ -66,7 +66,7 @@ object CbzLibrary: TCbzLibrary
       Left = 2
       Height = 22
       Top = 2
-      Width = 88
+      Width = 91
       Align = alLeft
       AutoSize = True
       Caption = 'btnTopPath'
@@ -75,11 +75,11 @@ object CbzLibrary: TCbzLibrary
     end
     object ComboBox1: TComboBox
       Left = 1035
-      Height = 23
+      Height = 22
       Top = 2
       Width = 100
       Align = alRight
-      ItemHeight = 15
+      ItemHeight = 0
       Items.Strings = (
         'All'
         'Unread'
@@ -91,7 +91,7 @@ object CbzLibrary: TCbzLibrary
   end
   object pnlbtns: TPanel
     Left = 10
-    Height = 659
+    Height = 661
     Top = 46
     Width = 30
     Align = alLeft

@@ -221,12 +221,8 @@ begin
     with dgLibrary, Canvas do
     begin
       FillRect(aRect);
-      with TFileItem(FVisibleList.Objects[p]) do
-      begin
-        b := Img;
-        s := GetLastPath(FVisibleList[p]);
-        Text := s;
-      end;
+      b := TFileItem(FVisibleList.Objects[p]).Img;
+      s := GetLastPath(FVisibleList[p]);
       X := (DefaultColWidth - b.Width) div 2;
       Y := 2; //(DefaultRowHeight - b.Height) div 2;
       Draw(aRect.Left + X, aRect.Top + Y, b);
@@ -489,6 +485,7 @@ begin
 
   fi := TFileItem.Create(FLog, aFilename);
   FFileList.AddObject(aFilename, fi);
+  fi.Text := GetLastPath(aFilename);
 
   if FCurrentPath = FRootPath then
   begin

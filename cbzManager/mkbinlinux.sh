@@ -9,4 +9,5 @@ cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx.iconset/icon_128x128.png cbzManager
 rm ../cbzManagerLinux.zip
 zip cbzManagerLinux.zip *
 cp cbzManagerLinux.zip ..
+rm cbzManagerLinux.zip
 

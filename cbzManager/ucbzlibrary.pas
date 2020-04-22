@@ -49,11 +49,12 @@ type
 
   TCbzLibrary = class(TForm)
     btnTopPath: TButton;
-    ComboBox1: TComboBox;
+    btnRefresh: TButton;
     dgLibrary: TDrawGrid;
     pnlbtns: TPanel;
     pnlPath: TPanel;
     StatusBar1: TStatusBar;
+    procedure btnRefreshClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
     procedure dgLibraryDblClick(Sender: TObject);
     procedure dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
@@ -207,6 +208,52 @@ begin
   result := a[High(a)];
 end;
 
+procedure TCbzLibrary.FormCreate(Sender: TObject);
+var
+  i : integer;
+  c : char;
+begin
+  // start logger
+  FLog := GetILog(
+{$if defined(Darwin) or defined(Linux)}
+    expandfilename('~/') + CS_CONFIG_PATH + '/' +
+{$else}
+    IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Logs\' +
+{$endif}
+    'cbzLibrary.log', True);
+
+  Flog.Log('cbzLibrary started.');
+  FFileList := TItemList.Create;
+  FBtnList := TList.Create;
+  FVisibleList := TStringlist.Create;
+  FVisibleList.Sorted:=True;
+
+  for c := 'Z' downto 'A' do
+    with TSpeedButton.Create(self) do
+    begin
+      Caption := c;
+      align := altop;
+      parent := pnlbtns;
+      //enabled := false;
+      onclick := @btnletterclick;
+    end;
+
+end;
+
+procedure TCbzLibrary.FormDestroy(Sender: TObject);
+begin
+  if Assigned(FThreadSearchFiles) then
+    begin
+      FThreadSearchFiles.Terminate;
+      FThreadSearchFiles.WaitFor;
+    end;
+
+  Flog := nil;
+  FVisibleList.Free;
+  FFileList.Free;
+  FBtnList.Free;
+end;
+
 procedure TCbzLibrary.dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 var
@@ -247,8 +294,12 @@ end;
 procedure TCbzLibrary.dgLibraryDblClick(Sender: TObject);
 var
   s : String;
+  c : integer;
 begin
-  s := FVisibleList[(dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col];
+  c := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
+  if c >= FVisibleList.Count then
+    Exit;
+  s := FVisibleList[c];
   if DirectoryExists(s) then
   begin
     FCurrentPath := s;
@@ -272,51 +323,17 @@ begin
   FillGrid(False);
 end;
 
-procedure TCbzLibrary.FormCreate(Sender: TObject);
-var
-  i : integer;
-  c : char;
+procedure TCbzLibrary.btnRefreshClick(Sender: TObject);
 begin
-  // start logger
-  FLog := GetILog(
-{$if defined(Darwin) or defined(Linux)}
-    expandfilename('~/') + CS_CONFIG_PATH + '/' +
-{$else}
-    IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Logs\' +
-{$endif}
-    'cbzLibrary.log', True);
-
-  Flog.Log('cbzLibrary started.');
-  FFileList := TItemList.Create;
-  FBtnList := TList.Create;
-  FVisibleList := TStringlist.Create;
-  FVisibleList.Sorted:=True;
-
-  for c := 'Z' downto 'A' do
-    with TSpeedButton.Create(self) do
-    begin
-      Caption := c;
-      align := altop;
-      parent := pnlbtns;
-      //enabled := false;
-      onclick := @btnletterclick;
-    end;
-
-end;
-
-procedure TCbzLibrary.FormDestroy(Sender: TObject);
-begin
-  if Assigned(FThreadSearchFiles) then
-    begin
-      FThreadSearchFiles.Terminate;
-      FThreadSearchFiles.WaitFor;
-    end;
-  Sleep(250);
-
-  Flog := nil;
-  FVisibleList.Free;
-  FFileList.Free;
-  FBtnList.Free;
+  if not Assigned(FThreadSearchFiles) then
+  begin
+    btnRefresh.enabled := False;
+    FFileList.Clear;
+    FVisibleList.Clear;
+    FThreadSearchFiles := ThreadedSearchFiles(FRootPath, '*.cbz', @FoundFile, @SearchEnded,
+                                              @Progress, //str_scanning
+                                              'scanning : ', [sfoRecurse]);
+  end;
 end;
 
 procedure TCbzLibrary.FormResize(Sender: TObject);
@@ -358,7 +375,7 @@ begin
   for i:= 0 to FVisibleList.Count - 1 do
   begin
     ltr := TSpeedButton(Sender).Caption[1];
-    s := TFileItem(FVisibleList.Objects[i]).Text.ToUpper;
+    s := GetLastPath(FVisibleList[i]).ToUpper;
     if s.StartsWith(ltr) then
     begin
       p := i;
@@ -374,18 +391,24 @@ end;
 procedure TCbzLibrary.AfterShow(data : int64);
 var
   i : integer;
+  fi : TFileItem;
 begin
   if FileExists(CacheFileName) then
-  begin
-    with TStringlist.CReate do
+    with TStringlist.Create do
     try
+      btnRefresh.Enabled:=False;
       LoadFromFile(CacheFileName);
       for i:= 0 to Count - 1 do
-        FoundFile(Strings[i]);
+      begin
+        fi := TFileItem.Create(FLog, Strings[i]);
+        FFileList.AddObject(Strings[i], fi);
+        fi.Text := GetLastPath(Strings[i]);
+      end;
+      btnTopPathClick(Self);
     finally
+      btnRefresh.Enabled:=True;
       Free;
     end;
-  end;
 end;
 
 
@@ -470,10 +493,14 @@ begin
 end;
 
 procedure TCbzLibrary.SearchEnded(Sender: TObject);
+var
+  i : integer;
 begin
   FThreadSearchFiles := nil;
   StatusBar1.SimpleText := 'Done.';
+
   FFileList.SaveToFile(GetCacheFileName);
+  btnRefresh.Enabled:=True;
 end;
 
 function TCbzLibrary.FoundFile(const aFileName: string; IsNew: Boolean
@@ -513,7 +540,7 @@ begin
       dgLibrary.RowCount := aRow + 1;
     if dgLibrary.IsCellVisible(aCol, aRow) then
       dgLibrary.InvalidateCell(aCol, aRow);
-    Application.ProcessMessages;
+    //Application.ProcessMessages;
   end;
 end;
 

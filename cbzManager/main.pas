@@ -1339,10 +1339,15 @@ begin
     begin
       FLibrary := TCbzLibrary.Create(Application);
       FLibrary.RootPath:=FConfig.LibPath;
+      FLibrary.Show;
       FLibrary.BringToFront;
     end;
+  end
+  else
+  begin
+    FLibrary.Show;
+    FLibrary.BringToFront;
   end;
-  FLibrary.Show;
 end;
 
 procedure TMainFrm.ActionMoveDownExecute(Sender: TObject);

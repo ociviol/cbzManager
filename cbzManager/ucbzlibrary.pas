@@ -275,7 +275,7 @@ begin
       Draw(aRect.Left + X, aRect.Top + Y, b);
 
       {$if defined(Darwin)}
-      Font.Color := clWhite;
+      ts.SystemFont := True;
       {$endif}
       r := aRect;
       r.top := r.Bottom - (TextHeight(s) * 3);

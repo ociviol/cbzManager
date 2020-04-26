@@ -431,6 +431,7 @@ begin
       try
         repeat
           FFilesToProcess := ThreadExtract.NbFiles;
+          sleep(100);
         until (FFilesToProcess > 0) or ThreadExtract.HasError;
 
         if ThreadExtract.HasError then

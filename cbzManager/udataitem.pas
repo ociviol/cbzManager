@@ -30,23 +30,12 @@ const
 
 type
 
-  { TIntegerList }
-
-  TIntegerList=class(TList)
-  private
-    function GetValue(Index: Integer): Integer;
-    procedure SetValue(Index: Integer; AValue: Integer);
-  public
-    function Add(Value: Integer): Integer;
-    function IndexOf(AValue : Integer):Integer;
-    property Items[Index: Integer]: Integer read GetValue write SetValue; default;
-  end;
-
   TConvertDoneEvent = procedure(Index : Integer) of object;
   //TPutDataEvent = procedure(Index : Integer; Value : TMemoryStream) of object;
   TPutDataEvent = procedure of object;
 
   TRecType = (rtIn, rtOut);
+  TRecTypes = set of TRecType;
   { TDataRec }
 
   TDataRec = Class
@@ -67,7 +56,8 @@ type
   TThreadDataItem = Class(TThreadList)
   private
     FLog : ILog;
-    function GetCount(aType : TRecType):Integer;
+    function GetCount(aTypes : TRecTypes):Integer;
+    function GetCount: Integer;
     function GetInCount:Integer;
     function GetOutCount:Integer;
     function Find(Index : Integer; aType : TRecType):TDataRec;
@@ -103,6 +93,8 @@ type
     procedure Stats(var nbIn, nbOut : Integer);
     procedure Disable;
     property InCount : Integer read GetInCount;
+    property OutCount : Integer read GetOutCount;
+    property Count : Integer read GetCount;
     property Working : Integer read FWorking;
     property OnPutData : TPutDataEvent read FOnPutData write FOnPutData;
   end;
@@ -128,28 +120,6 @@ begin
   if Assigned(Stream) then
     Stream.Free;
   inherited Destroy;
-end;
-
-{ TIntegerList }
-
-function TIntegerList.GetValue(Index: Integer): Integer;
-begin
-  result := Integer(inherited Items[Index]);
-end;
-
-procedure TIntegerList.SetValue(Index: Integer; AValue: Integer);
-begin
-  inherited Items[Index] := Pointer(AValue);
-end;
-
-function TIntegerList.Add(Value: Integer): Integer;
-begin
-  result := inherited Add(Pointer(Value));
-end;
-
-function TIntegerList.IndexOf(AValue: Integer): Integer;
-begin
-  result := inherited IndexOf(Pointer(AVAlue));
 end;
 
 { TThreadDataItem }
@@ -322,7 +292,7 @@ begin
   end;
 end;
 
-function TThreadDataItem.GetCount(aType : TRecType):Integer;
+function TThreadDataItem.GetCount(aTypes : TRecTypes):Integer;
 var
   i : integer;
 begin
@@ -330,21 +300,26 @@ begin
   try
     result := 0;
     for i:=0 to Count - 1 do
-      if (TDataRec(Items[i]).RecType = aType) then
+      if (TDataRec(Items[i]).RecType in aTypes) then
         inc(result);
   finally
     UnLockList;
   end;
 end;
 
+function TThreadDataItem.GetCount: Integer;
+begin
+  result := GetCount([rtIn, rtOut]);
+end;
+
 function TThreadDataItem.GetInCount: Integer;
 begin
-  result := GetCount(rtIn);
+  result := GetCount([rtIn]);
 end;
 
 function TThreadDataItem.GetOutCount: Integer;
 begin
-  result := GetCount(rtOut);
+  result := GetCount([rtOut]);
 end;
 
 procedure TThreadDataItem.Put(Rec : TDataRec);

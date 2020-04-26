@@ -6,6 +6,9 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
+{$if defined(Darwin) or defined(Linux)}
+  cthreads,
+{$endif}
   uCbzViewerFrame, utils.Logger;
 
 type

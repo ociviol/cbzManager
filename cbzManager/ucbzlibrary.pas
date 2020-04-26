@@ -344,11 +344,11 @@ end;
 procedure TCbzLibrary.FormShow(Sender: TObject);
 begin
   FCurrentPath := FRootPath;
-  btnTopPath.Caption:=FRootPath;
+  btnTopPath.Caption:=FCurrentPath;
   FLvl := length(FCurrentPath.Split([PathDelim]));
 
   if not FileExists(CacheFileName) then
-    FThreadSearchFiles := ThreadedSearchFiles(FRootPath, '*.cbz', @FoundFile, @SearchEnded,
+    FThreadSearchFiles := ThreadedSearchFiles(FCurrentPath, '*.cbz', @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   Application.QueueAsyncCall(@AfterShow, 0);

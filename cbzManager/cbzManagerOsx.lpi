@@ -25,7 +25,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="11"/>
+      <BuildNr Value="12"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="cbzManager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManagerOsX" ProductName="cbzManager"/>
     </VersionInfo>
@@ -133,7 +133,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="15">
+    <Units Count="17">
       <Unit0>
         <Filename Value="cbzManagerOsx.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -201,14 +201,25 @@
         <UnitName Value="uThreadExtract"/>
       </Unit12>
       <Unit13>
-        <Filename Value="../Utils/utils.zipfile.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Utils.zipfile"/>
-      </Unit13>
-      <Unit14>
         <Filename Value="../../XmlReader/XmlDoc/uxmldoc.pas"/>
         <IsPartOfProject Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="ucbzlibrary.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="uCbzLibrary"/>
       </Unit14>
+      <Unit15>
+        <Filename Value="ucbzviewer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="ucbzviewerframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit16>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -204,6 +204,7 @@ function GetLastPath(const aPath : String):string;
 var
   a : TStringArray;
 begin
+  result := '';
   a := aPath.Split([PathDelim]);
   result := a[High(a)];
 end;
@@ -269,14 +270,12 @@ begin
     begin
       FillRect(aRect);
       b := TFileItem(FVisibleList.Objects[p]).Img;
-      s := GetLastPath(FVisibleList[p]);
+      s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
+      //showmessage('s='+s);
       X := (DefaultColWidth - b.Width) div 2;
       Y := 2; //(DefaultRowHeight - b.Height) div 2;
       Draw(aRect.Left + X, aRect.Top + Y, b);
 
-      {$if defined(Darwin)}
-      ts.SystemFont := True;
-      {$endif}
       r := aRect;
       r.top := r.Bottom - (TextHeight(s) * 3);
       ts.Wordbreak:=True;
@@ -463,7 +462,7 @@ begin
     with tButton(FBtnList[FBtnList.Count-1]) do
     begin
       AutoSize := True;
-      Caption := GetLastPath(FCurrentPath);
+      Caption := GetLastPath(ExcludeTrailingPathDelimiter(FCurrentPath));
       Align := alLeft;
       Left := 10000;
       Parent := pnlPath;

@@ -207,7 +207,9 @@
       <Unit14>
         <Filename Value="ucbzlibrary.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="CbzLibrary"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
       </Unit14>
       <Unit15>

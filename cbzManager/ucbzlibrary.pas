@@ -374,7 +374,7 @@ begin
   for i:= 0 to FVisibleList.Count - 1 do
   begin
     ltr := TSpeedButton(Sender).Caption[1];
-    s := GetLastPath(FVisibleList[i]).ToUpper;
+    s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[i])).ToUpper;
     if s.StartsWith(ltr) then
     begin
       p := i;

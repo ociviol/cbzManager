@@ -124,7 +124,7 @@ var
   a : TStringArray;
   i : integer;
 begin
-  a := ExcludeTrailingPathDelimiter(aPath).Split([PathDelim]);
+  a := aPath.Split([PathDelim]);
   result := '';
   for i:=0 to lvl do
     result := result + a[i] + PathDelim;
@@ -135,7 +135,7 @@ var
   a : TStringArray;
 begin
   result := '';
-  a := ExcludeTrailingPathDelimiter(aPath).Split([PathDelim]);
+  a := aPath.Split([PathDelim]);
   result := a[High(a)];
 end;
 
@@ -468,7 +468,7 @@ begin
   for i:= 0 to FVisibleList.Count - 1 do
   begin
     ltr := TSpeedButton(Sender).Caption[1];
-    s := GetLastPath(FVisibleList[i]).ToUpper;
+    s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[i])).ToUpper;
     if s.StartsWith(ltr) then
     begin
       p := i;

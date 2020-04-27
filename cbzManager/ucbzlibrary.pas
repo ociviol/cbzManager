@@ -23,12 +23,16 @@ type
   TFileItem = Class
   private
     FFilename : String;
-    FImg : TPicture;
+    FImg : TBitmap;
     FLog : ILog;
     FText: String;
     FReadState : Boolean;
+    FGuid : TGUID;
+    FModified : Boolean;
+    FLock : TThreadList;
+
     function GetCacheFilename: String; inline;
-    function GetImg: TPicture;
+    function GetImg: TBitmap;
   protected
     procedure SaveToXml(aNode : TXmlElement);
     procedure LoadFromXml(aNode : TXmlElement);
@@ -36,11 +40,12 @@ type
     constructor Create;
     constructor Create(aLog : ILog; const aFilename : String);
     destructor Destroy; override;
-    property Img:TPicture read GetImg;
+    property Img:TBitmap read GetImg;
     property Filename : String read FFilename;
     property CacheFilename : String read GetCacheFilename;
     property Text : String Read FText write FText;
     property ReadState : Boolean read FReadState write FReadState;
+    property Modified : Boolean read FModified;
   end;
 
   { TItemList }
@@ -48,6 +53,7 @@ type
   TItemList = Class(TThreadStringList)
   private
     Flog : ILog;
+    function GetModified: Boolean;
   protected
   public
     constructor Create(alog : ILog);
@@ -55,6 +61,7 @@ type
     procedure Clear; override;
     procedure LoadFromFile(const aFilename : String); override;
     procedure SaveToFile(const aFilename : String); override;
+    property Modified : Boolean read GetModified;
   end;
 
 
@@ -80,6 +87,18 @@ type
                        aProgress : TProgressEvent = nil);
     procedure Execute; override;
     property Cancelled : Boolean read FCancelled;
+  end;
+
+  { TThreadConv }
+
+  TThreadConv = Class(TThread)
+  private
+    FVal : Integer;
+    FFileList: TItemList;
+    procedure DoImg;
+  public
+    constructor Create(aFileList : TItemList);
+    procedure Execute; override;
   end;
 
   { TCbzLibrary }
@@ -132,7 +151,9 @@ type
     FFillThread : TThreadFill;
     FDisplayFilters : TDisplayFilters;
     FInQueue : Integer;
+    FThreadConv : TThreadConv;
 
+    procedure CheckModified;
     procedure btnletterclick(sender : Tobject);
     procedure MakeStamp(data : int64);
     procedure AfterShow(data : int64);
@@ -189,6 +210,50 @@ begin
   result := a[High(a)];
 end;
 
+
+{ TThreadConv }
+
+constructor TThreadConv.Create(aFileList: TItemList);
+begin
+  FFileList := aFileList;
+  FreeOnTerminate:=True;
+  inherited Create(False);
+end;
+
+procedure TThreadConv.DoImg;
+begin
+  TFileItem(FFileList.Objects[FVal]).Img;
+end;
+
+procedure TThreadConv.Execute;
+var
+  p : TBitmap;
+  dw : boolean;
+  i : integer;
+begin
+  while not Terminated do
+  begin
+    dw := false;
+    for i:= 0 to FFileList.Count - 1 do
+    begin
+      if Terminated then
+        Exit;
+
+      FVal := i;
+      if not Assigned(TFileItem(FFileList.Objects[FVal]).FImg) then
+      begin
+        dw := true;
+        p := TFileItem(FFileList.Objects[i]).Img;
+        //Synchronize(@DoImg);
+        //yield;
+        Sleep(25);
+      end;
+    end;
+
+    if not dw then
+      Sleep(500);
+  end;
+end;
 
 { TThreadFill }
 
@@ -276,6 +341,8 @@ constructor TFileItem.Create;
 begin
   inherited;
   FImg := nil;
+  CreateGUID(FGuid);
+  FLock := TThreadList.Create;
 end;
 
 constructor TFileItem.Create(aLog : ILog; const aFilename: String);
@@ -283,6 +350,7 @@ begin
   Create;
   FLog := aLog;
   FFilename := aFilename;
+  FModified := false;
 end;
 
 destructor TFileItem.Destroy;
@@ -290,34 +358,40 @@ begin
   Flog := nil;
   if Assigned(FImg) then
     FImg.Free;
+  FLock.Free;
   inherited Destroy;
 end;
 
-function TFileItem.GetImg: TPicture;
-var
-  b : TBitmap;
+function TFileItem.GetImg: TBitmap;
 begin
-  if not Assigned(FImg) then
-  begin
-    Fimg := TPicture.Create;
-    if FileExists(CacheFilename) then
-      FImg.LoadFromFile(CacheFilename)
-  else
-    with TCbz.Create(FLog) do
-    try
-      Open(FFilename, zmRead);
-      b := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
+  FLock.LockList;
+  try
+    if not Assigned(FImg) then
+    begin
+      Fimg := TBitmap.Create;
+      if FileExists(CacheFilename) then
+        FImg.LoadFromFile(CacheFilename)
+    else
+      with TCbz.Create(FLog) do
       try
-        Fimg.Bitmap.Assign(b);
+        Open(FFilename, zmRead);
+        FImg := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
+        {
+        try
+          Fimg.Bitmap.Assign(b);
+        finally
+          b.Free;
+        end;
+        }
+        FImg.SaveToFile(CacheFilename);
       finally
-        b.Free;
+        free;
       end;
-      FImg.SaveToFile(CacheFilename, 'jpg');
-    finally
-      free;
     end;
+    result := FImg;
+  finally
+    FLock.UnlockList;
   end;
-  result := FImg;
 end;
 
 function TFileItem.GetCacheFilename: String;
@@ -329,24 +403,42 @@ begin
     IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Library\';
 {$endif}
   ForceDirectories(result);
-  result :=  result + Filename.Replace(':','-').Replace(PathDelim, '-');
-  result := ChangeFileExt(result, '.jpg');
+  result :=  result + GUIDToString(FGuid) +'.bmp';
+  //result := ChangeFileExt(result, '.bmp');
 end;
 
 procedure TFileItem.SaveToXml(aNode: TXmlElement);
 begin
   aNode.SetAttribute('Filename', FFilename);
   aNode.SetAttributeBool('ReadState', ReadState);
+  aNode.SetAttribute('Guid', GUIDToString(FGuid));
 end;
 
 procedure TFileItem.LoadFromXml(aNode: TXmlElement);
+var
+  s : string;
 begin
   FReadState := aNode.GetAttributeBool('ReadState');
   FFilename:= aNode.GetAttribute('Filename');
+  s := aNode.GetAttribute('Guid');
+  if s <> '' then
+    FGuid := StringToGUID(s)
+  else
+    FModified := True;
 end;
 
 
 { TItemList }
+
+function TItemList.GetModified: Boolean;
+var
+  i : integer;
+begin
+  for i:= 0 to Count - 1 do
+    if TFileItem(Objects[i]).Modified then
+      Exit(True);
+  result := False;
+end;
 
 constructor TItemList.Create(alog : ILog);
 begin
@@ -463,6 +555,7 @@ begin
       onclick := @btnletterclick;
     end;
 
+  FThreadConv := TThreadConv.Create(FFileList);
 end;
 
 procedure TCbzLibrary.FormDestroy(Sender: TObject);
@@ -484,7 +577,7 @@ procedure TCbzLibrary.dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 var
   p, x, y : integer;
-  pic : TPicture;
+  pic : TBitmap;
   s : string;
   r : TRect;
   ts : TTextStyle;
@@ -515,9 +608,9 @@ begin
         pic := TFileItem(FVisibleList.Objects[p]).Img;
         s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
         //showmessage('s='+s);
-        X := (DefaultColWidth - pic.Graphic.Width) div 2;
+        X := (DefaultColWidth - pic.Width) div 2;
         Y := 3; //(DefaultRowHeight - b.Height) div 2;
-        Draw(aRect.Left + X, aRect.Top + Y, pic.Graphic);
+        Draw(aRect.Left + X, aRect.Top + Y, pic);
 
         r := aRect;
         r.top := r.Bottom - (TextHeight(s) * 3);
@@ -600,6 +693,7 @@ begin
   FConfig.LibraryWidth := Width;
   FConfig.LibraryHeight := Height;
 
+  FThreadConv.Terminate;
   if Assigned(FFillThread) then
   begin
     FFillThread.Terminate;
@@ -703,6 +797,12 @@ begin
   ForceDirectories(ExtractFilePath(result));
 end;
 
+procedure TCbzLibrary.CheckModified;
+begin
+  if FFileList.Modified then
+    FFileList.SaveToFile(GetCacheFileName);
+end;
+
 procedure TCbzLibrary.btnletterclick(sender: Tobject);
 var
   p, c, r, i : integer;
@@ -761,7 +861,7 @@ end;
 
 procedure TCbzLibrary.MakeStamp(data: int64);
 var
-  img : TPicture;
+  img : TBitmap;
 begin
   img := TFileItem(data).Img;
 end;
@@ -894,7 +994,7 @@ begin
       if IndexOf(s) < 0 then
       begin
         AddObject(s, fi);
-        Application.QueueAsyncCall(@MakeStamp, int64(fi));
+        //Application.QueueAsyncCall(@MakeStamp, int64(fi));
       end;
   end;
   result := nil;

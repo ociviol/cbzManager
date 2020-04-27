@@ -85,6 +85,7 @@ type
     FCurrentPath : String;
     FLvl : Integer;
     Fconfig : TConfig;
+    FPathPos : array of TPoint;
 
     procedure btnletterclick(sender : Tobject);
     procedure MakeStamp(data : int64);
@@ -544,13 +545,27 @@ procedure TCbzLibrary.FillGrid(bAddButton : Boolean = True);
 var
   s : string;
   i : integer;
+  z, oldtoprow, oldrow : longint;
 begin
   Progress(Self, 0, 0, 0, 'Loading folder...');
   btnRefresh.Enabled:=False;
   try
+    if Length(FPathPos) <= 0 then
+    begin
+      SetLength(FPathPos, 1);
+    end;
+
+    FPathPos[FLvl-1].x := dgLibrary.Col;
+    z := dgLibrary.TopRow shl 16;
+    inc(z, dgLibrary.Row);
+    FPathPos[FLvl-1].y := z;
+
     Flvl := length(FCurrentPath.Split([PathDelim]));
     FVisibleList.Clear;
     SizeGrid;
+
+    if Flvl > Length(FPathPos) then
+      SetLength(FPathPos, Flvl);
 
     if bAddButton then
     begin
@@ -564,6 +579,14 @@ begin
         Parent := pnlPath;
         OnClick := @DefaultBtnClick;
       end;
+    end;
+
+    if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
+    begin
+      dgLibrary.Col := FPathPos[FLvl-1].x;
+      oldtoprow := (FPathPos[FLvl-1].y shr 16);
+      oldrow := (FPathPos[FLvl-1].y shl 16);
+      oldrow := oldrow shr 16;
     end;
 
     for i := 0 to FFileList.Count - 1 do
@@ -581,12 +604,25 @@ begin
           begin
             AddObject(s, FFileList.Objects[i]);
             SizeGrid;
+
+            with dgLibrary do
+              if RowCount >= oldrow then
+                if ((FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0)) then
+                  if (TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x) then
+                  begin
+                    Col := FPathPos[FLvl-1].x;
+                    TopRow := oldtoprow;
+                    Row := oldrow;
+                    dgLibrary.Update;
+                  end;
+
             if (i mod 10) = 0 then
               Application.ProcessMessages;
           end;
       end;
     end;
     SizeGrid;
+
   finally
     btnRefresh.Enabled:=True;
   end;

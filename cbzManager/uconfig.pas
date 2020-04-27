@@ -27,7 +27,8 @@ type
     FBlog,
     FDeleteFile,
     FShowStats,
-    FHighPerf: Boolean;
+    FHighPerf,
+    FLHideRead: Boolean;
     FLibPath: String;
     Fcwebp,
     Funrar,
@@ -57,6 +58,7 @@ type
     property LibraryTop : Integer read FLTop write FLTop;
     property LibraryWidth : Integer read FLWidth write FLWidth;
     property LibraryHeight : Integer read FLHeight write FLHeight;
+    property LibraryHideRead : Boolean read FLHideRead write FLHideRead;
     property DoLog : Boolean read FBlog write FBlog;
     property BdPathPath: String read FBdPathPath write FBdPathPath;
     property cwebp: String read Fcwebp write Fcwebp;

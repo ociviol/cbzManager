@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Grids, ComCtrls,
-  ExtCtrls, StdCtrls, Buttons, Types,
+  ExtCtrls, StdCtrls, Buttons, Menus, Types,
 {$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}
@@ -14,6 +14,9 @@ uses
 
 
 type
+
+  TDisplayFilter = (dfUnread, dfAll);
+  TDisplayFilters = set of TDisplayFilter;
 
   { TFileItem }
 
@@ -37,7 +40,7 @@ type
     property Filename : String read FFilename;
     property CacheFilename : String read GetCacheFilename;
     property Text : String Read FText write FText;
-    property ReadState : Boolean read FReadState;
+    property ReadState : Boolean read FReadState write FReadState;
   end;
 
   { TItemList }
@@ -65,14 +68,18 @@ type
     FLvl : Integer;
     FProgress : TProgressEvent;
     FProgressChar : Char;
+    FCancelled : Boolean;
+    FDisplayFilters : TDisplayFilters;
 
     procedure DoProgress;
   public
     constructor Create(aFileList : TItemList; aVisibleList : TStringlist;
                        const aCurrentPath : String; aLvl : Integer;
+                       aDisplayFilters : TDisplayFilters;
                        aOnTerminate : TNotifyEvent;
                        aProgress : TProgressEvent = nil);
     procedure Execute; override;
+    property Cancelled : Boolean read FCancelled;
   end;
 
   { TCbzLibrary }
@@ -81,21 +88,31 @@ type
     btnReturn: TSpeedButton;
     btnTopPath: TButton;
     btnRefresh: TButton;
+    cbHideRead: TCheckBox;
     dgLibrary: TDrawGrid;
+    mnuReadStatus: TMenuItem;
+    Panel1: TPanel;
     pnlbtns: TPanel;
     pnlPath: TPanel;
+    PopupMenu1: TPopupMenu;
     StatusBar1: TStatusBar;
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
+    procedure cbHideReadClick(Sender: TObject);
     procedure dgLibraryDblClick(Sender: TObject);
     procedure dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
+    procedure dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure dgLibraryMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
+    procedure mnuReadStatusClick(Sender: TObject);
   private
     function GetCacheFileName: String;
   private
@@ -110,6 +127,7 @@ type
     Fconfig : TConfig;
     FPathPos : array of TPoint;
     FFillThread : TThreadFill;
+    FDisplayFilters : TDisplayFilters;
 
     procedure btnletterclick(sender : Tobject);
     procedure MakeStamp(data : int64);
@@ -138,7 +156,7 @@ var
 implementation
 
 uses
-  utils.zipfile, ucbz, uCbzViewer;
+  StrUtils, utils.zipfile, ucbz, uCbzViewer;
 
 {$R *.lfm}
 
@@ -172,6 +190,7 @@ end;
 
 constructor TThreadFill.Create(aFileList: TItemList; aVisibleList: TStringlist;
                                const aCurrentPath : String; aLvl : Integer;
+                               aDisplayFilters : TDisplayFilters;
                                aOnTerminate : TNotifyEvent;
                                aProgress : TProgressEvent = nil);
 begin
@@ -183,6 +202,8 @@ begin
   OnTerminate:=aOnTerminate;
   FProgress := aProgress;
   FProgressChar := '|';
+  FCancelled:=FAlse;
+  FDisplayFilters:=aDisplayFilters;
   inherited Create(False);
 end;
 
@@ -207,7 +228,10 @@ begin
     for i := 0 to FFileList.Count - 1 do
     begin
       if Terminated then
+      begin
+        FCancelled:=True;
         Exit;
+      end;
 
       if FFileList[i].StartsWith(FCurrentPath) then
       begin
@@ -217,6 +241,10 @@ begin
         else
           s := FFileList[i];
 
+        if (dfUnread in FDisplayFilters) then
+          if TFileItem(FFileList.Objects[i]).ReadState then
+            continue;
+
         with FVisibleList do
           if IndexOf(s) < 0 then
             AddObject(s, FFileList.Objects[i]);
@@ -224,7 +252,7 @@ begin
         if (i mod 250) = 0 then
         begin
           Synchronize(@DoProgress);
-          Sleep(25);
+          Sleep(10);
         end;
       end;
     end;
@@ -409,11 +437,14 @@ begin
     Height := FConfig.LibraryHeight;
 
   Flog.Log('cbzLibrary started.');
+  FDisplayFilters := [dfAll];
+  cbHideRead.Checked := Fconfig.LibraryHideRead;
   FFileList := TItemList.Create(Flog);
   FBtnList := TList.Create;
   FVisibleList := TThreadStringList.Create;
   FVisibleList.OnChanging := @VisibleListChanged;
   FVisibleList.Sorted:=True;
+
 
   for c := 'Z' downto 'A' do
     with TSpeedButton.Create(self) do
@@ -467,17 +498,71 @@ begin
 
         r := aRect;
         r.top := r.Bottom - (TextHeight(s) * 3);
+        ts.ShowPrefix:=False;
         ts.Wordbreak:=True;
         ts.SingleLine:=False;
         ts.Alignment := taCenter;
+        ts.RightToLeft := FAlse;
         ts.Opaque:=False;
         ts.Layout := tlCenter;
+        //TextOut(r.Left, r.top, s);
         TextRect(r, 0, 0, s, ts);
       end;
 
       if gdFocused in aState then
         DrawFocusRect(aRect);
     end;
+end;
+
+procedure TCbzLibrary.dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  p, arow, acol : integer;
+begin
+  if Button = mbRight then
+  begin
+    with dgLibrary do
+    begin
+      MouseToCell(x,y, aCol, aRow);
+      Row := aRow;
+      Col := aCol;
+    end;
+  end;
+end;
+
+procedure TCbzLibrary.dgLibraryMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  p : integer;
+begin
+  if Button = mbRight then
+  begin
+    p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
+    //mnuReadStatus.Enabled := FileExists(FVisibleList[p]);
+    mnuReadStatus.Caption :=
+            ifThen(TFileItem(FVisibleList.Objects[p]).ReadState,
+                   'Mark as Unread', 'Mark as Read');
+
+    PopupMenu1.PopUp(dgLibrary.ClientOrigin.x + X, dgLibrary.ClientOrigin.y + Y);
+  end;
+end;
+
+procedure TCbzLibrary.mnuReadStatusClick(Sender: TObject);
+var
+  p, i : integer;
+begin
+  p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
+  if FileExists(FVisibleList[p]) then
+    with TFileItem(FVisibleList.Objects[p]) do
+      ReadState := not ReadState
+  else
+  for i := 0 to FFileList.Count - 1 do
+    if FFileList[i].StartsWith(FVisibleList[p]) then
+      if FileExists(FFileList[i]) then
+         with TFileItem(FFileList.Objects[i]) do
+              ReadState := not ReadState;
+  FillGrid(False);
+  FFileList.SaveToFile(GetCacheFileName);
 end;
 
 procedure TCbzLibrary.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -524,6 +609,18 @@ begin
   end;
   FCurrentPath := btnTopPath.Caption;
   FillGrid(False);
+end;
+
+procedure TCbzLibrary.cbHideReadClick(Sender: TObject);
+begin
+  Fconfig.LibraryHideRead:=cbHideRead.Checked;
+  if cbHideRead.Checked then
+    FDisplayFilters := [dfUnread]
+  else
+    FDisplayFilters := [dfAll];
+
+  if Assigned(FVisibleList) then
+    FillGrid(False);
 end;
 
 procedure TCbzLibrary.btnRefreshClick(Sender: TObject);
@@ -640,8 +737,6 @@ begin
     finally
       EndUpdate;
     end;
-    //Invalidate;
-    //Update;
   end;
 end;
 
@@ -666,9 +761,7 @@ end;
 
 procedure TCbzLibrary.FillGrid(bAddButton : Boolean = True);
 var
-  s : string;
-  i : integer;
-  z, oldtoprow, oldrow : longint;
+  z : longint;
 begin
   if Assigned(FFillThread) then
   begin
@@ -684,8 +777,7 @@ begin
   end;
 
   FPathPos[FLvl-1].x := dgLibrary.Col;
-  z := dgLibrary.TopRow shl 16;
-  inc(z, dgLibrary.Row);
+  z := MakeLong(dgLibrary.TopRow, dgLibrary.Row);
   FPathPos[FLvl-1].y := z;
 
   Flvl := length(FCurrentPath.Split([PathDelim]));
@@ -709,59 +801,7 @@ begin
     end;
   end;
 
-  if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
-  begin
-    dgLibrary.Col := FPathPos[FLvl-1].x;
-    oldtoprow := (FPathPos[FLvl-1].y shr 16);
-    oldrow := (FPathPos[FLvl-1].y shl 16);
-    oldrow := oldrow shr 16;
-  end;
-
-  FFillThread := TThreadFill.Create(FFileList, FVisibleList, FCurrentPath, FLvl, @ThreadFillTerminate, @Progress);
-
-    (*
-
-    for i := 0 to FFileList.Count - 1 do
-    begin
-      if FFileList[i].StartsWith(FCurrentPath) then
-      begin
-        s := ExcludeTrailingPathDelimiter(ExtractFilePath(FFileList[i]));
-        if Length(s.Split([PathDelim])) > FLvl then
-          s := GetFirstPath(s, FLvl)
-        else
-          s := FFileList[i];
-
-        with FVisibleList do
-          if IndexOf(s) < 0 then
-          begin
-            AddObject(s, FFileList.Objects[i]);
-            SizeGrid;
-
-            with dgLibrary do
-            begin
-              if (RowCount >= oldrow) and (RowCount > 0) then
-                if (FPathPos[FLvl-1].y <> 0) and
-                   ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
-                begin
-                  Col := FPathPos[FLvl-1].x;
-                  TopRow := oldtoprow;
-                  Row := oldrow;
-                  Invalidate;
-                end;
-              update;
-            end;
-
-            if (i mod 10) = 0 then
-              Application.ProcessMessages;
-          end;
-      end;
-    end;
-    SizeGrid;
-
-  finally
-    btnRefresh.Enabled:=True;
-  end;
-  *)
+  FFillThread := TThreadFill.Create(FFileList, FVisibleList, FCurrentPath, FLvl, FDisplayFilters,@ThreadFillTerminate, @Progress);
 end;
 
 procedure TCbzLibrary.SearchEnded(Sender: TObject);
@@ -773,8 +813,7 @@ begin
   btnRefresh.Enabled:=True;
 end;
 
-function TCbzLibrary.FoundFile(const aFileName: string; IsNew: Boolean
-  ): TTreeNode;
+function TCbzLibrary.FoundFile(const aFileName: string; IsNew: Boolean): TTreeNode;
 var
   fi : TFileItem;
   acol, arow : integer;
@@ -805,13 +844,8 @@ begin
         AddObject(s, fi);
         Application.QueueAsyncCall(@MakeStamp, int64(fi));
       end;
-
-    if dgLibrary.RowCount = aRow then
-      dgLibrary.RowCount := aRow + 1;
-    if dgLibrary.IsCellVisible(aCol, aRow) then
-      dgLibrary.InvalidateCell(aCol, aRow);
-    //Application.ProcessMessages;
   end;
+  result := nil;
 end;
 
 procedure TCbzLibrary.Progress(Sender: TObject; const ProgressID: QWord;
@@ -832,10 +866,29 @@ begin
 end;
 
 procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);
+var
+  oldtoprow, oldrow : Integer;
 begin
   Progress(Self, 0, 0, 0, 'Ready.');
   FFillThread := nil;
-  SizeGrid;
+
+  if not TThreadFill(Sender).Cancelled then
+    if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
+    begin
+      dgLibrary.Col := FPathPos[FLvl-1].x;
+      oldtoprow := HighWord(FPathPos[FLvl-1].y);
+      oldrow := LowWord(FPathPos[FLvl-1].y);
+
+      with dgLibrary do
+        if (RowCount >= oldrow) and (RowCount > 0) then
+          if (FPathPos[FLvl-1].y <> 0) and
+             ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
+          begin
+            Col := FPathPos[FLvl-1].x;
+            TopRow := oldtoprow;
+            Row := oldrow;
+          end;
+    end;
 end;
 
 

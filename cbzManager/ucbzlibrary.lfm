@@ -45,6 +45,8 @@ object CbzLibrary: TCbzLibrary
     TitleFont.Quality = fqDraft
     OnDblClick = dgLibraryDblClick
     OnDrawCell = dgLibraryDrawCell
+    OnMouseDown = dgLibraryMouseDown
+    OnMouseUp = dgLibraryMouseUp
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -91,7 +93,43 @@ object CbzLibrary: TCbzLibrary
       Top = 2
       Width = 23
       Align = alLeft
+      Glyph.Data = {
+        76010000424D7801000000000000760000002800000020000000100000000100
+        04000000000000000000120B0000120B00000000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+        3333333333333333333333333333333333333333333333333333333333333333
+        3333333333333FF3333333333333003333333333333F77F33333333333009033
+        333333333F7737F333333333009990333333333F773337FFFFFF330099999000
+        00003F773333377777770099999999999990773FF33333FFFFF7330099999000
+        000033773FF33777777733330099903333333333773FF7F33333333333009033
+        33333333337737F3333333333333003333333333333377333333333333333333
+        3333333333333333333333333333333333333333333333333333333333333333
+        3333333333333333333333333333333333333333333333333333
+      }
+      NumGlyphs = 2
       OnClick = btnReturnClick
+    end
+    object Panel1: TPanel
+      Left = 944
+      Height = 22
+      Top = 2
+      Width = 115
+      Align = alRight
+      BevelOuter = bvLowered
+      ClientHeight = 22
+      ClientWidth = 115
+      TabOrder = 2
+      object cbHideRead: TCheckBox
+        Left = 1
+        Height = 20
+        Top = 1
+        Width = 113
+        Align = alClient
+        Caption = 'Hide read books '
+        OnClick = cbHideReadClick
+        TabOrder = 0
+      end
     end
   end
   object pnlbtns: TPanel
@@ -102,5 +140,13 @@ object CbzLibrary: TCbzLibrary
     Align = alLeft
     BorderSpacing.Around = 10
     TabOrder = 3
+  end
+  object PopupMenu1: TPopupMenu
+    left = 265
+    top = 145
+    object mnuReadStatus: TMenuItem
+      Caption = 'Read Status'
+      OnClick = mnuReadStatusClick
+    end
   end
 end

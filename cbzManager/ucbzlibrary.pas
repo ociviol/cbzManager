@@ -465,19 +465,25 @@ var
   s, ltr : string;
 begin
   p := -1;
-  for i:= 0 to FVisibleList.Count - 1 do
-  begin
-    ltr := TSpeedButton(Sender).Caption[1];
-    s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[i])).ToUpper;
-    if s.StartsWith(ltr) then
+  Screen.Cursor := crHourGlass;
+  try
+    for i:= 0 to FVisibleList.Count - 1 do
     begin
-      p := i;
-      r := p div dgLibrary.ColCount;
-      c := p - (r * dgLibrary.ColCount);
-      dgLibrary.Row := r;
-      dgLibrary.col := c;
-      break;
+      ltr := TSpeedButton(Sender).Caption[1];
+      s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[i])).ToUpper;
+      if s.StartsWith(ltr) then
+        with dgLibrary do
+        begin
+          p := i;
+          r := p div ColCount;
+          c := p - (r * ColCount);
+          TopRow := r;
+          col := c;
+          break;
+        end;
     end;
+  finally
+    Screen.Cursor := crDefault;
   end;
 end;
 
@@ -575,7 +581,8 @@ begin
           begin
             AddObject(s, FFileList.Objects[i]);
             SizeGrid;
-            Application.ProcessMessages;
+            if (i mod 10) = 0 then
+              Application.ProcessMessages;
           end;
       end;
     end;

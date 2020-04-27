@@ -493,7 +493,10 @@ begin
     with dgLibrary, Canvas do
     begin
       {$ifdef Darwin}
-      Brush.Color := clGray;
+      if TFileItem(FVisibleList.Objects[p]).ReadState then
+        Brush.Color := clBlack
+      else
+        Brush.Color := clGray;
       {$else}
       if TFileItem(FVisibleList.Objects[p]).ReadState then
         Brush.Color := clGray

@@ -492,25 +492,35 @@ begin
   if p < FVisibleList.Count then
     with dgLibrary, Canvas do
     begin
-      FillRect(aRect);
+      if not FileExists(FVisibleList[p]) then
+        Brush.color := clSilver //clLime // clYellow
+      else
+        BRush.Color := clWhite;
+
+      //FillRect(aRect);
+      r := aRect;
+      r.Inflate(-2, -2, -2, -2);
+      FillRect(r);
+
       if Assigned(FVisibleList.Objects[p]) then
       begin
         pic := TFileItem(FVisibleList.Objects[p]).Img;
         s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
         //showmessage('s='+s);
         X := (DefaultColWidth - pic.Graphic.Width) div 2;
-        Y := 2; //(DefaultRowHeight - b.Height) div 2;
+        Y := 3; //(DefaultRowHeight - b.Height) div 2;
         Draw(aRect.Left + X, aRect.Top + Y, pic.Graphic);
 
         r := aRect;
         r.top := r.Bottom - (TextHeight(s) * 3);
+        r.Bottom:=r.Bottom-3;
         ts.ShowPrefix:=False;
         ts.Wordbreak:=True;
         ts.SingleLine:=False;
         ts.Alignment := taCenter;
         ts.RightToLeft := FAlse;
         ts.Opaque:=False;
-        ts.Layout := tlCenter;
+        ts.Layout := tlBottom; //tlCenter;
         //TextOut(r.Left, r.top, s);
         TextRect(r, 0, 0, s, ts);
       end;

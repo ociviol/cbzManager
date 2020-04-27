@@ -10,26 +10,10 @@ uses
 {$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}
-  Utils.SearchFiles, utils.Logger, uxmldoc, uConfig;
+  Utils.SearchFiles, utils.Logger, uxmldoc, uConfig, Utils.Strings;
 
 
 type
-
-  { TThreadStringList }
-
-  TThreadStringList = Class(TStringList)
-  private
-    FLock : TThreadList;
-  protected
-    function Get(Index: Integer): string; override;
-    function GetObject(Index: Integer): TObject; override;
-    procedure Put(Index: Integer; const S: string); override;
-    procedure PutObject(Index: Integer; AObject: TObject); override;
-    function GetCount: Integer; override;
-  public
-    constructor Create;
-    destructor Destroy; override;
-  end;
 
   { TFileItem }
 
@@ -74,13 +58,15 @@ type
   { TThreadFill }
 
   TThreadFill = Class(TThread)
-    private
-      FFileList : TItemList;
-      FVisibleList : TStringlist;
-      FCurrentPath : String;
-      FLvl : Integer;
-      FProgress : TProgressEvent;
-      procedure SizeGrid;
+  private
+    FFileList : TItemList;
+    FVisibleList : TStringlist;
+    FCurrentPath : String;
+    FLvl : Integer;
+    FProgress : TProgressEvent;
+    FProgressChar : Char;
+
+    procedure DoProgress;
   public
     constructor Create(aFileList : TItemList; aVisibleList : TStringlist;
                        const aCurrentPath : String; aLvl : Integer;
@@ -181,77 +167,8 @@ begin
   result := a[High(a)];
 end;
 
-{ TThreadStringList }
-
-function TThreadStringList.Get(Index: Integer): string;
-begin
-  Flock.LockList;
-  try
-    Result:=inherited Get(Index);
-  finally
-    FLock.UnlockList;
-  end;
-end;
-
-function TThreadStringList.GetObject(Index: Integer): TObject;
-begin
-  Flock.LockList;
-  try
-    Result:=inherited GetObject(Index);
-  finally
-    FLock.UnlockList;
-  end;
-end;
-
-procedure TThreadStringList.Put(Index: Integer; const S: string);
-begin
-  Flock.LockList;
-  try
-    inherited Put(Index, S);
-  finally
-    FLock.UnlockList;
-  end;
-end;
-
-procedure TThreadStringList.PutObject(Index: Integer; AObject: TObject);
-begin
-  Flock.LockList;
-  try
-    inherited PutObject(Index, AObject);
-  finally
-    FLock.UnlockList;
-  end;
-end;
-
-function TThreadStringList.GetCount: Integer;
-begin
-  Flock.LockList;
-  try
-    Result:=inherited GetCount;
-  finally
-    FLock.UnlockList;
-  end;
-end;
-
-constructor TThreadStringList.Create;
-begin
-  Flock := TThreadList.Create;
-  inherited Create;
-end;
-
-destructor TThreadStringList.Destroy;
-begin
-  flock.Free;
-  inherited Destroy;
-end;
-
 
 { TThreadFill }
-
-procedure TThreadFill.SizeGrid;
-begin
-
-end;
 
 constructor TThreadFill.Create(aFileList: TItemList; aVisibleList: TStringlist;
                                const aCurrentPath : String; aLvl : Integer;
@@ -265,7 +182,19 @@ begin
   FreeOnTerminate:=True;
   OnTerminate:=aOnTerminate;
   FProgress := aProgress;
+  FProgressChar := '|';
   inherited Create(False);
+end;
+
+procedure TThreadFill.DoProgress;
+begin
+  case FProgressChar of
+    '|': FProgressChar := '/';
+    '/': FProgressChar := '-';
+    '-': FProgressChar := '\';
+    '\': FProgressChar := '|';
+  end;
+  FProgress(Self, 0, 0, 0, 'Loading folder ' + FProgressChar);
 end;
 
 procedure TThreadFill.Execute;
@@ -292,8 +221,11 @@ begin
           if IndexOf(s) < 0 then
             AddObject(s, FFileList.Objects[i]);
 
-        if (i mod 25) = 0 then
+        if (i mod 250) = 0 then
+        begin
+          Synchronize(@DoProgress);
           Sleep(25);
+        end;
       end;
     end;
     Terminate;
@@ -745,48 +677,49 @@ begin
   end;
   Progress(Self, 0, 0, 0, 'Loading folder...');
   btnRefresh.Enabled:=False;
-  try
-    if Length(FPathPos) <= 0 then
+
+  if Length(FPathPos) <= 0 then
+  begin
+    SetLength(FPathPos, 1);
+  end;
+
+  FPathPos[FLvl-1].x := dgLibrary.Col;
+  z := dgLibrary.TopRow shl 16;
+  inc(z, dgLibrary.Row);
+  FPathPos[FLvl-1].y := z;
+
+  Flvl := length(FCurrentPath.Split([PathDelim]));
+  FVisibleList.Clear;
+  SizeGrid;
+
+  if Flvl > Length(FPathPos) then
+    SetLength(FPathPos, Flvl);
+
+  if bAddButton then
+  begin
+    FBtnList.Add(TButton.Create(self));
+    with tButton(FBtnList[FBtnList.Count-1]) do
     begin
-      SetLength(FPathPos, 1);
+      AutoSize := True;
+      Caption := GetLastPath(ExcludeTrailingPathDelimiter(FCurrentPath));
+      Align := alLeft;
+      Left := 10000;
+      Parent := pnlPath;
+      OnClick := @DefaultBtnClick;
     end;
+  end;
 
-    FPathPos[FLvl-1].x := dgLibrary.Col;
-    z := dgLibrary.TopRow shl 16;
-    inc(z, dgLibrary.Row);
-    FPathPos[FLvl-1].y := z;
+  if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
+  begin
+    dgLibrary.Col := FPathPos[FLvl-1].x;
+    oldtoprow := (FPathPos[FLvl-1].y shr 16);
+    oldrow := (FPathPos[FLvl-1].y shl 16);
+    oldrow := oldrow shr 16;
+  end;
 
-    Flvl := length(FCurrentPath.Split([PathDelim]));
-    FVisibleList.Clear;
-    SizeGrid;
+  FFillThread := TThreadFill.Create(FFileList, FVisibleList, FCurrentPath, FLvl, @ThreadFillTerminate, @Progress);
 
-    if Flvl > Length(FPathPos) then
-      SetLength(FPathPos, Flvl);
-
-    if bAddButton then
-    begin
-      FBtnList.Add(TButton.Create(self));
-      with tButton(FBtnList[FBtnList.Count-1]) do
-      begin
-        AutoSize := True;
-        Caption := GetLastPath(ExcludeTrailingPathDelimiter(FCurrentPath));
-        Align := alLeft;
-        Left := 10000;
-        Parent := pnlPath;
-        OnClick := @DefaultBtnClick;
-      end;
-    end;
-
-    if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
-    begin
-      dgLibrary.Col := FPathPos[FLvl-1].x;
-      oldtoprow := (FPathPos[FLvl-1].y shr 16);
-      oldrow := (FPathPos[FLvl-1].y shl 16);
-      oldrow := oldrow shr 16;
-    end;
-
-    FFillThread := TThreadFill.Create(FFileList, FVisibleList, FCurrentPath, FLvl, @ThreadFillTerminate);
-    Exit;
+    (*
 
     for i := 0 to FFileList.Count - 1 do
     begin
@@ -828,6 +761,7 @@ begin
   finally
     btnRefresh.Enabled:=True;
   end;
+  *)
 end;
 
 procedure TCbzLibrary.SearchEnded(Sender: TObject);

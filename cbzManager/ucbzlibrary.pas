@@ -90,6 +90,8 @@ type
     btnRefresh: TButton;
     cbHideRead: TCheckBox;
     dgLibrary: TDrawGrid;
+    edtSearch: TEdit;
+    Label1: TLabel;
     mnuReadStatus: TMenuItem;
     Panel1: TPanel;
     pnlbtns: TPanel;
@@ -106,6 +108,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure dgLibraryMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure edtSearchChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -706,6 +709,34 @@ begin
   end;
 end;
 
+procedure TCbzLibrary.edtSearchChange(Sender: TObject);
+var
+  p, c, r, i : integer;
+  s, ltr : string;
+begin
+  p := -1;
+  Screen.Cursor := crHourGlass;
+  try
+    for i:= 0 to FVisibleList.Count - 1 do
+    begin
+      ltr := UpperCase(edtSearch.Text);
+      s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[i])).ToUpper;
+      if s.StartsWith(ltr) then
+        with dgLibrary do
+        begin
+          p := i;
+          r := p div ColCount;
+          c := p - (r * ColCount);
+          TopRow := r;
+          col := c;
+          break;
+        end;
+    end;
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
 procedure TCbzLibrary.MakeStamp(data: int64);
 var
   img : TPicture;
@@ -882,11 +913,7 @@ end;
 procedure TCbzLibrary.VisibleListChanged(Sender: TObject);
 begin
   if FVisibleList.Count > 0 then
-  begin
     Application.QueueAsyncCall(@DoSizegrid, 0);
-
-
-  end;
 end;
 
 procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);

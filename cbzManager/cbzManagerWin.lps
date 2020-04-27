@@ -195,14 +195,14 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="855"/>
-        <CursorPos Y="875"/>
+        <TopLine Value="705"/>
+        <CursorPos Y="727"/>
         <UsageCount Value="136"/>
         <Bookmarks Count="4">
-          <Item0 X="3" Y="822"/>
-          <Item1 X="5" Y="208" ID="3"/>
-          <Item2 X="29" Y="542" ID="2"/>
-          <Item3 X="5" Y="888" ID="1"/>
+          <Item0 X="3" Y="853"/>
+          <Item1 X="5" Y="211" ID="3"/>
+          <Item2 X="29" Y="545" ID="2"/>
+          <Item3 X="6" Y="696" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -586,123 +586,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="554" TopLine="540"/>
+        <Caret Line="614" Column="3" TopLine="606"/>
       </Position1>
       <Position2>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="559" TopLine="540"/>
+        <Caret Line="564" TopLine="549"/>
       </Position2>
       <Position3>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="500" Column="27" TopLine="474"/>
+        <Caret Line="615" TopLine="598"/>
       </Position3>
       <Position4>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="439" Column="48" TopLine="426"/>
+        <Caret Line="622" TopLine="598"/>
       </Position4>
       <Position5>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="440" Column="3" TopLine="423"/>
+        <Caret Line="441" Column="49" TopLine="416"/>
       </Position5>
       <Position6>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="621" TopLine="605"/>
+        <Caret Line="872" TopLine="854"/>
       </Position6>
       <Position7>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="618" Column="130" TopLine="605"/>
+        <Caret Line="873" TopLine="854"/>
       </Position7>
       <Position8>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="614" TopLine="605"/>
+        <Caret Line="874" TopLine="854"/>
       </Position8>
       <Position9>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="621" TopLine="605"/>
+        <Caret Line="876" TopLine="854"/>
       </Position9>
       <Position10>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="614" TopLine="605"/>
+        <Caret Line="877" TopLine="854"/>
       </Position10>
       <Position11>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="621" TopLine="605"/>
+        <Caret Line="881" TopLine="859"/>
       </Position11>
       <Position12>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="810" Column="43" TopLine="797"/>
+        <Caret Line="879" Column="113" TopLine="859"/>
       </Position12>
       <Position13>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="614" Column="3" TopLine="606"/>
+        <Caret Line="871" Column="5" TopLine="859"/>
       </Position13>
       <Position14>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="564" TopLine="549"/>
+        <Caret Line="135" Column="15" TopLine="120"/>
       </Position14>
       <Position15>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="615" TopLine="598"/>
+        <Caret Line="866" TopLine="854"/>
       </Position15>
       <Position16>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="622" TopLine="598"/>
+        <Caret Line="863" Column="10" TopLine="846"/>
       </Position16>
       <Position17>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="441" Column="49" TopLine="416"/>
+        <Caret Line="875" TopLine="855"/>
       </Position17>
       <Position18>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="872" TopLine="854"/>
+        <Caret Line="866" TopLine="855"/>
       </Position18>
       <Position19>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="873" TopLine="854"/>
+        <Caret Line="693" Column="6" TopLine="672"/>
       </Position19>
       <Position20>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="874" TopLine="854"/>
+        <Caret Line="700" Column="6" TopLine="679"/>
       </Position20>
       <Position21>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="876" TopLine="854"/>
+        <Caret Line="554" TopLine="543"/>
       </Position21>
       <Position22>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="877" TopLine="854"/>
+        <Caret Line="727" Column="91" TopLine="709"/>
       </Position22>
       <Position23>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="881" TopLine="859"/>
+        <Caret Line="723" TopLine="709"/>
       </Position23>
       <Position24>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="879" Column="113" TopLine="859"/>
+        <Caret Line="726" TopLine="709"/>
       </Position24>
       <Position25>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="871" Column="5" TopLine="859"/>
+        <Caret Line="723" TopLine="709"/>
       </Position25>
       <Position26>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="135" Column="15" TopLine="120"/>
+        <Caret Line="721" Column="39" TopLine="704"/>
       </Position26>
       <Position27>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="866" TopLine="854"/>
+        <Caret Line="717" TopLine="704"/>
       </Position27>
       <Position28>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="863" Column="10" TopLine="846"/>
+        <Caret Line="726" TopLine="704"/>
       </Position28>
       <Position29>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="875" TopLine="855"/>
+        <Caret Line="717" TopLine="704"/>
       </Position29>
       <Position30>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="866" TopLine="855"/>
+        <Caret Line="726" TopLine="704"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -717,14 +717,14 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="841"/>
+        <Line Value="872"/>
       </Item1>
       <Item2>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="840"/>
+        <Line Value="871"/>
       </Item2>
       <Item3>
         <Kind Value="bpkSource"/>
@@ -738,7 +738,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="623"/>
+        <Line Value="626"/>
       </Item4>
     </BreakPoints>
     <Watches Count="6">

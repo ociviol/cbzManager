@@ -492,10 +492,11 @@ begin
   if p < FVisibleList.Count then
     with dgLibrary, Canvas do
     begin
-      if not FileExists(FVisibleList[p]) then
-        Brush.color := clSilver //clLime // clYellow
-      else
-        BRush.Color := clWhite;
+      {$ifdef Darwin}
+      Brush.Color := clGray;
+      {$else}
+      Brush.color := clSilver; //clLime // clYellow
+      {$endif}
 
       //FillRect(aRect);
       r := aRect;

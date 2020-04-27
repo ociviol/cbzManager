@@ -95,9 +95,11 @@ type
   private
     FVal : Integer;
     FFileList: TItemList;
-    procedure DoImg;
+    FProgress : TProgressEvent;
+
+    procedure DoProgress;
   public
-    constructor Create(aFileList : TItemList);
+    constructor Create(aFileList : TItemList; aProgress : TProgressEvent = nil);
     procedure Execute; override;
   end;
 
@@ -213,16 +215,22 @@ end;
 
 { TThreadConv }
 
-constructor TThreadConv.Create(aFileList: TItemList);
+constructor TThreadConv.Create(aFileList: TItemList; aProgress : TProgressEvent = nil);
 begin
   FFileList := aFileList;
   FreeOnTerminate:=True;
+  FPRogress := aProgress;
   inherited Create(False);
 end;
 
-procedure TThreadConv.DoImg;
+procedure TThreadConv.DoProgress;
 begin
-  TFileItem(FFileList.Objects[FVal]).Img;
+  if Assigned(FProgress) then
+    if FVal < FFileList.Count - 1 then
+      FProgress(Self, 0, 0, 0, 'Scrubing stamps : ' +
+                IntToStr((FVal * 100) div FFileList.Count) + '%')
+    else
+      FProgress(Self, 0, 0, 0, 'Ready.')
 end;
 
 procedure TThreadConv.Execute;
@@ -244,7 +252,8 @@ begin
       begin
         dw := true;
         p := TFileItem(FFileList.Objects[i]).Img;
-        //Synchronize(@DoImg);
+        if (i mod 50) = 0 then
+          Synchronize(@DoProgress);
         //yield;
         Sleep(25);
       end;
@@ -555,7 +564,7 @@ begin
       onclick := @btnletterclick;
     end;
 
-  FThreadConv := TThreadConv.Create(FFileList);
+  FThreadConv := TThreadConv.Create(FFileList, @Progress);
 end;
 
 procedure TCbzLibrary.FormDestroy(Sender: TObject);

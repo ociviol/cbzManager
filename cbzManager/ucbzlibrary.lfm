@@ -12,10 +12,10 @@ object CbzLibrary: TCbzLibrary
   OnResize = FormResize
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.0.4.0'
   object dgLibrary: TDrawGrid
     Left = 50
-    Height = 672
+    Height = 667
     Top = 46
     Width = 1096
     Align = alClient
@@ -50,8 +50,8 @@ object CbzLibrary: TCbzLibrary
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 18
-    Top = 728
+    Height = 23
+    Top = 723
     Width = 1156
     Panels = <>
   end
@@ -70,7 +70,7 @@ object CbzLibrary: TCbzLibrary
       Left = 25
       Height = 22
       Top = 2
-      Width = 93
+      Width = 88
       Align = alLeft
       AutoSize = True
       Caption = 'btnTopPath'
@@ -134,7 +134,7 @@ object CbzLibrary: TCbzLibrary
   end
   object pnlbtns: TPanel
     Left = 10
-    Height = 672
+    Height = 667
     Top = 46
     Width = 30
     Align = alLeft
@@ -142,8 +142,8 @@ object CbzLibrary: TCbzLibrary
     TabOrder = 3
   end
   object PopupMenu1: TPopupMenu
-    Left = 265
-    Top = 145
+    left = 265
+    top = 145
     object mnuReadStatus: TMenuItem
       Caption = 'Read Status'
       OnClick = mnuReadStatusClick

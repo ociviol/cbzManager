@@ -763,8 +763,6 @@ begin
 end;
 
 procedure TCbzLibrary.FillGrid(bAddButton : Boolean = True);
-var
-  z : longint;
 begin
   if Assigned(FFillThread) then
   begin
@@ -775,17 +773,14 @@ begin
   btnRefresh.Enabled:=False;
 
   if Length(FPathPos) <= 0 then
-  begin
     SetLength(FPathPos, 1);
-  end;
 
   FPathPos[FLvl-1].x := dgLibrary.Col;
-  z := MakeLong(dgLibrary.TopRow, dgLibrary.Row);
-  FPathPos[FLvl-1].y := z;
+  FPathPos[FLvl-1].y := MakeLong(dgLibrary.TopRow, dgLibrary.Row);
 
   Flvl := length(FCurrentPath.Split([PathDelim]));
-  FVisibleList.Clear;
-  SizeGrid;
+
+  //SizeGrid;
 
   if Flvl > Length(FPathPos) then
     SetLength(FPathPos, Flvl);
@@ -804,6 +799,7 @@ begin
     end;
   end;
 
+  FVisibleList.Clear;
   FFillThread := TThreadFill.Create(FFileList, FVisibleList, FCurrentPath, FLvl, FDisplayFilters,@ThreadFillTerminate, @Progress);
 end;
 
@@ -858,14 +854,39 @@ begin
 end;
 
 procedure TCbzLibrary.DoSizegrid(data : int64);
+var
+  oldtoprow,
+  oldrow : integer;
 begin
   SizeGrid;
+
+  if Length(FPathPos) >= Flvl then
+    if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
+    begin
+      dgLibrary.Col := FPathPos[FLvl-1].x;
+      oldtoprow := HighWord(FPathPos[FLvl-1].y);
+      oldrow := LowWord(FPathPos[FLvl-1].y);
+
+      with dgLibrary do
+        if (RowCount >= oldrow) and (RowCount > 0) then
+          if (FPathPos[FLvl-1].y <> 0) and
+             ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
+          begin
+            Col := FPathPos[FLvl-1].x;
+            TopRow := oldtoprow;
+            Row := oldrow;
+          end;
+    end;
 end;
 
 procedure TCbzLibrary.VisibleListChanged(Sender: TObject);
 begin
   if FVisibleList.Count > 0 then
+  begin
     Application.QueueAsyncCall(@DoSizegrid, 0);
+
+
+  end;
 end;
 
 procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);

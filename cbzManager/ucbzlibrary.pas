@@ -131,6 +131,7 @@ type
     FPathPos : array of TPoint;
     FFillThread : TThreadFill;
     FDisplayFilters : TDisplayFilters;
+    FInQueue : Integer;
 
     procedure btnletterclick(sender : Tobject);
     procedure MakeStamp(data : int64);
@@ -443,6 +444,7 @@ begin
     Height := FConfig.LibraryHeight;
 
   Flog.Log('cbzLibrary started.');
+  FInQueue := 0;
   FDisplayFilters := [dfAll];
   cbHideRead.Checked := Fconfig.LibraryHideRead;
   FFileList := TItemList.Create(Flog);
@@ -450,7 +452,6 @@ begin
   FVisibleList := TThreadStringList.Create;
   FVisibleList.OnChanging := @VisibleListChanged;
   FVisibleList.Sorted:=True;
-
 
   for c := 'Z' downto 'A' do
     with TSpeedButton.Create(self) do
@@ -926,12 +927,17 @@ begin
             Row := oldrow;
           end;
     end;
+
+  dec(FInQueue);
 end;
 
 procedure TCbzLibrary.VisibleListChanged(Sender: TObject);
 begin
-  if FVisibleList.Count > 0 then
+  if (FVisibleList.Count > 0) and (FInQueue = 0) then
+  begin
+    inc(FInQueue);
     Application.QueueAsyncCall(@DoSizegrid, 0);
+  end;
 end;
 
 procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);

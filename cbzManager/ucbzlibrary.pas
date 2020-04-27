@@ -246,6 +246,9 @@ begin
             continue;
 
         with FVisibleList do
+          if FileExists(s) then
+            AddObject(s, FFileList.Objects[i])
+          else
           if IndexOf(s) < 0 then
             AddObject(s, FFileList.Objects[i]);
 
@@ -590,7 +593,7 @@ begin
   s := FVisibleList[c];
   if DirectoryExists(s) then
   begin
-    FCurrentPath := s;
+    FCurrentPath := ExcludeTrailingPathDelimiter(s);
     FillGrid;
   end
   else

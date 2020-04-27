@@ -495,7 +495,10 @@ begin
       {$ifdef Darwin}
       Brush.Color := clGray;
       {$else}
-      Brush.color := clSilver; //clLime // clYellow
+      if TFileItem(FVisibleList.Objects[p]).ReadState then
+        Brush.Color := clGray
+      else
+        Brush.color := clSilver; //clLime // clYellow
       {$endif}
 
       //FillRect(aRect);
@@ -578,7 +581,11 @@ begin
       if FileExists(FFileList[i]) then
          with TFileItem(FFileList.Objects[i]) do
               ReadState := not ReadState;
-  FillGrid(False);
+
+  if not cbHideRead.Checked then
+    dgLibrary.InvalidateCell(dgLibrary.Col, dgLibrary.Row)
+  else
+    FillGrid(False);
   FFileList.SaveToFile(GetCacheFileName);
 end;
 

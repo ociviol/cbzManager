@@ -124,7 +124,7 @@ var
   a : TStringArray;
   i : integer;
 begin
-  a := aPath.Split([PathDelim]);
+  a := ExcludeTrailingPathDelimiter(aPath).Split([PathDelim]);
   result := '';
   for i:=0 to lvl do
     result := result + a[i] + PathDelim;
@@ -135,7 +135,7 @@ var
   a : TStringArray;
 begin
   result := '';
-  a := aPath.Split([PathDelim]);
+  a := ExcludeTrailingPathDelimiter(aPath).Split([PathDelim]);
   result := a[High(a)];
 end;
 

@@ -15,6 +15,21 @@ uses
 
 type
 
+  { TThreadStringList }
+
+  TThreadStringList = Class(TStringList)
+  private
+    FLock : TThreadList;
+  protected
+    function Get(Index: Integer): string; override;
+    function GetObject(Index: Integer): TObject; override;
+    procedure Put(Index: Integer; const S: string); override;
+    procedure PutObject(Index: Integer; AObject: TObject); override;
+    function GetCount: Integer; override;
+  public
+    constructor Create;
+    destructor Destroy; override;
+  end;
 
   { TFileItem }
 
@@ -43,9 +58,10 @@ type
 
   { TItemList }
 
-  TItemList = Class(TStringList)
+  TItemList = Class(TThreadStringList)
   private
     Flog : ILog;
+  protected
   public
     constructor Create(alog : ILog);
     destructor Destroy; override;
@@ -54,9 +70,29 @@ type
     procedure SaveToFile(const aFilename : String); override;
   end;
 
+
+  { TThreadFill }
+
+  TThreadFill = Class(TThread)
+    private
+      FFileList : TItemList;
+      FVisibleList : TStringlist;
+      FCurrentPath : String;
+      FLvl : Integer;
+      FProgress : TProgressEvent;
+      procedure SizeGrid;
+  public
+    constructor Create(aFileList : TItemList; aVisibleList : TStringlist;
+                       const aCurrentPath : String; aLvl : Integer;
+                       aOnTerminate : TNotifyEvent;
+                       aProgress : TProgressEvent = nil);
+    procedure Execute; override;
+  end;
+
   { TCbzLibrary }
 
   TCbzLibrary = class(TForm)
+    btnReturn: TSpeedButton;
     btnTopPath: TButton;
     btnRefresh: TButton;
     dgLibrary: TDrawGrid;
@@ -73,12 +109,13 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnReturnClick(Sender: TObject);
   private
     function GetCacheFileName: String;
   private
     Flog : ILog;
     FFileList : TItemList;
-    FVisibleList : TStringlist;
+    FVisibleList : TThreadStringList;
     FThreadSearchFiles : TThread;
     FBtnList : TList;
     FRootPath,
@@ -86,10 +123,12 @@ type
     FLvl : Integer;
     Fconfig : TConfig;
     FPathPos : array of TPoint;
+    FFillThread : TThreadFill;
 
     procedure btnletterclick(sender : Tobject);
     procedure MakeStamp(data : int64);
     procedure AfterShow(data : int64);
+    procedure DoSizegrid(data : int64);
     procedure SizeGrid;
     procedure DefaultBtnClick(Sender: TObject);
     procedure FillGrid(bAddButton : Boolean = True);
@@ -99,6 +138,8 @@ type
     procedure Progress(Sender: TObject; const ProgressID: QWord;
                        const aPos, aMax: Integer; const Msg: String = '');
     property CacheFileName : String read GetCacheFileName;
+    procedure VisibleListChanged(Sender : TObject);
+    procedure ThreadFillTerminate(Sender : TObject);
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig);
     property RootPath : String read FRootPath write FRootPath;
@@ -138,6 +179,127 @@ begin
   result := '';
   a := aPath.Split([PathDelim]);
   result := a[High(a)];
+end;
+
+{ TThreadStringList }
+
+function TThreadStringList.Get(Index: Integer): string;
+begin
+  Flock.LockList;
+  try
+    Result:=inherited Get(Index);
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+function TThreadStringList.GetObject(Index: Integer): TObject;
+begin
+  Flock.LockList;
+  try
+    Result:=inherited GetObject(Index);
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+procedure TThreadStringList.Put(Index: Integer; const S: string);
+begin
+  Flock.LockList;
+  try
+    inherited Put(Index, S);
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+procedure TThreadStringList.PutObject(Index: Integer; AObject: TObject);
+begin
+  Flock.LockList;
+  try
+    inherited PutObject(Index, AObject);
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+function TThreadStringList.GetCount: Integer;
+begin
+  Flock.LockList;
+  try
+    Result:=inherited GetCount;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+constructor TThreadStringList.Create;
+begin
+  Flock := TThreadList.Create;
+  inherited Create;
+end;
+
+destructor TThreadStringList.Destroy;
+begin
+  flock.Free;
+  inherited Destroy;
+end;
+
+
+{ TThreadFill }
+
+procedure TThreadFill.SizeGrid;
+begin
+
+end;
+
+constructor TThreadFill.Create(aFileList: TItemList; aVisibleList: TStringlist;
+                               const aCurrentPath : String; aLvl : Integer;
+                               aOnTerminate : TNotifyEvent;
+                               aProgress : TProgressEvent = nil);
+begin
+  FFileList:= aFileList;
+  FVisibleList := aVisibleList;
+  FCurrentPath := aCurrentPath;
+  FLvl := aLvl;
+  FreeOnTerminate:=True;
+  OnTerminate:=aOnTerminate;
+  FProgress := aProgress;
+  inherited Create(False);
+end;
+
+procedure TThreadFill.Execute;
+var
+  i : integer;
+  s : string;
+begin
+  while not Terminated do
+  try
+    for i := 0 to FFileList.Count - 1 do
+    begin
+      if Terminated then
+        Exit;
+
+      if FFileList[i].StartsWith(FCurrentPath) then
+      begin
+        s := ExcludeTrailingPathDelimiter(ExtractFilePath(FFileList[i]));
+        if Length(s.Split([PathDelim])) > FLvl then
+          s := GetFirstPath(s, FLvl)
+        else
+          s := FFileList[i];
+
+        with FVisibleList do
+          if IndexOf(s) < 0 then
+            AddObject(s, FFileList.Objects[i]);
+
+        if (i mod 25) = 0 then
+          Sleep(25);
+      end;
+    end;
+    Terminate;
+  except
+    Terminate;
+  end;
 end;
 
 
@@ -219,7 +381,6 @@ end;
 
 { TItemList }
 
-
 constructor TItemList.Create(alog : ILog);
 begin
   Flog := alog;
@@ -286,6 +447,13 @@ end;
 
 { TCbzLibrary }
 
+constructor TCbzLibrary.Create(aOwner: TComponent; aConfig: TConfig);
+begin
+  FConfig := aConfig;
+  FFillThread := nil;
+  inherited Create(aOwner);
+end;
+
 procedure TCbzLibrary.FormCreate(Sender: TObject);
 var
   c : char;
@@ -311,7 +479,8 @@ begin
   Flog.Log('cbzLibrary started.');
   FFileList := TItemList.Create(Flog);
   FBtnList := TList.Create;
-  FVisibleList := TStringlist.Create;
+  FVisibleList := TThreadStringList.Create;
+  FVisibleList.OnChanging := @VisibleListChanged;
   FVisibleList.Sorted:=True;
 
   for c := 'Z' downto 'A' do
@@ -355,21 +524,24 @@ begin
     with dgLibrary, Canvas do
     begin
       FillRect(aRect);
-      pic := TFileItem(FVisibleList.Objects[p]).Img;
-      s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
-      //showmessage('s='+s);
-      X := (DefaultColWidth - pic.Graphic.Width) div 2;
-      Y := 2; //(DefaultRowHeight - b.Height) div 2;
-      Draw(aRect.Left + X, aRect.Top + Y, pic.Graphic);
+      if Assigned(FVisibleList.Objects[p]) then
+      begin
+        pic := TFileItem(FVisibleList.Objects[p]).Img;
+        s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
+        //showmessage('s='+s);
+        X := (DefaultColWidth - pic.Graphic.Width) div 2;
+        Y := 2; //(DefaultRowHeight - b.Height) div 2;
+        Draw(aRect.Left + X, aRect.Top + Y, pic.Graphic);
 
-      r := aRect;
-      r.top := r.Bottom - (TextHeight(s) * 3);
-      ts.Wordbreak:=True;
-      ts.SingleLine:=False;
-      ts.Alignment := taCenter;
-      ts.Opaque:=False;
-      ts.Layout := tlCenter;
-      TextRect(r, 0, 0, s, ts);
+        r := aRect;
+        r.top := r.Bottom - (TextHeight(s) * 3);
+        ts.Wordbreak:=True;
+        ts.SingleLine:=False;
+        ts.Alignment := taCenter;
+        ts.Opaque:=False;
+        ts.Layout := tlCenter;
+        TextRect(r, 0, 0, s, ts);
+      end;
 
       if gdFocused in aState then
         DrawFocusRect(aRect);
@@ -382,6 +554,12 @@ begin
   FConfig.LibraryTop := Top;
   FConfig.LibraryWidth := Width;
   FConfig.LibraryHeight := Height;
+
+  if Assigned(FFillThread) then
+  begin
+    FFillThread.Terminate;
+    FFillThread.Waitfor;
+  end;
 end;
 
 procedure TCbzLibrary.dgLibraryDblClick(Sender: TObject);
@@ -448,6 +626,14 @@ begin
   Application.QueueAsyncCall(@AfterShow, 0);
 end;
 
+procedure TCbzLibrary.btnReturnClick(Sender: TObject);
+begin
+  if FLvl > 1 then
+    TButton(FBtnList[FBtnList.Count-2]).Click
+  else
+    btnReturn.Enabled := False;
+end;
+
 function TCbzLibrary.GetCacheFileName: String;
 begin
   result :=
@@ -512,13 +698,18 @@ var
 begin
   with dgLibrary do
   begin
-    c := ClientWidth div DefaultColWidth;
-    if ColCount <> c then
-      ColCount:=c;
-    if RowCount <> (FVisibleList.Count div c) + 1 then
-      RowCount:=(FVisibleList.Count div c) + 1;
-    Invalidate;
-    Update;
+    BeginUpdate;
+    try
+      c := ClientWidth div DefaultColWidth;
+      if ColCount <> c then
+        ColCount:=c;
+      if RowCount <> (FVisibleList.Count div c) + 1 then
+        RowCount:=(FVisibleList.Count div c) + 1;
+    finally
+      EndUpdate;
+    end;
+    //Invalidate;
+    //Update;
   end;
 end;
 
@@ -547,6 +738,11 @@ var
   i : integer;
   z, oldtoprow, oldrow : longint;
 begin
+  if Assigned(FFillThread) then
+  begin
+    FFillThread.Terminate;
+    FFillThread.Waitfor;
+  end;
   Progress(Self, 0, 0, 0, 'Loading folder...');
   btnRefresh.Enabled:=False;
   try
@@ -589,6 +785,9 @@ begin
       oldrow := oldrow shr 16;
     end;
 
+    FFillThread := TThreadFill.Create(FFileList, FVisibleList, FCurrentPath, FLvl, @ThreadFillTerminate);
+    Exit;
+
     for i := 0 to FFileList.Count - 1 do
     begin
       if FFileList[i].StartsWith(FCurrentPath) then
@@ -606,15 +805,18 @@ begin
             SizeGrid;
 
             with dgLibrary do
-              if RowCount >= oldrow then
-                if ((FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0)) then
-                  if (TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x) then
-                  begin
-                    Col := FPathPos[FLvl-1].x;
-                    TopRow := oldtoprow;
-                    Row := oldrow;
-                    dgLibrary.Update;
-                  end;
+            begin
+              if (RowCount >= oldrow) and (RowCount > 0) then
+                if (FPathPos[FLvl-1].y <> 0) and
+                   ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
+                begin
+                  Col := FPathPos[FLvl-1].x;
+                  TopRow := oldtoprow;
+                  Row := oldrow;
+                  Invalidate;
+                end;
+              update;
+            end;
 
             if (i mod 10) = 0 then
               Application.ProcessMessages;
@@ -626,8 +828,6 @@ begin
   finally
     btnRefresh.Enabled:=True;
   end;
-
-  Progress(Self, 0, 0, 0, 'Ready.');
 end;
 
 procedure TCbzLibrary.SearchEnded(Sender: TObject);
@@ -686,11 +886,25 @@ begin
   StatusBar1.SimpleText := Msg;
 end;
 
-constructor TCbzLibrary.Create(aOwner: TComponent; aConfig: TConfig);
+procedure TCbzLibrary.DoSizegrid(data : int64);
 begin
-  FConfig := aConfig;
-  inherited Create(aOwner);
+  SizeGrid;
 end;
+
+procedure TCbzLibrary.VisibleListChanged(Sender: TObject);
+begin
+  if FVisibleList.Count > 0 then
+    Application.QueueAsyncCall(@DoSizegrid, 0);
+end;
+
+procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);
+begin
+  Progress(Self, 0, 0, 0, 'Ready.');
+  FFillThread := nil;
+  SizeGrid;
+end;
+
+
 
 end.
 

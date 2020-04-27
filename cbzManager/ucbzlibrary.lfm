@@ -65,7 +65,7 @@ object CbzLibrary: TCbzLibrary
     ClientWidth = 1136
     TabOrder = 2
     object btnTopPath: TButton
-      Left = 2
+      Left = 25
       Height = 22
       Top = 2
       Width = 88
@@ -84,6 +84,14 @@ object CbzLibrary: TCbzLibrary
       Caption = 'Refresh'
       OnClick = btnRefreshClick
       TabOrder = 1
+    end
+    object btnReturn: TSpeedButton
+      Left = 2
+      Height = 22
+      Top = 2
+      Width = 23
+      Align = alLeft
+      OnClick = btnReturnClick
     end
   end
   object pnlbtns: TPanel

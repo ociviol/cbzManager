@@ -33,22 +33,30 @@ type
     Funrar,
     Fp7zip: String;
     FQueueSize,
-    FNbThreads : Integer;
-    FWleft,
-    FWTop,
-    FWWidth,
-    FWHeight,
+    FNbThreads,
+    Fleft,
+    FTop,
+    FWidth,
+    FHeight,
     FWebpQuality,
-    FWTreeViewWidth :Integer;
+    FLleft,
+    FLHeight: Integer;
+    FLWidth: Integer;
+    FLTop: Integer;
+    FTreeViewWidth :Integer;
   public
     constructor Create;
     class function Load(const aFileName : String):TConfig;
   published
-    property Wleft : Integer read FWleft write FWleft;
-    property WTop : Integer read FWTop write FWTop;
-    property WWidth : Integer read FWWidth write FWWidth;
-    property WHeight : Integer read FWHeight write FWHeight;
-    property WTreeViewWidth : Integer read FWTreeViewWidth write FWTreeViewWidth;
+    property MngrLeft : Integer read Fleft write Fleft;
+    property MngrTop : Integer read FTop write FTop;
+    property MngrWidth : Integer read FWidth write FWidth;
+    property MngrHeight : Integer read FHeight write FHeight;
+    property MngrTreeViewWidth : Integer read FTreeViewWidth write FTreeViewWidth;
+    property Libraryleft : Integer read FLleft write FLleft;
+    property LibraryTop : Integer read FLTop write FLTop;
+    property LibraryWidth : Integer read FLWidth write FLWidth;
+    property LibraryHeight : Integer read FLHeight write FLHeight;
     property DoLog : Boolean read FBlog write FBlog;
     property BdPathPath: String read FBdPathPath write FBdPathPath;
     property cwebp: String read Fcwebp write Fcwebp;

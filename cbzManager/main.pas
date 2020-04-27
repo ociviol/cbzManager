@@ -414,16 +414,16 @@ begin
     FConfigFile := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'config.json';
   end;
 {$endif}
-  if FConfig.Wleft <> 0 then
-    left := FConfig.Wleft;
-  if FConfig.WTop <> 0 then
-    top := FConfig.WTop;
-  if FConfig.WWidth <> 0 then
-    Width := FConfig.WWidth;
-  if FConfig.WHeight <> 0 then
-    Height := FConfig.WHeight;
-  if FConfig.WTreeViewWidth <> 0 then
-    Panel2.Width := FConfig.WTreeViewWidth;
+  if FConfig.MngrLeft <> 0 then
+    left := FConfig.MngrLeft;
+  if FConfig.MngrTop <> 0 then
+    top := FConfig.MngrTop;
+  if FConfig.MngrWidth <> 0 then
+    Width := FConfig.MngrWidth;
+  if FConfig.MngrHeight <> 0 then
+    Height := FConfig.MngrHeight;
+  if FConfig.MngrTreeViewWidth <> 0 then
+    Panel2.Width := FConfig.MngrTreeViewWidth;
 
   pnlStats.Visible := FConfig.ShowStats;
   MenuItem35.Checked := FConfig.ShowStats;
@@ -628,6 +628,9 @@ begin
   if Assigned(FThreadSearchFiles) then
     FThreadSearchFiles.Terminate;
 
+  if Assigned(FLibrary) then
+    FLibrary.Close;
+
   FThreadDataPool.Stop;
 
   //with FOperationsList.LockList do
@@ -744,11 +747,11 @@ end;
 
 procedure TMainFrm.SaveConfig;
 begin
-  FConfig.Wleft := Left;
-  FConfig.WTop := Top;
-  FConfig.WWidth := Width;
-  FConfig.WHeight := Height;
-  FConfig.WTreeViewWidth := Panel2.Width;
+  FConfig.MngrLeft := Left;
+  FConfig.MngrTop := Top;
+  FConfig.MngrWidth := Width;
+  FConfig.MngrHeight := Height;
+  FConfig.MngrTreeViewWidth := Panel2.Width;
 
   FConfig.Save(FConfigFile);
   Flog.Log('Config saved.');
@@ -1337,7 +1340,7 @@ begin
 
     if DirectoryExists(FConfig.LibPath) then
     begin
-      FLibrary := TCbzLibrary.Create(Application);
+      FLibrary := TCbzLibrary.Create(Application, FConfig);
       FLibrary.RootPath:=FConfig.LibPath;
       FLibrary.Show;
       FLibrary.BringToFront;

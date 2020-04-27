@@ -1,22 +1,23 @@
 object CbzLibrary: TCbzLibrary
   Left = 424
-  Height = 738
+  Height = 746
   Top = 288
-  Width = 1157
+  Width = 1156
   Caption = 'Library'
-  ClientHeight = 738
-  ClientWidth = 1157
+  ClientHeight = 746
+  ClientWidth = 1156
+  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.0.4.0'
   object dgLibrary: TDrawGrid
     Left = 50
-    Height = 664
+    Height = 667
     Top = 46
-    Width = 1097
+    Width = 1096
     Align = alClient
     BorderSpacing.Around = 10
     ColCount = 9
@@ -47,27 +48,27 @@ object CbzLibrary: TCbzLibrary
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 18
-    Top = 720
-    Width = 1157
+    Height = 23
+    Top = 723
+    Width = 1156
     Panels = <>
   end
   object pnlPath: TPanel
     Left = 10
     Height = 26
     Top = 10
-    Width = 1137
+    Width = 1136
     Align = alTop
     BorderSpacing.Around = 10
     BevelInner = bvLowered
     ClientHeight = 26
-    ClientWidth = 1137
+    ClientWidth = 1136
     TabOrder = 2
     object btnTopPath: TButton
       Left = 2
       Height = 22
       Top = 2
-      Width = 97
+      Width = 88
       Align = alLeft
       AutoSize = True
       Caption = 'btnTopPath'
@@ -75,7 +76,7 @@ object CbzLibrary: TCbzLibrary
       TabOrder = 0
     end
     object btnRefresh: TButton
-      Left = 1060
+      Left = 1059
       Height = 22
       Top = 2
       Width = 75
@@ -87,7 +88,7 @@ object CbzLibrary: TCbzLibrary
   end
   object pnlbtns: TPanel
     Left = 10
-    Height = 664
+    Height = 667
     Top = 46
     Width = 30
     Align = alLeft

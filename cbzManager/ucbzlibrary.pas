@@ -237,10 +237,10 @@ procedure TThreadConv.DoProgress;
 begin
   if Assigned(FProgress) then
     if FVal < FFileList.Count - 1 then
-      FProgress(Self, 0, 0, 0, 'Scrubing stamps : ' +
+      FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
                 IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
-      FProgress(Self, 0, 0, 0, 'Ready.')
+      FProgress(Self, 1, 0, 0, 'Scrub Done.')
 end;
 
 procedure TThreadConv.Execute;
@@ -252,6 +252,7 @@ begin
   while not Terminated do
   begin
     dw := false;
+
     for i:= 0 to FFileList.Count - 1 do
     begin
       if Terminated then
@@ -262,11 +263,12 @@ begin
       begin
         dw := true;
         p := TFileItem(FFileList.Objects[i]).Img;
-        if (i mod 50) = 0 then
+      end;
+
+      if (i mod 50) = 0 then
           Synchronize(@DoProgress);
         //yield;
         Sleep(25);
-      end;
     end;
 
     if not dw then
@@ -689,6 +691,7 @@ end;
 procedure TCbzLibrary.FormResize(Sender: TObject);
 begin
   SizeGrid;
+  StatusBar1.Panels[0].Width := (StatusBar1.ClientWidth div 4) * 3;
 end;
 
 procedure TCbzLibrary.FormShow(Sender: TObject);
@@ -1132,7 +1135,7 @@ end;
 procedure TCbzLibrary.Progress(Sender: TObject; const ProgressID: QWord;
   const aPos, aMax: Integer; const Msg: String);
 begin
-  StatusBar1.SimpleText := Msg;
+  StatusBar1.Panels[ProgressID].Text := Msg;
 end;
 
 procedure TCbzLibrary.DoSizegrid(data : int64);

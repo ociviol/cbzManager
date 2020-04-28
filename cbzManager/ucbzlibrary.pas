@@ -182,7 +182,7 @@ type
     procedure VisibleListChanged(Sender : TObject);
     procedure ThreadFillTerminate(Sender : TObject);
   public
-    constructor Create(aOwner : TComponent; aConfig : TConfig);
+    constructor Create(aOwner : TComponent; aConfig : TConfig); reintroduce;
     //property RootPath : String read FRootPath write FRootPath;
   end;
 
@@ -193,7 +193,7 @@ var
 implementation
 
 uses
-  StrUtils, utils.zipfile, ucbz, uCbzViewer;
+  Math, StrUtils, utils.zipfile, ucbz, uCbzViewer;
 
 {$R *.lfm}
 
@@ -247,13 +247,13 @@ procedure TThreadConv.Execute;
 var
   p : TBitmap;
   dw : boolean;
-  i : integer;
+  i, z : integer;
 begin
   while not Terminated do
   begin
     dw := false;
-
-    for i:= 0 to FFileList.Count - 1 do
+    z := FFileList.Count;
+    for i:= 0 to z - 1 do
     begin
       if Terminated then
         Exit;
@@ -716,7 +716,7 @@ begin
     btnTopPath.Caption:=FCurrentPath;
     FLvl := length(FCurrentPath.Split([PathDelim]));
     btnRefresh.Enabled:=false;
-    Progress(Self, 0, 0, 0, 'Scanning...';
+    Progress(Self, 0, 0, 0, 'Scanning...');
     FThreadSearchFiles := ThreadedSearchFiles(FCurrentPath, '*.cbz', @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
@@ -891,9 +891,8 @@ begin
   if not Assigned(FThreadSearchFiles) then
   begin
     btnRefresh.enabled := False;
-    FFileList.Clear;
     FVisibleList.Clear;
-    SizeGrid;
+    FFileList.Clear;
     FThreadSearchFiles := ThreadedSearchFiles(FFileList.RootPath, '*.cbz', @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
@@ -1135,8 +1134,11 @@ end;
 
 procedure TCbzLibrary.Progress(Sender: TObject; const ProgressID: QWord;
   const aPos, aMax: Integer; const Msg: String);
+var
+  ind : integer;
 begin
-  StatusBar1.Panels[ProgressID].Text := Msg;
+  ind := ifthen(ProgressID > 1, 0, 1);
+  StatusBar1.Panels[ind].Text := Msg;
 end;
 
 procedure TCbzLibrary.DoSizegrid(data : int64);
@@ -1144,27 +1146,29 @@ var
   oldtoprow,
   oldrow : integer;
 begin
-  SizeGrid;
+  try
+    SizeGrid;
 
-  if Length(FPathPos) >= Flvl then
-    if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
-    begin
-      dgLibrary.Col := FPathPos[FLvl-1].x;
-      oldtoprow := HighWord(FPathPos[FLvl-1].y);
-      oldrow := LowWord(FPathPos[FLvl-1].y);
+    if Length(FPathPos) >= Flvl then
+      if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
+      begin
+        dgLibrary.Col := FPathPos[FLvl-1].x;
+        oldtoprow := HighWord(FPathPos[FLvl-1].y);
+        oldrow := LowWord(FPathPos[FLvl-1].y);
 
-      with dgLibrary do
-        if (RowCount >= oldrow) and (RowCount > 0) then
-          if (FPathPos[FLvl-1].y <> 0) and
-             ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
-          begin
-            Col := FPathPos[FLvl-1].x;
-            TopRow := oldtoprow;
-            Row := oldrow;
-          end;
-    end;
-
-  dec(FInQueue);
+        with dgLibrary do
+          if (RowCount >= oldrow) and (RowCount > 0) then
+            if (FPathPos[FLvl-1].y <> 0) and
+               ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
+            begin
+              Col := FPathPos[FLvl-1].x;
+              TopRow := oldtoprow;
+              Row := oldrow;
+            end;
+      end;
+  finally
+    dec(FInQueue);
+  end;
 end;
 
 procedure TCbzLibrary.VisibleListChanged(Sender: TObject);

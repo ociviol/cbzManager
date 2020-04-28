@@ -1137,7 +1137,7 @@ procedure TCbzLibrary.Progress(Sender: TObject; const ProgressID: QWord;
 var
   ind : integer;
 begin
-  ind := ifthen(ProgressID > 1, 0, 1);
+  ind := ifthen(ProgressID = 1, 1, 0);
   StatusBar1.Panels[ind].Text := Msg;
 end;
 

@@ -62,6 +62,7 @@ type
     Flog : ILog;
     FRootPath : String;
 
+    function GetDeletedCount: Integer;
     function GetModified: Boolean;
     function GetRootPath: String;
     function GetStampLessCount: Integer;
@@ -77,6 +78,7 @@ type
     property Modified : Boolean read GetModified;
     property RootPath : String read GetRootPath write SetRootPath;
     property StampLessCount : Integer read GetStampLessCount;
+    property DeletedCount : Integer read GetDeletedCount;
   end;
 
 
@@ -258,7 +260,8 @@ begin
   begin
     dw := false;
 
-    if FFileList.StampLessCount > 0 then
+    if (FFileList.StampLessCount > 0) or
+       (FFileList.DeletedCount > 0) then
     begin
       cnt := FFileList.Count;
       FVal := 0;
@@ -556,10 +559,30 @@ function TItemList.GetModified: Boolean;
 var
   i : integer;
 begin
-  for i:= 0 to Count - 1 do
-    if TFileItem(Objects[i]).Modified then
-      Exit(True);
-  result := False;
+  Flock.LockList;
+  try
+    for i:= 0 to Count - 1 do
+      if TFileItem(Objects[i]).Modified then
+        Exit(True);
+    result := False;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+function TItemList.GetDeletedCount: Integer;
+var
+  i : integer;
+begin
+  Flock.LockList;
+  try
+    result := 0;
+    for i := 0 to Count - 1 do
+      if not FileExists(TFileItem(Objects[i]).Filename) then
+        inc(result);
+  finally
+    FLock.UnlockList;
+  end;
 end;
 
 function TItemList.GetRootPath: String;

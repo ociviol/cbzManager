@@ -1341,7 +1341,6 @@ begin
     if DirectoryExists(FConfig.LibPath) then
     begin
       FLibrary := TCbzLibrary.Create(Application, FConfig);
-      FLibrary.RootPath:=FConfig.LibPath;
       FLibrary.Show;
       FLibrary.BringToFront;
     end;

@@ -58,7 +58,11 @@ type
   TItemList = Class(TThreadStringList)
   private
     Flog : ILog;
+    FRootPath : String;
+    FLock : TThreadList;
     function GetModified: Boolean;
+    function GetRootPath: String;
+    procedure SetRootPath(AValue: String);
   protected
   public
     constructor Create(alog : ILog);
@@ -67,6 +71,7 @@ type
     procedure LoadFromFile(const aFilename : String); override;
     procedure SaveToFile(const aFilename : String); override;
     property Modified : Boolean read GetModified;
+    property RootPath : String read GetRootPath write SetRootPath;
   end;
 
 
@@ -150,7 +155,6 @@ type
     FVisibleList : TThreadStringList;
     FThreadSearchFiles : TThread;
     FBtnList : TList;
-    FRootPath,
     FCurrentPath : String;
     FLvl : Integer;
     Fconfig : TConfig;
@@ -160,6 +164,7 @@ type
     FInQueue : Integer;
     FThreadConv : TThreadConv;
 
+    procedure SwitchPath(const aLibPath : String);
     procedure CheckModified;
     procedure btnletterclick(sender : Tobject);
     procedure MakeStamp(data : int64);
@@ -178,7 +183,7 @@ type
     procedure ThreadFillTerminate(Sender : TObject);
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig);
-    property RootPath : String read FRootPath write FRootPath;
+    //property RootPath : String read FRootPath write FRootPath;
   end;
 
 
@@ -504,9 +509,30 @@ begin
   result := False;
 end;
 
+function TItemList.GetRootPath: String;
+begin
+  Flock.LockList;
+  try
+    result := FRootPath;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+procedure TItemList.SetRootPath(AValue: String);
+begin
+  Flock.LockList;
+  try
+    FRootPath := AValue;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
 constructor TItemList.Create(alog : ILog);
 begin
   Flog := alog;
+  FLock := TThreadList.Create;
   inherited Create;
 end;
 
@@ -514,6 +540,7 @@ destructor TItemList.Destroy;
 begin
   Clear;
   Flog := nil;
+  FLock.Free;
   inherited Destroy;
 end;
 
@@ -535,6 +562,7 @@ begin
   with TXMLDoc.Create do
   try
     root := CreateNewDocumentElement('Library');
+    root.SetAttribute('RootPath', FRootPath);
     for i := 0 to Count - 1 do
    begin
      el := root.AddChildNode('Comic');
@@ -556,12 +584,15 @@ begin
   try
     LoadFromFile(aFilename);
     with DocumentElement do
+    begin
+      FRootPath := GetAttributeStr('RootPath');
       for i := 0 to NbElements - 1 do
       begin
         fi := TFileItem.Create(Flog, '');
         fi.LoadFromXml(Elements[i]);
         AddObject(fi.Filename, fi);
       end;
+    end;
   finally
     Free;
   end;
@@ -604,6 +635,7 @@ begin
   FDisplayFilters := [dfAll];
   cbHideRead.Checked := Fconfig.LibraryHideRead;
   FFileList := TItemList.Create(Flog);
+  FFileList.RootPath:=Fconfig.LibPath;
   FBtnList := TList.Create;
   FVisibleList := TThreadStringList.Create;
   FVisibleList.OnChanging := @VisibleListChanged;
@@ -635,6 +667,56 @@ begin
   FBtnList.Free;
   Flog.Log('cbzLibrary destroyed.');
   Flog := nil;
+end;
+
+procedure TCbzLibrary.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  FConfig.Libraryleft := Left;
+  FConfig.LibraryTop := Top;
+  FConfig.LibraryWidth := Width;
+  FConfig.LibraryHeight := Height;
+
+  CheckModified;
+
+  FThreadConv.Terminate;
+  if Assigned(FFillThread) then
+  begin
+    FFillThread.Terminate;
+    FFillThread.Waitfor;
+  end;
+end;
+
+procedure TCbzLibrary.FormResize(Sender: TObject);
+begin
+  SizeGrid;
+end;
+
+procedure TCbzLibrary.FormShow(Sender: TObject);
+begin
+  Application.QueueAsyncCall(@AfterShow, 0);
+end;
+
+procedure TCbzLibrary.AfterShow(data : int64);
+begin
+  if FileExists(CacheFileName) then
+  try
+    FFileList.LoadFromFile(CacheFileName);
+    FCurrentPath := FFileList.RootPath;
+    FLvl := length(FCurrentPath.Split([PathDelim]));
+    btnTopPath.Click;
+  finally
+    btnRefresh.Enabled:=True;
+  end
+  else
+  begin
+    FCurrentPath := FFileList.RootPath;
+    btnTopPath.Caption:=FCurrentPath;
+    FLvl := length(FCurrentPath.Split([PathDelim]));
+    btnRefresh.Enabled:=false;
+    FThreadSearchFiles := ThreadedSearchFiles(FCurrentPath, '*.cbz', @FoundFile, @SearchEnded,
+                                              @Progress, //str_scanning
+                                              'scanning : ', [sfoRecurse]);
+  end;
 end;
 
 procedure TCbzLibrary.dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
@@ -745,7 +827,7 @@ begin
     if FFileList[i].StartsWith(FVisibleList[p]) then
       if FileExists(FFileList[i]) then
          with TFileItem(FFileList.Objects[i]) do
-              ReadState := not ReadState;
+           ReadState := not ReadState;
 
   if not cbHideRead.Checked then
     dgLibrary.InvalidateCell(dgLibrary.Col, dgLibrary.Row)
@@ -754,20 +836,7 @@ begin
   FFileList.SaveToFile(GetCacheFileName);
 end;
 
-procedure TCbzLibrary.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-begin
-  FConfig.Libraryleft := Left;
-  FConfig.LibraryTop := Top;
-  FConfig.LibraryWidth := Width;
-  FConfig.LibraryHeight := Height;
 
-  FThreadConv.Terminate;
-  if Assigned(FFillThread) then
-  begin
-    FFillThread.Terminate;
-    FFillThread.Waitfor;
-  end;
-end;
 
 procedure TCbzLibrary.dgLibraryDblClick(Sender: TObject);
 var
@@ -797,7 +866,7 @@ begin
     TButton(FBtnList[0]).Free;
     FBtnList.Delete(0);
   end;
-  FCurrentPath := btnTopPath.Caption;
+  FCurrentPath := FFileList.RootPath;
   FillGrid(False);
 end;
 
@@ -821,28 +890,10 @@ begin
     FFileList.Clear;
     FVisibleList.Clear;
     SizeGrid;
-    FThreadSearchFiles := ThreadedSearchFiles(FRootPath, '*.cbz', @FoundFile, @SearchEnded,
+    FThreadSearchFiles := ThreadedSearchFiles(FFileList.RootPath, '*.cbz', @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
-end;
-
-procedure TCbzLibrary.FormResize(Sender: TObject);
-begin
-  SizeGrid;
-end;
-
-procedure TCbzLibrary.FormShow(Sender: TObject);
-begin
-  FCurrentPath := FRootPath;
-  btnTopPath.Caption:=FCurrentPath;
-  FLvl := length(FCurrentPath.Split([PathDelim]));
-
-  if not FileExists(CacheFileName) then
-    FThreadSearchFiles := ThreadedSearchFiles(FCurrentPath, '*.cbz', @FoundFile, @SearchEnded,
-                                              @Progress, //str_scanning
-                                              'scanning : ', [sfoRecurse]);
-  Application.QueueAsyncCall(@AfterShow, 0);
 end;
 
 procedure TCbzLibrary.btnReturnClick(Sender: TObject);
@@ -850,7 +901,15 @@ begin
   if FLvl > 1 then
     TButton(FBtnList[FBtnList.Count-2]).Click
   else
-    btnReturn.Enabled := False;
+  begin
+    if not DirectoryExists(FConfig.LibPath) then
+      with TSelectDirectoryDialog.Create(Self) do
+      try
+        if Execute then
+          SwitchPath(Filename);
+      finally
+      end;
+  end;
 end;
 
 function TCbzLibrary.GetCacheFileName: String;
@@ -863,6 +922,19 @@ begin
 {$endif}
   'cbzLibrary.xml';
   ForceDirectories(ExtractFilePath(result));
+end;
+
+procedure TCbzLibrary.SwitchPath(const aLibPath: String);
+begin
+  Fconfig.LibPath:=aLibPath;
+  FVisibleList.Clear;
+  FThreadConv.Terminate;
+  FThreadConv.WaitFor;
+  FFileList.Clear;
+  FFileList.RootPath:=aLibPath;
+  FCurrentPath:=aLibPath;
+  btnTopPath.Caption:=aLibPath;
+  FillGrid(false);
 end;
 
 procedure TCbzLibrary.CheckModified;
@@ -934,17 +1006,6 @@ begin
   img := TFileItem(data).Img;
 end;
 
-procedure TCbzLibrary.AfterShow(data : int64);
-begin
-  if FileExists(CacheFileName) then
-  try
-    FFileList.LoadFromFile(CacheFileName);
-    btnTopPathClick(Self);
-  finally
-    btnRefresh.Enabled:=True;
-  end;
-end;
-
 procedure TCbzLibrary.SizeGrid;
 var
   c : integer;
@@ -972,7 +1033,7 @@ begin
   i := FBtnList.IndexOf(Pointer(Sender));
   if (i >= 0) and (i + 1 < FBtnList.Count) then
   begin
-    s := IncludeTrailingPathDelimiter(FRootPath) + TButton(FBtnList[i]).Caption;
+    s := IncludeTrailingPathDelimiter(FFileList.RootPath) + TButton(FBtnList[i]).Caption;
     FCurrentPath := s;
     while (i + 1 < FBtnList.Count) do
     begin
@@ -1046,7 +1107,7 @@ begin
   FFileList.AddObject(aFilename, fi);
   fi.Text := GetLastPath(aFilename);
 
-  if FCurrentPath = FRootPath then
+  if FCurrentPath = FFileList.RootPath then
   begin
     aRow := (FVisibleList.Count div dgLibrary.ColCount);
     aCol := FVisibleList.Count - (aRow * dgLibrary.ColCount);

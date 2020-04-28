@@ -64,6 +64,7 @@ type
 
     function GetModified: Boolean;
     function GetRootPath: String;
+    function GetStampLessCount: Integer;
     procedure SetRootPath(AValue: String);
   protected
   public
@@ -75,6 +76,7 @@ type
     procedure SaveToFile(const aFilename : String); override;
     property Modified : Boolean read GetModified;
     property RootPath : String read GetRootPath write SetRootPath;
+    property StampLessCount : Integer read GetStampLessCount;
   end;
 
 
@@ -250,30 +252,50 @@ procedure TThreadConv.Execute;
 var
   p : TBitmap;
   dw : boolean;
-  i, z : integer;
+  z, cnt : integer;
 begin
   while not Terminated do
   begin
     dw := false;
-    z := FFileList.Count;
-    for i:= 0 to z - 1 do
+
+    if FFileList.StampLessCount > 0 then
     begin
-      if Terminated then
-        Exit;
+      cnt := FFileList.Count;
+      FVal := 0;
+      while (cnt > FVal) do
+      begin
+        if Terminated then
+            Exit;
 
-      FVal := i;
-      if not FileExists(TFileItem(FFileList.Objects[FVal]).CacheFilename) then
-        if FileExists(TFileItem(FFileList.Objects[FVal]).Filename) then
-          TFileItem(FFileList.Objects[FVal]).GenerateStamp;
+        // remove invalid entries
+        with TFileItem(FFileList.Objects[FVal]) do
+          if not FileExists(Filename) then
+          begin
+            if FileExists(CacheFilename) then
+              DeleteFile(CacheFilename);
 
-      if (i mod 50) = 0 then
+            FFileList.Delete(FVal);
+            cnt := FFileList.Count;
+          end;
+
+        // make stamp if needed
+        with TFileItem(FFileList.Objects[FVal]) do
+          if not FileExists(CacheFilename) then
+            if FileExists(Filename) then
+              GenerateStamp;
+
+        inc(FVal);
+        if (FVal mod 50) = 0 then
           Synchronize(@DoProgress);
-        //yield;
+          //yield;
         Sleep(25);
-    end;
 
-    if not dw then
-      Sleep(500);
+        cnt := FFileList.Count;
+      end;
+      Synchronize(@DoProgress);
+    end
+    else
+      Sleep(30000);
   end;
 end;
 
@@ -550,6 +572,21 @@ begin
   end;
 end;
 
+function TItemList.GetStampLessCount: Integer;
+var
+  i : integer;
+begin
+  Flock.LockList;
+  try
+    result := 0;
+    for i := 0 to Count - 1 do
+      if not FileExists(TFileItem(Objects[i]).CacheFilename) then
+        inc(result);
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
 procedure TItemList.SetRootPath(AValue: String);
 begin
   Flock.LockList;
@@ -769,56 +806,57 @@ begin
   p := (dgLibrary.ColCount * aRow) + aCol;
   if p < FVisibleList.Count then
     with dgLibrary, Canvas do
-    begin
-    {$ifdef Darwin}
-    if DirectoryExists(FVisibleList[p]) then
-      Brush.Color := clLtGray
-    else
-      Brush.Color:=clBlack;
+    try
+      {$ifdef Darwin}
+      if DirectoryExists(FVisibleList[p]) then
+        Brush.Color := clLtGray
+      else
+        Brush.Color:=clBlack;
 
-    if TFileItem(FVisibleList.Objects[p]).ReadState then
-      Brush.Color := clGray;
-    {$else}
-    if FileExists(FVisibleList[p]) and
-       (not TFileItem(FVisibleList.Objects[p]).ReadState) then
-       Brush.color := clWhite
-    else
-    if TFileItem(FVisibleList.Objects[p]).ReadState then
-      Brush.Color := clGray
-    else
-      Brush.color := clSilver; //clLime // clYellow
-    {$endif}
-      //FillRect(aRect);
-      r := aRect;
-      r.Inflate(-2, -2, -2, -2);
-      FillRect(r);
-
-      if Assigned(FVisibleList.Objects[p]) then
-      begin
-        pic := TFileItem(FVisibleList.Objects[p]).Img;
-        s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
-        //showmessage('s='+s);
-        X := (DefaultColWidth - pic.Width) div 2;
-        Y := 3; //(DefaultRowHeight - b.Height) div 2;
-        Draw(aRect.Left + X, aRect.Top + Y, pic);
-
+      if TFileItem(FVisibleList.Objects[p]).ReadState then
+        Brush.Color := clGray;
+      {$else}
+      if FileExists(FVisibleList[p]) and
+         (not TFileItem(FVisibleList.Objects[p]).ReadState) then
+         Brush.color := clWhite
+      else
+      if TFileItem(FVisibleList.Objects[p]).ReadState then
+        Brush.Color := clGray
+      else
+        Brush.color := clSilver; //clLime // clYellow
+      {$endif}
+        //FillRect(aRect);
         r := aRect;
-        r.top := r.Bottom - (TextHeight(s) * 3);
-        r.Bottom:=r.Bottom-3;
-        ts.ShowPrefix:=False;
-        ts.Wordbreak:=True;
-        ts.SingleLine:=False;
-        ts.Alignment := taCenter;
-        ts.RightToLeft := FAlse;
-        ts.Opaque:=False;
-        ts.Layout := tlBottom; //tlCenter;
-        //TextOut(r.Left, r.top, s);
-        TextRect(r, 0, 0, s, ts);
-      end;
+        r.Inflate(-2, -2, -2, -2);
+        FillRect(r);
 
-      if gdFocused in aState then
-        DrawFocusRect(aRect);
-    end;
+        if Assigned(FVisibleList.Objects[p]) then
+        begin
+          pic := TFileItem(FVisibleList.Objects[p]).Img;
+          s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
+          //showmessage('s='+s);
+          X := (DefaultColWidth - pic.Width) div 2;
+          Y := 3; //(DefaultRowHeight - b.Height) div 2;
+          Draw(aRect.Left + X, aRect.Top + Y, pic);
+
+          r := aRect;
+          r.top := r.Bottom - (TextHeight(s) * 3);
+          r.Bottom:=r.Bottom-3;
+          ts.ShowPrefix:=False;
+          ts.Wordbreak:=True;
+          ts.SingleLine:=False;
+          ts.Alignment := taCenter;
+          ts.RightToLeft := FAlse;
+          ts.Opaque:=False;
+          ts.Layout := tlBottom; //tlCenter;
+          //TextOut(r.Left, r.top, s);
+          TextRect(r, 0, 0, s, ts);
+        end;
+
+        if gdFocused in aState then
+          DrawFocusRect(aRect);
+      except
+      end;
 end;
 
 procedure TCbzLibrary.dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;
@@ -927,8 +965,8 @@ begin
   if not Assigned(FThreadSearchFiles) then
   begin
     btnRefresh.enabled := False;
-    FVisibleList.Clear;
-    FFileList.Clear;
+    //FVisibleList.Clear;
+    //FFileList.Clear;
     FThreadSearchFiles := ThreadedSearchFiles(FFileList.RootPath, '*.cbz', @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
@@ -1142,9 +1180,14 @@ begin
   if (not FileExists(aFilename)) then
     exit;
 
-  fi := TFileItem.Create(FLog, aFilename);
-  FFileList.AddObject(aFilename, fi);
-  fi.Text := GetLastPath(aFilename);
+  if (FFileList.IndexOf(aFilename) < 0) then
+  begin
+    fi := TFileItem.Create(FLog, aFilename);
+    fi.Text := GetLastPath(aFilename);
+    FFileList.AddObject(aFilename, fi);
+  end
+  else
+    Exit;
 
   if FCurrentPath = FFileList.RootPath then
   begin
@@ -1157,13 +1200,9 @@ begin
     else
       s := aFilename;
 
-    //s := GetFirstPath(ExtractFilePath(aFilename));
     with FVisibleList do
       if IndexOf(s) < 0 then
-      begin
         AddObject(s, fi);
-        //Application.QueueAsyncCall(@MakeStamp, int64(fi));
-      end;
   end;
   result := nil;
 end;
@@ -1222,6 +1261,7 @@ var
 begin
   Progress(Self, 0, 0, 0, 'Ready.');
   FFillThread := nil;
+  btnRefresh.Enabled:=True;
 
   if not TThreadFill(Sender).Cancelled then
     if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then

@@ -32,6 +32,7 @@ type
     FLock : TThreadList;
 
     function GetCacheFilename: String; inline;
+    function GetFilename: String;
     function GetImg: TBitmap;
     function GetModified: Boolean;
     function GetReadState: Boolean;
@@ -39,6 +40,7 @@ type
     procedure SetReadState(AValue: Boolean);
     procedure SetText(const AValue: String);
   protected
+    procedure GenerateStamp;
     procedure SaveToXml(aNode : TXmlElement);
     procedure LoadFromXml(aNode : TXmlElement);
   public
@@ -46,7 +48,7 @@ type
     constructor Create(aLog : ILog; const aFilename : String);
     destructor Destroy; override;
     property Img:TBitmap read GetImg;
-    property Filename : String read FFilename;
+    property Filename : String read GetFilename;
     property CacheFilename : String read GetCacheFilename;
     property Text : String Read GetText write SetText;
     property ReadState : Boolean read GetReadState write SetReadState;
@@ -59,7 +61,7 @@ type
   private
     Flog : ILog;
     FRootPath : String;
-    FLock : TThreadList;
+
     function GetModified: Boolean;
     function GetRootPath: String;
     procedure SetRootPath(AValue: String);
@@ -68,6 +70,7 @@ type
     constructor Create(alog : ILog);
     destructor Destroy; override;
     procedure Clear; override;
+    procedure Delete(index:integer); override;
     procedure LoadFromFile(const aFilename : String); override;
     procedure SaveToFile(const aFilename : String); override;
     property Modified : Boolean read GetModified;
@@ -259,11 +262,9 @@ begin
         Exit;
 
       FVal := i;
-      if not Assigned(TFileItem(FFileList.Objects[FVal]).FImg) then
-      begin
-        dw := true;
-        p := TFileItem(FFileList.Objects[i]).Img;
-      end;
+      if not FileExists(TFileItem(FFileList.Objects[FVal]).CacheFilename) then
+        if FileExists(TFileItem(FFileList.Objects[FVal]).Filename) then
+          TFileItem(FFileList.Objects[FVal]).GenerateStamp;
 
       if (i mod 50) = 0 then
           Synchronize(@DoProgress);
@@ -465,6 +466,24 @@ begin
   end;
 end;
 
+procedure TFileItem.GenerateStamp;
+var
+  b : TBitmap;
+begin
+  with TCbz.Create(FLog) do
+  try
+    Open(FFilename, zmRead);
+    b := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
+    try
+      b.SaveToFile(CacheFilename);
+    finally
+      b.Free;
+    end;
+  finally
+    free;
+  end;
+end;
+
 function TFileItem.GetCacheFilename: String;
 begin
   result :=
@@ -476,6 +495,16 @@ begin
   ForceDirectories(result);
   result :=  result + GUIDToString(FGuid) +'.bmp';
   //result := ChangeFileExt(result, '.bmp');
+end;
+
+function TFileItem.GetFilename: String;
+begin
+  FLock.LockList;
+  try
+    Result := FFilename;
+  finally
+    FLock.UnlockList;
+  end;
 end;
 
 procedure TFileItem.SaveToXml(aNode: TXmlElement);
@@ -534,7 +563,6 @@ end;
 constructor TItemList.Create(alog : ILog);
 begin
   Flog := alog;
-  FLock := TThreadList.Create;
   inherited Create;
 end;
 
@@ -542,7 +570,6 @@ destructor TItemList.Destroy;
 begin
   Clear;
   Flog := nil;
-  FLock.Free;
   inherited Destroy;
 end;
 
@@ -554,6 +581,12 @@ begin
     TFileItem(Objects[i]).free;
 
   inherited Clear;
+end;
+
+procedure TItemList.Delete(index: integer);
+begin
+  TFileItem(Objects[index]).free;
+  inherited Delete(index);
 end;
 
 procedure TItemList.SaveToFile(const aFilename: String);

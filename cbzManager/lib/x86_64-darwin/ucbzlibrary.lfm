@@ -53,7 +53,14 @@ object CbzLibrary: TCbzLibrary
     Height = 18
     Top = 728
     Width = 1156
-    Panels = <>
+    Panels = <    
+      item
+        Width = 600
+      end    
+      item
+        Width = 50
+      end>
+    SimplePanel = False
   end
   object pnlPath: TPanel
     Left = 10

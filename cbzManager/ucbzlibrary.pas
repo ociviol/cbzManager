@@ -1091,7 +1091,7 @@ end;
 procedure TCbzLibrary.SearchEnded(Sender: TObject);
 begin
   FThreadSearchFiles := nil;
-  StatusBar1.SimpleText := 'Done.';
+  StatusBar1.Panels[0].Text := 'Done.';
 
   FFileList.SaveToFile(GetCacheFileName);
   btnRefresh.Enabled:=True;

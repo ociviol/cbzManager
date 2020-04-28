@@ -651,14 +651,11 @@ begin
     with dgLibrary, Canvas do
     begin
     {$ifdef Darwin}
-    if FileExists(FVisibleList[p]) and
-       (not TFileItem(FVisibleList.Objects[p]).ReadState) then
-      Brush.color := clBlack
+    if DirectoryExists(FVisibleList[p]) or
+       TFileItem(FVisibleList.Objects[p]).ReadState then
+      Brush.Color := clGray
     else
-    if TFileItem(FVisibleList.Objects[p]).ReadState then
-    //  Brush.Color := clBlack
-    //else
-      Brush.Color := clGray;
+      Brush.Color:=clBlack;
     {$else}
     if FileExists(FVisibleList[p]) and
        (not TFileItem(FVisibleList.Objects[p]).ReadState) then

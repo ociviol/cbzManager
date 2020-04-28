@@ -194,14 +194,14 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="679"/>
-        <CursorPos X="67" Y="694"/>
+        <TopLine Value="691"/>
+        <CursorPos X="43" Y="719"/>
         <UsageCount Value="141"/>
         <Bookmarks Count="4">
-          <Item0 X="3" Y="1123"/>
+          <Item0 X="3" Y="1124"/>
           <Item1 X="5" Y="300" ID="3"/>
-          <Item2 X="3" Y="907" ID="1"/>
-          <Item3 X="3" Y="933" ID="2"/>
+          <Item2 X="3" Y="908" ID="1"/>
+          <Item3 X="3" Y="934" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -739,7 +739,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="940"/>
+        <Line Value="941"/>
       </Item2>
       <Item3>
         <Kind Value="bpkSource"/>
@@ -753,7 +753,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="945"/>
+        <Line Value="946"/>
       </Item4>
       <Item5>
         <Kind Value="bpkSource"/>
@@ -767,7 +767,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="946"/>
+        <Line Value="947"/>
       </Item6>
     </BreakPoints>
     <Watches Count="6">

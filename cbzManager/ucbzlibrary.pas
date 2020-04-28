@@ -716,6 +716,7 @@ begin
     btnTopPath.Caption:=FCurrentPath;
     FLvl := length(FCurrentPath.Split([PathDelim]));
     btnRefresh.Enabled:=false;
+    Progress(Self, 0, 0, 0, 'Scanning...';
     FThreadSearchFiles := ThreadedSearchFiles(FCurrentPath, '*.cbz', @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);

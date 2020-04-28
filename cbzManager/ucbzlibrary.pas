@@ -706,6 +706,7 @@ begin
     FFileList.LoadFromFile(CacheFileName);
     FCurrentPath := FFileList.RootPath;
     FLvl := length(FCurrentPath.Split([PathDelim]));
+    btnTopPath.Caption:=FCurrentPath;
     btnTopPath.Click;
   finally
     btnRefresh.Enabled:=True;

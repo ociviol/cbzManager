@@ -33,6 +33,11 @@ type
 
     function GetCacheFilename: String; inline;
     function GetImg: TBitmap;
+    function GetModified: Boolean;
+    function GetReadState: Boolean;
+    function GetText: String;
+    procedure SetReadState(AValue: Boolean);
+    procedure SetText(const AValue: String);
   protected
     procedure SaveToXml(aNode : TXmlElement);
     procedure LoadFromXml(aNode : TXmlElement);
@@ -43,9 +48,9 @@ type
     property Img:TBitmap read GetImg;
     property Filename : String read FFilename;
     property CacheFilename : String read GetCacheFilename;
-    property Text : String Read FText write FText;
-    property ReadState : Boolean read FReadState write FReadState;
-    property Modified : Boolean read FModified;
+    property Text : String Read GetText write SetText;
+    property ReadState : Boolean read GetReadState write SetReadState;
+    property Modified : Boolean read GetModified;
   end;
 
   { TItemList }
@@ -403,6 +408,56 @@ begin
   end;
 end;
 
+function TFileItem.GetModified: Boolean;
+begin
+  FLock.LockList;
+  try
+    result := FModified;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+function TFileItem.GetReadState: Boolean;
+begin
+  FLock.LockList;
+  try
+    result := FReadState;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+function TFileItem.GetText: String;
+begin
+  FLock.LockList;
+  try
+    result := FText;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+procedure TFileItem.SetReadState(AValue: Boolean);
+begin
+  FLock.LockList;
+  try
+    FReadState:=aValue;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+procedure TFileItem.SetText(const AValue: String);
+begin
+  FLock.LockList;
+  try
+    FText := AValue;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
 function TFileItem.GetCacheFilename: String;
 begin
   result :=
@@ -595,18 +650,25 @@ begin
   if p < FVisibleList.Count then
     with dgLibrary, Canvas do
     begin
-      {$ifdef Darwin}
-      if TFileItem(FVisibleList.Objects[p]).ReadState then
-        Brush.Color := clBlack
-      else
-        Brush.Color := clGray;
-      {$else}
-      if TFileItem(FVisibleList.Objects[p]).ReadState then
-        Brush.Color := clGray
-      else
-        Brush.color := clSilver; //clLime // clYellow
-      {$endif}
-
+    {$ifdef Darwin}
+    if FileExists(FVisibleList[p]) and
+       (not TFileItem(FVisibleList.Objects[p]).ReadState) then
+      Brush.color := clBlack
+    else
+    if TFileItem(FVisibleList.Objects[p]).ReadState then
+    //  Brush.Color := clBlack
+    //else
+      Brush.Color := clGray;
+    {$else}
+    if FileExists(FVisibleList[p]) and
+       (not TFileItem(FVisibleList.Objects[p]).ReadState) then
+       Brush.color := clWhite
+    else
+    if TFileItem(FVisibleList.Objects[p]).ReadState then
+      Brush.Color := clGray
+    else
+      Brush.color := clSilver; //clLime // clYellow
+    {$endif}
       //FillRect(aRect);
       r := aRect;
       r.Inflate(-2, -2, -2, -2);

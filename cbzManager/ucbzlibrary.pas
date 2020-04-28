@@ -61,6 +61,7 @@ type
   private
     Flog : ILog;
     FRootPath : String;
+    FModified : Boolean;
 
     function GetDeletedCount: Integer;
     function GetModified: Boolean;
@@ -476,6 +477,7 @@ begin
   FLock.LockList;
   try
     FReadState:=aValue;
+    FModified := True;
   finally
     FLock.UnlockList;
   end;
@@ -486,6 +488,7 @@ begin
   FLock.LockList;
   try
     FText := AValue;
+    FModified := True;
   finally
     FLock.UnlockList;
   end;
@@ -537,12 +540,14 @@ begin
   aNode.SetAttribute('Filename', FFilename);
   aNode.SetAttributeBool('ReadState', ReadState);
   aNode.SetAttribute('Guid', GUIDToString(FGuid));
+  FModified := False;
 end;
 
 procedure TFileItem.LoadFromXml(aNode: TXmlElement);
 var
   s : string;
 begin
+  FModified := False;
   FReadState := aNode.GetAttributeBool('ReadState');
   FFilename:= aNode.GetAttribute('Filename');
   s := aNode.GetAttribute('Guid');
@@ -559,6 +564,9 @@ function TItemList.GetModified: Boolean;
 var
   i : integer;
 begin
+  result := FModified;
+  if result then exit;
+
   Flock.LockList;
   try
     for i:= 0 to Count - 1 do
@@ -641,12 +649,14 @@ begin
     TFileItem(Objects[i]).free;
 
   inherited Clear;
+  FModified := False;
 end;
 
 procedure TItemList.Delete(index: integer);
 begin
   TFileItem(Objects[index]).free;
   inherited Delete(index);
+  FModified := True;
 end;
 
 procedure TItemList.SaveToFile(const aFilename: String);
@@ -664,6 +674,7 @@ begin
      TFileItem(Objects[i]).SaveToXml(el);
    end;
     SaveToFile(aFilename);
+    FModified := False;
   finally
     Free;
   end;
@@ -688,6 +699,7 @@ begin
         AddObject(fi.Filename, fi);
       end;
     end;
+    FModified := False;
   finally
     Free;
   end;
@@ -789,6 +801,8 @@ end;
 
 procedure TCbzLibrary.FormShow(Sender: TObject);
 begin
+  dgLibrary.ColCount:=0;
+  dgLibrary.RowCount:=0;
   Application.QueueAsyncCall(@AfterShow, 0);
 end;
 

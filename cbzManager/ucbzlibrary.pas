@@ -110,6 +110,7 @@ type
     FInQueue : Integer;
     FThreadConv : TThreadConv;
 
+    procedure UpdateNbItems;
     procedure SwitchPath(const aLibPath : String);
     procedure CheckModified;
     procedure btnletterclick(sender : Tobject);
@@ -168,6 +169,7 @@ procedure TThreadConv.Execute;
 var
   cnt : integer;
 begin
+  Sleep(1000);
   while not Terminated do
   begin
     if (FFileList.StampLessCount > 0) or
@@ -633,6 +635,11 @@ begin
   ForceDirectories(ExtractFilePath(result));
 end;
 
+procedure TCbzLibrary.UpdateNbItems;
+begin
+  StatusBar1.Panels[2].Text:='Nb Albums : ' + IntToStr(FFileList.Count);
+end;
+
 procedure TCbzLibrary.SwitchPath(const aLibPath: String);
 begin
   Fconfig.LibPath:=aLibPath;
@@ -800,6 +807,7 @@ begin
 
   FFileList.SaveToFile(GetCacheFileName);
   btnRefresh.Enabled:=True;
+  UpdateNbItems;
 end;
 
 function TCbzLibrary.FoundFile(const aFileName: string; IsNew: Boolean): TTreeNode;
@@ -923,6 +931,7 @@ begin
             Row := oldrow;
           end;
     end;
+  UpdateNbItems;
 end;
 
 

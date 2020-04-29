@@ -58,7 +58,10 @@ object CbzLibrary: TCbzLibrary
         Width = 600
       end    
       item
-        Width = 50
+        Width = 150
+      end    
+      item
+        Width = 150
       end>
     SimplePanel = False
   end

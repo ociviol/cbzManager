@@ -1,7 +1,7 @@
 object CbzLibrary: TCbzLibrary
-  Left = 463
+  Left = 436
   Height = 746
-  Top = 174
+  Top = 155
   Width = 1156
   Caption = 'Library'
   ClientHeight = 746
@@ -61,7 +61,7 @@ object CbzLibrary: TCbzLibrary
         Width = 150
       end    
       item
-        Width = 150
+        Width = 400
       end>
     SimplePanel = False
   end

@@ -109,7 +109,6 @@ type
     procedure SwitchPath(const aLibPath : String);
     procedure CheckModified;
     procedure btnletterclick(sender : Tobject);
-    procedure MakeStamp(data : int64);
     procedure AfterShow(data : int64);
     procedure DoSizegrid(data : int64);
     procedure SizeGrid;
@@ -162,14 +161,10 @@ end;
 
 procedure TThreadConv.Execute;
 var
-  p : TBitmap;
-  dw : boolean;
-  z, cnt : integer;
+  cnt : integer;
 begin
   while not Terminated do
   begin
-    dw := false;
-
     if (FFileList.StampLessCount > 0) or
        (FFileList.DeletedCount > 0) then
     begin
@@ -482,7 +477,7 @@ end;
 procedure TCbzLibrary.dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
-  p, arow, acol : integer;
+  arow, acol : integer;
 begin
   if Button = mbRight then
   begin
@@ -694,13 +689,6 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
-end;
-
-procedure TCbzLibrary.MakeStamp(data: int64);
-var
-  img : TBitmap;
-begin
-  img := TFileItem(data).Img;
 end;
 
 procedure TCbzLibrary.SizeGrid;

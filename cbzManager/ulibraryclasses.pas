@@ -5,7 +5,7 @@ unit uLibraryClasses;
 interface
 
 uses
-  Classes, SysUtils, Graphics, Types,
+  Classes, SysUtils, Graphics,
 {$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}

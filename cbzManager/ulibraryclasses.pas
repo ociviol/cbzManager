@@ -256,6 +256,7 @@ end;
 
 function TFileItem.GenerateStamp:TBitmap;
 begin
+  result :=nil;
   if not FileExists(CacheFilename) then
     if FileExists(Filename) then
     begin
@@ -267,6 +268,7 @@ begin
           result := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
           result.SaveToFile(CacheFilename);
           StampGenerated:=True;
+          FModified:=True;
         finally
           free;
         end;

@@ -168,6 +168,7 @@ end;
 procedure TThreadConv.Execute;
 var
   cnt : integer;
+  b : TBitmap;
 begin
   Sleep(1000);
   while not Terminated do
@@ -192,7 +193,11 @@ begin
 
         // make stamp if needed
         with TFileItem(FFileList.Objects[FVal]) do
-          GenerateStamp.Free;
+        begin
+          b := GenerateStamp;
+          if Assigned(b) then
+            b.Free;
+        end;
 
         inc(FVal);
         if (FVal mod 50) = 0 then
@@ -205,12 +210,7 @@ begin
       Synchronize(@DoProgress);
     end
     else
-    for cnt := 0 to 30 do
-    begin
-      if Terminated then
-        Exit;
-      Sleep(1000);
-    end;
+      Sleep(5000);
   end;
 end;
 
@@ -393,8 +393,8 @@ end;
 
 procedure TCbzLibrary.FormShow(Sender: TObject);
 begin
-  dgLibrary.ColCount:=0;
-  dgLibrary.RowCount:=0;
+  dgLibrary.ColCount:=1;
+  dgLibrary.RowCount:=1;
   Application.QueueAsyncCall(@AfterShow, 0);
 end;
 
@@ -828,7 +828,7 @@ begin
   else
     Exit;
 
-  if FCurrentPath = FFileList.RootPath then
+  if (FCurrentPath = FFileList.RootPath) then
   begin
     aRow := (FVisibleList.Count div dgLibrary.ColCount);
     aCol := FVisibleList.Count - (aRow * dgLibrary.ColCount);

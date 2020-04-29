@@ -349,7 +349,7 @@ begin
             pnlimgName.Caption := format('%s (%dx%d)',
               [zf.FileNames[Index], b.Width, b.Height]);
             if Assigned(b) then
-              Image1.Picture.Bitmap := b;
+              Image1.Picture.Bitmap.Assign(b);
             Image1.Update;
           end;
         finally

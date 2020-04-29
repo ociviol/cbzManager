@@ -131,7 +131,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="21">
+    <Units Count="22">
       <Unit0>
         <Filename Value="cbzManagerWin.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -257,6 +257,11 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
       </Unit20>
+      <Unit21>
+        <Filename Value="ulibraryclasses.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uLibraryClasses"/>
+      </Unit21>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

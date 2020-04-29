@@ -160,35 +160,9 @@ begin
     begin
       Fimg := TBitmap.Create;
       if FileExists(CacheFilename) then
-      begin
-        with TPicture.Create do
-        try
-          LoadFromFile(CacheFilename);
-          FImg.Width:=Graphic.Width;
-          FImg.Height:=Graphic.Height;
-          Fimg.PixelFormat:=pf24bit;
-          Fimg.Canvas.Draw(0, 0, Graphic);
-        finally
-          Free;
-        end;
-      end
-    else
-      with TCbz.Create(FLog) do
-      try
-        Open(FFilename, zmRead);
-        FImg := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
-        with TPicture.Create do
-        try
-          Assign(FImg);
-          SaveToFile(CacheFilename, 'jpg');
-        finally
-          Free;
-        end;
-        //FImg.SaveToFile(CacheFilename);
-        StampGenerated := True;
-      finally
-        free;
-      end;
+        FImg.LoadFromFile(CacheFilename)
+      else
+        GenerateStamp;
     end;
     result := FImg;
   finally
@@ -288,7 +262,7 @@ begin
     if FileExists(Filename) then
       with TCbz.Create(FLog) do
       try
-        Open(FFilename, zmRead);
+        Open(SElf.Filename, zmRead);
         b := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
         try
           b.SaveToFile(CacheFilename);
@@ -310,7 +284,7 @@ begin
     IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Library\';
 {$endif}
   ForceDirectories(result);
-  result :=  result + GUIDToString(FGuid) +'.jpg';
+  result :=  result + GUIDToString(FGuid) +'.bmp';
   //result := ChangeFileExt(result, '.bmp');
 end;
 

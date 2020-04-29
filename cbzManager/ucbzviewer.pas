@@ -52,7 +52,7 @@ end;
 procedure TFrmCbzViewer.FormClose(Sender: TObject; var CloseAction: TCloseAction
   );
 begin
-  CbzViewerFrame.Clear;
+  CloseAction:=caFree;
 end;
 
 procedure TFrmCbzViewer.FormCreate(Sender: TObject);

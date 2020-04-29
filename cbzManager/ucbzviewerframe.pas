@@ -150,7 +150,10 @@ end;
 destructor TCbzViewerFrame.Destroy;
 begin
   if Assigned(zf) then
+  begin
+    zf.Close;
     zf.Free;
+  end;
   FLog := nil;
   inherited Destroy;
 end;
@@ -331,30 +334,20 @@ begin
   try
     if (zf.Mode <> zmClosed) and (Index < zf.ImageCount) then
     begin
-      {
-      if (Index = zf.FileCount - 1) then
-      begin
-        Image1.Visible := False;
-        pnlimgName.Caption := format('%s', [zf.FileNames[Index]]);
-      end
-      else
-      }
-      begin
-        HideCropTool;
-        Image1.Visible := True;
-        b := zf.Image[Index];
-        try
+      HideCropTool;
+      Image1.Visible := True;
+      b := zf.Image[Index];
+      try
+        if Assigned(b) then
+        begin
+          pnlimgName.Caption := format('%s (%dx%d)',
+            [zf.FileNames[Index], b.Width, b.Height]);
           if Assigned(b) then
-          begin
-            pnlimgName.Caption := format('%s (%dx%d)',
-              [zf.FileNames[Index], b.Width, b.Height]);
-            if Assigned(b) then
-              Image1.Picture.Bitmap.Assign(b);
-            Image1.Update;
-          end;
-        finally
-          b.free;
+            Image1.Picture.Bitmap.Assign(b);
+          Image1.Update;
         end;
+      finally
+        b.free;
       end;
     end
     else

@@ -203,7 +203,12 @@ begin
       Synchronize(@DoProgress);
     end
     else
-      Sleep(30000);
+    for cnt := 0 to 30 do
+    begin
+      if Terminated then
+        Exit;
+      Sleep(1000);
+    end;
   end;
 end;
 
@@ -370,6 +375,7 @@ begin
   CheckModified;
 
   FThreadConv.Terminate;
+
   if Assigned(FFillThread) then
   begin
     FFillThread.Terminate;

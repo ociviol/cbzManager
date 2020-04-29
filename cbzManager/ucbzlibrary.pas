@@ -597,7 +597,7 @@ begin
   if not Assigned(FThreadSearchFiles) then
   begin
     btnRefresh.enabled := False;
-    //FVisibleList.Clear;
+    FFileList.ResetStampState;
     //FFileList.Clear;
     FThreadSearchFiles := ThreadedSearchFiles(FFileList.RootPath, '*.cbz', @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning

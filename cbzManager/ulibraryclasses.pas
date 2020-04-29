@@ -82,6 +82,7 @@ type
     procedure Delete(index:integer); override;
     procedure LoadFromFile(const aFilename : String); override;
     procedure SaveToFile(const aFilename : String); override;
+    procedure ResetStampState;
     property Modified : Boolean read GetModified;
     property RootPath : String read GetRootPath write SetRootPath;
     property StampLessCount : Integer read GetStampLessCount;
@@ -159,21 +160,32 @@ begin
     begin
       Fimg := TBitmap.Create;
       if FileExists(CacheFilename) then
-        FImg.LoadFromFile(CacheFilename)
+      begin
+        with TPicture.Create do
+        try
+          LoadFromFile(CacheFilename);
+          FImg.Width:=Graphic.Width;
+          FImg.Height:=Graphic.Height;
+          Fimg.PixelFormat:=pf24bit;
+          Fimg.Canvas.Draw(0, 0, Graphic);
+        finally
+          Free;
+        end;
+      end
     else
       with TCbz.Create(FLog) do
       try
         Open(FFilename, zmRead);
         FImg := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
-        {
+        with TPicture.Create do
         try
-          Fimg.Bitmap.Assign(b);
+          Assign(FImg);
+          SaveToFile(CacheFilename, 'jpg');
         finally
-          b.Free;
+          Free;
         end;
-        }
-        FImg.SaveToFile(CacheFilename);
-        FStampGenerated := True;
+        //FImg.SaveToFile(CacheFilename);
+        StampGenerated := True;
       finally
         free;
       end;
@@ -298,7 +310,7 @@ begin
     IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Library\';
 {$endif}
   ForceDirectories(result);
-  result :=  result + GUIDToString(FGuid) +'.bmp';
+  result :=  result + GUIDToString(FGuid) +'.jpg';
   //result := ChangeFileExt(result, '.bmp');
 end;
 
@@ -491,6 +503,14 @@ begin
   finally
     Free;
   end;
+end;
+
+procedure TItemList.ResetStampState;
+var
+  i : integer;
+begin
+  for i:= 0 To Count - 1 do
+    TFileItem(Objects[i]).StampGenerated:=False;
 end;
 
 procedure TItemList.LoadFromFile(const aFilename: String);

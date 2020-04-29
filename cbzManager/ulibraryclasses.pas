@@ -74,6 +74,7 @@ type
     function GetRootPath: String;
     function GetStampLessCount: Integer;
     procedure SetRootPath(AValue: String);
+    function GetReadCount:integer;
   protected
   public
     constructor Create(alog : ILog);
@@ -87,6 +88,7 @@ type
     property RootPath : String read GetRootPath write SetRootPath;
     property StampLessCount : Integer read GetStampLessCount;
     property DeletedCount : Integer read GetDeletedCount;
+    property ReadCount : Integer read GetReadCount;
   end;
 
 
@@ -421,6 +423,16 @@ begin
   finally
     FLock.UnlockList;
   end;
+end;
+
+function TItemList.GetReadCount: integer;
+var
+  i:integer;
+begin
+  result := 0;
+  for i := 0 to Count - 1 do
+    if TfileItem(Objects[i]).ReadState then
+      inc(result);
 end;
 
 constructor TItemList.Create(alog : ILog);

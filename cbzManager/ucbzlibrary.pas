@@ -388,7 +388,7 @@ end;
 procedure TCbzLibrary.FormResize(Sender: TObject);
 begin
   SizeGrid;
-  StatusBar1.Panels[0].Width := (StatusBar1.ClientWidth div 4) * 3;
+  StatusBar1.Panels[0].Width := (StatusBar1.ClientWidth div 3) * 2;
 end;
 
 procedure TCbzLibrary.FormShow(Sender: TObject);
@@ -537,7 +537,10 @@ begin
            ReadState := not ReadState;
 
   if not cbHideRead.Checked then
-    dgLibrary.InvalidateCell(dgLibrary.Col, dgLibrary.Row)
+  begin
+    dgLibrary.InvalidateCell(dgLibrary.Col, dgLibrary.Row);
+    UpdateNbItems;
+  end
   else
     FillGrid(False);
   FFileList.SaveToFile(GetCacheFileName);
@@ -637,7 +640,8 @@ end;
 
 procedure TCbzLibrary.UpdateNbItems;
 begin
-  StatusBar1.Panels[2].Text:='Nb Albums : ' + IntToStr(FFileList.Count);
+  StatusBar1.Panels[2].Text := IntToStr(FFileList.Count) + ' Albums, ' +
+                               IntToStr(FFileList.ReadCount) + ' Read';
 end;
 
 procedure TCbzLibrary.SwitchPath(const aLibPath: String);

@@ -27,20 +27,27 @@ type
     FGuid : TGUID;
     FModified : Boolean;
     FLock : TThreadList;
+    FDateAdded : TDateTime;
+    FStampGenerated : Boolean;
 
     function GetCacheFilename: String; inline;
+    function GetDateAdded: TDAteTime;
     function GetFilename: String;
     function GetImg: TBitmap;
     function GetModified: Boolean;
     function GetReadState: Boolean;
+    function GetStampGenerated: Boolean;
     function GetText: String;
+    procedure SetDateAdded(AValue: TDAteTime);
     procedure SetReadState(AValue: Boolean);
+    procedure SetStampGenerated(AValue: Boolean);
     procedure SetText(const AValue: String);
   protected
     procedure SaveToXml(aNode : TXmlElement);
     procedure LoadFromXml(aNode : TXmlElement);
     property CacheFilename : String read GetCacheFilename;
     property Modified : Boolean read GetModified;
+    property StampGenerated : Boolean read GetStampGenerated write SetStampGenerated;
   public
     constructor Create;
     constructor Create(aLog : ILog; const aFilename : String);
@@ -51,6 +58,7 @@ type
     property ReadState : Boolean read GetReadState write SetReadState;
     property Img:TBitmap read GetImg;
     property Text : String Read GetText write SetText;
+    property DateAdded : TDAteTime read GetDateAdded write SetDateAdded;
   end;
 
   { TItemList }
@@ -121,7 +129,9 @@ begin
   inherited;
   FImg := nil;
   CreateGUID(FGuid);
+  FDateAdded := now;
   FLock := TThreadList.Create;
+  FStampGenerated:=False;
 end;
 
 constructor TFileItem.Create(aLog : ILog; const aFilename: String);
@@ -163,6 +173,7 @@ begin
         end;
         }
         FImg.SaveToFile(CacheFilename);
+        FStampGenerated := True;
       finally
         free;
       end;
@@ -193,11 +204,32 @@ begin
   end;
 end;
 
+function TFileItem.GetStampGenerated: Boolean;
+begin
+  FLock.LockList;
+  try
+    result := FStampGenerated;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
 function TFileItem.GetText: String;
 begin
   FLock.LockList;
   try
     result := FText;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+procedure TFileItem.SetDateAdded(AValue: TDAteTime);
+begin
+  FLock.LockList;
+  try
+    FDateAdded:=AVAlue;
+    FModified:=True;
   finally
     FLock.UnlockList;
   end;
@@ -209,6 +241,17 @@ begin
   try
     FReadState:=aValue;
     FModified := True;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+procedure TFileItem.SetStampGenerated(AValue: Boolean);
+begin
+  FLock.LockList;
+  try
+    FStampGenerated := AValue;
+    FModified:=True;
   finally
     FLock.UnlockList;
   end;
@@ -237,6 +280,7 @@ begin
         b := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
         try
           b.SaveToFile(CacheFilename);
+          StampGenerated:=True;
         finally
           b.Free;
         end;
@@ -258,6 +302,16 @@ begin
   //result := ChangeFileExt(result, '.bmp');
 end;
 
+function TFileItem.GetDateAdded: TDAteTime;
+begin
+  FLock.LockList;
+  try
+    Result := FDateAdded;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
 function TFileItem.GetFilename: String;
 begin
   FLock.LockList;
@@ -270,9 +324,14 @@ end;
 
 procedure TFileItem.SaveToXml(aNode: TXmlElement);
 begin
-  aNode.SetAttribute('Filename', FFilename);
-  aNode.SetAttributeBool('ReadState', ReadState);
-  aNode.SetAttribute('Guid', GUIDToString(FGuid));
+  with aNode do
+  begin
+    SetAttribute('Filename', FFilename);
+    SetAttributeBool('ReadState', FReadState);
+    SetAttributeBool('HasStamp', FStampGenerated);
+    SetAttribute('Guid', GUIDToString(FGuid));
+    SetAttributeDate('DateAdded', FDateAdded);
+  end;
   FModified := False;
 end;
 
@@ -281,13 +340,18 @@ var
   s : string;
 begin
   FModified := False;
-  FReadState := aNode.GetAttributeBool('ReadState');
-  FFilename:= aNode.GetAttribute('Filename');
-  s := aNode.GetAttribute('Guid');
-  if s <> '' then
-    FGuid := StringToGUID(s)
-  else
-    FModified := True;
+  With aNode do
+  begin
+    FReadState := GetAttributeBool('ReadState');
+    FStampGenerated := GetAttributeBool('HasStamp');
+    FFilename:= GetAttribute('Filename');
+    FDateAdded := GetAttributeDate('DateAdded', now);
+    s := GetAttribute('Guid');
+    if s <> '' then
+      FGuid := StringToGUID(s)
+    else
+      FModified := True;
+  end;
 end;
 
 
@@ -344,8 +408,17 @@ begin
   try
     result := 0;
     for i := 0 to Count - 1 do
-      if not FileExists(TFileItem(Objects[i]).CacheFilename) then
-        inc(result);
+      with TFileItem(Objects[i]) do
+        if not StampGenerated then
+        begin
+          if not FileExists(CacheFilename) then
+            inc(result)
+          else
+          begin
+            FStampGenerated := True;
+            FModified:=True;
+          end;
+        end;
   finally
     FLock.UnlockList;
   end;

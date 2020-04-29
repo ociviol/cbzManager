@@ -139,26 +139,60 @@ object CbzLibrary: TCbzLibrary
         TabOrder = 0
       end
     end
-    object edtSearch: TEdit
-      Left = 715
+    object Panel2: TPanel
+      Left = 670
       Height = 22
       Top = 2
-      Width = 224
+      Width = 274
       Align = alRight
-      BorderSpacing.Right = 5
-      OnChange = edtSearchChange
+      BevelOuter = bvLowered
+      ClientHeight = 22
+      ClientWidth = 274
       TabOrder = 3
+      object edtSearch: TEdit
+        Left = 47
+        Height = 20
+        Top = 1
+        Width = 221
+        Align = alClient
+        BorderSpacing.Right = 5
+        OnChange = edtSearchChange
+        TabOrder = 0
+      end
+      object Label1: TLabel
+        Left = 1
+        Height = 17
+        Top = 4
+        Width = 41
+        Align = alLeft
+        BorderSpacing.Top = 3
+        BorderSpacing.Right = 5
+        Caption = 'Search :'
+        ParentColor = False
+      end
     end
-    object Label1: TLabel
-      Left = 669
-      Height = 19
-      Top = 5
-      Width = 41
+    object Panel3: TPanel
+      Left = 500
+      Height = 22
+      Top = 2
+      Width = 170
       Align = alRight
-      BorderSpacing.Top = 3
-      BorderSpacing.Right = 5
-      Caption = 'Search :'
-      ParentColor = False
+      BevelOuter = bvLowered
+      ClientHeight = 22
+      ClientWidth = 170
+      TabOrder = 4
+      object cbVisibleDates: TComboBox
+        Left = 1
+        Height = 23
+        Top = 1
+        Width = 168
+        Align = alClient
+        Enabled = False
+        ItemHeight = 15
+        OnChange = cbVisibleDatesChange
+        Style = csDropDownList
+        TabOrder = 0
+      end
     end
   end
   object pnlbtns: TPanel

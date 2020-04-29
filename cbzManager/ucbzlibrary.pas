@@ -62,11 +62,14 @@ type
     btnTopPath: TButton;
     btnRefresh: TButton;
     cbHideRead: TCheckBox;
+    cbVisibleDates: TComboBox;
     dgLibrary: TDrawGrid;
     edtSearch: TEdit;
     Label1: TLabel;
     mnuReadStatus: TMenuItem;
     Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
     pnlbtns: TPanel;
     pnlPath: TPanel;
     PopupMenu1: TPopupMenu;
@@ -74,6 +77,7 @@ type
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
     procedure cbHideReadClick(Sender: TObject);
+    procedure cbVisibleDatesChange(Sender: TObject);
     procedure dgLibraryDblClick(Sender: TObject);
     procedure dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
@@ -113,6 +117,7 @@ type
     procedure DoSizegrid(data : int64);
     procedure SizeGrid;
     procedure DefaultBtnClick(Sender: TObject);
+    procedure DoFillGrid(data : int64);
     procedure FillGrid(bAddButton : Boolean = True);
     procedure SearchEnded(Sender: TObject);
     function FoundFile(const aFileName: string;
@@ -290,6 +295,7 @@ constructor TCbzLibrary.Create(aOwner: TComponent; aConfig: TConfig);
 begin
   FConfig := aConfig;
   FFillThread := nil;
+  FThreadConv:=nil;
   inherited Create(aOwner);
 end;
 
@@ -575,6 +581,11 @@ begin
     FillGrid(False);
 end;
 
+procedure TCbzLibrary.cbVisibleDatesChange(Sender: TObject);
+begin
+  Application.QueueAsyncCall(@DoFillGrid, 0);
+end;
+
 procedure TCbzLibrary.btnRefreshClick(Sender: TObject);
 begin
   if not Assigned(FThreadSearchFiles) then
@@ -729,6 +740,11 @@ begin
   end;
 end;
 
+procedure TCbzLibrary.DoFillGrid(data: int64);
+begin
+  FillGrid(Boolean(data));
+end;
+
 procedure TCbzLibrary.FillGrid(bAddButton : Boolean = True);
 begin
   if Assigned(FFillThread) then
@@ -767,6 +783,7 @@ begin
   end;
 
   FVisibleList.Clear;
+  cbVisibleDates.Enabled:=False;
   FFillThread := TThreadFill.Create(FFileList, FVisibleList, FCurrentPath, FLvl, FDisplayFilters,@ThreadFillTerminate, @Progress);
 end;
 
@@ -865,11 +882,23 @@ end;
 
 procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);
 var
-  oldtoprow, oldrow : Integer;
+  s : string;
+  i, oldtoprow, oldrow : Integer;
 begin
   Progress(Self, 0, 0, 0, 'Ready.');
   FFillThread := nil;
   btnRefresh.Enabled:=True;
+
+  cbVisibleDates.Clear;
+  cbVisibleDates.Items.Add('');
+  for i := 0 to FVisibleList.Count - 1 do
+    if Assigned(TFileItem(FVisibleList.Objects[i])) then
+    begin
+      s := DateToStr(TFileItem(FVisibleList.Objects[i]).DateAdded);
+      if cbVisibleDates.Items.IndexOf(s) < 0 then
+        cbVisibleDates.Items.Add(s);
+      cbVisibleDates.Enabled:=True;
+    end;
 
   if not TThreadFill(Sender).Cancelled then
     if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then

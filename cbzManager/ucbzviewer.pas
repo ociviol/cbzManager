@@ -17,7 +17,6 @@ type
 
   TFrmCbzViewer = class(TForm)
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure FormCreate(Sender: TObject);
   private
     CbzViewerFrame : TCbzViewerFrame;
@@ -54,11 +53,6 @@ procedure TFrmCbzViewer.FormClose(Sender: TObject; var CloseAction: TCloseAction
   );
 begin
   CbzViewerFrame.Clear;
-end;
-
-procedure TFrmCbzViewer.FormCloseQuery(Sender: TObject; var CanClose: boolean);
-begin
-
 end;
 
 procedure TFrmCbzViewer.FormCreate(Sender: TObject);

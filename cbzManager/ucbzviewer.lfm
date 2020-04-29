@@ -5,7 +5,6 @@ object FrmCbzViewer: TFrmCbzViewer
   Width = 756
   Caption = 'FrmCbzViewer'
   OnClose = FormClose
-  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.0.4.0'

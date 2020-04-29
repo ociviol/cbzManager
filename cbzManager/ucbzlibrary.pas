@@ -432,60 +432,64 @@ var
   r : TRect;
   ts : TTextStyle;
 begin
-  p := (dgLibrary.ColCount * aRow) + aCol;
-  if p < FVisibleList.Count then
-    with dgLibrary, Canvas do
-    try
-      {$ifdef Darwin}
-      if DirectoryExists(FVisibleList[p]) then
-        Brush.Color := clLtGray
-      else
-        Brush.Color:=clBlack;
+  try
+    p := (dgLibrary.ColCount * aRow) + aCol;
+    if p < FVisibleList.Count then
+      with dgLibrary, Canvas do
+      begin
+        {$ifdef Darwin}
+        if DirectoryExists(FVisibleList[p]) then
+          Brush.Color := clLtGray
+        else
+          Brush.Color:=clBlack;
 
-      if TFileItem(FVisibleList.Objects[p]).ReadState then
-        Brush.Color := clGray;
-      {$else}
-      if FileExists(FVisibleList[p]) and
-         (not TFileItem(FVisibleList.Objects[p]).ReadState) then
-         Brush.color := clWhite
-      else
-      if TFileItem(FVisibleList.Objects[p]).ReadState then
-        Brush.Color := clGray
-      else
-        Brush.color := clSilver; //clLime // clYellow
-      {$endif}
-        //FillRect(aRect);
-        r := aRect;
-        r.Inflate(-2, -2, -2, -2);
-        FillRect(r);
-
-        if Assigned(FVisibleList.Objects[p]) then
-        begin
-          pic := TFileItem(FVisibleList.Objects[p]).Img;
-          s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
-          //showmessage('s='+s);
-          X := (DefaultColWidth - pic.Width) div 2;
-          Y := 3; //(DefaultRowHeight - b.Height) div 2;
-          Draw(aRect.Left + X, aRect.Top + Y, pic);
-
+        if TFileItem(FVisibleList.Objects[p]).ReadState then
+          Brush.Color := clGray;
+        {$else}
+        if FileExists(FVisibleList[p]) and
+           (not TFileItem(FVisibleList.Objects[p]).ReadState) then
+           Brush.color := clWhite
+        else
+        if TFileItem(FVisibleList.Objects[p]).ReadState then
+          Brush.Color := clGray
+        else
+          Brush.color := clSilver; //clLime // clYellow
+        {$endif}
+          //FillRect(aRect);
           r := aRect;
-          r.top := r.Bottom - (TextHeight(s) * 3);
-          r.Bottom:=r.Bottom-3;
-          ts.ShowPrefix:=False;
-          ts.Wordbreak:=True;
-          ts.SingleLine:=False;
-          ts.Alignment := taCenter;
-          ts.RightToLeft := FAlse;
-          ts.Opaque:=False;
-          ts.Layout := tlBottom; //tlCenter;
-          //TextOut(r.Left, r.top, s);
-          TextRect(r, 0, 0, s, ts);
-        end;
+          r.Inflate(-2, -2, -2, -2);
+          FillRect(r);
 
-        if gdFocused in aState then
-          DrawFocusRect(aRect);
-      except
+          if Assigned(FVisibleList.Objects[p]) then
+          begin
+            pic := TFileItem(FVisibleList.Objects[p]).Img;
+            if assigned(pic) then
+            begin
+              s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
+              //showmessage('s='+s);
+              X := (DefaultColWidth - pic.Width) div 2;
+              Y := 3; //(DefaultRowHeight - b.Height) div 2;
+              Draw(aRect.Left + X, aRect.Top + Y, pic);
+
+              r := aRect;
+              r.top := r.Bottom - (TextHeight(s) * 3);
+              r.Bottom:=r.Bottom-3;
+              ts.ShowPrefix:=False;
+              ts.Wordbreak:=True;
+              ts.SingleLine:=False;
+              ts.Alignment := taCenter;
+              ts.RightToLeft := FAlse;
+              ts.Opaque:=False;
+              ts.Layout := tlBottom; //tlCenter;
+              //TextOut(r.Left, r.top, s);
+              TextRect(r, 0, 0, s, ts);
+            end;
+          end;
+          if gdFocused in aState then
+            DrawFocusRect(aRect);
       end;
+  except
+  end;
 end;
 
 procedure TCbzLibrary.dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;

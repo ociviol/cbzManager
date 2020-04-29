@@ -266,11 +266,17 @@ begin
       try
         with TCbz.Create(FLog) do
         try
-          Open(Self.Filename, zmRead);
-          result := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
-          result.SaveToFile(CacheFilename);
-          StampGenerated:=True;
-          FModified:=True;
+          try
+            Open(Self.Filename, zmRead);
+            result := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
+            if Assigned(result) then
+            begin
+              result.SaveToFile(CacheFilename);
+              StampGenerated:=True;
+              FModified:=True;
+            end;
+          except
+          end;
         finally
           free;
         end;

@@ -12,10 +12,10 @@ object CbzLibrary: TCbzLibrary
   OnResize = FormResize
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '2.1.0.0'
+  LCLVersion = '2.0.4.0'
   object dgLibrary: TDrawGrid
     Left = 50
-    Height = 672
+    Height = 667
     Top = 46
     Width = 1096
     Align = alClient
@@ -50,15 +50,18 @@ object CbzLibrary: TCbzLibrary
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 18
-    Top = 728
+    Height = 23
+    Top = 723
     Width = 1156
     Panels = <    
       item
         Width = 600
       end    
       item
-        Width = 50
+        Width = 150
+      end    
+      item
+        Width = 150
       end>
     SimplePanel = False
   end
@@ -77,7 +80,7 @@ object CbzLibrary: TCbzLibrary
       Left = 25
       Height = 22
       Top = 2
-      Width = 93
+      Width = 88
       Align = alLeft
       AutoSize = True
       Caption = 'btnTopPath'
@@ -139,31 +142,65 @@ object CbzLibrary: TCbzLibrary
         TabOrder = 0
       end
     end
-    object edtSearch: TEdit
-      Left = 715
+    object Panel2: TPanel
+      Left = 670
       Height = 22
       Top = 2
-      Width = 224
+      Width = 274
       Align = alRight
-      BorderSpacing.Right = 5
-      OnChange = edtSearchChange
+      BevelOuter = bvLowered
+      ClientHeight = 22
+      ClientWidth = 274
       TabOrder = 3
+      object edtSearch: TEdit
+        Left = 47
+        Height = 20
+        Top = 1
+        Width = 221
+        Align = alClient
+        BorderSpacing.Right = 5
+        OnChange = edtSearchChange
+        TabOrder = 0
+      end
+      object Label1: TLabel
+        Left = 1
+        Height = 17
+        Top = 4
+        Width = 41
+        Align = alLeft
+        BorderSpacing.Top = 3
+        BorderSpacing.Right = 5
+        Caption = 'Search :'
+        ParentColor = False
+      end
     end
-    object Label1: TLabel
-      Left = 660
-      Height = 19
-      Top = 5
-      Width = 50
+    object Panel3: TPanel
+      Left = 500
+      Height = 22
+      Top = 2
+      Width = 170
       Align = alRight
-      BorderSpacing.Top = 3
-      BorderSpacing.Right = 5
-      Caption = 'Search :'
-      ParentColor = False
+      BevelOuter = bvLowered
+      ClientHeight = 22
+      ClientWidth = 170
+      TabOrder = 4
+      object cbVisibleDates: TComboBox
+        Left = 1
+        Height = 23
+        Top = 1
+        Width = 168
+        Align = alClient
+        Enabled = False
+        ItemHeight = 15
+        OnChange = cbVisibleDatesChange
+        Style = csDropDownList
+        TabOrder = 0
+      end
     end
   end
   object pnlbtns: TPanel
     Left = 10
-    Height = 672
+    Height = 667
     Top = 46
     Width = 30
     Align = alLeft
@@ -171,8 +208,8 @@ object CbzLibrary: TCbzLibrary
     TabOrder = 3
   end
   object PopupMenu1: TPopupMenu
-    Left = 265
-    Top = 145
+    left = 265
+    top = 145
     object mnuReadStatus: TMenuItem
       Caption = 'Read Status'
       OnClick = mnuReadStatusClick

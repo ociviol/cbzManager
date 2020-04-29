@@ -53,7 +53,7 @@ type
     constructor Create(aLog : ILog; const aFilename : String);
     destructor Destroy; override;
 
-    procedure GenerateStamp;
+    function GenerateStamp:TBitmap;
     property Filename : String read GetFilename;
     property ReadState : Boolean read GetReadState write SetReadState;
     property Img:TBitmap read GetImg;
@@ -162,7 +162,7 @@ begin
       if FileExists(CacheFilename) then
         FImg.LoadFromFile(CacheFilename)
       else
-        GenerateStamp;
+        FImg := GenerateStamp;
     end;
     result := FImg;
   finally
@@ -254,25 +254,26 @@ begin
   end;
 end;
 
-procedure TFileItem.GenerateStamp;
-var
-  b : TBitmap;
+function TFileItem.GenerateStamp:TBitmap;
 begin
   if not FileExists(CacheFilename) then
     if FileExists(Filename) then
-      with TCbz.Create(FLog) do
+    begin
+      FLock.LockList;
       try
-        Open(SElf.Filename, zmRead);
-        b := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
+        with TCbz.Create(FLog) do
         try
-          b.SaveToFile(CacheFilename);
+          Open(Self.Filename, zmRead);
+          result := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
+          result.SaveToFile(CacheFilename);
           StampGenerated:=True;
         finally
-          b.Free;
+          free;
         end;
       finally
-        free;
+        FLock.UnlockList;
       end;
+    end;
 end;
 
 function TFileItem.GetCacheFilename: String;

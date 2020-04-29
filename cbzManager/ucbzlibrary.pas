@@ -192,7 +192,7 @@ begin
 
         // make stamp if needed
         with TFileItem(FFileList.Objects[FVal]) do
-          GenerateStamp;
+          GenerateStamp.Free;
 
         inc(FVal);
         if (FVal mod 50) = 0 then

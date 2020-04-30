@@ -360,8 +360,6 @@ begin
       //enabled := false;
       onclick := @btnletterclick;
     end;
-
-  FThreadConv := TThreadConv.Create(FLog, FFileList, @Progress);
 end;
 
 procedure TCbzLibrary.FormDestroy(Sender: TObject);
@@ -433,6 +431,7 @@ begin
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
+  FThreadConv := TThreadConv.Create(FLog, FFileList, @Progress);
 end;
 
 procedure TCbzLibrary.dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;

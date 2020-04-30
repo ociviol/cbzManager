@@ -436,6 +436,12 @@ object MainFrm: TMainFrm
         Caption = 'About'
         OnClick = mnuAboutClick
       end
+      object N13: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem38: TMenuItem
+        Action = ActionReadLog
+      end
     end
   end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
@@ -640,6 +646,10 @@ object MainFrm: TMainFrm
     object ActionLibrary: TAction
       Caption = 'Library'
       OnExecute = ActionLibraryExecute
+    end
+    object ActionReadLog: TAction
+      Caption = 'Log Reader'
+      OnExecute = ActionReadLogExecute
     end
   end
   object PopupMenu2: TPopupMenu

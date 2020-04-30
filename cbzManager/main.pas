@@ -11,7 +11,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  ComCtrls, ExtCtrls, Grids, ActnList, Spin, uCbz,
+  ComCtrls, ExtCtrls, Grids, ActnList, Spin, uCbz, Utils.treeview,
 {$ifdef Darwin}
   OpenSslSockets,
 {$endif}
@@ -30,6 +30,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionReadLog: TAction;
     ActionLibrary: TAction;
     ActionFileCleaner: TAction;
     ActionShowStats: TAction;
@@ -106,6 +107,8 @@ type
     MenuItem35: TMenuItem;
     MenuItem36: TMenuItem;
     MenuItem37: TMenuItem;
+    MenuItem38: TMenuItem;
+    N13: TMenuItem;
     N12: TMenuItem;
     N11: TMenuItem;
     N10: TMenuItem;
@@ -167,6 +170,7 @@ type
     procedure ActionMoveToBottomExecute(Sender: TObject);
     procedure ActionMoveToTopExecute(Sender: TObject);
     procedure ActionMoveupExecute(Sender: TObject);
+    procedure ActionReadLogExecute(Sender: TObject);
     procedure ActionRefreshExecute(Sender: TObject);
     procedure ActionRenameFileExecute(Sender: TObject);
     procedure ActionRewriteMangaExecute(Sender: TObject);
@@ -267,15 +271,6 @@ type
 
   end;
 
-  { TTreeNodeEx }
-
-  TTreeNodeEx = Class Helper for TTreeNode
-  private
-    function GetPath: String;
-  protected
-    property Path: String read GetPath;
-  End;
-
   { TThreadCheckVersion }
 
   TThreadCheckVersion = Class(TThread)
@@ -303,7 +298,7 @@ implementation
 uses
   Config, LclIntf,
   Utils.Strings, frmwait,
-  fpHttpClient, //fpopenssl, openssl,
+  fpHttpClient, uLogReader,
 {$if defined(Darwin) or defined(Linux)}
   unix,
 {$endif}
@@ -1446,6 +1441,16 @@ begin
   end;
 end;
 
+procedure TMainFrm.ActionReadLogExecute(Sender: TObject);
+begin
+  with TFrmLogReader.Create(Application, FLog) do
+  try
+    ShowModal;
+  finally
+    Free;
+  end;
+end;
+
 procedure TMainFrm.ActionRefreshExecute(Sender: TObject);
 begin
   FillTreeView(FConfig.BdPathPath);
@@ -2267,24 +2272,6 @@ begin
     end;
 end;
 
-
-{ TTreeNode }
-
-function TTreeNodeEx.GetPath: String;
-var
-  n: TTreeNode;
-begin
-  n := Self;
-  Result := '';
-  while Assigned(n) do
-  begin
-    if Result = '' then
-      Result := Text
-    else
-      Result := n.Text + PathDelim + Result;
-    n := n.Parent;
-  end;
-end;
 
 end.
 

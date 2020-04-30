@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="12"/>
     <BuildModes Active="Default"/>
-    <Units Count="21">
+    <Units Count="22">
       <Unit0>
         <Filename Value="cbzManagerOsx.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -15,7 +15,7 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="208"/>
         <CursorPos X="25" Y="226"/>
         <UsageCount Value="252"/>
@@ -199,7 +199,7 @@
       <Unit19>
         <Filename Value="../../../fpcupdeluxe/lazarus/lcl/intfgraphics.pas"/>
         <UnitName Value="IntfGraphics"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="396"/>
         <CursorPos X="3" Y="232"/>
         <UsageCount Value="109"/>
@@ -208,12 +208,21 @@
       <Unit20>
         <Filename Value="../../Utils/utils.strings.pas"/>
         <UnitName Value="Utils.Strings"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
-        <CursorPos X="3" Y="19"/>
+        <CursorPos X="10" Y="9"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit20>
+      <Unit21>
+        <Filename Value="../../Utils/utils.logger.pas"/>
+        <UnitName Value="Utils.Logger"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="305"/>
+        <CursorPos X="15" Y="331"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit21>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>

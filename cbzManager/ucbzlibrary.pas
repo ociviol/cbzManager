@@ -744,13 +744,21 @@ end;
 
 procedure TCbzLibrary.DefaultBtnClick(Sender: TObject);
 var
-  i : integer;
+  i, j : integer;
   s : string;
 begin
   i := FBtnList.IndexOf(Pointer(Sender));
+  j := i;
   if (i >= 0) and (i + 1 < FBtnList.Count) then
   begin
-    s := IncludeTrailingPathDelimiter(FFileList.RootPath) + TButton(FBtnList[i]).Caption;
+    s := TButton(FBtnList[i]).Caption;
+    dec(j);
+    while j >= 0 do
+    begin
+      s := IncludeTrailingPathDelimiter(TButton(FBtnList[j]).Caption) + s;
+      dec(j);
+    end;
+    s := IncludeTrailingPathDelimiter(FFileList.RootPath) + s;
     FCurrentPath := s;
     while (i + 1 < FBtnList.Count) do
     begin

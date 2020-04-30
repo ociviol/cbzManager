@@ -519,7 +519,8 @@ begin
     LoadFromFile(aFilename);
     with DocumentElement do
     begin
-      FRootPath := GetAttributeStr('RootPath');
+      if GetAttributeStr('RootPath') <> '' then
+        FRootPath := GetAttributeStr('RootPath');
       for i := 0 to NbElements - 1 do
       begin
         fi := TFileItem.Create(Flog, '');

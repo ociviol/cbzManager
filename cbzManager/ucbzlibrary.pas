@@ -620,6 +620,7 @@ begin
     btnRefresh.enabled := False;
     FFileList.ResetStampState;
     //FFileList.Clear;
+    FLog.Log('TCbzLibrary.btnRefreshClick : Refresh started.');
     FThreadSearchFiles := ThreadedSearchFiles(FFileList.RootPath, '*.cbz', @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
@@ -836,6 +837,7 @@ begin
   FFileList.SaveToFile(GetCacheFileName);
   btnRefresh.Enabled:=True;
   UpdateNbItems;
+  FLog.Log('TCbzLibrary.SearchEnded : Refresh ended.');
 end;
 
 function TCbzLibrary.FoundFile(const aFileName: string; IsNew: Boolean): TTreeNode;

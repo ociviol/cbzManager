@@ -62,6 +62,7 @@ type
     function GetOutCount:Integer;
     function Find(Index : Integer; aType : TRecType):TDataRec;
     function FindFirst(aType : TRecType):TDataRec;
+    function GetWorking: Integer;
   protected
     FEnabled : Boolean;
     //FIndexList : TIntegerList;
@@ -95,7 +96,7 @@ type
     property InCount : Integer read GetInCount;
     property OutCount : Integer read GetOutCount;
     property Count : Integer read GetCount;
-    property Working : Integer read FWorking;
+    property Working : Integer read GetWorking;
     property OnPutData : TPutDataEvent read FOnPutData write FOnPutData;
   end;
 
@@ -251,6 +252,16 @@ begin
         Remove(Items[i]);
         Exit;
       end;
+  finally
+    UnlockList;
+  end;
+end;
+
+function TThreadDataItem.GetWorking: Integer;
+begin
+  with LockList do
+  try
+    result := FWorking;
   finally
     UnlockList;
   end;

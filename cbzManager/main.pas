@@ -248,7 +248,7 @@ type
     function NodeSort(Node1, Node2 : TTreeNode): Integer;
     procedure SearchEnded(Sender: TObject);
     procedure CreateConversionQueues;
-    procedure ReduceConversionQueue(NewSize: Integer);
+    //procedure ReduceConversionQueue(NewSize: Integer);
     procedure OnBadFile(Sender: TObject);
     procedure Progress(Sender: TObject; const ProgressID: QWord;
                        const aPos, aMax: Integer; const Msg: String = '');
@@ -682,15 +682,20 @@ begin
   end;
 end;
 
+(*
 procedure TMainFrm.ReduceConversionQueue(NewSize: Integer);
 var
   aFile: string;
   aType: TArcType;
 begin
+{
   while Length(FWorkerThreads) > NewSize do
   begin
     aFile := '';
     aType := arcUnknown;
+  }
+    FThreadDataPool.Pool[Length(FWorkerThreads) - 1].Disable;
+    {
     with FWorkerThreads[Length(FWorkerThreads) - 1] do
     begin
       if Assigned(CurJob) and (CurJob.Status = jsProcessing) then
@@ -700,10 +705,11 @@ begin
       end;
       Terminate;
       WaitFor;
-      Free;
+      //Free;
     end;
-    FThreadDataPool.Pool[Length(FWorkerThreads) - 1].Disable;
+
     FThreadDataPool.RemovePool(length(FWorkerThreads) - 1);
+    FWorkerThreads[Length(FWorkerThreads) - 1].Free;
     SetLength(FWorkerThreads, Length(FWorkerThreads) - 1);
     if aFile <> '' then
       if FConfig.DeleteFile then
@@ -711,7 +717,9 @@ begin
       else
         FJobpool.AddJob(aFile, aType);
   end;
+  }
 end;
+*)
 
 procedure TMainFrm.OnBadFile(Sender: TObject);
 begin
@@ -1849,9 +1857,9 @@ begin
       FConfig.DoAlbumart := cbAlbumArt.Checked;
       SaveConfig;
       FThreadDataPool.SetPerfs(FConfig.NbThreads);
-      if Length(FWorkerThreads) > 2 then
-        ReduceConversionQueue(FConfig.QueueSize)
-      else
+      if Length(FWorkerThreads) < FConfig.QueueSize then
+      //  ReduceConversionQueue(FConfig.QueueSize)
+      //else
       begin
         while FThreadDataPool.PoolSize < FConfig.QueueSize do
           FThreadDataPool.AddPool(FLog);

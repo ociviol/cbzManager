@@ -138,14 +138,24 @@ procedure TThreadDataPool.Stop;
 var
   i : integer;
 begin
-  for i := 0 to FThreads.Count - 1 do
-    if not TThreadConvert(FThreads[i]).IsTerminated then
-      TThread(FThreads[i]).Terminate;
+  FPoolSync.LockList;
+  try
+    for i := 0 to FThreads.Count - 1 do
+      if not TThreadConvert(FThreads[i]).IsTerminated then
+        TThread(FThreads[i]).Terminate;
+  finally
+    FPoolSync.UnLockList;
+  end;
 end;
 
 function TThreadDataPool.GetNbWorkers: Integer;
 begin
-  result := FThreads.Count;
+  FPoolSync.LockList;
+  try
+    result := FThreads.Count;
+  finally
+    FPoolSync.UnLockList;
+  end;
 end;
 
 function TThreadDataPool.GetPool(Index: Integer): TThreadDataItem;

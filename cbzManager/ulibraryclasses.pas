@@ -470,7 +470,10 @@ begin
   with TFileItem(Objects[index]) do
   begin
     if FileExists(CacheFilename) then
+    begin
        DeleteFile(CacheFilename);
+       FLog.Log('TItemList.Delete : Delete cache : ' + CacheFilename);
+    end;
 
     free;
   end;

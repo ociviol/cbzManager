@@ -48,10 +48,12 @@ type
     FVal : Integer;
     FFileList: TItemList;
     FProgress : TProgressEvent;
+    FLog : ILog;
 
     procedure DoProgress;
   public
-    constructor Create(aFileList : TItemList; aProgress : TProgressEvent = nil);
+    constructor Create(aLog : ILog; aFileList : TItemList; aProgress : TProgressEvent = nil);
+    destructor Destroy; override;
     procedure Execute; override;
   end;
 
@@ -147,12 +149,19 @@ uses
 
 { TThreadConv }
 
-constructor TThreadConv.Create(aFileList: TItemList; aProgress : TProgressEvent = nil);
+constructor TThreadConv.Create(aLog : ILog; aFileList: TItemList; aProgress : TProgressEvent = nil);
 begin
+  Flog := aLog;
   FFileList := aFileList;
   FreeOnTerminate:=True;
   FPRogress := aProgress;
   inherited Create(False);
+end;
+
+destructor TThreadConv.Destroy;
+begin
+  FLog := nil;
+  inherited Destroy;
 end;
 
 procedure TThreadConv.DoProgress;
@@ -176,6 +185,7 @@ begin
     if (FFileList.StampLessCount > 0) or
        (FFileList.DeletedCount > 0) then
     begin
+      FLog.Log('TThreadConv.Execute: Starting scrub.');
       cnt := FFileList.Count;
       FVal := 0;
       while (cnt > FVal) do
@@ -188,6 +198,7 @@ begin
           if not FileExists(Filename) then
           begin
             FFileList.Delete(FVal);
+            FLog.Log('TThreadConv.Execute: Deleted:' + Filename);
             cnt := FFileList.Count;
           end;
 
@@ -208,6 +219,7 @@ begin
         cnt := FFileList.Count;
       end;
       Synchronize(@DoProgress);
+      FLog.Log('TThreadConv.Execute: Scrub done.');
     end
     else
       Sleep(5000);
@@ -317,7 +329,7 @@ begin
 {$else}
     IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Logs\' +
 {$endif}
-    'cbzLibrary.log', True);
+    'cbzLibrary.log', Fconfig.DoLog);
 
   if FConfig.Libraryleft <> 0 then
     left := FConfig.Libraryleft;
@@ -349,7 +361,7 @@ begin
       onclick := @btnletterclick;
     end;
 
-  FThreadConv := TThreadConv.Create(FFileList, @Progress);
+  FThreadConv := TThreadConv.Create(FLog, FFileList, @Progress);
 end;
 
 procedure TCbzLibrary.FormDestroy(Sender: TObject);
@@ -840,6 +852,7 @@ begin
     fi := TFileItem.Create(FLog, aFilename);
     fi.Text := GetLastPath(aFilename);
     FFileList.AddObject(aFilename, fi);
+    FLog.Log('TCbzLibrary.FoundFile: Added:' + aFilename);
   end
   else
     Exit;

@@ -1,0 +1,8 @@
+object FrmLogReader: TFrmLogReader
+  Left = 442
+  Height = 874
+  Top = 126
+  Width = 1132
+  Caption = 'FrmLogReader'
+  LCLVersion = '2.0.4.0'
+end

@@ -131,7 +131,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="22">
+    <Units Count="23">
       <Unit0>
         <Filename Value="cbzManagerWin.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -262,6 +262,13 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
       </Unit21>
+      <Unit22>
+        <Filename Value="ulogreader.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmLogReader"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uLogReader"/>
+      </Unit22>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

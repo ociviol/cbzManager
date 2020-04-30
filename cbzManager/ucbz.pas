@@ -295,6 +295,7 @@ end;
 
 destructor TCleanFilename.Destroy;
 begin
+  FWordlist.Free;
   inherited Destroy;
 end;
 

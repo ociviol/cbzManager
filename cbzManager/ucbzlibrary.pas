@@ -38,6 +38,7 @@ type
                        aDisplayFilters : TDisplayFilters;
                        aOnTerminate : TNotifyEvent;
                        aProgress : TProgressEvent = nil);
+    destructor Destroy; override;
     procedure Execute; override;
     property Cancelled : Boolean read FCancelled;
   end;
@@ -253,11 +254,10 @@ end;
 { TThreadFill }
 
 constructor TThreadFill.Create(aFileList: TItemList; aVisibleList: TStringlist;
-                               const aCurrentPath : String; aLvl : Integer;
-                               aDisplayFilters : TDisplayFilters;
-                               aOnTerminate : TNotifyEvent;
-                               aProgress : TProgressEvent = nil);
+  const aCurrentPath: String; aLvl: Integer; aDisplayFilters: TDisplayFilters;
+  aOnTerminate: TNotifyEvent; aProgress: TProgressEvent);
 begin
+  Flog := aLog;
   FFileList:= aFileList;
   FVisibleList := aVisibleList;
   FCurrentPath := aCurrentPath;
@@ -269,6 +269,12 @@ begin
   FCancelled:=FAlse;
   FDisplayFilters:=aDisplayFilters;
   inherited Create(False);
+end;
+
+destructor TThreadFill.Destroy;
+begin
+  Flog := nil;
+  inherited Destroy;
 end;
 
 procedure TThreadFill.DoProgress;
@@ -327,7 +333,11 @@ begin
     end;
     Terminate;
   except
-    Terminate;
+    on e: Exption do
+    begin
+      Flog.Log('TThreadFill.Execute: Error:' + E.Message);
+      Terminate;
+    end;
   end;
 end;
 

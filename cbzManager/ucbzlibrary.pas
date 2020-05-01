@@ -15,7 +15,8 @@ uses
 
 
 type
-
+  TLibrayAction = (laAdd, laDelete);
+  TLibraryNotify = procedure(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil) of object;
 
   { TThreadFill }
 
@@ -49,10 +50,14 @@ type
     FFileList: TItemList;
     FProgress : TProgressEvent;
     FLog : ILog;
-
+    FNotifier : TLibraryNotify;
+    FItem : TFileItem;
     procedure DoProgress;
+    procedure DoNotify;
   public
-    constructor Create(aLog : ILog; aFileList : TItemList; aProgress : TProgressEvent = nil);
+    constructor Create(aLog : ILog; aFileList : TItemList;
+                       aNotify : TLibraryNotify;
+                       aProgress : TProgressEvent = nil);
     destructor Destroy; override;
     procedure Execute; override;
   end;
@@ -129,7 +134,9 @@ type
                        const aPos, aMax: Integer; const Msg: String = '');
     property CacheFileName : String read GetCacheFileName;
     procedure VisibleListChanged(Sender : TObject);
+    //procedure FileListChanged(Sender : TObject);
     procedure ThreadFillTerminate(Sender : TObject);
+    procedure ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig); reintroduce;
     //property RootPath : String read FRootPath write FRootPath;
@@ -144,15 +151,20 @@ implementation
 uses
   Math, StrUtils, utils.zipfile, ucbz, uCbzViewer;
 
+
 {$R *.lfm}
 
 
 { TThreadConv }
 
-constructor TThreadConv.Create(aLog : ILog; aFileList: TItemList; aProgress : TProgressEvent = nil);
+constructor TThreadConv.Create(aLog : ILog; aFileList: TItemList;
+                               aNotify : TLibraryNotify;
+                               aProgress : TProgressEvent = nil);
 begin
   Flog := aLog;
+  FItem := nil;
   FFileList := aFileList;
+  FNotifier:=aNotify;
   FreeOnTerminate:=True;
   FPRogress := aProgress;
   inherited Create(False);
@@ -174,6 +186,11 @@ begin
       FProgress(Self, 1, 0, 0, 'Scrub Done.')
 end;
 
+procedure TThreadConv.DoNotify;
+begin
+  FNotifier(Self, laDelete, FItem);
+end;
+
 procedure TThreadConv.Execute;
 var
   cnt : integer;
@@ -181,7 +198,7 @@ var
 begin
   Sleep(1000);
   while not Terminated do
-  begin
+  try
     if (FFileList.StampLessCount > 0) or
        (FFileList.DeletedCount > 0) then
     begin
@@ -194,9 +211,13 @@ begin
             Exit;
 
         // remove invalid entries
-        with TFileItem(FFileList.Objects[FVal]) do
+        FItem := TFileItem(FFileList.Objects[FVal]);
+        with FItem do
           if not FileExists(Filename) then
           begin
+            FItem.Deleted:=True;
+            if Assigned(FNotifier) then
+              Synchronize(@DoNotify);
             FFileList.Delete(FVal);
             FLog.Log('TThreadConv.Execute: Deleted:' + Filename);
             cnt := FFileList.Count;
@@ -223,6 +244,9 @@ begin
     end
     else
       Sleep(5000);
+  except
+    on e: Exception do
+      FLog.Log('TThreadConv.Execute Error: ' + E.Message);
   end;
 end;
 
@@ -262,6 +286,7 @@ procedure TThreadFill.Execute;
 var
   i : integer;
   s : string;
+  fi : TFileItem;
 begin
   while not Terminated do
   try
@@ -285,12 +310,13 @@ begin
           if TFileItem(FFileList.Objects[i]).ReadState then
             continue;
 
-        with FVisibleList do
-          if FileExists(s) then
-            AddObject(s, FFileList.Objects[i])
-          else
-          if IndexOf(s) < 0 then
-            AddObject(s, FFileList.Objects[i]);
+        if not TFileItem(FFileList.Objects[i]).Deleted then
+          with FVisibleList do
+            if FileExists(s) then
+              AddObject(s, FFileList.Objects[i])
+            else
+            if IndexOf(s) < 0 then
+              AddObject(s, FFileList.Objects[i]);
 
         if (i mod 250) = 0 then
         begin
@@ -331,6 +357,11 @@ begin
 {$endif}
     'cbzLibrary.log', Fconfig.DoLog);
 
+//{$ifdef DEBUG}
+  if FConfig.DoLog then
+    Flog.AttachLog(Self);
+//{$endif}
+
   if FConfig.Libraryleft <> 0 then
     left := FConfig.Libraryleft;
   if FConfig.LibraryTop <> 0 then
@@ -347,6 +378,7 @@ begin
   FFileList := TItemList.Create(Flog);
   FFileList.RootPath:=Fconfig.LibPath;
   FBtnList := TList.Create;
+  //FBtnList.Add(btnTopPath);
   FVisibleList := TThreadStringList.Create;
   FVisibleList.OnChanging := @VisibleListChanged;
   FVisibleList.Sorted:=True;
@@ -393,6 +425,7 @@ begin
     FFillThread.Terminate;
     FFillThread.Waitfor;
   end;
+  Flog.DetachLog;
 end;
 
 procedure TCbzLibrary.FormResize(Sender: TObject);
@@ -414,7 +447,6 @@ begin
   try
     FFileList.LoadFromFile(CacheFileName);
     FCurrentPath := FFileList.RootPath;
-    FLvl := length(FCurrentPath.Split([PathDelim]));
     btnTopPath.Caption:=FCurrentPath;
     btnTopPath.Click;
   finally
@@ -431,7 +463,7 @@ begin
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
-  FThreadConv := TThreadConv.Create(FLog, FFileList, @Progress);
+  FThreadConv := TThreadConv.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
 end;
 
 procedure TCbzLibrary.dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
@@ -448,6 +480,15 @@ begin
     if p < FVisibleList.Count then
       with dgLibrary, Canvas do
       begin
+        if gdFocused in aState then
+          Brush.Color := clActiveBackground
+        else
+        if not FileExists(TFileItem(FVisibleList.Objects[p]).Filename) then
+        begin
+          Brush.Color := clGray;
+          FLog.Log('TCbzLibrary.dgLibraryDrawCell:File not found:'+TFileItem(FVisibleList.Objects[p]).Filename);
+        end
+        else
         {$ifdef Darwin}
         if DirectoryExists(FVisibleList[p]) then
           Brush.Color := clLtGray
@@ -466,38 +507,38 @@ begin
         else
           Brush.color := clSilver; //clLime // clYellow
         {$endif}
-          //FillRect(aRect);
-          r := aRect;
-          r.Inflate(-2, -2, -2, -2);
-          FillRect(r);
 
-          if Assigned(FVisibleList.Objects[p]) then
+        r := aRect;
+        r.Inflate(-2, -2, -2, -2);
+        FillRect(r);
+
+        if Assigned(FVisibleList.Objects[p]) then
+        begin
+          pic := TFileItem(FVisibleList.Objects[p]).Img;
+          if assigned(pic) then
           begin
-            pic := TFileItem(FVisibleList.Objects[p]).Img;
-            if assigned(pic) then
-            begin
-              s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
-              //showmessage('s='+s);
-              X := (DefaultColWidth - pic.Width) div 2;
-              Y := 3; //(DefaultRowHeight - b.Height) div 2;
-              Draw(aRect.Left + X, aRect.Top + Y, pic);
+            s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
+            //showmessage('s='+s);
+            X := (DefaultColWidth - pic.Width) div 2;
+            Y := 3; //(DefaultRowHeight - b.Height) div 2;
+            Draw(aRect.Left + X, aRect.Top + Y, pic);
 
-              r := aRect;
-              r.top := r.Bottom - (TextHeight(s) * 3);
-              r.Bottom:=r.Bottom-3;
-              ts.ShowPrefix:=False;
-              ts.Wordbreak:=True;
-              ts.SingleLine:=False;
-              ts.Alignment := taCenter;
-              ts.RightToLeft := FAlse;
-              ts.Opaque:=False;
-              ts.Layout := tlBottom; //tlCenter;
-              //TextOut(r.Left, r.top, s);
-              TextRect(r, 0, 0, s, ts);
-            end;
+            r := aRect;
+            r.top := r.Bottom - (TextHeight(s) * 3);
+            r.Bottom:=r.Bottom-3;
+            ts.ShowPrefix:=False;
+            ts.Wordbreak:=True;
+            ts.SingleLine:=False;
+            ts.Alignment := taCenter;
+            ts.RightToLeft := FAlse;
+            ts.Opaque:=False;
+            ts.Layout := tlBottom; //tlCenter;
+            //TextOut(r.Left, r.top, s);
+            TextRect(r, 0, 0, s, ts);
           end;
-          if gdFocused in aState then
-            DrawFocusRect(aRect);
+        end;
+        if gdFocused in aState then
+          DrawFocusRect(aRect);
       end;
   except
   end;
@@ -592,6 +633,7 @@ begin
     FBtnList.Delete(0);
   end;
   FCurrentPath := FFileList.RootPath;
+  Flvl := 1;
   FillGrid(False);
 end;
 
@@ -628,11 +670,14 @@ end;
 
 procedure TCbzLibrary.btnReturnClick(Sender: TObject);
 begin
-  if FLvl > 1 then
+  if FBtnList.Count = 1 then
+    btnTopPath.Click
+  else
+  if FBtnList.Count > 1 then
     TButton(FBtnList[FBtnList.Count-2]).Click
   else
   begin
-    if not DirectoryExists(FConfig.LibPath) then
+//    if not DirectoryExists(FConfig.LibPath) then
       with TSelectDirectoryDialog.Create(Self) do
       try
         if Execute then
@@ -893,6 +938,7 @@ begin
   try
     SizeGrid;
 
+    // auto relect last selected item
     if Length(FPathPos) >= Flvl then
       if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
       begin
@@ -924,6 +970,17 @@ begin
   end;
 end;
 
+{
+procedure TCbzLibrary.FileListChanged(Sender: TObject);
+begin
+  if (FFileList.Count > 0) and (FInQueue = 0) then
+  begin
+    inc(FInQueue);
+    Application.QueueAsyncCall(@DoSizegrid, 0);
+  end;
+end;
+}
+
 procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);
 var
   s : string;
@@ -933,16 +990,24 @@ begin
   FFillThread := nil;
   btnRefresh.Enabled:=True;
 
-  cbVisibleDates.Clear;
-  cbVisibleDates.Items.Add('');
-  for i := 0 to FVisibleList.Count - 1 do
-    if Assigned(TFileItem(FVisibleList.Objects[i])) then
-    begin
-      s := DateToStr(TFileItem(FVisibleList.Objects[i]).DateAdded);
-      if cbVisibleDates.Items.IndexOf(s) < 0 then
-        cbVisibleDates.Items.Add(s);
-      cbVisibleDates.Enabled:=True;
+  with cbVisibleDates do
+  begin
+    Items.BeginUpdate;
+    try
+      Clear;
+      Items.Add('');
+      for i := 0 to FVisibleList.Count - 1 do
+        if Assigned(TFileItem(FVisibleList.Objects[i])) then
+        begin
+          s := DateToStr(TFileItem(FVisibleList.Objects[i]).DateAdded);
+          if Items.IndexOf(s) < 0 then
+            Items.Add(s);
+          Enabled:=True;
+      end;
+    finally
+      Items.EndUpdate;
     end;
+  end;
 
   if not TThreadFill(Sender).Cancelled then
     if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
@@ -952,17 +1017,33 @@ begin
       oldrow := LowWord(FPathPos[FLvl-1].y);
 
       with dgLibrary do
-        if (RowCount >= oldrow) and (RowCount > 0) then
-          if (FPathPos[FLvl-1].y <> 0) and
-             ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
-          begin
-            Col := FPathPos[FLvl-1].x;
-            TopRow := oldtoprow;
-            Row := oldrow;
-          end;
+      begin
+        BeginUpdate;
+        try
+          if (RowCount >= oldrow) and (RowCount > 0) then
+            if (FPathPos[FLvl-1].y <> 0) and
+               ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
+            begin
+              Col := FPathPos[FLvl-1].x;
+              TopRow := oldtoprow;
+              Row := oldrow;
+            end;
+        finally
+          EndUpdate;
+        end;
+      end;
     end;
   UpdateNbItems;
 end;
+
+procedure TCbzLibrary.ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);
+begin
+  if aAction = laDelete then
+    if FVisibleList.HasObject(aFileItem) then
+      Application.QueueAsyncCall(@DoFillGrid, 0);
+end;
+
+
 
 
 

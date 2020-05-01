@@ -1,12 +1,12 @@
 object MainFrm: TMainFrm
-  Left = 392
-  Height = 729
-  Top = 236
-  Width = 960
+  Left = 398
+  Height = 718
+  Top = 219
+  Width = 964
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 709
-  ClientWidth = 960
+  ClientHeight = 698
+  ClientWidth = 964
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
@@ -15,17 +15,17 @@ object MainFrm: TMainFrm
   LCLVersion = '2.0.4.0'
   object Panel1: TPanel
     Left = 274
-    Height = 659
+    Height = 648
     Top = 0
-    Width = 686
+    Width = 690
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 659
-    ClientWidth = 686
+    ClientHeight = 648
+    ClientWidth = 690
     TabOrder = 0
     object DrawGrid1: TDrawGrid
-      Left = 536
-      Height = 487
+      Left = 540
+      Height = 476
       Top = 53
       Width = 150
       Align = alRight
@@ -51,9 +51,9 @@ object MainFrm: TMainFrm
     end
     object Image1: TImage
       Left = 0
-      Height = 487
+      Height = 476
       Top = 53
-      Width = 536
+      Width = 540
       AntialiasingMode = amOn
       Align = alClient
       Center = True
@@ -65,14 +65,14 @@ object MainFrm: TMainFrm
       Left = 0
       Height = 27
       Top = 0
-      Width = 686
+      Width = 690
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 27
-      ClientWidth = 686
+      ClientWidth = 690
       TabOrder = 1
       object btnLast: TButton
-        Left = 636
+        Left = 640
         Height = 27
         Top = 0
         Width = 50
@@ -81,7 +81,7 @@ object MainFrm: TMainFrm
         TabOrder = 0
       end
       object btnFirst: TButton
-        Left = 586
+        Left = 590
         Height = 27
         Top = 0
         Width = 50
@@ -90,7 +90,7 @@ object MainFrm: TMainFrm
         TabOrder = 1
       end
       object btnHorizFlip: TButton
-        Left = 426
+        Left = 430
         Height = 27
         Top = 0
         Width = 80
@@ -99,7 +99,7 @@ object MainFrm: TMainFrm
         TabOrder = 2
       end
       object btnVertFlip: TButton
-        Left = 506
+        Left = 510
         Height = 27
         Top = 0
         Width = 80
@@ -108,7 +108,7 @@ object MainFrm: TMainFrm
         TabOrder = 3
       end
       object btnRotateRight: TButton
-        Left = 346
+        Left = 350
         Height = 27
         Top = 0
         Width = 80
@@ -117,7 +117,7 @@ object MainFrm: TMainFrm
         TabOrder = 4
       end
       object btnRotateLeft: TButton
-        Left = 266
+        Left = 270
         Height = 27
         Top = 0
         Width = 80
@@ -129,7 +129,7 @@ object MainFrm: TMainFrm
         Left = 0
         Height = 27
         Top = 0
-        Width = 266
+        Width = 270
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 6
@@ -149,10 +149,10 @@ object MainFrm: TMainFrm
       Left = 0
       Height = 26
       Top = 27
-      Width = 686
+      Width = 690
       Align = alTop
       ClientHeight = 26
-      ClientWidth = 686
+      ClientWidth = 690
       TabOrder = 2
       Visible = False
       object Label1: TLabel
@@ -232,7 +232,7 @@ object MainFrm: TMainFrm
         TabOrder = 3
       end
       object btnCrop: TButton
-        Left = 535
+        Left = 539
         Height = 24
         Top = 1
         Width = 75
@@ -242,7 +242,7 @@ object MainFrm: TMainFrm
         TabOrder = 4
       end
       object btnCancel: TButton
-        Left = 610
+        Left = 614
         Height = 24
         Top = 1
         Width = 75
@@ -255,8 +255,8 @@ object MainFrm: TMainFrm
     object memoLog: TMemo
       Left = 0
       Height = 119
-      Top = 540
-      Width = 686
+      Top = 529
+      Width = 690
       Align = alBottom
       Lines.Strings = (
         ''
@@ -269,31 +269,31 @@ object MainFrm: TMainFrm
   object pnlProgress: TPanel
     Left = 0
     Height = 50
-    Top = 659
-    Width = 960
+    Top = 648
+    Width = 964
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
   end
   object Splitter1: TSplitter
     Left = 269
-    Height = 659
+    Height = 648
     Top = 0
     Width = 5
   end
   object Panel2: TPanel
     Left = 0
-    Height = 659
+    Height = 648
     Top = 0
     Width = 269
     Align = alLeft
     Caption = 'Panel2'
-    ClientHeight = 659
+    ClientHeight = 648
     ClientWidth = 269
     TabOrder = 3
     object TreeView1: TTreeView
       Left = 1
-      Height = 478
+      Height = 467
       Top = 1
       Width = 267
       Align = alClient
@@ -312,7 +312,7 @@ object MainFrm: TMainFrm
     object pnlStats: TPanel
       Left = 1
       Height = 179
-      Top = 479
+      Top = 468
       Width = 267
       Align = alBottom
       BevelInner = bvLowered

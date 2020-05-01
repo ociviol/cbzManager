@@ -432,7 +432,10 @@ begin
     IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Logs\' +
 {$endif}
     'cbzManager.log', FConfig.DoLog);
-
+//{$ifdef DEBUG}
+  if FConfig.DoLog then
+    Flog.AttachLog(Self);
+//{$endif}
   Flog.Log('cbzManager started.');
 
   //FConfig.QueueSize := CPUCount;
@@ -661,6 +664,7 @@ begin
   FThreadDataPool.Free;
   FJobpool.Free;
   CloseAction:=caFree;
+  Flog.DetachLog;
 end;
 
 procedure TMainFrm.CreateConversionQueues;
@@ -1861,7 +1865,11 @@ begin
       FConfig.DeleteFile := cbDeleteFile.Checked;
       FConfig.DoAlbumart := cbAlbumArt.Checked;
       SaveConfig;
+      // log
+      FLog.SetActive(Fconfig.DoLog, Self);
+      // set perfs
       FThreadDataPool.SetPerfs(FConfig.NbThreads);
+      // set nb queues
       if Length(FWorkerThreads) < FConfig.QueueSize then
       //  ReduceConversionQueue(FConfig.QueueSize)
       //else

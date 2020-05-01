@@ -29,9 +29,11 @@ type
     FLock : TThreadList;
     FDateAdded : TDateTime;
     FStampGenerated : Boolean;
+    FDeleted : Boolean;
 
     function GetCacheFilename: String; inline;
     function GetDateAdded: TDAteTime;
+    function GetDeleted: Boolean;
     function GetFilename: String;
     function GetImg: TBitmap;
     function GetModified: Boolean;
@@ -39,6 +41,7 @@ type
     function GetStampGenerated: Boolean;
     function GetText: String;
     procedure SetDateAdded(AValue: TDAteTime);
+    procedure SetDeleted(AValue: Boolean);
     procedure SetReadState(AValue: Boolean);
     procedure SetStampGenerated(AValue: Boolean);
     procedure SetText(const AValue: String);
@@ -59,6 +62,7 @@ type
     property Img:TBitmap read GetImg;
     property Text : String Read GetText write SetText;
     property DateAdded : TDAteTime read GetDateAdded write SetDateAdded;
+    property Deleted : Boolean read GetDeleted write SetDeleted;
   end;
 
   { TItemList }
@@ -223,6 +227,16 @@ begin
   end;
 end;
 
+procedure TFileItem.SetDeleted(AValue: Boolean);
+begin
+  FLock.LockList;
+  try
+    FDeleted := AValue;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
 procedure TFileItem.SetReadState(AValue: Boolean);
 begin
   FLock.LockList;
@@ -304,6 +318,16 @@ begin
   FLock.LockList;
   try
     Result := FDateAdded;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+function TFileItem.GetDeleted: Boolean;
+begin
+  FLock.LockList;
+  try
+    Result := FDeleted;
   finally
     FLock.UnlockList;
   end;

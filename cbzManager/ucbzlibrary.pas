@@ -376,11 +376,6 @@ begin
 {$endif}
     'cbzLibrary.log', Fconfig.DoLog);
 
-//{$ifdef DEBUG}
-  if FConfig.DoLog then
-    Flog.AttachLog(Self);
-//{$endif}
-
   if FConfig.Libraryleft <> 0 then
     left := FConfig.Libraryleft;
   if FConfig.LibraryTop <> 0 then
@@ -444,7 +439,6 @@ begin
     FFillThread.Terminate;
     FFillThread.Waitfor;
   end;
-  Flog.DetachLog;
 end;
 
 procedure TCbzLibrary.FormResize(Sender: TObject);

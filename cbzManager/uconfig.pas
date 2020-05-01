@@ -22,16 +22,15 @@ type
 
   TConfig = Class(TJsonObject)
   private
-    FAlbumArt: Boolean;
-    FBdPathPath: String;
+    FAlbumArt,
     FBlog,
     FDeleteFile,
     FShowStats,
-    FHighPerf,
     FLHideRead: Boolean;
     FLibPath: String;
     Fcwebp,
     Funrar,
+    FBdPathPath,
     Fp7zip: String;
     FQueueSize,
     FNbThreads,
@@ -65,7 +64,6 @@ type
     property unrar: String read Funrar write Funrar;
     property p7zip: String read Fp7zip write Fp7zip;
     property QueueSize : Integer read FQueueSize write FQueueSize;
-    property HighPerf : Boolean read FHighPerf write FHighPerf;
     property NbThreads : Integer read FNbThreads write FNbThreads;
     property WebpQuality : Integer read FWebpQuality write FWebpQuality;
     property DeleteFile : Boolean read FDeleteFile write FDeleteFile;
@@ -101,7 +99,6 @@ begin
 {$endif}
   FQueueSize:=2;
   FNbThreads := 8;
-  HighPerf:= False;
   FWebpQuality := 75;
   FDeleteFile := False;
   FAlbumart := False;

@@ -18,25 +18,28 @@ type
   TLibrayAction = (laAdd, laDelete);
   TLibraryNotify = procedure(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil) of object;
 
+  TFillSettings = Record
+    FFileList : TItemList;
+    FVisibleList: TStringlist;
+    FCurrentPath: String;
+    FLvl: Integer;
+    FDisplayFilters: TDisplayFilters;
+    FDate : TDateTime;
+  end;
+
   { TThreadFill }
 
   TThreadFill = Class(TThread)
   private
-    FFileList : TItemList;
-    FVisibleList : TStringlist;
-    FCurrentPath : String;
-    FLvl : Integer;
+    FFillSettings : TFillSettings;
     FProgress : TProgressEvent;
     FProgressChar : Char;
     FCancelled : Boolean;
-    FDisplayFilters : TDisplayFilters;
     Flog : ILog;
 
     procedure DoProgress;
   public
-    constructor Create(aLog : ILog; aFileList : TItemList; aVisibleList : TStringlist;
-                       const aCurrentPath : String; aLvl : Integer;
-                       aDisplayFilters : TDisplayFilters;
+    constructor Create(aLog : ILog; aFillSettings : TFillSettings;
                        aOnTerminate : TNotifyEvent;
                        aProgress : TProgressEvent = nil);
     destructor Destroy; override;
@@ -130,6 +133,7 @@ type
     procedure DoFillGrid(data : int64);
     procedure FillGrid(bAddButton : Boolean = True);
     procedure SearchEnded(Sender: TObject);
+    procedure UpdateVisibleDates;
     function FoundFile(const aFileName: string;
                             IsNew: Boolean = False): TTreeNode;
     procedure Progress(Sender: TObject; const ProgressID: QWord;
@@ -151,7 +155,7 @@ var
 implementation
 
 uses
-  Math, StrUtils, utils.zipfile, ucbz, uCbzViewer;
+  Math, StrUtils, DateUtils, utils.zipfile, ucbz, uCbzViewer;
 
 
 {$R *.lfm}
@@ -254,21 +258,17 @@ end;
 
 { TThreadFill }
 
-constructor TThreadFill.Create(aLog : ILog; aFileList: TItemList; aVisibleList: TStringlist;
-  const aCurrentPath: String; aLvl: Integer; aDisplayFilters: TDisplayFilters;
-  aOnTerminate: TNotifyEvent; aProgress: TProgressEvent);
+constructor TThreadFill.Create(aLog : ILog; aFillSettings : TFillSettings;
+                               aOnTerminate: TNotifyEvent; aProgress: TProgressEvent);
 begin
   Flog := aLog;
-  FFileList:= aFileList;
-  FVisibleList := aVisibleList;
-  FCurrentPath := aCurrentPath;
-  FLvl := aLvl;
+  FFillSettings := aFillSettings;
   FreeOnTerminate:=True;
   OnTerminate:=aOnTerminate;
   FProgress := aProgress;
   FProgressChar := '|';
   FCancelled:=FAlse;
-  FDisplayFilters:=aDisplayFilters;
+
   inherited Create(False);
 end;
 
@@ -297,41 +297,49 @@ var
 begin
   while not Terminated do
   try
-    for i := 0 to FFileList.Count - 1 do
-    begin
-      if Terminated then
+    with FFillSettings do
+      for i := 0 to FFileList.Count - 1 do
       begin
-        FCancelled:=True;
-        Exit;
-      end;
-
-      if FFileList[i].StartsWith(FCurrentPath) then
-      begin
-        s := ExcludeTrailingPathDelimiter(ExtractFilePath(FFileList[i]));
-        if Length(s.Split([PathDelim])) > FLvl then
-          s := GetFirstPath(s, FLvl)
-        else
-          s := FFileList[i];
-
-        if (dfUnread in FDisplayFilters) then
-          if TFileItem(FFileList.Objects[i]).ReadState then
-            continue;
-
-        if not TFileItem(FFileList.Objects[i]).Deleted then
-          with FVisibleList do
-            if FileExists(s) then
-              AddObject(s, FFileList.Objects[i])
-            else
-            if IndexOf(s) < 0 then
-              AddObject(s, FFileList.Objects[i]);
-
-        if (i mod 250) = 0 then
+        if Terminated then
         begin
-          Synchronize(@DoProgress);
-          Sleep(10);
+          FCancelled:=True;
+          Exit;
+        end;
+
+        if FFileList[i].StartsWith(FCurrentPath) then
+        begin
+          s := ExcludeTrailingPathDelimiter(ExtractFilePath(FFileList[i]));
+          if Length(s.Split([PathDelim])) > FLvl then
+            s := GetFirstPath(s, FLvl)
+          else
+            s := FFileList[i];
+
+          fi := TFileItem(FFileList.Objects[i]);
+          if (dfUnread in FDisplayFilters) then
+            if fi.ReadState then
+              continue;
+
+          if not fi.Deleted then
+          begin
+            if FDate > 0 then
+              if  Daysbetween(Fdate, fi.DateAdded) <> 0 then
+                continue;
+
+            with FVisibleList do
+              if FileExists(s) then
+                AddObject(s, fi)
+              else
+              if IndexOf(s) < 0 then
+                AddObject(s, fi);
+          end;
+
+          if (i mod 250) = 0 then
+          begin
+            Synchronize(@DoProgress);
+            Sleep(10);
+          end;
         end;
       end;
-    end;
     Terminate;
   except
     on e: Exception do
@@ -459,6 +467,7 @@ begin
     FFileList.LoadFromFile(CacheFileName);
     FCurrentPath := FFileList.RootPath;
     btnTopPath.Caption:=FCurrentPath;
+    UpdateVisibleDates;
     btnTopPath.Click;
   finally
     btnRefresh.Enabled:=True;
@@ -843,6 +852,8 @@ begin
 end;
 
 procedure TCbzLibrary.FillGrid(bAddButton : Boolean = True);
+var
+  fs : TFillSettings;
 begin
   if Assigned(FFillThread) then
   begin
@@ -880,8 +891,18 @@ begin
   end;
 
   FVisibleList.Clear;
-  cbVisibleDates.Enabled:=False;
-  FFillThread := TThreadFill.Create(Flog, FFileList, FVisibleList, FCurrentPath, FLvl, FDisplayFilters,@ThreadFillTerminate, @Progress);
+
+  fs.FFileList := FFileList;
+  fs.FVisibleList:= FVisibleList;
+  fs.FCurrentPath:=FCurrentPath;
+  fs.FLvl:=FLvl;
+  fs.FDisplayFilters:=FDisplayFilters;
+  fs.Fdate := 0;
+  with cbVisibleDates do
+    if ItemIndex > 0 then
+      fs.FDate:= TDateTime(Items.Objects[ItemIndex]);
+
+  FFillThread := TThreadFill.Create(Flog, fs,@ThreadFillTerminate, @Progress);
 end;
 
 procedure TCbzLibrary.SearchEnded(Sender: TObject);
@@ -892,7 +913,36 @@ begin
   FFileList.SaveToFile(GetCacheFileName);
   btnRefresh.Enabled:=True;
   UpdateNbItems;
+  UpdateVisibleDates;
   FLog.Log('TCbzLibrary.SearchEnded : Refresh ended.');
+end;
+
+procedure TCbzLibrary.UpdateVisibleDates;
+var
+  i : integer;
+  s : string;
+begin
+  with cbVisibleDates do
+  begin
+    Items.BeginUpdate;
+    try
+      Clear;
+      Items.Add('');
+      with FFileList do
+        for i := 0 to Count - 1 do
+          if Assigned(TFileItem(Objects[i])) then
+          with TFileItem(Objects[i]) do
+          begin
+            s := DateToStr(DateAdded);
+            if Items.IndexOf(s) < 0 then
+              Items.AddObject(s, Tobject(DateAdded));
+            Enabled:=True;
+          end;
+    finally
+      Items.EndUpdate;
+    end;
+    Enabled := True;
+  end;
 end;
 
 function TCbzLibrary.FoundFile(const aFileName: string; IsNew: Boolean): TTreeNode;
@@ -994,31 +1044,11 @@ end;
 
 procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);
 var
-  s : string;
-  i, oldtoprow, oldrow : Integer;
+  oldtoprow, oldrow : Integer;
 begin
   Progress(Self, 0, 0, 0, 'Ready.');
   FFillThread := nil;
   btnRefresh.Enabled:=True;
-
-  with cbVisibleDates do
-  begin
-    Items.BeginUpdate;
-    try
-      Clear;
-      Items.Add('');
-      for i := 0 to FVisibleList.Count - 1 do
-        if Assigned(TFileItem(FVisibleList.Objects[i])) then
-        begin
-          s := DateToStr(TFileItem(FVisibleList.Objects[i]).DateAdded);
-          if Items.IndexOf(s) < 0 then
-            Items.Add(s);
-          Enabled:=True;
-      end;
-    finally
-      Items.EndUpdate;
-    end;
-  end;
 
   if not TThreadFill(Sender).Cancelled then
     if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then

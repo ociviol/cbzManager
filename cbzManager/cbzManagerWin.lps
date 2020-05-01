@@ -192,9 +192,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="866"/>
-        <CursorPos Y="901"/>
+        <TopLine Value="916"/>
+        <CursorPos X="44" Y="936"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="2">
           <Item0 X="3" Y="975"/>
@@ -461,10 +462,9 @@
       <Unit50>
         <Filename Value="../../Utils/utils.logger.pas"/>
         <UnitName Value="Utils.Logger"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="341"/>
-        <CursorPos X="22" Y="353"/>
+        <CursorPos X="16" Y="354"/>
         <UsageCount Value="17"/>
         <Bookmarks Count="2">
           <Item0 X="70" Y="312" ID="3"/>

@@ -933,7 +933,7 @@ begin
           if Assigned(TFileItem(Objects[i])) then
           with TFileItem(Objects[i]) do
           begin
-            s := DateToStr(DateAdded);
+            s := FormatDateTime('yyyy/mm/dd', DateAdded);
             if Items.IndexOf(s) < 0 then
               Items.AddObject(s, Tobject(DateAdded));
             Enabled:=True;

@@ -30,10 +30,11 @@ type
     FProgressChar : Char;
     FCancelled : Boolean;
     FDisplayFilters : TDisplayFilters;
+    Flog : ILog;
 
     procedure DoProgress;
   public
-    constructor Create(aFileList : TItemList; aVisibleList : TStringlist;
+    constructor Create(aLog : ILog; aFileList : TItemList; aVisibleList : TStringlist;
                        const aCurrentPath : String; aLvl : Integer;
                        aDisplayFilters : TDisplayFilters;
                        aOnTerminate : TNotifyEvent;
@@ -253,7 +254,7 @@ end;
 
 { TThreadFill }
 
-constructor TThreadFill.Create(aFileList: TItemList; aVisibleList: TStringlist;
+constructor TThreadFill.Create(aLog : ILog; aFileList: TItemList; aVisibleList: TStringlist;
   const aCurrentPath: String; aLvl: Integer; aDisplayFilters: TDisplayFilters;
   aOnTerminate: TNotifyEvent; aProgress: TProgressEvent);
 begin
@@ -333,7 +334,7 @@ begin
     end;
     Terminate;
   except
-    on e: Exption do
+    on e: Exception do
     begin
       Flog.Log('TThreadFill.Execute: Error:' + E.Message);
       Terminate;
@@ -880,7 +881,7 @@ begin
 
   FVisibleList.Clear;
   cbVisibleDates.Enabled:=False;
-  FFillThread := TThreadFill.Create(FFileList, FVisibleList, FCurrentPath, FLvl, FDisplayFilters,@ThreadFillTerminate, @Progress);
+  FFillThread := TThreadFill.Create(Flog, FFileList, FVisibleList, FCurrentPath, FLvl, FDisplayFilters,@ThreadFillTerminate, @Progress);
 end;
 
 procedure TCbzLibrary.SearchEnded(Sender: TObject);

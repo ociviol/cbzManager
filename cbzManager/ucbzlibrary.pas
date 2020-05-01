@@ -42,9 +42,9 @@ type
     property Cancelled : Boolean read FCancelled;
   end;
 
-  { TThreadConv }
+  { TThreadScrub }
 
-  TThreadConv = Class(TThread)
+  TThreadScrub = Class(TThread)
   private
     FVal : Integer;
     FFileList: TItemList;
@@ -115,7 +115,7 @@ type
     FFillThread : TThreadFill;
     FDisplayFilters : TDisplayFilters;
     FInQueue : Integer;
-    FThreadConv : TThreadConv;
+    FThreadScrub : TThreadScrub;
 
     procedure UpdateNbItems;
     procedure SwitchPath(const aLibPath : String);
@@ -155,9 +155,9 @@ uses
 {$R *.lfm}
 
 
-{ TThreadConv }
+{ TThreadScrub }
 
-constructor TThreadConv.Create(aLog : ILog; aFileList: TItemList;
+constructor TThreadScrub.Create(aLog : ILog; aFileList: TItemList;
                                aNotify : TLibraryNotify;
                                aProgress : TProgressEvent = nil);
 begin
@@ -170,13 +170,13 @@ begin
   inherited Create(False);
 end;
 
-destructor TThreadConv.Destroy;
+destructor TThreadScrub.Destroy;
 begin
   FLog := nil;
   inherited Destroy;
 end;
 
-procedure TThreadConv.DoProgress;
+procedure TThreadScrub.DoProgress;
 begin
   if Assigned(FProgress) then
     if FVal < FFileList.Count - 1 then
@@ -186,12 +186,12 @@ begin
       FProgress(Self, 1, 0, 0, 'Scrub Done.')
 end;
 
-procedure TThreadConv.DoNotify;
+procedure TThreadScrub.DoNotify;
 begin
   FNotifier(Self, laDelete, FItem);
 end;
 
-procedure TThreadConv.Execute;
+procedure TThreadScrub.Execute;
 var
   cnt : integer;
   b : TBitmap;
@@ -202,7 +202,7 @@ begin
     if (FFileList.StampLessCount > 0) or
        (FFileList.DeletedCount > 0) then
     begin
-      FLog.Log('TThreadConv.Execute: Starting scrub.');
+      FLog.Log('TThreadScrub.Execute: Starting scrub.');
       cnt := FFileList.Count;
       FVal := 0;
       while (cnt > FVal) do
@@ -219,7 +219,7 @@ begin
             if Assigned(FNotifier) then
               Synchronize(@DoNotify);
             FFileList.Delete(FVal);
-            FLog.Log('TThreadConv.Execute: Deleted:' + Filename);
+            FLog.Log('TThreadScrub.Execute: Deleted:' + Filename);
             cnt := FFileList.Count;
           end;
 
@@ -240,13 +240,13 @@ begin
         cnt := FFileList.Count;
       end;
       Synchronize(@DoProgress);
-      FLog.Log('TThreadConv.Execute: Scrub done.');
+      FLog.Log('TThreadScrub.Execute: Scrub done.');
     end
     else
       Sleep(5000);
   except
     on e: Exception do
-      FLog.Log('TThreadConv.Execute Error: ' + E.Message);
+      FLog.Log('TThreadScrub.Execute Error: ' + E.Message);
   end;
 end;
 
@@ -340,7 +340,7 @@ constructor TCbzLibrary.Create(aOwner: TComponent; aConfig: TConfig);
 begin
   FConfig := aConfig;
   FFillThread := nil;
-  FThreadConv:=nil;
+  FThreadScrub:=nil;
   inherited Create(aOwner);
 end;
 
@@ -418,7 +418,7 @@ begin
 
   CheckModified;
 
-  FThreadConv.Terminate;
+  FThreadScrub.Terminate;
 
   if Assigned(FFillThread) then
   begin
@@ -463,7 +463,7 @@ begin
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
-  FThreadConv := TThreadConv.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
+  FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
 end;
 
 procedure TCbzLibrary.dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
@@ -481,7 +481,7 @@ begin
       with dgLibrary, Canvas do
       begin
         if gdFocused in aState then
-          Brush.Color := clActiveBackground
+          Brush.Color := clActiveCaption
         else
         if not FileExists(TFileItem(FVisibleList.Objects[p]).Filename) then
         begin
@@ -709,8 +709,8 @@ procedure TCbzLibrary.SwitchPath(const aLibPath: String);
 begin
   Fconfig.LibPath:=aLibPath;
   FVisibleList.Clear;
-  FThreadConv.Terminate;
-  FThreadConv.WaitFor;
+  FThreadScrub.Terminate;
+  FThreadScrub.WaitFor;
   FFileList.Clear;
   FFileList.RootPath:=aLibPath;
   FCurrentPath:=aLibPath;

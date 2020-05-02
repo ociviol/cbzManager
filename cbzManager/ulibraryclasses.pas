@@ -324,7 +324,7 @@ begin
         with TCbz.Create(FLog) do
         try
           try
-            Open(Self.Filename, zmRead);
+            Open(Self.FFilename, zmRead);
             result := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
             if Assigned(result) then
             begin
@@ -409,13 +409,17 @@ function TFileItem.SyncFilename: String;
 const
   invalidchars : array[0..4] of string = ('/', '\', '"', '''', ' ');
 var
-  s, md : string;
+  md : string;
 begin
-  s := Filename.Replace(Parent.RootPath, '');
-  md := MD5Print(MD5String(s));
-  result := IncludeTrailingPathDelimiter(Parent.SyncPath) + ExtractFilePath(s);
-  ForceDirectories(result);
-  result := IncludeTrailingPathDelimiter(result) + md + '.xml';
+  FLock.LockList;
+  try
+    md := MD5Print(MD5String(FFilename));
+    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + md + '.xml';
+  finally
+    Flock.UnlockList;
+  end;
+  //ForceDirectories(result);
+  //result := IncludeTrailingPathDelimiter(result) + md + '.xml';
   {
   for s in invalidchars do
     while Result.Contains(s) do
@@ -428,14 +432,15 @@ end;
 
 function TFileItem.GetCacheFilename: String;
 var
-  s,md : string;
+  md : string;
 begin
-  s := FFilename.Replace(Parent.FRootPath, '');
-  md := MD5Print(MD5String(s));
-  result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + ExtractFilePath(s);
-  ForceDirectories(result);
-  result := IncludeTrailingPathDelimiter(result) + md + '.bmp';
-
+  FLock.LockList;
+  try
+    md := MD5Print(MD5String(FFilename));
+    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + md + '.bmp';
+  finally
+    Flock.UnlockList;
+  end;
 //{$if defined(Darwin) or defined(Linux)}
 //    expandfilename('~/') + CS_CONFIG_PATH + '/Library/';
 //{$else}

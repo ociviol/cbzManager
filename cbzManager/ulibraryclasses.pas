@@ -35,6 +35,7 @@ type
     FDeleted : Boolean;
     FParent : TItemList;
 
+    function SyncFilenameDelete: String;
     function SyncFilename : String;
     function GetCacheFilename: String; inline;
     function GetDateAdded: TDAteTime;
@@ -67,7 +68,8 @@ type
     destructor Destroy; override;
 
     function GenerateStamp:TBitmap;
-    procedure CheckSync;
+    function CheckSync:integer;
+    procedure SyncFileDelete;
 
     property Filename : String read GetFilename;
     property ReadState : Boolean read GetReadState write SetReadState;
@@ -341,10 +343,12 @@ begin
     end;
 end;
 
-procedure TFileItem.CheckSync;
+function TFileItem.CheckSync:integer;
 begin
+  result := 0;
   with TXmlDoc.Create do
   try
+    // update
     if FileExists(SyncFilename) then
     begin
       LoadFromFile(SyncFilename);
@@ -352,7 +356,8 @@ begin
         if FDateSetReadState < GetAttributeDate('DateSetReadState', 0) then
         begin
           FDateSetReadState := GetAttributeDate('DateSetReadState', 0);
-          FReadState := GetAttributeBool('ReadState')
+          FReadState := GetAttributeBool('ReadState');
+          result := 1;
         end
         else
         if FDateSetReadState > GetAttributeDate('DateSetReadState', 0) then
@@ -360,14 +365,21 @@ begin
           SetAttributeDate('DateSetReadState', FDateSetReadState);
           SetAttributeBool('ReadState', FReadState);
           SaveToFile(SyncFilename);
+          result := 1;
         end;
     end
     else
+    // deleted
+    if FileExists(SyncFileNameDelete) then
+      exit(-1)
+    else
+      // create file
     begin
       with CreateNewDocumentElement('Comic') do
       begin
         SetAttributeDate('DateSetReadState', FDateSetReadState);
         SetAttributeBool('ReadState', FReadState);
+        result := 1;
       end;
       SaveToFile(SyncFilename);
     end;
@@ -376,9 +388,26 @@ begin
   end;
 end;
 
+function TFileItem.SyncFilenameDelete: String;
+begin
+  result := ExtractFilePath(SyncFilename) + '.' + ExtractFileName(SyncFilename);
+end;
+
+procedure TFileItem.SyncFileDelete;
+var
+  s : string;
+begin
+  s := SyncFilenameDelete;
+  if FileExists(s) then
+      DeleteFile(s);
+
+  if FileExists(SyncFilename) then
+    RenameFile(SyncFilename, s);
+end;
+
 function TFileItem.SyncFilename: String;
 const
-  invalidchars : array[0..5] of string = (':', '/', '\', '"', '''', ' ');
+  invalidchars : array[0..4] of string = ('/', '\', '"', '''', ' ');
 var
   s : string;
 begin
@@ -386,6 +415,8 @@ begin
   for s in invalidchars do
     while Result.Contains(s) do
       result := result.replace(s, '-', [rfReplaceAll]);
+  if result[1]='-' then
+    result := copy(result, 2, length(result));
   result := IncludeTrailingPathDelimiter(Parent.SyncPath) +  ChangeFileExt(Result, '.xml');
 end;
 
@@ -598,9 +629,10 @@ begin
   end;
 end;
 
-constructor TItemList.Create(alog: ILog; const aSyncPath: String);
+constructor TItemList.Create(alog: ILog; const aSyncPath: String = '');
 begin
   Flog := alog;
+  FSyncPath := aSyncPath;
   inherited Create;
 end;
 

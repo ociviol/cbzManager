@@ -51,7 +51,11 @@ type
 
   TThreadScrub = Class(TThread)
   private
-    FVal : Integer;
+    FVal,
+    FDeleted,
+    FCnt,
+    Fsynced,
+    FAdded : Integer;
     FFileList: TItemList;
     FProgress : TProgressEvent;
     FLog : ILog;
@@ -184,9 +188,12 @@ end;
 procedure TThreadScrub.DoProgress;
 begin
   if Assigned(FProgress) then
-    if FVal < FFileList.Count - 1 then
-      FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
-                IntToStr((FVal * 100) div FFileList.Count) + '%')
+    if (FVal < FCnt - 1) and (Fcnt > 0) then
+      FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Synced:%d - Deleted:%d',
+                                     [IntToStr((FVal * 100) div FFileList.Count) + '%',
+                                      FFileList.Count, FFileList.Count - FAdded, Fsynced, FDeleted]))
+    //FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
+      //          IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
       FProgress(Self, 1, 0, 0, 'Scrub Done.')
 end;
@@ -198,46 +205,69 @@ end;
 
 procedure TThreadScrub.Execute;
 var
-  cnt : integer;
+  r : integer;
   b : TBitmap;
+
+  procedure _DeleteItem;
+  begin
+    with FItem do
+      if not FileExists(Filename) then
+      begin
+        FItem.Deleted:=True;
+        if Assigned(FNotifier) then
+          Synchronize(@DoNotify);
+        Fitem.SyncFileDelete;
+        FFileList.Delete(FVal);
+        FLog.Log('TThreadScrub.Execute: Deleted:' + Filename);
+        Fcnt := FFileList.Count;
+        inc(FDeleted);
+      end;
+  end;
+
 begin
+  FDeleted := 0;
+  Fsynced := 0;
   Sleep(1000);
   while not Terminated do
   try
-    if (FFileList.StampLessCount > 0) or
+    FAdded := FFileList.StampLessCount;
+
+    if (FAdded > 0) or
        (FFileList.DeletedCount > 0) then
     begin
       FLog.Log('TThreadScrub.Execute: Starting scrub.');
-      cnt := FFileList.Count;
+      FCnt := FFileList.Count;
       FVal := 0;
-      while (cnt > FVal) do
+      while (FCnt > FVal) do
       begin
         if Terminated then
             Exit;
 
         // remove invalid entries
         FItem := TFileItem(FFileList.Objects[FVal]);
-        with FItem do
-          if not FileExists(Filename) then
-          begin
-            FItem.Deleted:=True;
-            if Assigned(FNotifier) then
-              Synchronize(@DoNotify);
-            FFileList.Delete(FVal);
-            FLog.Log('TThreadScrub.Execute: Deleted:' + Filename);
-            cnt := FFileList.Count;
-          end;
-
+        if not FileExists(FItem.Filename) then
+          _DeleteItem
+        else
         // sync needed
         if FFileList.SyncPath.Length > 0 then
-          TFileItem(FFileList.Objects[FVal]).CheckSync;
+        begin
+          r := TFileItem(FFileList.Objects[FVal]).CheckSync;
+          if r < 0 then
+            _DeleteItem
+          else
+          if r > 0 then
+            inc(FSynced);
+        end;
 
         // make stamp if needed
         with TFileItem(FFileList.Objects[FVal]) do
         begin
           b := GenerateStamp;
           if Assigned(b) then
+          begin
             b.Free;
+            dec(FAdded);
+          end;
         end;
 
         inc(FVal);
@@ -246,7 +276,7 @@ begin
           //yield;
         Sleep(25);
 
-        cnt := FFileList.Count;
+        FCnt := FFileList.Count;
       end;
       Synchronize(@DoProgress);
       FLog.Log('TThreadScrub.Execute: Scrub done.');
@@ -435,7 +465,7 @@ end;
 procedure TCbzLibrary.FormResize(Sender: TObject);
 begin
   SizeGrid;
-  StatusBar1.Panels[0].Width := (StatusBar1.ClientWidth div 3) * 2;
+  StatusBar1.Panels[0].Width := (StatusBar1.ClientWidth div 10) * 6;
 end;
 
 procedure TCbzLibrary.FormShow(Sender: TObject);

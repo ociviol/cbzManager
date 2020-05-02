@@ -367,6 +367,13 @@ begin
             result := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
             if Assigned(result) then
             begin
+              with TPicture.Create do
+              try
+                Bitmap.Assign(result);
+                SaveToFile(CacheFilename, 'jpg');
+              finally
+                Free;
+              end;
               result.SaveToFile(CacheFilename);
               FStampGenerated:=True;
               FModified:=True;
@@ -531,7 +538,7 @@ begin
     //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + s + '.bmp';
+    result := IncludeTrailingPathDelimiter(result) + s + '.jpg';
     FCacheFilename := result;
   finally
     Flock.UnlockList;

@@ -35,6 +35,7 @@ type
     FDeleted : Boolean;
     FParent : TItemList;
 
+    function SyncPathName(const aFilename : string):String;
     function SyncFilenameDelete: String;
     function SyncFilename : String;
     function GetCacheFilename: String; inline;
@@ -405,6 +406,19 @@ begin
     RenameFile(SyncFilename, s);
 end;
 
+function TFileItem.SyncPathName(const aFilename : string):String;
+var
+  ar : TStringArray;
+  s : string;
+begin
+  result := extractFilePath(aFilename);
+  result := result.Replace(Parent.FRootPath, '');
+  ar := result.Split(PathDelim);
+  result := '';
+  for s in ar do
+    result := result + IncludeTrailingPathDelimiter(MD5Print(MD5String(s)));
+end;
+
 function TFileItem.SyncFilename: String;
 const
   invalidchars : array[0..4] of string = ('/', '\', '"', '''', ' ');
@@ -413,8 +427,10 @@ var
 begin
   FLock.LockList;
   try
-    md := MD5Print(MD5String(FFilename));
-    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + md + '.xml';
+    md := MD5Print(MD5String(ExtractFilename(FFilename)));
+    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
+    ForceDirectories(result);
+    result := IncludeTrailingPathDelimiter(result) + md + '.xml';
   finally
     Flock.UnlockList;
   end;
@@ -436,8 +452,10 @@ var
 begin
   FLock.LockList;
   try
-    md := MD5Print(MD5String(FFilename));
-    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + md + '.bmp';
+    md := MD5Print(MD5String(ExtractFilename(FFilename)));
+    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
+    ForceDirectories(result);
+    result := IncludeTrailingPathDelimiter(result) + md + '.bmp';
   finally
     Flock.UnlockList;
   end;

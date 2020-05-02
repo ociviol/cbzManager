@@ -230,8 +230,8 @@ begin
   Sleep(1000);
   while not Terminated do
   try
-    if (FFileList.StampCount <> FFileList.Count) or
-       (FFileList.DeletedCount > 0) then
+    //if (FFileList.StampCount <> FFileList.Count) or
+    //   (FFileList.DeletedCount > 0) then
     begin
       FLog.Log('TThreadScrub.Execute: Starting scrub.');
       FCnt := FFileList.Count;
@@ -275,9 +275,10 @@ begin
       end;
       Synchronize(@DoProgress);
       FLog.Log('TThreadScrub.Execute: Scrub done.');
-    end
-    else
       Sleep(5000);
+    end;
+    //else
+    //  Sleep(5000);
   except
     on e: Exception do
       FLog.Log('TThreadScrub.Execute Error: ' + E.Message);

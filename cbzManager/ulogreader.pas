@@ -18,7 +18,6 @@ type
   TFrmLogReader = class(TForm)
     Memo1: TMemo;
     TreeView1: TTreeView;
-    procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
   private
@@ -59,11 +58,6 @@ destructor TFrmLogReader.Destroy;
 begin
   FLog := nil;
   inherited Destroy;
-end;
-
-procedure TFrmLogReader.FormDestroy(Sender: TObject);
-begin
-
 end;
 
 procedure TFrmLogReader.FormShow(Sender: TObject);

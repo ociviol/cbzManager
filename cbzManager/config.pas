@@ -11,7 +11,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  Spin;
+  Spin, uConfig;
 
 type
 
@@ -24,6 +24,7 @@ type
     cbDeleteFile: TCheckBox;
     cbAlbumArt: TCheckBox;
     edtcwebp: TEdit;
+    edtSyncPath: TEdit;
     edtunrar: TEdit;
     edtp7zip: TEdit;
     Label1: TLabel;
@@ -32,18 +33,24 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
+    Label8: TLabel;
     OpenDialog1: TOpenDialog;
+    sbSyncPath: TSpeedButton;
     sbCwebp: TSpeedButton;
     sbUnrar: TSpeedButton;
     sb7zip: TSpeedButton;
     speNbThreads: TSpinEdit;
     speWebpQuality: TSpinEdit;
     speQueues: TSpinEdit;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure sb7zipClick(Sender: TObject);
     procedure sbCwebpClick(Sender: TObject);
+    procedure sbSyncPathClick(Sender: TObject);
     procedure sbUnrarClick(Sender: TObject);
   private
   public
+    Config : TConfig;
   end;
 
 
@@ -63,6 +70,18 @@ begin
   end;
 end;
 
+procedure TConfigFrm.sbSyncPathClick(Sender: TObject);
+begin
+  with TSelectDirectoryDialog.Create(Application) do
+  try
+    Title := 'select sync location';
+    if Execute then
+      edtSyncPath.Text:=Filename;
+  finally
+    Free;
+  end;
+end;
+
 procedure TConfigFrm.sb7zipClick(Sender: TObject);
 begin
   with OpenDialog1 do
@@ -71,6 +90,34 @@ begin
     if Execute then
       edtp7zip.Text:=Filename;
   end;
+end;
+
+procedure TConfigFrm.FormShow(Sender: TObject);
+begin
+  edtcwebp.Text:=Config.cwebp;
+  edtunrar.Text:=Config.unrar;
+  edtp7zip.Text:=Config.p7zip;
+  speNbThreads.Value:= Config.NbThreads;
+  speQueues.Value:=Config.QueueSize;
+  cblogging.Checked:=Config.DoLog;
+  speWebpQuality.Value:=Config.WebpQuality;
+  cbDeleteFile.Checked := Config.DeleteFile;
+  cbAlbumArt.Checked := Config.DoAlbumart;
+  edtSyncPath.Text:=Config.SyncPath;
+end;
+
+procedure TConfigFrm.BitBtn1Click(Sender: TObject);
+begin
+  Config.cwebp := edtcwebp.Text;
+  Config.unrar := edtunrar.Text;
+  Config.p7zip := edtp7zip.Text;
+  Config.DoLog := cblogging.Checked;
+  Config.QueueSize := speQueues.Value;
+  Config.NbThreads:=speNbThreads.Value;
+  Config.WebpQuality := speWebpQuality.Value;
+  Config.DeleteFile := cbDeleteFile.Checked;
+  Config.DoAlbumart := cbAlbumArt.Checked;
+  Config.SyncPath := edtSyncPath.Text;
 end;
 
 procedure TConfigFrm.sbUnrarClick(Sender: TObject);

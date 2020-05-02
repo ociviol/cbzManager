@@ -140,7 +140,6 @@ type
                        const aPos, aMax: Integer; const Msg: String = '');
     property CacheFileName : String read GetCacheFileName;
     procedure VisibleListChanged(Sender : TObject);
-    //procedure FileListChanged(Sender : TObject);
     procedure ThreadFillTerminate(Sender : TObject);
     procedure ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);
   public
@@ -228,6 +227,10 @@ begin
             FLog.Log('TThreadScrub.Execute: Deleted:' + Filename);
             cnt := FFileList.Count;
           end;
+
+        // sync needed
+        if FFileList.SyncPath.Length > 0 then
+          TFileItem(FFileList.Objects[FVal]).CheckSync;
 
         // make stamp if needed
         with TFileItem(FFileList.Objects[FVal]) do
@@ -383,8 +386,8 @@ begin
   cbHideRead.Checked := Fconfig.LibraryHideRead;
   FFileList := TItemList.Create(Flog);
   FFileList.RootPath:=Fconfig.LibPath;
+  FFileList.SyncPath:=Fconfig.SyncPath;
   FBtnList := TList.Create;
-  //FBtnList.Add(btnTopPath);
   FVisibleList := TThreadStringList.Create;
   FVisibleList.OnChanging := @VisibleListChanged;
   FVisibleList.Sorted:=True;
@@ -938,7 +941,7 @@ begin
 
   if (FFileList.IndexOf(aFilename) < 0) then
   begin
-    fi := TFileItem.Create(FLog, aFilename);
+    fi := TFileItem.Create(FFileList, FLog, aFilename);
     fi.Text := GetLastPath(aFilename);
     FFileList.AddObject(aFilename, fi);
     FLog.Log('TCbzLibrary.FoundFile: Added:' + aFilename);
@@ -1013,17 +1016,6 @@ begin
   end;
 end;
 
-{
-procedure TCbzLibrary.FileListChanged(Sender: TObject);
-begin
-  if (FFileList.Count > 0) and (FInQueue = 0) then
-  begin
-    inc(FInQueue);
-    Application.QueueAsyncCall(@DoSizegrid, 0);
-  end;
-end;
-}
-
 procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);
 var
   oldtoprow, oldrow : Integer;
@@ -1065,9 +1057,6 @@ begin
     if FVisibleList.HasObject(aFileItem) then
       Application.QueueAsyncCall(@DoFillGrid, 0);
 end;
-
-
-
 
 
 end.

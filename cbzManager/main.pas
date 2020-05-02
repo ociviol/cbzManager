@@ -1814,26 +1814,9 @@ procedure TMainFrm.mnuConfigClick(Sender: TObject);
 begin
   with TConfigFrm.Create(Application) do
   try
-    edtcwebp.Text:=Fconfig.cwebp;
-    edtunrar.Text:=Fconfig.unrar;
-    edtp7zip.Text:=Fconfig.p7zip;
-    speNbThreads.Value:= FConfig.NbThreads;
-    speQueues.Value:=FConfig.QueueSize;
-    cblogging.Checked:=Fconfig.DoLog;
-    speWebpQuality.Value:=FConfig.WebpQuality;
-    cbDeleteFile.Checked := FConfig.DeleteFile;
-    cbAlbumArt.Checked := FConfig.DoAlbumart;
+    Config := FConfig;
     if ShowModal = mrOk then
     begin
-      edtcwebp.Text:=Fconfig.cwebp;
-      Fconfig.unrar := edtunrar.Text;
-      Fconfig.p7zip := edtp7zip.Text;
-      Fconfig.DoLog := cblogging.Checked;
-      FConfig.QueueSize := speQueues.Value;
-      Fconfig.NbThreads:=speNbThreads.Value;
-      FConfig.WebpQuality := speWebpQuality.Value;
-      FConfig.DeleteFile := cbDeleteFile.Checked;
-      FConfig.DoAlbumart := cbAlbumArt.Checked;
       SaveConfig;
       // log
       FLog.SetActive(Fconfig.DoLog, Self);

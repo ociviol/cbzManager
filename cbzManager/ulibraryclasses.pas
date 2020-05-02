@@ -15,6 +15,7 @@ type
   TDisplayFilter = (dfUnread, dfAll);
   TDisplayFilters = set of TDisplayFilter;
 
+  TItemList = Class;
   { TFileItem }
 
   TFileItem = Class
@@ -27,12 +28,18 @@ type
     FGuid : TGUID;
     FModified : Boolean;
     FLock : TThreadList;
-    FDateAdded : TDateTime;
+    FDateAdded,
+    //FDateLastSync,
+    FDateSetReadState: TDateTime;
     FStampGenerated : Boolean;
     FDeleted : Boolean;
+    FParent : TItemList;
 
+    function SyncFilename : String;
     function GetCacheFilename: String; inline;
     function GetDateAdded: TDAteTime;
+    function GetDateSetReadState: TDateTime;
+    //function GetDateLastSync: TDateTime;
     function GetDeleted: Boolean;
     function GetFilename: String;
     function GetImg: TBitmap;
@@ -41,6 +48,8 @@ type
     function GetStampGenerated: Boolean;
     function GetText: String;
     procedure SetDateAdded(AValue: TDAteTime);
+    procedure SetDateSetReadState(AValue: TDateTime);
+    //procedure SetDateLastSync(AValue: TDateTime);
     procedure SetDeleted(AValue: Boolean);
     procedure SetReadState(AValue: Boolean);
     procedure SetStampGenerated(AValue: Boolean);
@@ -51,18 +60,23 @@ type
     property CacheFilename : String read GetCacheFilename;
     property Modified : Boolean read GetModified;
     property StampGenerated : Boolean read GetStampGenerated write SetStampGenerated;
+    property Parent : TItemList read FParent;
   public
     constructor Create;
-    constructor Create(aLog : ILog; const aFilename : String);
+    constructor Create(aParent : TItemList; aLog : ILog; const aFilename : String);
     destructor Destroy; override;
 
     function GenerateStamp:TBitmap;
+    procedure CheckSync;
+
     property Filename : String read GetFilename;
     property ReadState : Boolean read GetReadState write SetReadState;
     property Img:TBitmap read GetImg;
     property Text : String Read GetText write SetText;
     property DateAdded : TDAteTime read GetDateAdded write SetDateAdded;
+    property DateSetReadState : TDateTime read GetDateSetReadState write SetDateSetReadState;
     property Deleted : Boolean read GetDeleted write SetDeleted;
+    //property DateLastSync : TDateTime read GetDateLastSync write SetDateLastSync;
   end;
 
   { TItemList }
@@ -70,18 +84,21 @@ type
   TItemList = Class(TThreadStringList)
   private
     Flog : ILog;
-    FRootPath : String;
+    FRootPath,
+    FSyncPath: String;
     FModified : Boolean;
 
     function GetDeletedCount: Integer;
     function GetModified: Boolean;
     function GetRootPath: String;
     function GetStampLessCount: Integer;
+    function GetSyncPath: String;
     procedure SetRootPath(AValue: String);
     function GetReadCount:integer;
+    procedure SetSyncPath(AValue: String);
   protected
   public
-    constructor Create(alog : ILog);
+    constructor Create(alog : ILog; const aSyncPath : String = '');
     destructor Destroy; override;
     procedure Clear; override;
     procedure Delete(index:integer); override;
@@ -93,6 +110,7 @@ type
     property StampLessCount : Integer read GetStampLessCount;
     property DeletedCount : Integer read GetDeletedCount;
     property ReadCount : Integer read GetReadCount;
+    property SyncPath : String read GetSyncPath write SetSyncPath;
   end;
 
 
@@ -141,9 +159,10 @@ begin
   FStampGenerated:=False;
 end;
 
-constructor TFileItem.Create(aLog : ILog; const aFilename: String);
+constructor TFileItem.Create(aParent : TItemList; aLog : ILog; const aFilename: String);
 begin
   Create;
+  FParent := aParent;
   FLog := aLog;
   FFilename := aFilename;
   FModified := false;
@@ -227,6 +246,28 @@ begin
   end;
 end;
 
+procedure TFileItem.SetDateSetReadState(AValue: TDateTime);
+begin
+  FLock.LockList;
+  try
+    FDateSetReadState := AValue;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+{
+procedure TFileItem.SetDateLastSync(AValue: TDateTime);
+begin
+  FLock.LockList;
+  try
+    FDateLastSync := AValue;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+}
+
 procedure TFileItem.SetDeleted(AValue: Boolean);
 begin
   FLock.LockList;
@@ -300,6 +341,54 @@ begin
     end;
 end;
 
+procedure TFileItem.CheckSync;
+begin
+  with TXmlDoc.Create do
+  try
+    if FileExists(SyncFilename) then
+    begin
+      LoadFromFile(SyncFilename);
+      with DocumentElement do
+        if FDateSetReadState < GetAttributeDate('DateSetReadState', 0) then
+        begin
+          FDateSetReadState := GetAttributeDate('DateSetReadState', 0);
+          FReadState := GetAttributeBool('ReadState')
+        end
+        else
+        if FDateSetReadState > GetAttributeDate('DateSetReadState', 0) then
+        begin
+          SetAttributeDate('DateSetReadState', FDateSetReadState);
+          SetAttributeBool('ReadState', FReadState);
+          SaveToFile(SyncFilename);
+        end;
+    end
+    else
+    begin
+      with CreateNewDocumentElement('Comic') do
+      begin
+        SetAttributeDate('DateSetReadState', FDateSetReadState);
+        SetAttributeBool('ReadState', FReadState);
+      end;
+      SaveToFile(SyncFilename);
+    end;
+  finally
+    Free;
+  end;
+end;
+
+function TFileItem.SyncFilename: String;
+const
+  invalidchars : array[0..5] of string = (':', '/', '\', '"', '''', ' ');
+var
+  s : string;
+begin
+  result := Filename.Replace(Parent.RootPath, '');
+  for s in invalidchars do
+    while Result.Contains(s) do
+      result := result.replace(s, '-', [rfReplaceAll]);
+  result := IncludeTrailingPathDelimiter(Parent.SyncPath) +  ChangeFileExt(Result, '.xml');
+end;
+
 function TFileItem.GetCacheFilename: String;
 begin
   result :=
@@ -322,6 +411,28 @@ begin
     FLock.UnlockList;
   end;
 end;
+
+function TFileItem.GetDateSetReadState: TDateTime;
+begin
+  FLock.LockList;
+  try
+    Result := FDateSetReadState;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+{
+function TFileItem.GetDateLastSync: TDateTime;
+begin
+  FLock.LockList;
+  try
+    Result := FDateLastSync;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+}
 
 function TFileItem.GetDeleted: Boolean;
 begin
@@ -352,6 +463,7 @@ begin
     SetAttributeBool('HasStamp', FStampGenerated);
     SetAttribute('Guid', GUIDToString(FGuid));
     SetAttributeDate('DateAdded', FDateAdded);
+    SetAttributeDate('DateSetReadState', FDateSetReadState);
   end;
   FModified := False;
 end;
@@ -367,6 +479,7 @@ begin
     FStampGenerated := GetAttributeBool('HasStamp');
     FFilename:= GetAttribute('Filename');
     FDateAdded := GetAttributeDate('DateAdded', now);
+    FDateSetReadState := GetAttributeDate('DateSetReadState', FDateAdded);
     s := GetAttribute('Guid');
     if s <> '' then
       FGuid := StringToGUID(s)
@@ -445,6 +558,16 @@ begin
   end;
 end;
 
+function TItemList.GetSyncPath: String;
+begin
+    Flock.LockList;
+  try
+    Result := FSyncPath;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
 procedure TItemList.SetRootPath(AValue: String);
 begin
   Flock.LockList;
@@ -465,7 +588,17 @@ begin
       inc(result);
 end;
 
-constructor TItemList.Create(alog : ILog);
+procedure TItemList.SetSyncPath(AValue: String);
+begin
+    Flock.LockList;
+  try
+    FSyncPath := AValue;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+constructor TItemList.Create(alog: ILog; const aSyncPath: String);
 begin
   Flog := alog;
   inherited Create;
@@ -550,7 +683,7 @@ begin
         FRootPath := GetAttributeStr('RootPath');
       for i := 0 to NbElements - 1 do
       begin
-        fi := TFileItem.Create(Flog, '');
+        fi := TFileItem.Create(Self, Flog, '');
         fi.LoadFromXml(Elements[i]);
         AddObject(fi.Filename, fi);
       end;

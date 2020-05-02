@@ -27,12 +27,15 @@ type
     FDeleteFile,
     FShowStats,
     FLHideRead: Boolean;
+
     FWindowStates: TStringlist;
     FLibPath,
     Fcwebp,
     Funrar,
     FBdPathPath,
+    FSyncPath,
     Fp7zip: String;
+
     FQueueSize,
     FNbThreads,
     FWebpQuality,
@@ -59,6 +62,7 @@ type
     property DoAlbumart : Boolean read FAlbumArt write FAlbumart;
     property ShowStats : Boolean read FShowStats write FShowStats;
     property LibPath : String read FLibPath write FLibPath;
+    property SyncPath : String read FSyncPath write FSyncPath;
   end;
 
 implementation

@@ -113,6 +113,7 @@ type
     procedure LoadFromFile(const aFilename : String); override;
     procedure SaveToFile(const aFilename : String); override;
     procedure ResetStampState;
+
     property Modified : Boolean read GetModified;
     property RootPath : String read GetRootPath write SetRootPath;
     property StampLessCount : Integer read GetStampLessCount;
@@ -129,7 +130,7 @@ function GetLastPath(const aPath : String):string;
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile, Md5
+  Forms, uCbz, Utils.Zipfile
   //, utils.epub
   ;
 
@@ -469,19 +470,12 @@ begin
 end;
 
 function TFileItem.SyncPathName(const aFilename : string):AnsiString;
-var
-  //ar : TStringArray;
-  s : string;
 begin
   if FSyncPathFilename <> '' then
     Exit(FSyncPathFilename);
 
   result := extractFilePath(aFilename);
   result := lowercase(ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, '')));
-  //ar := lowercase(result).Split(PathDelim);
-  //result := '';
-  //for s in ar do
-  //  result := result + IncludeTrailingPathDelimiter(MD5Print(MD5String(s)));
   FSyncPathFilename := result;
 end;
 
@@ -668,7 +662,7 @@ begin
     result := 0;
     for i := 0 to Count - 1 do
       with TFileItem(Objects[i]) do
-        if FStampGenerated then
+        if FStampGenerated and FileExists(CacheFilename) then
           inc(result);
   finally
     Flock.UnlockList;

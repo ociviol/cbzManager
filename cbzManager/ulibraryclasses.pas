@@ -411,13 +411,18 @@ const
 var
   s : string;
 begin
-  result := Filename.Replace(Parent.RootPath, '');
+  s := Filename.Replace(Parent.RootPath, '');
+  result := IncludeTrailingPathDelimiter(Parent.SyncPath) + ExtractFilePath(s);
+  ForceDirectories(result);
+  result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(ExtractFileName(s), '.xml');
+  {
   for s in invalidchars do
     while Result.Contains(s) do
       result := result.replace(s, '-', [rfReplaceAll]);
   if result[1]='-' then
     result := copy(result, 2, length(result));
   result := IncludeTrailingPathDelimiter(Parent.SyncPath) +  ChangeFileExt(Result, '.xml');
+  }
 end;
 
 function TFileItem.GetCacheFilename: String;

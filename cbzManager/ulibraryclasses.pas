@@ -375,7 +375,6 @@ begin
               finally
                 Free;
               end;
-              result.SaveToFile(CacheFilename);
               FStampGenerated:=True;
               FModified:=True;
             end;

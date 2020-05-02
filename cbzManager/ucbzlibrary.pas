@@ -728,7 +728,7 @@ begin
 {$if defined(Darwin) or defined(Linux)}
   expandfilename('~/') + CS_CONFIG_PATH + '/Library/' +
 {$else}
-  IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Library\' +
+  IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\' +
 {$endif}
   'cbzLibrary.xml';
   ForceDirectories(ExtractFilePath(result));

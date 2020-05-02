@@ -25,7 +25,7 @@ type
     FLog : ILog;
     FText: String;
     FReadState : Boolean;
-    FGuid : TGUID;
+    //FGuid : TGUID;
     FModified : Boolean;
     FLock : TThreadList;
     FDateAdded,
@@ -122,7 +122,7 @@ function GetLastPath(const aPath : String):string;
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile;
+  Forms, uCbz, Utils.Zipfile, Md5;
 
 const
   CS_StampWidth = 120;
@@ -155,7 +155,7 @@ constructor TFileItem.Create;
 begin
   inherited;
   FImg := nil;
-  CreateGUID(FGuid);
+  //CreateGUID(FGuid);
   FDateAdded := now;
   FLock := TThreadList.Create;
   FStampGenerated:=False;
@@ -409,12 +409,13 @@ function TFileItem.SyncFilename: String;
 const
   invalidchars : array[0..4] of string = ('/', '\', '"', '''', ' ');
 var
-  s : string;
+  s, md : string;
 begin
   s := Filename.Replace(Parent.RootPath, '');
+  md := MD5Print(MD5String(s));
   result := IncludeTrailingPathDelimiter(Parent.SyncPath) + ExtractFilePath(s);
   ForceDirectories(result);
-  result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(ExtractFileName(s), '.xml');
+  result := IncludeTrailingPathDelimiter(result) + md + '.xml';
   {
   for s in invalidchars do
     while Result.Contains(s) do
@@ -426,16 +427,23 @@ begin
 end;
 
 function TFileItem.GetCacheFilename: String;
+var
+  s,md : string;
 begin
-  result :=
-{$if defined(Darwin) or defined(Linux)}
-    expandfilename('~/') + CS_CONFIG_PATH + '/Library/';
-{$else}
-    IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Library\';
-{$endif}
+  s := FFilename.Replace(Parent.FRootPath, '');
+  md := MD5Print(MD5String(s));
+  result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + ExtractFilePath(s);
   ForceDirectories(result);
-  result :=  result + GUIDToString(FGuid) +'.bmp';
-  //result := ChangeFileExt(result, '.bmp');
+  result := IncludeTrailingPathDelimiter(result) + md + '.bmp';
+
+//{$if defined(Darwin) or defined(Linux)}
+//    expandfilename('~/') + CS_CONFIG_PATH + '/Library/';
+//{$else}
+//  IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\';
+//{$endif}
+//  ForceDirectories(result);
+//  result := IncludeTrailingPathDelimiter(result) + ExtractFileName(FFilename); //GUIDToString(FGuid) +'.bmp';
+//  result := ChangeFileExt(result, '.bmp');
 end;
 
 function TFileItem.GetDateAdded: TDAteTime;
@@ -497,7 +505,7 @@ begin
     SetAttribute('Filename', FFilename);
     SetAttributeBool('ReadState', FReadState);
     SetAttributeBool('HasStamp', FStampGenerated);
-    SetAttribute('Guid', GUIDToString(FGuid));
+    //SetAttribute('Guid', GUIDToString(FGuid));
     SetAttributeDate('DateAdded', FDateAdded);
     SetAttributeDate('DateSetReadState', FDateSetReadState);
   end;
@@ -505,8 +513,8 @@ begin
 end;
 
 procedure TFileItem.LoadFromXml(aNode: TXmlElement);
-var
-  s : string;
+//var
+//  s : string;
 begin
   FModified := False;
   With aNode do
@@ -516,11 +524,11 @@ begin
     FFilename:= GetAttribute('Filename');
     FDateAdded := GetAttributeDate('DateAdded', now);
     FDateSetReadState := GetAttributeDate('DateSetReadState', FDateAdded);
-    s := GetAttribute('Guid');
-    if s <> '' then
-      FGuid := StringToGUID(s)
-    else
-      FModified := True;
+  //  s := GetAttribute('Guid');
+  //  if s <> '' then
+  //    FGuid := StringToGUID(s)
+  //  else
+  //    FModified := True;
   end;
 end;
 
@@ -582,7 +590,10 @@ begin
         if not StampGenerated then
         begin
           if not FileExists(CacheFilename) then
-            inc(result)
+          begin
+            inc(result);
+//            FLog.Log('TItemList.GetStampLessCount:Cache File not found:'+CacheFilename);
+          end
           else
           begin
             FStampGenerated := True;

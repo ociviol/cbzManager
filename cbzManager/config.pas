@@ -25,6 +25,7 @@ type
     cbAlbumArt: TCheckBox;
     edtcwebp: TEdit;
     edtSyncPath: TEdit;
+    edtLibPath: TEdit;
     edtunrar: TEdit;
     edtp7zip: TEdit;
     Label1: TLabel;
@@ -34,9 +35,11 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
     OpenDialog1: TOpenDialog;
     sbSyncPath: TSpeedButton;
     sbCwebp: TSpeedButton;
+    sbLibPath: TSpeedButton;
     sbUnrar: TSpeedButton;
     sb7zip: TSpeedButton;
     speNbThreads: TSpinEdit;
@@ -46,6 +49,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure sb7zipClick(Sender: TObject);
     procedure sbCwebpClick(Sender: TObject);
+    procedure sbLibPathClick(Sender: TObject);
     procedure sbSyncPathClick(Sender: TObject);
     procedure sbUnrarClick(Sender: TObject);
   private
@@ -67,6 +71,18 @@ begin
     Title := 'select cwebp location';
     if Execute then
       edtcwebp.Text:=Filename;
+  end;
+end;
+
+procedure TConfigFrm.sbLibPathClick(Sender: TObject);
+begin
+  with TSelectDirectoryDialog.Create(Application) do
+  try
+    Title := 'select Library location';
+    if Execute then
+      edtLibPath.Text:=Filename;
+  finally
+    Free;
   end;
 end;
 
@@ -94,6 +110,7 @@ end;
 
 procedure TConfigFrm.FormShow(Sender: TObject);
 begin
+  edtLibPath.Text:=Config.LibPath;
   edtcwebp.Text:=Config.cwebp;
   edtunrar.Text:=Config.unrar;
   edtp7zip.Text:=Config.p7zip;
@@ -108,6 +125,7 @@ end;
 
 procedure TConfigFrm.BitBtn1Click(Sender: TObject);
 begin
+  Config.LibPath:=edtLibPath.Text;
   Config.cwebp := edtcwebp.Text;
   Config.unrar := edtunrar.Text;
   Config.p7zip := edtp7zip.Text;

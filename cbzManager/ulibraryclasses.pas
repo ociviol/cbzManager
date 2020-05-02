@@ -98,6 +98,7 @@ type
     function GetDeletedCount: Integer;
     function GetModified: Boolean;
     function GetRootPath: String;
+    function GetStampCount: Integer;
     function GetStampLessCount: Integer;
     function GetSyncPath: String;
     procedure SetRootPath(AValue: String);
@@ -115,6 +116,7 @@ type
     property Modified : Boolean read GetModified;
     property RootPath : String read GetRootPath write SetRootPath;
     property StampLessCount : Integer read GetStampLessCount;
+    property StampCount : Integer read GetStampCount;
     property DeletedCount : Integer read GetDeletedCount;
     property ReadCount : Integer read GetReadCount;
     property SyncPath : String read GetSyncPath write SetSyncPath;
@@ -194,7 +196,16 @@ begin
     begin
       Fimg := TBitmap.Create;
       if FileExists(CacheFilename) then
-        FImg.LoadFromFile(CacheFilename)
+        with TPicture.Create do
+        try
+          LoadFromFile(CacheFilename);
+          FImg.Width:=Graphic.Width;
+          FImg.Height:=Graphic.Height;
+          FImg.PixelFormat:=pf24bit;
+          FImg.Canvas.Draw(0, 0, Graphic);
+        finally
+          Free;
+        end
       else
         FImg := GenerateStamp;
     end;
@@ -329,8 +340,6 @@ begin
 end;
 
 function TFileItem.GenerateStamp:TBitmap;
-var
-  s : string;
 begin
   result :=nil;
   if not FileExists(CacheFilename) then
@@ -462,7 +471,7 @@ begin
 
   result := extractFilePath(aFilename);
   result := ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, ''));
-  ar := result.Split(PathDelim);
+  ar := lowercase(result).Split(PathDelim);
   result := '';
   for s in ar do
     result := result + IncludeTrailingPathDelimiter(MD5Print(MD5String(s)));
@@ -498,7 +507,7 @@ begin
     if FSyncFilename <> '' then
       Exit(FSyncFilename);
 
-    md := MD5Print(MD5String(ExtractFilename(FFilename)));
+    md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + md + '.xml';
@@ -517,7 +526,7 @@ begin
     if FCacheFilename <> '' then
       Exit(FCacheFilename);
 
-    md := MD5Print(MD5String(ExtractFilename(FFilename)));
+    md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + md + '.bmp';
@@ -641,6 +650,22 @@ begin
   end;
 end;
 
+function TItemList.GetStampCount: Integer;
+var
+  i : integer;
+begin
+  Flock.LockList;
+  try
+    result := 0;
+    for i := 0 to Count - 1 do
+      with TFileItem(Objects[i]) do
+        if FStampGenerated then
+          inc(result);
+  finally
+    Flock.UnlockList;
+  end;
+end;
+
 function TItemList.GetStampLessCount: Integer;
 var
   i : integer;
@@ -650,7 +675,7 @@ begin
     result := 0;
     for i := 0 to Count - 1 do
       with TFileItem(Objects[i]) do
-        if not StampGenerated then
+        if not FStampGenerated then
         begin
           if not FileExists(CacheFilename) then
           begin

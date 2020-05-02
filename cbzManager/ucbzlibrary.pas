@@ -191,7 +191,7 @@ begin
     if (FVal < FCnt - 1) and (Fcnt > 0) then
       FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Synced:%d - Deleted:%d',
                                      [IntToStr((FVal * 100) div FFileList.Count) + '%',
-                                      FFileList.Count, FFileList.Count - FAdded, Fsynced, FDeleted]))
+                                      FFileList.Count, FFileList.StampCount, Fsynced, FDeleted]))
     //FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
       //          IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
@@ -264,10 +264,7 @@ begin
         begin
           b := GenerateStamp;
           if Assigned(b) then
-          begin
             b.Free;
-            FAdded := FFileList.StampLessCount;
-          end;
         end;
 
         inc(FVal);

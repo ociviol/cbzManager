@@ -379,6 +379,8 @@ begin
               FModified:=True;
             end;
           except
+            on e: Exception do
+              FLog.Log('TFileItem.GenerateStamp:Error:' + E.Message);
           end;
         finally
           free;

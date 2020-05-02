@@ -468,13 +468,23 @@ begin
     RenameFile(SyncFilename, s);
 end;
 
+function CleanFilename(const aFilename : String):String;
+var
+  i : integer;
+begin
+  result := aFilename;
+  for i := 1 to Length(result) do
+    if ord(result[i])>128 then
+      result[i] := '_';
+end;
+
 function TFileItem.SyncPathName(const aFilename : string):AnsiString;
 begin
   if FSyncPathFilename <> '' then
     Exit(FSyncPathFilename);
 
   result := extractFilePath(aFilename);
-  result := lowercase(ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, '')));
+  result := CleanFilename(lowercase(ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, ''))));
   FSyncPathFilename := result;
 end;
 
@@ -511,7 +521,7 @@ begin
     //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.xml');
+    result := CleanFilename(IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.xml'));
     FSyncFilename := result;
   finally
     Flock.UnlockList;
@@ -531,7 +541,7 @@ begin
     //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.jpg');
+    result := CleanFilename(IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.jpg'));
     FCacheFilename := result;
   finally
     Flock.UnlockList;

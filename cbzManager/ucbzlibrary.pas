@@ -1067,6 +1067,8 @@ begin
               Col := FPathPos[FLvl-1].x;
               TopRow := oldtoprow;
               Row := oldrow;
+              FPathPos[FLvl-1].x := 0;
+              FPathPos[FLvl-1].y := 0;
             end;
         finally
           EndUpdate;

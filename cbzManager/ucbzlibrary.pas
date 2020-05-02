@@ -266,7 +266,7 @@ begin
           if Assigned(b) then
           begin
             b.Free;
-            dec(FAdded);
+            FAdded := FFileList.StampLessCount;
           end;
         end;
 

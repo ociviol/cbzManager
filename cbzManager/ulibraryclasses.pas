@@ -127,7 +127,9 @@ function GetLastPath(const aPath : String):string;
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile, Md5;
+  Forms, uCbz, Utils.Zipfile, Md5
+  //, utils.epub
+  ;
 
 const
   CS_StampWidth = 120;
@@ -327,13 +329,28 @@ begin
 end;
 
 function TFileItem.GenerateStamp:TBitmap;
+var
+  s : string;
 begin
   result :=nil;
   if not FileExists(CacheFilename) then
-    if FileExists(Filename) then
+    if FileExists(FFilename) then
     begin
       FLock.LockList;
       try
+        {
+        s := LowerCase(ExtractFileExt(FFilename));
+        if (s = '.epub') then
+          with TEpubHandler.Create do
+          try
+            LoadFromFile(FFilename);
+            s := CoverImage;
+          finally
+            Free;
+          end
+        else
+        if (s = '.cbz') then
+        }
         with TCbz.Create(FLog) do
         try
           try
@@ -342,7 +359,7 @@ begin
             if Assigned(result) then
             begin
               result.SaveToFile(CacheFilename);
-              StampGenerated:=True;
+              FStampGenerated:=True;
               FModified:=True;
             end;
           except
@@ -350,6 +367,17 @@ begin
         finally
           free;
         end;
+      finally
+        FLock.UnlockList;
+      end;
+    end
+    else
+    if not StampGenerated then
+    begin
+      FLock.LockList;
+      try
+        FStampGenerated := True;
+        FModified := True;
       finally
         FLock.UnlockList;
       end;
@@ -434,7 +462,7 @@ begin
 
   result := extractFilePath(aFilename);
   result := result.Replace(Parent.FRootPath, '');
-  ar := result.Split(PathDelim);
+  ar := ExcludeLeadingPathDelimiter(result.Split(PathDelim));
   result := '';
   for s in ar do
     result := result + IncludeTrailingPathDelimiter(MD5Print(MD5String(s)));

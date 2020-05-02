@@ -461,8 +461,8 @@ begin
     Exit(FSyncPathFilename);
 
   result := extractFilePath(aFilename);
-  result := result.Replace(Parent.FRootPath, '');
-  ar := ExcludeLeadingPathDelimiter(result.Split(PathDelim));
+  result := ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, ''));
+  ar := result.Split(PathDelim);
   result := '';
   for s in ar do
     result := result + IncludeTrailingPathDelimiter(MD5Print(MD5String(s)));

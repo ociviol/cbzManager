@@ -400,7 +400,7 @@ begin
         result := 1;
       end;
       SaveToFile(SyncFilename);
-      FSyncFileDAte := FileAge(SyncFilename);
+      FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
     end;
   finally
     Free;

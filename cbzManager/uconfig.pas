@@ -10,7 +10,7 @@ unit uConfig;
 interface
 
 uses
-  Classes, SysUtils, utils.Json
+  Classes, Forms, SysUtils, utils.Json
 {$if defined(Linux) or defined(Darwin)}
   ,cthreads
 {$endif}
@@ -27,36 +27,25 @@ type
     FDeleteFile,
     FShowStats,
     FLHideRead: Boolean;
-    FLibPath: String;
+    FWindowStates: TStringlist;
+    FLibPath,
     Fcwebp,
     Funrar,
     FBdPathPath,
     Fp7zip: String;
     FQueueSize,
     FNbThreads,
-    Fleft,
-    FTop,
-    FWidth,
-    FHeight,
     FWebpQuality,
-    FLleft,
-    FLHeight: Integer;
-    FLWidth: Integer;
-    FLTop: Integer;
     FTreeViewWidth :Integer;
   public
     constructor Create;
+    destructor Destroy; override;
     class function Load(const aFileName : String):TConfig;
+    procedure SaveForm(aOwner : TForm);
+    procedure RestoreForm(aOwner : TForm);
   published
-    property MngrLeft : Integer read Fleft write Fleft;
-    property MngrTop : Integer read FTop write FTop;
-    property MngrWidth : Integer read FWidth write FWidth;
-    property MngrHeight : Integer read FHeight write FHeight;
+    property WindowStates : TStringlist read FWindowStates write FWindowStates;
     property MngrTreeViewWidth : Integer read FTreeViewWidth write FTreeViewWidth;
-    property Libraryleft : Integer read FLleft write FLleft;
-    property LibraryTop : Integer read FLTop write FLTop;
-    property LibraryWidth : Integer read FLWidth write FLWidth;
-    property LibraryHeight : Integer read FLHeight write FLHeight;
     property LibraryHideRead : Boolean read FLHideRead write FLHideRead;
     property DoLog : Boolean read FBlog write FBlog;
     property BdPathPath: String read FBdPathPath write FBdPathPath;
@@ -73,11 +62,6 @@ type
   end;
 
 implementation
-
-{$ifdef Mswindows}
-uses
-  Forms;
-{$endif}
 
 { TConfig }
 
@@ -97,6 +81,7 @@ begin
   Fp7zip := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'7z.exe';
   Funrar := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'unrar.exe';
 {$endif}
+  FWindowStates := TStringlist.Create;
   FQueueSize:=2;
   FNbThreads := 8;
   FWebpQuality := 75;
@@ -105,9 +90,50 @@ begin
   FShowStats := False;
 end;
 
+destructor TConfig.Destroy;
+begin
+  FWindowStates.Free;
+  inherited Destroy;
+end;
+
 class function TConfig.Load(const aFileName: String): TConfig;
 begin
   result := TConfig(TJsonObject.Load(aFilename, TConfig.Create));
+end;
+
+procedure TConfig.SaveForm(aOwner: TForm);
+begin
+  with FWindowStates do
+  begin
+    Values[Format('%sState', [aOwner.Name])] := WindowStateToStr(aOwner.WindowState);
+    Values[Format('%sLeft', [aOwner.Name])] := IntToStr(aOwner.Left);
+    Values[Format('%sTop', [aOwner.Name])] := IntToStr(aOwner.Top);
+    Values[Format('%sWidth', [aOwner.Name])] := IntToStr(aOwner.Width);
+    Values[Format('%sHeight', [aOwner.Name])] := IntToStr(aOwner.Height);
+  end;
+end;
+
+procedure TConfig.RestoreForm(aOwner: TForm);
+var
+  s : string;
+begin
+  with FWindowStates do
+  begin
+    s := Values[Format('%sState', [aOwner.Name])];
+    if s <> '' then aOwner.WindowState:=StrToWindowState(s);
+
+    if aOwner.WindowState <> wsMaximized then
+    begin
+      s := Values[Format('%sLeft', [aOwner.Name])];
+      if s <> '' then aOwner.Left := StrToInt(s);
+      s := Values[Format('%sTop', [aOwner.Name])];
+      if s <> '' then aOwner.Top := StrToInt(s);
+      s := Values[Format('%sWidth', [aOwner.Name])];
+      if s <> '' then aOwner.Width := StrToInt(s);
+      s := Values[Format('%sHeight', [aOwner.Name])];
+      if s <> '' then aOwner.Height := StrToInt(s);
+    end;
+  end;
 end;
 
 

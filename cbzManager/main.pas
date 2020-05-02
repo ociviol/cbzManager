@@ -409,14 +409,7 @@ begin
     FConfigFile := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'config.json';
   end;
 {$endif}
-  if FConfig.MngrLeft <> 0 then
-    left := FConfig.MngrLeft;
-  if FConfig.MngrTop <> 0 then
-    top := FConfig.MngrTop;
-  if FConfig.MngrWidth <> 0 then
-    Width := FConfig.MngrWidth;
-  if FConfig.MngrHeight <> 0 then
-    Height := FConfig.MngrHeight;
+  FConfig.RestoreForm(Self);
   if FConfig.MngrTreeViewWidth <> 0 then
     Panel2.Width := FConfig.MngrTreeViewWidth;
 
@@ -735,12 +728,8 @@ end;
 
 procedure TMainFrm.SaveConfig;
 begin
-  FConfig.MngrLeft := Left;
-  FConfig.MngrTop := Top;
-  FConfig.MngrWidth := Width;
-  FConfig.MngrHeight := Height;
   FConfig.MngrTreeViewWidth := Panel2.Width;
-
+  FConfig.SaveForm(Self);
   FConfig.Save(FConfigFile);
   Flog.Log('Config saved.');
 end;

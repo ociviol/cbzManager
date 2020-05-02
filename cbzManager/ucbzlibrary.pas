@@ -376,16 +376,8 @@ begin
 {$endif}
     'cbzLibrary.log', Fconfig.DoLog);
 
-  if FConfig.Libraryleft <> 0 then
-    left := FConfig.Libraryleft;
-  if FConfig.LibraryTop <> 0 then
-    top := FConfig.LibraryTop;
-  if FConfig.LibraryWidth <> 0 then
-    Width := FConfig.LibraryWidth;
-  if FConfig.LibraryHeight <> 0 then
-    Height := FConfig.LibraryHeight;
-
   Flog.Log('cbzLibrary started.');
+  FConfig.RestoreForm(Self);
   FInQueue := 0;
   FDisplayFilters := [dfAll];
   cbHideRead.Checked := Fconfig.LibraryHideRead;
@@ -425,11 +417,7 @@ end;
 
 procedure TCbzLibrary.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  FConfig.Libraryleft := Left;
-  FConfig.LibraryTop := Top;
-  FConfig.LibraryWidth := Width;
-  FConfig.LibraryHeight := Height;
-
+  FConfig.SaveForm(Self);
   CheckModified;
 
   FThreadScrub.Terminate;
@@ -634,7 +622,7 @@ begin
   end
   else
   if FileExists(s) then
-    ShowComics(FLog, s)
+    ShowComics(FLog, s, FConfig)
   else
   ;
 end;

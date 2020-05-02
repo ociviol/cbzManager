@@ -54,8 +54,7 @@ type
     FVal,
     FDeleted,
     FCnt,
-    Fsynced,
-    FAdded : Integer;
+    Fsynced : Integer;
     FFileList: TItemList;
     FProgress : TProgressEvent;
     FLog : ILog;
@@ -231,9 +230,7 @@ begin
   Sleep(1000);
   while not Terminated do
   try
-    FAdded := FFileList.StampLessCount;
-
-    if (FAdded > 0) or
+    if (FFileList.StampCount <> FFileList.Count) or
        (FFileList.DeletedCount > 0) then
     begin
       FLog.Log('TThreadScrub.Execute: Starting scrub.');

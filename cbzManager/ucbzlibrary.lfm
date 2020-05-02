@@ -62,7 +62,7 @@ object CbzLibrary: TCbzLibrary
         Width = 400
       end    
       item
-        Alignment = taRightJustify
+        Alignment = taCenter
         Width = 350
       end>
     SimplePanel = False

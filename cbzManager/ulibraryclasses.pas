@@ -511,7 +511,7 @@ begin
     //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + s + '.xml';
+    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.xml');
     FSyncFilename := result;
   finally
     Flock.UnlockList;
@@ -531,7 +531,7 @@ begin
     //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + s + '.jpg';
+    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.jpg');
     FCacheFilename := result;
   finally
     Flock.UnlockList;

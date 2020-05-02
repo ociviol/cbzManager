@@ -177,6 +177,7 @@ begin
   FreeOnTerminate:=True;
   FPRogress := aProgress;
   inherited Create(False);
+  Priority:=tpLower;
 end;
 
 destructor TThreadScrub.Destroy;

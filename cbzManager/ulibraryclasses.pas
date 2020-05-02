@@ -36,14 +36,14 @@ type
     FParent : TItemList;
     FSyncFilename,
     FCacheFilename,
-    FSyncPathFilename : String;
+    FSyncPathFilename : AnsiString;
 
     function GetSyncFileDAte: TDateTime;
     procedure SetFSyncFileDAte(AValue: TDateTime);
-    function SyncPathName(const aFilename : string):String;
+    function SyncPathName(const aFilename : string):AnsiString;
     function SyncFilenameDelete: String;
-    function SyncFilename : String;
-    function GetCacheFilename: String; inline;
+    function SyncFilename : AnsiString;
+    function GetCacheFilename: AnsiString; inline;
     function GetDateAdded: TDAteTime;
     function GetDateSetReadState: TDateTime;
     function GetDeleted: Boolean;
@@ -461,20 +461,20 @@ begin
     RenameFile(SyncFilename, s);
 end;
 
-function TFileItem.SyncPathName(const aFilename : string):String;
+function TFileItem.SyncPathName(const aFilename : string):AnsiString;
 var
-  ar : TStringArray;
+  //ar : TStringArray;
   s : string;
 begin
   if FSyncPathFilename <> '' then
     Exit(FSyncPathFilename);
 
   result := extractFilePath(aFilename);
-  result := ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, ''));
-  ar := lowercase(result).Split(PathDelim);
-  result := '';
-  for s in ar do
-    result := result + IncludeTrailingPathDelimiter(MD5Print(MD5String(s)));
+  result := lowercase(ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, '')));
+  //ar := lowercase(result).Split(PathDelim);
+  //result := '';
+  //for s in ar do
+  //  result := result + IncludeTrailingPathDelimiter(MD5Print(MD5String(s)));
   FSyncPathFilename := result;
 end;
 
@@ -500,36 +500,38 @@ end;
 
 function TFileItem.SyncFilename: String;
 var
-  md : string;
+  s : string;
 begin
   FLock.LockList;
   try
     if FSyncFilename <> '' then
       Exit(FSyncFilename);
 
-    md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
+    s := lowercase(ExtractFilename(FFilename));
+    //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + md + '.xml';
+    result := IncludeTrailingPathDelimiter(result) + s + '.xml';
     FSyncFilename := result;
   finally
     Flock.UnlockList;
   end;
 end;
 
-function TFileItem.GetCacheFilename: String;
+function TFileItem.GetCacheFilename: AnsiString;
 var
-  md : string;
+  s : string;
 begin
   FLock.LockList;
   try
     if FCacheFilename <> '' then
       Exit(FCacheFilename);
 
-    md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
+    s := lowercase(ExtractFilename(FFilename));
+    //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + md + '.bmp';
+    result := IncludeTrailingPathDelimiter(result) + s + '.bmp';
     FCacheFilename := result;
   finally
     Flock.UnlockList;

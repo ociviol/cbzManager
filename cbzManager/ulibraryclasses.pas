@@ -482,7 +482,7 @@ var
 begin
   result := '';
   for i := 1 to Length(AInput) do
-    if aInput[i] < #127 then
+    if AInput[i] < #128 then
       result := result + aInput[i];
  (*
   for c in Char_Accents do

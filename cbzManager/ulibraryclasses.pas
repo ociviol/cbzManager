@@ -138,6 +138,69 @@ const
   CS_StampWidth = 120;
   CS_StampHeight = 160;
 
+type
+  TCharEx = record
+    Letter : char;
+    Modifiers : array[0..1] of byte;
+  end;
+  TCharExTable = array[0..1] of TCharEx;
+
+const
+  CharExEqu =  'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+  CharExTable : array[0..47] of TCharEx =
+     (
+      (Letter:'A'; Modifiers:($CC,$80)),
+      (Letter:'A'; Modifiers:($CC,$81)),
+      (Letter:'A'; Modifiers:($CC,$82)),
+      (Letter:'A'; Modifiers:($CC,$83)),
+      (Letter:'A'; Modifiers:($CC,$88)),
+      (Letter:'A'; Modifiers:($CC,$8A)),
+      (Letter:'A'; Modifiers:($CC,$80)),
+      (Letter:'A'; Modifiers:($CC,$81)),
+      (Letter:'A'; Modifiers:($CC,$82)),
+      (Letter:'A'; Modifiers:($CC,$83)),
+      (Letter:'A'; Modifiers:($CC,$88)),
+      (Letter:'A'; Modifiers:($CC,$8A)),
+      (Letter:'O'; Modifiers:($CC,$80)),
+      (Letter:'O'; Modifiers:($CC,$81)),
+      (Letter:'O'; Modifiers:($CC,$82)),
+      (Letter:'O'; Modifiers:($CC,$83)),
+      //O = CC,88,C3,98,
+      (Letter:'o'; Modifiers:($CC,$80)),
+      (Letter:'o'; Modifiers:($CC,$81)),
+      (Letter:'o'; Modifiers:($CC,$82)),
+      (Letter:'o'; Modifiers:($CC,$83)),
+      //o'; Modifiers:($CC)),88)),C3)),B8)),
+      (Letter:'E'; Modifiers:($CC,$80)),
+      (Letter:'E'; Modifiers:($CC,$81)),
+      (Letter:'E'; Modifiers:($CC,$82)),
+      (Letter:'E'; Modifiers:($CC,$88)),
+      (Letter:'e'; Modifiers:($CC,$80)),
+      (Letter:'e'; Modifiers:($CC,$81)),
+      (Letter:'e'; Modifiers:($CC,$82)),
+      (Letter:'e'; Modifiers:($CC,$88)),
+      (Letter:'C'; Modifiers:($CC,$A7)),
+      (Letter:'c'; Modifiers:($CC,$A7)),
+      (Letter:'I'; Modifiers:($CC,$80)),
+      (Letter:'I'; Modifiers:($CC,$81)),
+      (Letter:'I'; Modifiers:($CC,$82)),
+      (Letter:'I'; Modifiers:($CC,$88)),
+      (Letter:'i'; Modifiers:($CC,$80)),
+      (Letter:'i'; Modifiers:($CC,$81)),
+      (Letter:'i'; Modifiers:($CC,$82)),
+      (Letter:'i'; Modifiers:($CC,$88)),
+      (Letter:'U'; Modifiers:($CC,$80)),
+      (Letter:'U'; Modifiers:($CC,$81)),
+      (Letter:'U'; Modifiers:($CC,$82)),
+      (Letter:'U'; Modifiers:($CC,$88)),
+      (Letter:'u'; Modifiers:($CC,$80)),
+      (Letter:'u'; Modifiers:($CC,$81)),
+      (Letter:'u'; Modifiers:($CC,$82)),
+      (Letter:'u'; Modifiers:($CC,$88)),
+      (Letter:'y'; Modifiers:($CC,$88)),
+      (Letter:'N'; Modifiers:($CC,$83))
+     );
+
 
 function GetFirstPath(const aPath : String; Lvl : integer = 2):String;
 var
@@ -470,16 +533,61 @@ begin
     RenameFile(SyncFilename, s);
 end;
 
+function FilenameCanonicalDEcomposition(const aFilename : String):String;
+var
+  i,z,j : integer;
+  ar : TCharArray;
+  c1, c2 : string;
+begin
+  result := aFilename;
+  c1 := 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+  c2 := 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
+
+  for i := 1 To Length(c1) do
+    if aFilename.Contains(c1[i]) then
+      result :=  result.Replace(c1[i], c2[i], [rfReplaceAll]);
+   {
+    if CharExEqu.Contains(aFilename[i]) then
+    begin
+      z := pos(aFilename[i], CharExEqu);
+      result := result + CharExTable[z].Letter;
+      result := result + char(CharExTable[z].Modifiers[0]);
+      result := result + char(CharExTable[z].Modifiers[1]);
+
+      ar := result.ToCharArray;
+      SetLength(ar, length(ar)+3);
+      ar[length(ar)-3] := CharExTable[z].Letter;
+      ar[length(ar)-2] := char(CharExTable[z].Modifiers[0]);
+      ar[length(ar)-1] := char(CharExTable[z].Modifiers[1]);
+      Setlength(result, length(ar));
+      for j := low(ar) to high(ar) do
+        result[j] := ar[j];
+    end
+    else
+      result := result + aFilename[i];
+  }
+end;
+
 function BestFit(const AInput: String): String;
 //const
 //  ChrRemoved : array[0..4] of char = ('_', '?', ' ', '''', '"');
 //
 //  Char_Accents      = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
 //  Char_Sans_Accents = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
-//var
+var
 //  c : char;
-//  i : integer;
+  i : integer;
 begin
+  {
+  result := '';
+  for i := 1 to length(AInput) do
+    if aInput[i] > #127 then
+      ;
+
+  CharExTable : array[0..47] of TCharEx =
+     (
+      (Letter:'A'; Modifiers:($CC,$80)),
+  }
   result := aInput;
   {
   for i := 1 to Length(AInput) do

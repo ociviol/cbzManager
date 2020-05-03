@@ -380,11 +380,46 @@ end;
 
 { TMainFrm }
 
-procedure TMainFrm.FormCreate(Sender: TObject);
-//var
-//  t : Tstringlist;
-//  s : string;
+procedure test;
+var
+  c : char;
+  Files : TStringList;
+  s, ss : string;
+  su : UnicodeString;
+  ar : TCharArray;
+  i, j : integer;
 begin
+  Files := TStringlist.Create;
+  with Files do
+  try
+
+    s := 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+    Files.CLear;
+    Files.Add(s);
+
+    ar := s.ToCharArray;
+    ss := '';
+    for c in ar do
+    begin
+      if c > #127 then
+        ss := ss + IntToHex(ord(c), 2) + ',';
+      if c < #128 then
+      begin
+        if ss <> '' then
+          Files.Add(ss);
+        ss := c + ' = ';
+      end;
+    end;
+
+    Files.SaveToFile('c:\temp\f2.txt');
+  finally
+    Free;
+  end;
+end;
+
+procedure TMainFrm.FormCreate(Sender: TObject);
+begin
+  //test;
   FClosing := False;
   FThreadSearchFiles := nil;
   //Caption := GetFileVersionInternalName + ' ' +

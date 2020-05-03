@@ -476,8 +476,8 @@ var
   s : AnsiString;
 begin
   s := UTF8ToANSI(AInput);
-  for i := 1 to Length(s) do
-    if s[i] > #127 then s[i]:='_';
+  //for i := 1 to Length(s) do
+  //  if s[i] > #127 then s[i]:='_';
   result:=ANSITOUTF8(s);
 end;
 

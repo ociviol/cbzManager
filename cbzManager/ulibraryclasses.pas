@@ -470,18 +470,38 @@ begin
     RenameFile(SyncFilename, s);
 end;
 
-function BestFit(const AInput: String): AnsiString;
+function BestFit(const AInput: String): String;
+const
+  Char_Accents      = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+  Char_Sans_Accents = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
 var
-  i : integer;
-  s : AnsiString;
+  I, J : Integer;
+  sTemp : String;
 begin
-  //result := UTF8ToANSI(AInput);
-  //for i := 1 to Length(result) do
+  {
+  for i := 1 to Length(result) do
   //  if result[i] > #127 then result[i]:='_';
   {$ifdef Darwin}
   result := MacintoshToUTF8(AInput);
   {$endif}
   result:=AInput;
+  }
+
+  sTemp := UTF8ToCP850(AInput);
+  //For i := 1 to Length(sTemp) do
+  //  sTemp := StringReplace(sTemp,Char_Accents[i],Char_Sans_Accents[i],[rfReplaceAll]);
+  //For i := 1 to Length(sTemp) do
+  //  if sTemp[i] > #127 then
+  For i := 1 to Length(sTemp) do
+    for j := 1 to length(Char_Accents) do
+      if sTemp[i] = Char_Accents[j] then
+        //sTemp := copy(sTemp, 1, i-1) + '_' +
+        //         copy(sTemp, i+1, length(sTemp));
+        sTemp[i] := '_'; //Char_Sans_Accents[j];
+
+
+
+  Result := sTemp;
 end;
 
 function TFileItem.SyncPathName(const aFilename : string):String;

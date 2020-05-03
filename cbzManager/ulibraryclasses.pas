@@ -407,23 +407,11 @@ function TFileItem.GenerateStamp:TBitmap;
 begin
   result :=nil;
   if not FileExists(CacheFilename) then
+  begin
     if FileExists(FFilename) then
     begin
       FLock.LockList;
       try
-        {
-        s := LowerCase(ExtractFileExt(FFilename));
-        if (s = '.epub') then
-          with TEpubHandler.Create do
-          try
-            LoadFromFile(FFilename);
-            s := CoverImage;
-          finally
-            Free;
-          end
-        else
-        if (s = '.cbz') then
-        }
         with TCbz.Create(FLog) do
         try
           try
@@ -451,18 +439,19 @@ begin
       finally
         FLock.UnlockList;
       end;
-    end
-    else
-    if not StampGenerated then
-    begin
-      FLock.LockList;
-      try
-        FStampGenerated := True;
-        FModified := True;
-      finally
-        FLock.UnlockList;
-      end;
     end;
+  end
+  else
+  if not StampGenerated then
+  begin
+    FLock.LockList;
+    try
+      FStampGenerated := True;
+      FModified := True;
+    finally
+      FLock.UnlockList;
+    end;
+  end;
 end;
 
 function TFileItem.CheckSync:integer;

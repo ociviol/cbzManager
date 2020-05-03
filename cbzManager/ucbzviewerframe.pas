@@ -122,7 +122,7 @@ type
     procedure HideCropTool;
     function SelectedGridItems: TIntArray;
   public
-    constructor Create(aOwner: TComponent; aLog : ILog);
+    constructor Create(aOwner: TComponent; aLog : ILog); reintroduce;
     destructor Destroy; override;
 
     procedure Clear;

@@ -478,7 +478,10 @@ begin
   //result := UTF8ToANSI(AInput);
   //for i := 1 to Length(result) do
   //  if result[i] > #127 then result[i]:='_';
-  result:=UTF8ToISO_8859_15(AInput);
+  {$ifdef Darwin}
+  result := MacintoshToUTF8(AInput);
+  {$endif}
+  result:=AInput;
 end;
 
 function TFileItem.SyncPathName(const aFilename : string):String;

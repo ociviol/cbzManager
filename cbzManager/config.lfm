@@ -1,7 +1,7 @@
 object ConfigFrm: TConfigFrm
-  Left = 283
+  Left = 284
   Height = 261
-  Top = 523
+  Top = 524
   Width = 464
   BorderStyle = bsDialog
   Caption = 'Config'

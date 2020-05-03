@@ -36,14 +36,14 @@ type
     FParent : TItemList;
     FSyncFilename,
     FCacheFilename,
-    FSyncPathFilename : AnsiString;
+    FSyncPathFilename : String;
 
     function GetSyncFileDAte: TDateTime;
     procedure SetFSyncFileDAte(AValue: TDateTime);
-    function SyncPathName(const aFilename : string):AnsiString;
+    function SyncPathName(const aFilename : string):String;
     function SyncFilenameDelete: String;
-    function SyncFilename : AnsiString;
-    function GetCacheFilename: AnsiString; inline;
+    function SyncFilename : String;
+    function GetCacheFilename: String;
     function GetDateAdded: TDAteTime;
     function GetDateSetReadState: TDateTime;
     function GetDeleted: Boolean;
@@ -130,7 +130,7 @@ function GetLastPath(const aPath : String):string;
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile
+  Forms, uCbz, Utils.Zipfile, LConvEncoding
   //, utils.epub
   ;
 
@@ -470,7 +470,7 @@ begin
     RenameFile(SyncFilename, s);
 end;
 
-function TFileItem.SyncPathName(const aFilename : string):AnsiString;
+function TFileItem.SyncPathName(const aFilename : string):String;
 begin
   if FSyncPathFilename <> '' then
     Exit(FSyncPathFilename);
@@ -500,6 +500,16 @@ begin
   end;
 end;
 
+function BestFit(const AInput: String): String;
+var
+  i : integer;
+begin
+  result := UTF8ToANSI(AInput);
+  for i := 1 to Length(result) do
+    if result[i] > #127 then result[i]:='_';
+  result:=ANSITOUTF8(result);
+end;
+
 function TFileItem.SyncFilename: String;
 var
   s : string;
@@ -514,13 +524,13 @@ begin
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.xml');
-    FSyncFilename := result;
+    FSyncFilename := BestFit(result);
   finally
     Flock.UnlockList;
   end;
 end;
 
-function TFileItem.GetCacheFilename: AnsiString;
+function TFileItem.GetCacheFilename: String;
 var
   s : string;
 begin
@@ -534,7 +544,7 @@ begin
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.jpg');
-    FCacheFilename := result;
+    FCacheFilename := BestFit(result);
   finally
     Flock.UnlockList;
   end;

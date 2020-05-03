@@ -475,10 +475,10 @@ var
   i : integer;
   s : AnsiString;
 begin
-  result := UTF8ToANSI(AInput);
-  for i := 1 to Length(result) do
-    if result[i] > #127 then result[i]:='_';
-  //result:=ANSITOUTF8(s);
+  //result := UTF8ToANSI(AInput);
+  //for i := 1 to Length(result) do
+  //  if result[i] > #127 then result[i]:='_';
+  result:=UTF8ToISO_8859_15(AInput);
 end;
 
 function TFileItem.SyncPathName(const aFilename : string):String;

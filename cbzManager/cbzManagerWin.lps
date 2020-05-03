@@ -238,8 +238,8 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <TopLine Value="465"/>
-        <CursorPos X="5" Y="481"/>
-        <UsageCount Value="142"/>
+        <CursorPos X="5" Y="478"/>
+        <UsageCount Value="143"/>
         <Bookmarks Count="3">
           <Item0 X="3" Y="407" ID="3"/>
           <Item1 X="5" Y="512" ID="1"/>
@@ -257,7 +257,7 @@
         <EditorIndex Value="13"/>
         <TopLine Value="40"/>
         <CursorPos X="35" Y="100"/>
-        <UsageCount Value="95"/>
+        <UsageCount Value="96"/>
         <Loaded Value="True"/>
       </Unit22>
       <Unit23>
@@ -266,7 +266,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="29"/>
         <CursorPos Y="44"/>
-        <UsageCount Value="88"/>
+        <UsageCount Value="89"/>
       </Unit23>
       <Unit24>
         <Filename Value="../Utils/utils.graphics.pas"/>

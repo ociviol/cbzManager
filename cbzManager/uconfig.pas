@@ -92,6 +92,7 @@ begin
   FDeleteFile := False;
   FAlbumart := False;
   FShowStats := False;
+  FSyncPath := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\';
 end;
 
 destructor TConfig.Destroy;

@@ -189,9 +189,9 @@ procedure TThreadScrub.DoProgress;
 begin
   if Assigned(FProgress) then
     if (FVal < FCnt - 1) and (Fcnt > 0) then
-      FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Synced:%d - Deleted:%d',
+      FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Deleted:%d', //Synced:%d -
                                      [IntToStr((FVal * 100) div FFileList.Count) + '%',
-                                      FFileList.Count, FFileList.StampCount, Fsynced, FDeleted]))
+                                      FFileList.Count, FFileList.StampCount, {Fsynced,} FDeleted]))
     //FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
       //          IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
@@ -245,6 +245,7 @@ begin
         FItem := TFileItem(FFileList.Objects[FVal]);
         if not FileExists(FItem.Filename) then
           _DeleteItem
+          {
         else
         // sync needed
         if FFileList.SyncPath.Length > 0 then
@@ -255,7 +256,8 @@ begin
           else
           if r > 0 then
             inc(FSynced);
-        end;
+        end}
+        ;
 
         // make stamp if needed
         with TFileItem(FFileList.Objects[FVal]) do

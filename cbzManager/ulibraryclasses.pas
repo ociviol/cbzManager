@@ -130,7 +130,7 @@ function GetLastPath(const aPath : String):string;
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile, LConvEncoding
+  Forms, uCbz, Utils.Zipfile
   //, utils.epub
   ;
 
@@ -471,19 +471,21 @@ begin
 end;
 
 function BestFit(const AInput: String): String;
-const
-  ChrRemoved : array[0..4] of char = ('_', '?', ' ', '''', '"');
-
-  Char_Accents      = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
-  Char_Sans_Accents = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
-var
-  c : char;
-  i : integer;
+//const
+//  ChrRemoved : array[0..4] of char = ('_', '?', ' ', '''', '"');
+//
+//  Char_Accents      = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+//  Char_Sans_Accents = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
+//var
+//  c : char;
+//  i : integer;
 begin
-  result := '';
+  result := aInput;
+  {
   for i := 1 to Length(AInput) do
     if AInput[i] < #128 then
       result := result + aInput[i];
+      }
  (*
   for c in Char_Accents do
     if result[]
@@ -493,11 +495,11 @@ begin
 
   while result.Contains('?') do
     result := result.Remove(result.IndexOf('?')-1, 1);
- *)
+
   for c in ChrRemoved do
     if Result.Contains(c) then
       result := result.Replace(c, '', [rfReplaceAll]);
-
+ *)
 end;
 
 

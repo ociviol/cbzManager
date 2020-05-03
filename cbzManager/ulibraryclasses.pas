@@ -470,13 +470,23 @@ begin
     RenameFile(SyncFilename, s);
 end;
 
+function BestFit(const AInput: String): String;
+var
+  i : integer;
+begin
+  result := UTF8ToANSI(AInput);
+  for i := 1 to Length(result) do
+    if result[i] > #127 then result[i]:='_';
+  result:=ANSITOUTF8(result);
+end;
+
 function TFileItem.SyncPathName(const aFilename : string):String;
 begin
   if FSyncPathFilename <> '' then
     Exit(FSyncPathFilename);
 
   result := extractFilePath(aFilename);
-  result := lowercase(ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, '')));
+  result := ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, ''));
   FSyncPathFilename := result;
 end;
 
@@ -500,16 +510,6 @@ begin
   end;
 end;
 
-function BestFit(const AInput: String): String;
-var
-  i : integer;
-begin
-  result := UTF8ToANSI(AInput);
-  for i := 1 to Length(result) do
-    if result[i] > #127 then result[i]:='_';
-  result:=ANSITOUTF8(result);
-end;
-
 function TFileItem.SyncFilename: String;
 var
   s : string;
@@ -521,7 +521,7 @@ begin
 
     s := lowercase(ExtractFilename(FFilename));
     //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
-    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
+    result := BestFit(IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename));
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.xml');
     FSyncFilename := BestFit(result);
@@ -541,7 +541,7 @@ begin
 
     s := lowercase(ExtractFilename(FFilename));
     //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
-    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
+    result := BestFit(IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename));
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.jpg');
     FCacheFilename := BestFit(result);

@@ -461,6 +461,7 @@ begin
     FFillThread.Terminate;
     FFillThread.Waitfor;
   end;
+  CloseAction := caFree;
 end;
 
 procedure TCbzLibrary.FormResize(Sender: TObject);

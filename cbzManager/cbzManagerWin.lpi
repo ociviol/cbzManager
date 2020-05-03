@@ -132,7 +132,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="24">
+    <Units Count="25">
       <Unit0>
         <Filename Value="cbzManagerWin.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -275,6 +275,10 @@
         <Filename Value="../../Utils/utils.treeview.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit23>
+      <Unit24>
+        <Filename Value="../../Utils/utils.vcl.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit24>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

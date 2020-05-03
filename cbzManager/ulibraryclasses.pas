@@ -404,6 +404,8 @@ begin
 end;
 
 function TFileItem.GenerateStamp:TBitmap;
+var
+  p : Tpicture;
 begin
   result :=nil;
   if not FileExists(CacheFilename) then
@@ -419,12 +421,13 @@ begin
             result := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
             if Assigned(result) then
             begin
-              with TPicture.Create do
+              p := TPicture.Create;
+              with p do
               try
                 Bitmap.Assign(result);
                 SaveToFile(CacheFilename, 'jpg');
               finally
-                Free;
+                p.Free;
               end;
               FStampGenerated:=True;
               FModified:=True;

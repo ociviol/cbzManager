@@ -233,7 +233,7 @@ type
     FConvertReport : TstringList;
     FLastUPdate : TDateTime;
     Fignores : TStringlist;
-    FLibrary : TCbzLibrary;
+    //FLibrary : TCbzLibrary;
 
     procedure HideCropTool;
     procedure CheckAlbumArt(const aFilename : string);
@@ -302,6 +302,7 @@ uses
 {$if defined(Darwin) or defined(Linux)}
   unix,
 {$endif}
+  Utils.Vcl,
   Utils.SoftwareVersion, uDataTypes,
   Utils.ZipFile, Utils.Graphics,
   uLoadReport, uAbout, uFileCleaner;
@@ -651,8 +652,8 @@ begin
   if Assigned(FThreadSearchFiles) then
     FThreadSearchFiles.Terminate;
 
-  if Assigned(FLibrary) then
-    FLibrary.Close;
+  if Assigned(FindForm(TCbzLibrary)) then
+    FindForm(TCbzLibrary).Close;
 
   FThreadDataPool.Stop;
 
@@ -1340,27 +1341,24 @@ end;
 
 procedure TMainFrm.ActionLibraryExecute(Sender: TObject);
 begin
-  if not Assigned(FLibrary) then
-  begin
-    if not DirectoryExists(FConfig.LibPath) then
-      with TSelectDirectoryDialog.Create(Self) do
-      try
-        if Execute then
-          FConfig.LibPath := Filename;
-      finally
-      end;
+  if ((FConfig.LibPath = '') or (not DirectoryExists(FConfig.LibPath))) or
+     ((FConfig.SyncPath = '') or (not DirectoryExists(FConfig.SyncPath))) then
+     ShowMessage('Lib Path and Sync Path must be set in config before opening the Library')
+  else
 
-    if DirectoryExists(FConfig.LibPath) then
+  if Assigned(FindForm(TCbzLibrary)) then
+  begin
+    with FindForm(TCbzLibrary) do
     begin
-      FLibrary := TCbzLibrary.Create(Application, FConfig);
-      FLibrary.Show;
-      FLibrary.BringToFront;
+      Show;
+      BringToFront
     end;
   end
   else
+  with TCbzLibrary.Create(Application, FConfig) do
   begin
-    FLibrary.Show;
-    FLibrary.BringToFront;
+    Show;
+    BringToFront;
   end;
 end;
 

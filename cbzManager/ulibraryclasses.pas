@@ -472,37 +472,16 @@ end;
 
 function BestFit(const AInput: String): String;
 const
-  Char_Accents      = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
-  Char_Sans_Accents = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
+  ChrRemoved : array[0..4] of char = ('_', '?', ' ', '''', '"');
 var
-  I, J : Integer;
-  sTemp : String;
+  c : char;
 begin
-  {
-  for i := 1 to Length(result) do
-  //  if result[i] > #127 then result[i]:='_';
-  {$ifdef Darwin}
-  result := MacintoshToUTF8(AInput);
-  {$endif}
-  result:=AInput;
-  }
-
-  sTemp := UTF8ToCP850(AInput);
-  //For i := 1 to Length(sTemp) do
-  //  sTemp := StringReplace(sTemp,Char_Accents[i],Char_Sans_Accents[i],[rfReplaceAll]);
-  //For i := 1 to Length(sTemp) do
-  //  if sTemp[i] > #127 then
-  For i := 1 to Length(sTemp) do
-    for j := 1 to length(Char_Accents) do
-      if sTemp[i] = Char_Accents[j] then
-        //sTemp := copy(sTemp, 1, i-1) + '_' +
-        //         copy(sTemp, i+1, length(sTemp));
-        sTemp[i] := '_'; //Char_Sans_Accents[j];
-
-
-
-  Result := sTemp;
+  Result := UTF8ToISO_8859_15(AInput);
+  for c in ChrRemoved do
+    if Result.Contains(c) then
+      result := result.Replace(c, '', [rfReplaceAll]);
 end;
+
 
 function TFileItem.SyncPathName(const aFilename : string):String;
 begin

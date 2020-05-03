@@ -237,13 +237,13 @@
         <UnitName Value="uLibraryClasses"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="489"/>
-        <CursorPos X="28" Y="500"/>
-        <UsageCount Value="144"/>
+        <TopLine Value="458"/>
+        <CursorPos Y="483"/>
+        <UsageCount Value="145"/>
         <Bookmarks Count="3">
           <Item0 X="3" Y="407" ID="3"/>
-          <Item1 X="5" Y="535" ID="1"/>
-          <Item2 X="40" Y="513" ID="2"/>
+          <Item1 X="5" Y="514" ID="1"/>
+          <Item2 X="40" Y="492" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit21>
@@ -257,7 +257,7 @@
         <EditorIndex Value="12"/>
         <TopLine Value="40"/>
         <CursorPos X="35" Y="100"/>
-        <UsageCount Value="97"/>
+        <UsageCount Value="98"/>
         <Loaded Value="True"/>
       </Unit22>
       <Unit23>
@@ -266,7 +266,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="29"/>
         <CursorPos Y="44"/>
-        <UsageCount Value="90"/>
+        <UsageCount Value="91"/>
       </Unit23>
       <Unit24>
         <Filename Value="../Utils/utils.graphics.pas"/>
@@ -456,7 +456,7 @@
         <EditorIndex Value="16"/>
         <TopLine Value="151"/>
         <CursorPos Y="162"/>
-        <UsageCount Value="95"/>
+        <UsageCount Value="96"/>
         <Loaded Value="True"/>
       </Unit48>
       <Unit49>
@@ -645,7 +645,7 @@
         <UnitName Value="LConvEncoding"/>
         <EditorIndex Value="8"/>
         <TopLine Value="127"/>
-        <CursorPos X="21" Y="150"/>
+        <CursorPos X="27" Y="139"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit73>
@@ -668,67 +668,67 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="419" TopLine="398"/>
+        <Caret Line="479" Column="11" TopLine="478"/>
       </Position1>
       <Position2>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="432" TopLine="416"/>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="490" TopLine="473"/>
       </Position2>
       <Position3>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="505" TopLine="489"/>
+        <Caret Line="505" TopLine="478"/>
       </Position3>
       <Position4>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="499" TopLine="489"/>
+        <Caret Line="419" TopLine="402"/>
       </Position4>
       <Position5>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="498" Column="43" TopLine="473"/>
+        <Caret Line="432" TopLine="404"/>
       </Position5>
       <Position6>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="490" TopLine="473"/>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="505" TopLine="489"/>
       </Position6>
       <Position7>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="505" TopLine="478"/>
+        <Caret Line="499" TopLine="486"/>
       </Position7>
       <Position8>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="417" TopLine="398"/>
+        <Caret Line="498" TopLine="486"/>
       </Position8>
       <Position9>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="419" TopLine="398"/>
+        <Caret Line="500" TopLine="486"/>
       </Position9>
       <Position10>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="432" TopLine="416"/>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="490" TopLine="473"/>
       </Position10>
       <Position11>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="505" TopLine="489"/>
+        <Caret Line="505" TopLine="486"/>
       </Position11>
       <Position12>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="499" TopLine="480"/>
+        <Caret Line="419" TopLine="402"/>
       </Position12>
       <Position13>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="498" TopLine="480"/>
+        <Caret Line="432" TopLine="404"/>
       </Position13>
       <Position14>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="490" Column="30" TopLine="477"/>
+        <Caret Line="505" TopLine="489"/>
       </Position14>
       <Position15>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="490" TopLine="473"/>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="500" TopLine="489"/>
       </Position15>
       <Position16>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="479" Column="11" TopLine="478"/>
+        <Caret Line="503" Column="4" TopLine="477"/>
       </Position16>
       <Position17>
         <Filename Value="ucbzlibrary.pas"/>
@@ -740,27 +740,27 @@
       </Position18>
       <Position19>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="419" TopLine="402"/>
+        <Caret Line="442" TopLine="426"/>
       </Position19>
       <Position20>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="432" TopLine="404"/>
+        <Filename Value="../../XmlReader/XmlDoc/uxmldoc.pas"/>
+        <Caret Line="1406" TopLine="1398"/>
       </Position20>
       <Position21>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="505" TopLine="489"/>
+        <Caret Line="481" TopLine="473"/>
       </Position21>
       <Position22>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="499" TopLine="486"/>
+        <Caret Line="475" Column="26" TopLine="458"/>
       </Position22>
       <Position23>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="498" TopLine="486"/>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="490" TopLine="473"/>
       </Position23>
       <Position24>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="500" TopLine="486"/>
+        <Caret Line="475" Column="26" TopLine="458"/>
       </Position24>
       <Position25>
         <Filename Value="ucbzlibrary.pas"/>
@@ -768,23 +768,23 @@
       </Position25>
       <Position26>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="505" TopLine="486"/>
+        <Caret Line="482" TopLine="458"/>
       </Position26>
       <Position27>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="419" TopLine="402"/>
+        <Caret Line="480" TopLine="458"/>
       </Position27>
       <Position28>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="432" TopLine="404"/>
+        <Caret Line="481" TopLine="458"/>
       </Position28>
       <Position29>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="505" TopLine="489"/>
+        <Caret Line="483" TopLine="458"/>
       </Position29>
       <Position30>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="500" TopLine="489"/>
+        <Caret Line="482" TopLine="458"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -793,7 +793,7 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="31">
+    <BreakPoints Count="29">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
@@ -861,156 +861,142 @@
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="490"/>
+        <Source Value="uconfig.pas"/>
+        <Line Value="190"/>
       </Item10>
       <Item11>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="uconfig.pas"/>
-        <Line Value="190"/>
+        <Line Value="178"/>
       </Item11>
       <Item12>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="uconfig.pas"/>
-        <Line Value="178"/>
+        <Source Value="ulibraryclasses.pas"/>
+        <Line Value="427"/>
       </Item12>
       <Item13>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="427"/>
+        <Line Value="465"/>
       </Item13>
       <Item14>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="465"/>
+        <Line Value="438"/>
       </Item14>
       <Item15>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="438"/>
+        <Source Value="ucbzlibrary.pas"/>
+        <Line Value="219"/>
       </Item15>
       <Item16>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="219"/>
+        <Line Value="247"/>
       </Item16>
       <Item17>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="247"/>
+        <Source Value="ulibraryclasses.pas"/>
+        <Line Value="315"/>
       </Item17>
       <Item18>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="315"/>
+        <Line Value="395"/>
       </Item18>
       <Item19>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="395"/>
+        <Source Value="../../Utils/utils.zipfile.pas"/>
+        <Line Value="405"/>
       </Item19>
       <Item20>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="../../Utils/utils.zipfile.pas"/>
-        <Line Value="405"/>
+        <Source Value="ucbzlibrary.pas"/>
+        <Line Value="1071"/>
       </Item20>
       <Item21>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="1071"/>
+        <Source Value="ulibraryclasses.pas"/>
+        <Line Value="383"/>
       </Item21>
       <Item22>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="383"/>
+        <Source Value="main.pas"/>
+        <Line Value="1422"/>
       </Item22>
       <Item23>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="1422"/>
+        <Source Value="ulogreader.pas"/>
+        <Line Value="54"/>
       </Item23>
       <Item24>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulogreader.pas"/>
-        <Line Value="54"/>
+        <Line Value="72"/>
       </Item24>
       <Item25>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ulogreader.pas"/>
-        <Line Value="72"/>
+        <Source Value="ulibraryclasses.pas"/>
+        <Line Value="419"/>
       </Item25>
       <Item26>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="419"/>
+        <Line Value="432"/>
       </Item26>
       <Item27>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="432"/>
+        <Line Value="442"/>
       </Item27>
       <Item28>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="442"/>
+        <Source Value="../../XmlReader/XmlDoc/uxmldoc.pas"/>
+        <Line Value="1406"/>
       </Item28>
       <Item29>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="505"/>
+        <Line Value="483"/>
       </Item29>
-      <Item30>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="../../XmlReader/XmlDoc/uxmldoc.pas"/>
-        <Line Value="1406"/>
-      </Item30>
-      <Item31>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="500"/>
-      </Item31>
     </BreakPoints>
     <Watches Count="2">
       <Item1>

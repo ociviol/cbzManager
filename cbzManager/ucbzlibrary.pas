@@ -197,7 +197,7 @@ begin
     //FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
       //          IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
-      FProgress(Self, 1, 0, 0, 'Scrub Done.')
+      FProgress(Self, 1, 0, 0, 'Scrub Done. (' + TimeToStr(now) + ')');
 end;
 
 procedure TThreadScrub.DoNotify;

@@ -470,15 +470,15 @@ begin
     RenameFile(SyncFilename, s);
 end;
 
-function BestFit(const AInput: String): String;
+function BestFit(const AInput: String): AnsiString;
 var
   i : integer;
   s : AnsiString;
 begin
-  s := UTF8ToANSI(AInput);
-  //for i := 1 to Length(s) do
-  //  if s[i] > #127 then s[i]:='_';
-  result:=ANSITOUTF8(s);
+  result := UTF8ToANSI(AInput);
+  for i := 1 to Length(result) do
+    if result[i] > #127 then result[i]:='_';
+  //result:=ANSITOUTF8(s);
 end;
 
 function TFileItem.SyncPathName(const aFilename : string):String;

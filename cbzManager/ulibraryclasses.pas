@@ -422,7 +422,7 @@ begin
             SetAttributeDate('DateSetReadState', FDateSetReadState);
             SetAttributeBool('ReadState', FReadState);
             SaveToFile(SyncFilename);
-            result := 1;
+            result := 2;
           end;
         FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
       end;
@@ -438,7 +438,7 @@ begin
       begin
         SetAttributeDate('DateSetReadState', FDateSetReadState);
         SetAttributeBool('ReadState', FReadState);
-        result := 1;
+        result := 2;
       end;
       SaveToFile(SyncFilename);
       FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));

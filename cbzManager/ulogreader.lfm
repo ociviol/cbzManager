@@ -1,13 +1,11 @@
 object FrmLogReader: TFrmLogReader
-  Left = 428
+  Left = 463
   Height = 789
-  Top = 173
+  Top = 140
   Width = 1197
   Caption = 'FrmLogReader'
   ClientHeight = 789
   ClientWidth = 1197
-  OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '2.0.4.0'

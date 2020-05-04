@@ -56,7 +56,8 @@ type
     FVal,
     FDeleted,
     FCnt,
-    Fsynced : Integer;
+    FsyncedIn,
+    FsyncedOut : Integer;
     FFileList: TItemList;
     FProgress : TProgressEvent;
     FLog : ILog;
@@ -191,9 +192,10 @@ procedure TThreadScrub.DoProgress;
 begin
   if Assigned(FProgress) then
     if (FVal < FCnt - 1) and (Fcnt > 0) then
-      FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Deleted:%d - Synced:%d',
+      FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Deleted:%d - Synced:In:%d/Out:%d',
                                      [IntToStr((FVal * 100) div FFileList.Count) + '%',
-                                      FFileList.Count, FFileList.StampCount, FDeleted, FSynced]))
+                                      FFileList.Count, FFileList.StampCount, FDeleted,
+                                      FSyncedIn, FSyncedOut]))
     //FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
       //          IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
@@ -228,7 +230,8 @@ var
 
 begin
   FDeleted := 0;
-  Fsynced := 0;
+  FsyncedIn := 0;
+  FsyncedOut := 0;
   Sleep(1000);
   while not Terminated do
   try
@@ -256,8 +259,11 @@ begin
           if r < 0 then
             _DeleteItem
           else
-          if r > 0 then
-            inc(FSynced);
+          if r = 1 then
+            inc(FSyncedIn)
+          else
+          if r = 1 then
+            inc(FSyncedOut);
         end
         {$endif};
 

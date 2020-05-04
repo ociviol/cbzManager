@@ -458,7 +458,7 @@ begin
 {$if defined(Darwin) or defined(Linux)}
     expandfilename('~/') + CS_CONFIG_PATH + '/' +
 {$else}
-    IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Logs\' +
+    IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Logs\' +
 {$endif}
     'cbzManager.log', FConfig.DoLog);
 

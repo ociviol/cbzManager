@@ -460,12 +460,17 @@ procedure TFileItem.SyncFileDelete;
 var
   s : string;
 begin
-  s := SyncFilenameDelete;
-  if FileExists(s) then
-      DeleteFile(s);
+  try
+    s := SyncFilenameDelete;
+    if FileExists(s) then
+        DeleteFile(s);
 
-  if FileExists(SyncFilename) then
-    RenameFile(SyncFilename, s);
+    if FileExists(SyncFilename) then
+      RenameFile(SyncFilename, s);
+  except
+    on e: exception do
+      Flog.Log('TItemList.SyncFileDelete:Error:' + e.Message);
+  end;
 end;
 
 function TFileItem.SyncPathName(const aFilename : string):String;
@@ -763,7 +768,7 @@ end;
 procedure TItemList.Delete(index: integer);
 begin
   with TFileItem(Objects[index]) do
-  begin
+  try
     if FileExists(CacheFilename) then
     begin
        DeleteFile(CacheFilename);
@@ -771,6 +776,10 @@ begin
     end;
 
     free;
+
+  except
+    on e: exception do
+      Flog.Log('TItemList.Delete:Error:' + e.Message);
   end;
 
   inherited Delete(index);
@@ -787,10 +796,11 @@ begin
     root := CreateNewDocumentElement('Library');
     root.SetAttribute('RootPath', FRootPath);
     for i := 0 to Count - 1 do
-   begin
-     el := root.AddChildNode('Comic');
-     TFileItem(Objects[i]).SaveToXml(el);
-   end;
+      if not TFileItem(Objects[i]).Deleted then
+      begin
+        el := root.AddChildNode('Comic');
+        TFileItem(Objects[i]).SaveToXml(el);
+      end;
     SaveToFile(aFilename);
     FModified := False;
   finally

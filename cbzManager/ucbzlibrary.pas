@@ -54,7 +54,6 @@ type
   TThreadScrub = Class(TThread)
   private
     FVal,
-    FDeleted,
     FCnt,
     FsyncedIn,
     FsyncedOut : Integer;
@@ -190,17 +189,24 @@ begin
 end;
 
 procedure TThreadScrub.DoProgress;
+var
+  cnt, del : integer;
 begin
   if Assigned(FProgress) then
+  begin
+    cnt := FFileList.Count;
+    del := FFileList.DeletedCount;
+    dec(cnt, del);
     if (FVal < FCnt - 1) and (Fcnt > 0) then
       FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Deleted:%d - Synced:In:%d/Out:%d',
-                                     [IntToStr((FVal * 100) div FFileList.Count) + '%',
-                                      FFileList.Count, FFileList.StampCount, FDeleted,
+                                     [IntToStr((FVal * 100) div cnt) + '%',
+                                      cnt, FFileList.StampCount, del,
                                       FSyncedIn, FSyncedOut]))
     //FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
       //          IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
       FProgress(Self, 1, 0, 0, 'Scrub Done. (' + TimeToStr(now) + ')');
+  end;
 end;
 
 procedure TThreadScrub.DoNotify;
@@ -222,15 +228,12 @@ var
         if Assigned(FNotifier) then
           Synchronize(@DoNotify);
         Fitem.SyncFileDelete;
-        FFileList.Delete(FVal);
+        //FFileList.Delete(FVal);
         FLog.Log('TThreadScrub.Execute: Deleted:' + Filename);
-        Fcnt := FFileList.Count;
-        inc(FDeleted);
       end;
   end;
 
 begin
-  FDeleted := 0;
   FsyncedIn := 0;
   FsyncedOut := 0;
   Sleep(1000);
@@ -249,6 +252,12 @@ begin
 
         // remove invalid entries
         FItem := TFileItem(FFileList.Objects[FVal]);
+        if FItem.Deleted then
+        begin
+          Sleep(50);
+          continue;
+        end;
+
         if not FileExists(FItem.Filename) then
           _DeleteItem
           {$ifdef Library}
@@ -414,7 +423,7 @@ begin
 {$if defined(Darwin) or defined(Linux)}
     expandfilename('~/') + CS_CONFIG_PATH + '/' +
 {$else}
-    IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'Logs\' +
+    IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Logs\' +
 {$endif}
     'cbzLibrary.log', Fconfig.DoLog);
 

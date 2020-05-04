@@ -59,13 +59,14 @@ object CbzLibrary: TCbzLibrary
       end    
       item
         Alignment = taCenter
-        Width = 400
+        Width = 450
       end    
       item
         Alignment = taCenter
         Width = 350
       end>
     SimplePanel = False
+    OnResize = StatusBar1Resize
   end
   object pnlPath: TPanel
     Left = 10

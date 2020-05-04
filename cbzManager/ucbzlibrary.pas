@@ -111,6 +111,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
     procedure mnuReadStatusClick(Sender: TObject);
+    procedure StatusBar1Resize(Sender: TObject);
   private
     function GetCacheFileName: String;
   private
@@ -473,7 +474,6 @@ end;
 procedure TCbzLibrary.FormResize(Sender: TObject);
 begin
   SizeGrid;
-  StatusBar1.Panels[0].Width := (StatusBar1.ClientWidth div 10) * 6;
 end;
 
 procedure TCbzLibrary.FormShow(Sender: TObject);
@@ -645,7 +645,10 @@ begin
   FFileList.SaveToFile(GetCacheFileName);
 end;
 
-
+procedure TCbzLibrary.StatusBar1Resize(Sender: TObject);
+begin
+  StatusBar1.Panels[0].Width := (StatusBar1.ClientWidth div 10) * 6;
+end;
 
 procedure TCbzLibrary.dgLibraryDblClick(Sender: TObject);
 var

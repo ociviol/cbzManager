@@ -280,7 +280,8 @@ begin
         if (FVal mod 50) = 0 then
           Synchronize(@DoProgress);
           //yield;
-        Sleep(25);
+
+        Sleep(100);
 
         FCnt := FFileList.Count;
       end;

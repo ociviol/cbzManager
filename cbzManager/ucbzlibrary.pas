@@ -233,8 +233,6 @@ var
   end;
 
 begin
-  FsyncedIn := 0;
-  FsyncedOut := 0;
   Sleep(1000);
   while not Terminated do
   try
@@ -244,6 +242,9 @@ begin
       FLog.Log('TThreadScrub.Execute: Starting scrub.');
       FCnt := FFileList.Count;
       FVal := 0;
+      FsyncedIn := 0;
+      FsyncedOut := 0;
+
       while (FCnt > FVal) do
       begin
         if Terminated then
@@ -293,7 +294,7 @@ begin
       end;
       Synchronize(@DoProgress);
       FLog.Log('TThreadScrub.Execute: Scrub done.');
-      Sleep(5000);
+      Sleep(15000);
     end;
    // else
    //   Sleep(2000);

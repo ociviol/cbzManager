@@ -40,7 +40,7 @@
       <Unit3>
         <Filename Value="webp.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="13"/>
         <CursorPos Y="593"/>
         <UsageCount Value="204"/>
@@ -50,7 +50,7 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="19"/>
         <TopLine Value="341"/>
         <CursorPos Y="360"/>
         <UsageCount Value="204"/>
@@ -60,7 +60,7 @@
         <Filename Value="udatatypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataTypes"/>
-        <EditorIndex Value="23"/>
+        <EditorIndex Value="21"/>
         <CursorPos X="5" Y="7"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
@@ -88,7 +88,7 @@
         <Filename Value="udataitem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataItem"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="20"/>
         <TopLine Value="85"/>
         <CursorPos X="3" Y="310"/>
         <UsageCount Value="200"/>
@@ -107,7 +107,7 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <EditorIndex Value="24"/>
+        <EditorIndex Value="22"/>
         <TopLine Value="513"/>
         <CursorPos X="16" Y="498"/>
         <UsageCount Value="200"/>
@@ -117,7 +117,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="26"/>
+        <EditorIndex Value="24"/>
         <TopLine Value="270"/>
         <CursorPos Y="287"/>
         <UsageCount Value="200"/>
@@ -127,7 +127,7 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="67"/>
         <CursorPos X="82" Y="95"/>
         <UsageCount Value="229"/>
@@ -140,7 +140,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uLoadReport"/>
-        <EditorIndex Value="27"/>
+        <EditorIndex Value="25"/>
         <TopLine Value="9"/>
         <CursorPos X="5" Y="7"/>
         <UsageCount Value="203"/>
@@ -173,7 +173,7 @@
       <Unit16>
         <Filename Value="../../XmlReader/XmlDoc/uxmldoc.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="1508"/>
         <CursorPos X="23" Y="1510"/>
         <UsageCount Value="200"/>
@@ -194,13 +194,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="219"/>
-        <CursorPos Y="246"/>
-        <FoldState Value=" T3ub0E1F"/>
+        <TopLine Value="282"/>
+        <CursorPos X="14" Y="297"/>
+        <FoldState Value=" T3uc0E1A"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="2">
-          <Item0 X="3" Y="1007"/>
+          <Item0 X="3" Y="1008"/>
           <Item1 X="36" Y="197" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -213,7 +214,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="173"/>
         <CursorPos X="69" Y="125"/>
         <UsageCount Value="200"/>
@@ -227,7 +228,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="33"/>
         <CursorPos X="47" Y="75"/>
         <UsageCount Value="200"/>
@@ -237,8 +238,7 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="418"/>
         <CursorPos X="6" Y="434"/>
         <UsageCount Value="190"/>
@@ -254,7 +254,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uLogReader"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="99"/>
         <CursorPos X="26" Y="20"/>
         <UsageCount Value="143"/>
@@ -402,7 +402,7 @@
       <Unit41>
         <Filename Value="../../Utils/utils.zipfile.pas"/>
         <UnitName Value="Utils.zipfile"/>
-        <EditorIndex Value="25"/>
+        <EditorIndex Value="23"/>
         <TopLine Value="257"/>
         <CursorPos Y="274"/>
         <UsageCount Value="100"/>
@@ -447,7 +447,7 @@
       <Unit47>
         <Filename Value="../../Utils/utils.files.pas"/>
         <UnitName Value="Utils.Files"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="17"/>
         <CursorPos Y="12"/>
         <UsageCount Value="113"/>
         <Loaded Value="True"/>
@@ -455,9 +455,9 @@
       <Unit48>
         <Filename Value="../../Utils/utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <EditorIndex Value="20"/>
-        <TopLine Value="31"/>
-        <CursorPos X="70" Y="48"/>
+        <EditorIndex Value="18"/>
+        <TopLine Value="178"/>
+        <CursorPos X="52" Y="284"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
       </Unit48>
@@ -512,7 +512,7 @@
       </Unit54>
       <Unit55>
         <Filename Value="../../XmlReader/XmlDoc/OXmlReadWrite.pas"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="2527"/>
         <CursorPos Y="2544"/>
         <UsageCount Value="35"/>
@@ -521,7 +521,7 @@
       <Unit56>
         <Filename Value="../../Utils/utils.strings.pas"/>
         <UnitName Value="Utils.Strings"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="11"/>
         <CursorPos X="42" Y="27"/>
         <UsageCount Value="101"/>
@@ -545,11 +545,10 @@
       <Unit59>
         <Filename Value="../../../../lazarus/lcl/comctrls.pp"/>
         <UnitName Value="ComCtrls"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1776"/>
         <CursorPos X="19" Y="1792"/>
         <UsageCount Value="25"/>
-        <Loaded Value="True"/>
       </Unit59>
       <Unit60>
         <Filename Value="../../../../lazarus/lcl/include/treeview.inc"/>
@@ -631,7 +630,7 @@
       <Unit71>
         <Filename Value="../../../../lazarus/components/lazutils/lazutf8classes.pas"/>
         <UnitName Value="LazUTF8Classes"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="134"/>
         <CursorPos Y="151"/>
         <UsageCount Value="36"/>
@@ -640,7 +639,7 @@
       <Unit72>
         <Filename Value="../../../../lazarus/components/lazutils/lconvencoding.pas"/>
         <UnitName Value="LConvEncoding"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="131"/>
         <CursorPos X="25" Y="576"/>
         <UsageCount Value="35"/>
@@ -655,11 +654,10 @@
       </Unit73>
       <Unit74>
         <Filename Value="../../XmlReader/XmlDoc/OTextReadWrite.pas"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="988"/>
         <CursorPos Y="1005"/>
         <UsageCount Value="27"/>
-        <Loaded Value="True"/>
       </Unit74>
       <Unit75>
         <Filename Value="../../../../lazarus/lcl/include/progressbar.inc"/>
@@ -880,7 +878,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="1088"/>
+        <Line Value="1089"/>
       </Item12>
       <Item13>
         <Kind Value="bpkSource"/>
@@ -922,7 +920,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="246"/>
+        <Line Value="244"/>
       </Item18>
       <Item19>
         <Kind Value="bpkSource"/>
@@ -971,7 +969,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="939"/>
+        <Line Value="940"/>
       </Item25>
       <Item26>
         <Kind Value="bpkSource"/>
@@ -999,7 +997,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="1073"/>
+        <Line Value="1074"/>
       </Item29>
     </BreakPoints>
     <Watches Count="4">

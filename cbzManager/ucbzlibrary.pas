@@ -279,9 +279,9 @@ begin
             if Assigned(b) then
               b.Free;
           end;
-
-          inc(FVal);
         end;
+
+        inc(FVal);
 
         if (FVal mod 50) = 0 then
           Synchronize(@DoProgress);

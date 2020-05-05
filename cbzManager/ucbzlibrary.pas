@@ -289,7 +289,7 @@ begin
           Synchronize(@DoProgress);
           //yield;
 
-        Sleep(250);
+        Sleep(50);
 
         FCnt := FFileList.Count;
       end;
@@ -938,7 +938,7 @@ end;
 procedure TCbzLibrary.SearchEnded(Sender: TObject);
 begin
   FThreadSearchFiles := nil;
-  StatusBar1.Panels[2].Text := 'Done.';
+  StatusBar1.Panels[2].Text := 'Ready.';
 
   FFileList.SaveToFile(GetCacheFileName);
   btnRefresh.Enabled:=True;

@@ -110,7 +110,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
     procedure mnuReadStatusClick(Sender: TObject);
-    procedure StatusBar1Resize(Sender: TObject);
   private
     function GetCacheFileName: String;
   private
@@ -655,11 +654,6 @@ begin
   FFileList.SaveToFile(GetCacheFileName);
 end;
 
-procedure TCbzLibrary.StatusBar1Resize(Sender: TObject);
-begin
-  StatusBar1.Panels[0].Width := (StatusBar1.ClientWidth div 10) * 6;
-end;
-
 procedure TCbzLibrary.dgLibraryDblClick(Sender: TObject);
 var
   s : String;
@@ -757,7 +751,7 @@ end;
 
 procedure TCbzLibrary.UpdateNbItems;
 begin
-  StatusBar1.Panels[2].Text := IntToStr(FFileList.Count - FFileList.DeletedCount) + ' Albums, ' +
+  StatusBar1.Panels[0].Text := IntToStr(FFileList.Count - FFileList.DeletedCount) + ' Albums, ' +
                                IntToStr(FFileList.ReadCount) + ' Read';
 end;
 
@@ -944,7 +938,7 @@ end;
 procedure TCbzLibrary.SearchEnded(Sender: TObject);
 begin
   FThreadSearchFiles := nil;
-  StatusBar1.Panels[0].Text := 'Done.';
+  StatusBar1.Panels[2].Text := 'Done.';
 
   FFileList.SaveToFile(GetCacheFileName);
   btnRefresh.Enabled:=True;
@@ -1023,7 +1017,7 @@ procedure TCbzLibrary.Progress(Sender: TObject; const ProgressID: QWord;
 var
   ind : integer;
 begin
-  ind := ifthen(ProgressID = 1, 1, 0);
+  ind := ifthen(ProgressID = 1, 1, 2);
   StatusBar1.Panels[ind].Text := Msg;
 end;
 

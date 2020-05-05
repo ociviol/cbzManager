@@ -1,11 +1,12 @@
 object FrmCbzViewer: TFrmCbzViewer
-  Left = 571
+  Left = 544
   Height = 848
-  Top = 86
+  Top = 122
   Width = 756
   Caption = 'FrmCbzViewer'
   OnClose = FormClose
   OnCreate = FormCreate
-  Position = poScreenCenter
+  OnShow = FormShow
+  Position = poDefault
   LCLVersion = '2.0.4.0'
 end

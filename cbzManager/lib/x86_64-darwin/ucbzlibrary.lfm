@@ -1,7 +1,7 @@
 object CbzLibrary: TCbzLibrary
-  Left = 436
+  Left = 276
   Height = 746
-  Top = 155
+  Top = 156
   Width = 1156
   Caption = 'Library'
   ClientHeight = 746
@@ -11,7 +11,7 @@ object CbzLibrary: TCbzLibrary
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
-  Position = poMainFormCenter
+  Position = poDefault
   LCLVersion = '2.0.4.0'
   object dgLibrary: TDrawGrid
     Left = 50
@@ -55,13 +55,14 @@ object CbzLibrary: TCbzLibrary
     Width = 1156
     Panels = <    
       item
+        Width = 200
+      end    
+      item
+        Alignment = taCenter
+        Width = 450
+      end    
+      item
         Width = 600
-      end    
-      item
-        Width = 150
-      end    
-      item
-        Width = 400
       end>
     SimplePanel = False
   end

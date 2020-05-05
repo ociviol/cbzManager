@@ -1,12 +1,13 @@
 object ConfigFrm: TConfigFrm
-  Left = 542
-  Height = 204
-  Top = 312
+  Left = 286
+  Height = 261
+  Top = 525
   Width = 464
   BorderStyle = bsDialog
   Caption = 'Config'
-  ClientHeight = 204
+  ClientHeight = 261
   ClientWidth = 464
+  OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '2.0.4.0'
   object Label1: TLabel
@@ -28,17 +29,18 @@ object ConfigFrm: TConfigFrm
   object BitBtn1: TBitBtn
     Left = 293
     Height = 30
-    Top = 166
+    Top = 222
     Width = 75
     Caption = 'Ok'
     Default = True
     ModalResult = 1
+    OnClick = BitBtn1Click
     TabOrder = 3
   end
   object BitBtn2: TBitBtn
     Left = 378
     Height = 30
-    Top = 166
+    Top = 222
     Width = 75
     Cancel = True
     Caption = 'Cancel'
@@ -82,7 +84,7 @@ object ConfigFrm: TConfigFrm
   object cblogging: TCheckBox
     Left = 13
     Height = 19
-    Top = 136
+    Top = 192
     Width = 64
     Caption = 'Logging'
     TabOrder = 5
@@ -90,7 +92,7 @@ object ConfigFrm: TConfigFrm
   object Label5: TLabel
     Left = 137
     Height = 15
-    Top = 108
+    Top = 164
     Width = 98
     Caption = 'Encoding threads :'
     ParentColor = False
@@ -98,7 +100,7 @@ object ConfigFrm: TConfigFrm
   object speNbThreads: TSpinEdit
     Left = 242
     Height = 23
-    Top = 104
+    Top = 160
     Width = 60
     MaxValue = 32
     MinValue = 1
@@ -108,7 +110,7 @@ object ConfigFrm: TConfigFrm
   object Label6: TLabel
     Left = 13
     Height = 15
-    Top = 108
+    Top = 164
     Width = 46
     Caption = 'Queues :'
     ParentColor = False
@@ -116,7 +118,7 @@ object ConfigFrm: TConfigFrm
   object speQueues: TSpinEdit
     Left = 69
     Height = 23
-    Top = 104
+    Top = 160
     Width = 60
     MaxValue = 6
     MinValue = 1
@@ -150,7 +152,7 @@ object ConfigFrm: TConfigFrm
   object Label7: TLabel
     Left = 311
     Height = 15
-    Top = 108
+    Top = 164
     Width = 72
     Caption = 'Webp Quality'
     ParentColor = False
@@ -158,7 +160,7 @@ object ConfigFrm: TConfigFrm
   object speWebpQuality: TSpinEdit
     Left = 390
     Height = 23
-    Top = 104
+    Top = 160
     Width = 60
     MinValue = 10
     TabOrder = 8
@@ -167,7 +169,7 @@ object ConfigFrm: TConfigFrm
   object cbDeleteFile: TCheckBox
     Left = 13
     Height = 19
-    Top = 156
+    Top = 212
     Width = 142
     Caption = 'Delete file after convert'
     TabOrder = 9
@@ -175,16 +177,66 @@ object ConfigFrm: TConfigFrm
   object cbAlbumArt: TCheckBox
     Left = 13
     Height = 19
-    Top = 177
+    Top = 233
     Width = 177
     Caption = 'Generate album art (.jpeg file)'
     TabOrder = 10
+  end
+  object edtSyncPath: TEdit
+    Left = 69
+    Height = 23
+    Top = 100
+    Width = 360
+    ReadOnly = True
+    TabOrder = 11
+    Text = 'edtSyncPath'
+  end
+  object Label8: TLabel
+    Left = 13
+    Height = 15
+    Top = 105
+    Width = 55
+    Caption = 'Sync Path:'
+    ParentColor = False
+  end
+  object sbSyncPath: TSpeedButton
+    Left = 430
+    Height = 22
+    Top = 101
+    Width = 23
+    Caption = '...'
+    OnClick = sbSyncPathClick
+  end
+  object Label9: TLabel
+    Left = 13
+    Height = 15
+    Top = 133
+    Width = 46
+    Caption = 'Lib Path:'
+    ParentColor = False
+  end
+  object edtLibPath: TEdit
+    Left = 69
+    Height = 23
+    Top = 128
+    Width = 360
+    ReadOnly = True
+    TabOrder = 12
+    Text = 'edtLibPath'
+  end
+  object sbLibPath: TSpeedButton
+    Left = 430
+    Height = 22
+    Top = 129
+    Width = 23
+    Caption = '...'
+    OnClick = sbLibPathClick
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.exe'
     Filter = 'Exe files|*.exe'
     Options = [ofPathMustExist, ofFileMustExist, ofNoTestFileCreate, ofEnableSizing, ofViewDetail]
     left = 184
-    top = 128
+    top = 184
   end
 end

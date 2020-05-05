@@ -251,40 +251,38 @@ begin
 
         // remove invalid entries
         FItem := TFileItem(FFileList.Objects[FVal]);
-        if FItem.Deleted then
+        if not FItem.Deleted then
         begin
-          Sleep(50);
-          continue;
-        end;
-
-        if not FileExists(FItem.Filename) then
-          _DeleteItem
-          {$ifdef Library}
-        else
-        // sync needed
-        if FFileList.SyncPath.Length > 0 then
-        begin
-          r := TFileItem(FFileList.Objects[FVal]).CheckSync;
-          if r < 0 then
+          if not FileExists(FItem.Filename) then
             _DeleteItem
+            {$ifdef Library}
           else
-          if r = 1 then
-            inc(FSyncedIn)
-          else
-          if r = 1 then
-            inc(FSyncedOut);
-        end
-        {$endif};
+          // sync needed
+          if FFileList.SyncPath.Length > 0 then
+          begin
+            r := TFileItem(FFileList.Objects[FVal]).CheckSync;
+            if r < 0 then
+              _DeleteItem
+            else
+            if r = 1 then
+              inc(FSyncedIn)
+            else
+            if r = 1 then
+              inc(FSyncedOut);
+          end
+          {$endif};
 
-        // make stamp if needed
-        with TFileItem(FFileList.Objects[FVal]) do
-        begin
-          b := GenerateStamp;
-          if Assigned(b) then
-            b.Free;
+          // make stamp if needed
+          with TFileItem(FFileList.Objects[FVal]) do
+          begin
+            b := GenerateStamp;
+            if Assigned(b) then
+              b.Free;
+          end;
+
+          inc(FVal);
         end;
 
-        inc(FVal);
         if (FVal mod 50) = 0 then
           Synchronize(@DoProgress);
           //yield;

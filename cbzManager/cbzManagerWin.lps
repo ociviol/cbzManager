@@ -196,12 +196,12 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="265"/>
-        <CursorPos X="15" Y="292"/>
-        <FoldState Value=" T3ud0E1b"/>
+        <TopLine Value="263"/>
+        <CursorPos X="10" Y="255"/>
+        <FoldState Value=" T3ub0E1F"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="2">
-          <Item0 X="3" Y="1009"/>
+          <Item0 X="3" Y="1007"/>
           <Item1 X="36" Y="197" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -474,7 +474,7 @@
         <EditorIndex Value="5"/>
         <TopLine Value="533"/>
         <CursorPos X="128" Y="550"/>
-        <UsageCount Value="35"/>
+        <UsageCount Value="36"/>
         <Bookmarks Count="1">
           <Item0 X="70" Y="312" ID="3"/>
         </Bookmarks>
@@ -515,7 +515,7 @@
         <EditorIndex Value="16"/>
         <TopLine Value="2527"/>
         <CursorPos Y="2544"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit55>
       <Unit56>
@@ -524,7 +524,7 @@
         <EditorIndex Value="19"/>
         <TopLine Value="11"/>
         <CursorPos X="42" Y="27"/>
-        <UsageCount Value="98"/>
+        <UsageCount Value="99"/>
         <Loaded Value="True"/>
       </Unit56>
       <Unit57>
@@ -548,7 +548,7 @@
         <EditorIndex Value="6"/>
         <TopLine Value="1776"/>
         <CursorPos X="19" Y="1792"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit59>
       <Unit60>
@@ -634,7 +634,7 @@
         <EditorIndex Value="13"/>
         <TopLine Value="134"/>
         <CursorPos Y="151"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="34"/>
         <Loaded Value="True"/>
       </Unit71>
       <Unit72>
@@ -643,7 +643,7 @@
         <EditorIndex Value="14"/>
         <TopLine Value="131"/>
         <CursorPos X="25" Y="576"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit72>
       <Unit73>
@@ -658,7 +658,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="988"/>
         <CursorPos Y="1005"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
       </Unit74>
       <Unit75>
@@ -666,7 +666,7 @@
         <EditorIndex Value="7"/>
         <TopLine Value="30"/>
         <CursorPos X="3" Y="39"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit75>
     </Units>
@@ -794,7 +794,7 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="36">
+    <BreakPoints Count="35">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
@@ -884,7 +884,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="1090"/>
+        <Line Value="1088"/>
       </Item13>
       <Item14>
         <Kind Value="bpkSource"/>
@@ -960,93 +960,86 @@
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="256"/>
+        <Source Value="../../Utils/utils.logger.pas"/>
+        <Line Value="470"/>
       </Item24>
       <Item25>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../Utils/utils.logger.pas"/>
-        <Line Value="470"/>
+        <Line Value="481"/>
       </Item25>
       <Item26>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../Utils/utils.logger.pas"/>
-        <Line Value="481"/>
+        <Line Value="488"/>
       </Item26>
       <Item27>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../Utils/utils.logger.pas"/>
-        <Line Value="488"/>
+        <Line Value="512"/>
       </Item27>
       <Item28>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../../Utils/utils.logger.pas"/>
-        <Line Value="512"/>
+        <Line Value="550"/>
       </Item28>
       <Item29>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="../../Utils/utils.logger.pas"/>
-        <Line Value="550"/>
+        <Source Value="ucbzlibrary.pas"/>
+        <Line Value="939"/>
       </Item29>
       <Item30>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="941"/>
+        <Line Value="257"/>
       </Item30>
       <Item31>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="261"/>
+        <Source Value="ulibraryclasses.pas"/>
+        <Line Value="392"/>
       </Item31>
       <Item32>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="392"/>
+        <Line Value="443"/>
       </Item32>
       <Item33>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="443"/>
+        <Line Value="414"/>
       </Item33>
       <Item34>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="414"/>
+        <Line Value="422"/>
       </Item34>
       <Item35>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="422"/>
-      </Item35>
-      <Item36>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="1075"/>
-      </Item36>
+        <Line Value="1073"/>
+      </Item35>
     </BreakPoints>
     <Watches Count="4">
       <Item1>

@@ -196,7 +196,7 @@ begin
   begin
     cnt := FFileList.Count;
     del := FFileList.DeletedCount;
-    dec(cnt, del);
+//    dec(cnt, del);
     if (FVal < FCnt - 1) and (Fcnt > 0) then
       FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Deleted:%d - Synced:In:%d,Out:%d',
                                      [IntToStr((FVal * 100) div cnt) + '%',
@@ -290,7 +290,7 @@ begin
           Synchronize(@DoProgress);
           //yield;
 
-        Sleep(100);
+        Sleep(250);
 
         FCnt := FFileList.Count;
       end;
@@ -757,7 +757,7 @@ end;
 
 procedure TCbzLibrary.UpdateNbItems;
 begin
-  StatusBar1.Panels[2].Text := IntToStr(FFileList.Count-FFileList.DeletedCount) + ' Albums, ' +
+  StatusBar1.Panels[2].Text := IntToStr(FFileList.Count - FFileList.DeletedCount) + ' Albums, ' +
                                IntToStr(FFileList.ReadCount) + ' Read';
 end;
 

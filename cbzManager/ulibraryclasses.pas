@@ -400,13 +400,13 @@ end;
 function TFileItem.CheckSync:integer;
 begin
   result := 0;
-  with TXmlDoc.Create do
-  try
+
     // update
-    if FileExists(SyncFilename) then
-    begin
-      if (FileDateTodateTime(FileAge(SyncFilename)) <> FSyncFileDAte) then
-      begin
+  if FileExists(SyncFilename) then
+  begin
+    if (FileDateTodateTime(FileAge(SyncFilename)) <> FSyncFileDAte) then
+      with TXmlDoc.Create do
+      try
         LoadFromFile(SyncFilename);
         with DocumentElement do
           if FDateSetReadState < GetAttributeDate('DateSetReadState', 0) then
@@ -425,14 +425,18 @@ begin
             result := 2;
           end;
         FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
+      finally
+        free;
       end;
-    end
-    else
-    // deleted
-    if FileExists(SyncFileNameDelete) then
-      exit(-1)
-    else
-      // create file
+  end
+  else
+  // deleted
+  if FileExists(SyncFileNameDelete) then
+    exit(-1)
+  else
+    // create file
+  try
+    with TXmlDoc.Create do
     try
       with CreateNewDocumentElement('Comic') do
       begin
@@ -441,13 +445,13 @@ begin
         result := 2;
       end;
       SaveToFile(SyncFilename);
-      FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
-    except
-      on e: Exception do
-        FLog.Log('TFileItem.CheckSync:Error:' + E.Message);
+    finally
+      Free;
     end;
-  finally
-    Free;
+    FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
+  except
+    on e: Exception do
+      FLog.Log('TFileItem.CheckSync:Error:' + E.Message);
   end;
 end;
 
@@ -640,7 +644,7 @@ begin
   try
     result := 0;
     for i := 0 to Count - 1 do
-      if not FileExists(TFileItem(Objects[i]).Filename) then
+      if TFileItem(Objects[i]).Deleted then
         inc(result);
   finally
     FLock.UnlockList;

@@ -403,7 +403,7 @@ begin
 
     // update
   if FileExists(SyncFilename) then
-  begin
+  try
     if (FileDateTodateTime(FileAge(SyncFilename)) <> FSyncFileDAte) then
       with TXmlDoc.Create do
       try
@@ -428,6 +428,9 @@ begin
       finally
         free;
       end;
+  except
+    on E: Exception do
+      FLog.Log('TFileItem.CheckSync:'+E.Message);
   end
   else
   // create file
@@ -785,16 +788,21 @@ var
 begin
   with TXMLDoc.Create do
   try
-    root := CreateNewDocumentElement('Library');
-    root.SetAttribute('RootPath', FRootPath);
-    for i := 0 to Count - 1 do
-      if not TFileItem(Objects[i]).Deleted then
-      begin
-        el := root.AddChildNode('Comic');
-        TFileItem(Objects[i]).SaveToXml(el);
-      end;
-    SaveToFile(aFilename);
-    FModified := False;
+    try
+      root := CreateNewDocumentElement('Library');
+      root.SetAttribute('RootPath', FRootPath);
+      for i := 0 to Count - 1 do
+        if not TFileItem(Objects[i]).Deleted then
+        begin
+          el := root.AddChildNode('Comic');
+          TFileItem(Objects[i]).SaveToXml(el);
+        end;
+      SaveToFile(aFilename);
+      FModified := False;
+    except
+      on E: Exception do
+        FLog.Log('TItemList.SaveToFile:'+E.Message);
+    end;
   finally
     Free;
   end;
@@ -816,19 +824,24 @@ begin
   Clear;
   with TXMLDoc.Create do
   try
-    LoadFromFile(aFilename);
-    with DocumentElement do
-    begin
-      if GetAttributeStr('RootPath') <> '' then
-        FRootPath := GetAttributeStr('RootPath');
-      for i := 0 to NbElements - 1 do
+    try
+      LoadFromFile(aFilename);
+      with DocumentElement do
       begin
-        fi := TFileItem.Create(Self, Flog, '');
-        fi.LoadFromXml(Elements[i]);
-        AddObject(fi.Filename, fi);
+        if GetAttributeStr('RootPath') <> '' then
+          FRootPath := GetAttributeStr('RootPath');
+        for i := 0 to NbElements - 1 do
+        begin
+          fi := TFileItem.Create(Self, Flog, '');
+          fi.LoadFromXml(Elements[i]);
+          AddObject(fi.Filename, fi);
+        end;
       end;
+      FModified := False;
+    except
+      on E: Exception do
+        FLog.Log('TItemList.LoadFromFile:'+E.Message);
     end;
-    FModified := False;
   finally
     Free;
   end;

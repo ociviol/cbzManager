@@ -41,7 +41,6 @@ type
     function GetSyncFileDAte: TDateTime;
     procedure SetFSyncFileDAte(AValue: TDateTime);
     function SyncPathName(const aFilename : string):String;
-    function SyncFilenameDelete: String;
     function SyncFilename : String;
     function GetCacheFilename: String;
     function GetDateAdded: TDAteTime;
@@ -431,11 +430,7 @@ begin
       end;
   end
   else
-  // deleted
-  if FileExists(SyncFileNameDelete) then
-    exit(-1)
-  else
-    // create file
+  // create file
   try
     with TXmlDoc.Create do
     try
@@ -456,22 +451,14 @@ begin
   end;
 end;
 
-function TFileItem.SyncFilenameDelete: String;
-begin
-  result := ExtractFilePath(SyncFilename) + '.' + ExtractFileName(SyncFilename);
-end;
-
 procedure TFileItem.SyncFileDelete;
 var
   s : string;
 begin
   try
-    s := SyncFilenameDelete;
+    s := SyncFilename;
     if FileExists(s) then
         DeleteFile(s);
-
-    if FileExists(SyncFilename) then
-      RenameFile(SyncFilename, s);
   except
     on e: exception do
       Flog.Log('TItemList.SyncFileDelete:Error:' + e.Message);

@@ -1,7 +1,7 @@
 object FrmLogReader: TFrmLogReader
-  Left = 463
+  Left = 213
   Height = 789
-  Top = 140
+  Top = 141
   Width = 1197
   Caption = 'FrmLogReader'
   ClientHeight = 789

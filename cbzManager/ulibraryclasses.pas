@@ -299,6 +299,7 @@ begin
   FLock.LockList;
   try
     FDeleted := AValue;
+    FModified:=True;
   finally
     FLock.UnlockList;
   end;

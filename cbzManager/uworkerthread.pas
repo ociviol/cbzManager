@@ -527,7 +527,9 @@ begin
         if FCbz.FileCount < FFilesToProcess then
          begin
           FLog.Log('TCbzWorkerThread ConvertFile failed.');
+          FResults.Add('Conversion of file "' + ExtractFileName(aFilename) + '" failed, job will be run again');
           FCanceled := True;
+          FTimeOut:=True;
           Synchronize(@DoOnBadFile);
           raise Exception.Create(Format('Conversion of file "%s" Canceled because not all images are there. Expected : %d Has : %d',
                                         [ExtractFileName(aFilename), FFilesToProcess, FCbz.FileCount]));

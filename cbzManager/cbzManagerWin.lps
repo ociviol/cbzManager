@@ -107,9 +107,10 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="23"/>
-        <TopLine Value="505"/>
-        <CursorPos X="35" Y="530"/>
+        <TopLine Value="508"/>
+        <CursorPos X="87" Y="530"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit10>
@@ -453,7 +454,6 @@
       <Unit48>
         <Filename Value="../../Utils/utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="18"/>
         <TopLine Value="177"/>
         <CursorPos X="20" Y="196"/>

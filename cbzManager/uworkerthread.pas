@@ -451,7 +451,7 @@ begin
         i := 0;
         Rec := nil;
         LastAskedID := -1;
-        while not FPoolData.Empty or ThreadExtract.Working do
+        while (FCbz.FileCount < FFilesToProcess) or ThreadExtract.Working do
         begin
           if LastAskedID <> i then
           begin

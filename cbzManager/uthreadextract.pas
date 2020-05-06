@@ -97,7 +97,7 @@ type
   End;
 
   { TThreadZipExtract }
-
+  (*
   TThreadZipExtract = Class(TThreadExtract)
   private
     Cbz : TCbz;
@@ -111,7 +111,7 @@ type
     destructor Destroy; override;
     procedure Execute; override;
   End;
-
+  *)
   TThread7ZipExtract = Class(TThreadExtract)
   private
   public
@@ -123,6 +123,7 @@ type
                        OnBadFile : TNotifyEvent); reintroduce;
     destructor Destroy; override;
   End;
+
 
 implementation
 
@@ -224,34 +225,31 @@ begin
   FFiles.SortStyle:=sslUser;
   FFiles.Sorted := False;
 
-  if not (self is TThreadZipExtract) then
-  begin
-    FMax := 1;
-    FCur := 0;
-    FMsg := 'Processing file : ' + ExtractFileName(FFilename);
-    Synchronize(@DoProgress);
-    try
-      // extract
-      FLog.Log('Running : ' + FCmd);
+  FMax := 1;
+  FCur := 0;
+  FMsg := 'Processing file : ' + ExtractFileName(FFilename);
+  Synchronize(@DoProgress);
+  try
+    // extract
+    FLog.Log('Running : ' + FCmd);
 {$if defined(Darwin) or defined(Linux)}
-      fpSystem(FCmd);
+    fpSystem(FCmd);
 {$else}
-      _RunCommand(FCmd);
+    _RunCommand(FCmd);
 {$endif}
-      // get files
-      GetFileNames(FFiles);
-      FLog.Log('Found : ' + IntToStr(FFiles.Count) + ' Files');
-      FNbFiles := FFiles.Count;
+    // get files
+    GetFileNames(FFiles);
+    FLog.Log('Found : ' + IntToStr(FFiles.Count) + ' Files');
+    FNbFiles := FFiles.Count;
 
-      if FFiles.Count = 0 then
-        FHasError := True;
-    Except
-      FFiles.Free;
+    if FFiles.Count = 0 then
       FHasError := True;
-      if FTmpDir <> '' then
-        DeleteDirectory(FTmpDir, False);
-      raise;
-    end;
+  Except
+    FFiles.Free;
+    FHasError := True;
+    if FTmpDir <> '' then
+      DeleteDirectory(FTmpDir, False);
+    raise;
   end;
 
   inherited Create(False);
@@ -300,7 +298,7 @@ begin
               FMsg := '(' + ExtractFileName(FFilename) + ') Loading images ...';
               Synchronize(@DoProgress);
               inc(FNbFiles);
-              Sleep(10);
+              Sleep(20);
             end;
           end;
         end;
@@ -456,6 +454,8 @@ begin
 end;
 
 { TThreadZipExtract }
+
+(*
 destructor TThreadZipExtract.Destroy;
 begin
   Cbz.Free;
@@ -598,6 +598,7 @@ begin
     FWorking := False;
   end;
 end;
+*)
 
 { TThreadPdfExtract }
 (*

@@ -66,7 +66,7 @@ type
   protected
     FEnabled : Boolean;
     //FIndexList : TIntegerList;
-    FNextIndex : Integer;
+    //FNextIndex : Integer;
     FWorking : Integer;
     FOnPutData : TPutDataEvent;
     procedure BeginWork;
@@ -75,12 +75,14 @@ type
     constructor Create(aLog : ILog);
     Destructor Destroy; override;
     procedure ClearLists;
+    {
     procedure AddItem2(Value : TMemoryStream;
                       Indexes : TIntArray;
                       Operations : TImgOperations = [opConvert];
                       DataType : TDataType = dtImage;
                       ImgType : Integer = FIF_UNKNOWN;
                       const Filename : String = '');
+    }
     procedure AddItem(Value : TMemoryStream; Index : Integer;
                       Indexes : TIntArray;
                       Operations : TImgOperations = [opConvert];
@@ -129,7 +131,7 @@ constructor TThreadDataItem.Create(aLog : ILog);
 begin
   FLog := aLog;
   FWorking := 0;
-  FNextIndex := 0;
+  //FNextIndex := 0;
   //FIndexList := TIntegerList.Create;
   inherited Create;
 end;
@@ -156,7 +158,7 @@ begin
     end;
     Clear;
 
-    FNextIndex := 0;
+    //FNextIndex := 0;
     FWorking := 0;
     FEnabled := True;
   finally
@@ -164,6 +166,7 @@ begin
   end;
 end;
 
+{
 procedure TThreadDataItem.AddItem2(Value: TMemoryStream;
                                   Indexes : TIntArray;
                                   Operations : TImgOperations = [opConvert];
@@ -182,6 +185,7 @@ begin
     UnlockList;
   end;
 end;
+}
 
 procedure TThreadDataItem.AddItem(Value: TMemoryStream; Index : Integer;
                                   Indexes : TIntArray;
@@ -277,6 +281,7 @@ begin
       Result := FindFirst(rtIn);
       if Assigned(Result) then
         FLog.Log(Format('Got IN record with image index : %d', [Result.Index]));
+      BeginWork;
     end;
 
     {

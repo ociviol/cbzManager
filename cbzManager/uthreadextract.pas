@@ -276,6 +276,7 @@ var
   ar : TIntArray;
 begin
   SetLength(ar, 0);
+  FNbFiles := 0;
   try
     while not Terminated do
     begin
@@ -298,6 +299,7 @@ begin
               FCur := i;
               FMsg := '(' + ExtractFileName(FFilename) + ') Loading images ...';
               Synchronize(@DoProgress);
+              inc(FNbFiles);
               Sleep(10);
             end;
           end;

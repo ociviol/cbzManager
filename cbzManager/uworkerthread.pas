@@ -430,10 +430,10 @@ begin
       FCbz := TCBz.Create(FLog);
       try
         repeat
-          FFilesToProcess := ThreadExtract.NbFiles;
           sleep(100);
-        until (FFilesToProcess > 0) or ThreadExtract.HasError;
+        until (not ThreadExtract.Working) or ThreadExtract.HasError;
 
+        FFilesToProcess := ThreadExtract.NbFiles;
         if ThreadExtract.HasError then
           Exit;
 
@@ -524,6 +524,14 @@ begin
             break;
         end;
 
+        if FCbz.FileCount < FFilesToProcess then
+         begin
+          FLog.Log('TCbzWorkerThread ConvertFile failed.');
+          FCanceled := True;
+          Synchronize(@DoOnBadFile);
+          raise Exception.Create(Format('Conversion of file "%s" Canceled because not all images are there. Expected : %d Has : %d',
+                                        [ExtractFileName(aFilename), FFilesToProcess, FCbz.FileCount]));
+        end;
         //if MetaData.Count > 0 then
         //  for s in MetaData.Keys do
         //  try

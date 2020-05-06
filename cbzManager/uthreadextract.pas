@@ -295,7 +295,7 @@ begin
 
             if Tcbz.AllowedFile(FFiles[i]) then
             begin
-              FPoolData.AddItem2(nil, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
+              FPoolData.AddItem(nil, FNbFiles, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
               FCur := i;
               FMsg := '(' + ExtractFileName(FFilename) + ') Loading images ...';
               Synchronize(@DoProgress);
@@ -600,7 +600,7 @@ begin
 end;
 
 { TThreadPdfExtract }
-{
+(*
 constructor TThreadPdfExtract.Create(aOwner : TObject; const Filename : String;
                                      Operations : TImgOperations;
                                      PoolData: TThreadDataItem;
@@ -688,7 +688,7 @@ begin
     FWorking := False;
   end;
 end;
-}
+*)
 
 
 end.

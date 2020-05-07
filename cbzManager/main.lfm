@@ -1,7 +1,7 @@
 object MainFrm: TMainFrm
-  Left = 400
+  Left = 869
   Height = 718
-  Top = 221
+  Top = 336
   Width = 964
   Align = alBottom
   Caption = 'cbzManager'
@@ -12,7 +12,7 @@ object MainFrm: TMainFrm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object Panel1: TPanel
     Left = 274
     Height = 648

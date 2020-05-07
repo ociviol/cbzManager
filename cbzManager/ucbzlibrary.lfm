@@ -1,7 +1,7 @@
 object CbzLibrary: TCbzLibrary
-  Left = 276
+  Left = 680
   Height = 746
-  Top = 156
+  Top = 282
   Width = 1156
   Caption = 'Library'
   ClientHeight = 746
@@ -12,7 +12,7 @@ object CbzLibrary: TCbzLibrary
   OnResize = FormResize
   OnShow = FormShow
   Position = poDefault
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.0.6.0'
   object dgLibrary: TDrawGrid
     Left = 50
     Height = 667

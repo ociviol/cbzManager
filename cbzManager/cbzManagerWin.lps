@@ -109,8 +109,8 @@
         <UnitName Value="uWorkerThread"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="14"/>
-        <TopLine Value="437"/>
-        <CursorPos Y="454"/>
+        <TopLine Value="452"/>
+        <CursorPos X="22" Y="471"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit10>
@@ -237,8 +237,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="418"/>
-        <CursorPos X="6" Y="434"/>
+        <TopLine Value="183"/>
+        <CursorPos X="24" Y="195"/>
         <UsageCount Value="213"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="402" ID="2"/>

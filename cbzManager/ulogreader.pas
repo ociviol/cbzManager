@@ -6,6 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ComCtrls, StdCtrls,
+  ExtCtrls,
   {$if defined(Linux) or defined(Darwin)}
     cthreads,
   {$endif}
@@ -16,8 +17,15 @@ type
   { TFrmLogReader }
 
   TFrmLogReader = class(TForm)
+    btnFilter: TButton;
+    btnReset: TButton;
+    edFilter: TEdit;
     Memo1: TMemo;
+    Panel1: TPanel;
+    Panel2: TPanel;
     TreeView1: TTreeView;
+    procedure btnFilterClick(Sender: TObject);
+    procedure btnResetClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
   private
@@ -27,6 +35,7 @@ type
     procedure AfterShow(data : int64);
     procedure Search;
     procedure SearchEnded(Sender: TObject);
+    procedure LoadMemo(Node: TTreeNode);
     function FoundFile(const aFileName: string;
                        IsNew: Boolean = False): TTreeNode;
     procedure Progress(Sender: TObject; const ProgressID: QWord;
@@ -65,7 +74,34 @@ begin
   Application.QueueAsyncCall(@AfterShow, 0);
 end;
 
+procedure TFrmLogReader.btnFilterClick(Sender: TObject);
+var
+  i : integer;
+begin
+  with Memo1 do
+  begin
+    Lines.BeginUpdate;
+    try
+      for i := Lines.Count - 1 downto 0 do
+        if not Lines[i].Contains(edFilter.Text) then
+          Lines.Delete(i);
+    finally
+      Lines.EndUpdate;
+    end;
+  end;
+end;
+
+procedure TFrmLogReader.btnResetClick(Sender: TObject);
+begin
+  LoadMemo(TreeView1.Selected);
+end;
+
 procedure TFrmLogReader.TreeView1Change(Sender: TObject; Node: TTreeNode);
+begin
+  LoadMemo(Node);
+end;
+
+procedure TFrmLogReader.LoadMemo(Node: TTreeNode);
 var
   m : TMemoryStream;
 begin

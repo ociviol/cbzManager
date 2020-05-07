@@ -468,7 +468,7 @@ begin
               Exit;
             end;
 
-            Sleep(100);
+            Sleep(250);
             if not ThreadExtract.Working and (ThreadExtract.NbFiles = 0) then
               break;
 

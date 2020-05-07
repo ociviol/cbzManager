@@ -1089,7 +1089,10 @@ begin
       end;
     end
     else
+    begin
       ResetViewControls;
+      ClearUndo;
+    end;
 end;
 
 procedure TMainFrm.TreeView1CustomDrawItem(Sender: TCustomTreeView;

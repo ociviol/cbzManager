@@ -28,6 +28,7 @@ type
     FShowStats,
     FLHideRead,
     FOpenLibrary: Boolean;
+    FLibCurPath: String;
 
     FWindowStates: TStringlist;
     FLibPath,
@@ -65,6 +66,7 @@ type
     property LibPath : String read FLibPath write FLibPath;
     property SyncPath : String read FSyncPath write FSyncPath;
     property OpenLibrary : Boolean read FOpenLibrary write FOpenLibrary;
+    property LibCurPath : String read FLibCurPath write FLibCurPath;
   end;
 
 implementation

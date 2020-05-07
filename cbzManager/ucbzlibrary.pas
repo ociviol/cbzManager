@@ -144,7 +144,7 @@ type
     procedure SizeGrid;
     procedure DefaultBtnClick(Sender: TObject);
     procedure DoFillGrid(data : int64);
-    procedure FillGrid(bAddButton : Boolean = True);
+    procedure FillGrid;
     procedure SearchEnded(Sender: TObject);
     procedure UpdateVisibleDates;
     function FoundFile(const aFileName: string;
@@ -505,6 +505,7 @@ end;
 
 procedure TCbzLibrary.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  FConfig.LibCurPath:=FCurrentPath;
   FConfig.SaveForm(Self);
   CheckModified;
 
@@ -539,7 +540,14 @@ begin
     FCurrentPath := FFileList.RootPath;
     btnTopPath.Caption:=FCurrentPath;
     UpdateVisibleDates;
-    btnTopPath.Click;
+    if Fconfig.LibCurPath <> '' then
+    begin
+      FCurrentPath:=Fconfig.LibCurPath;
+      Flvl := 1;
+      FillGrid;
+    end
+    else
+      btnTopPath.Click;
   finally
     btnRefresh.Enabled:=True;
   end
@@ -689,7 +697,7 @@ begin
     UpdateNbItems;
   end
   else
-    FillGrid(False);
+    FillGrid;
   FFileList.SaveToFile(GetCacheFileName);
 end;
 
@@ -728,7 +736,7 @@ begin
   //end;
   FCurrentPath := FFileList.RootPath;
   Flvl := 1;
-  FillGrid(False);
+  FillGrid;
 end;
 
 procedure TCbzLibrary.cbHideReadClick(Sender: TObject);
@@ -740,7 +748,7 @@ begin
     FDisplayFilters := [dfAll];
 
   if Assigned(FVisibleList) then
-    FillGrid(False);
+    FillGrid;
 end;
 
 procedure TCbzLibrary.cbSearchChange(Sender: TObject);
@@ -925,7 +933,7 @@ begin
   FFileList.RootPath:=aLibPath;
   FCurrentPath:=aLibPath;
   btnTopPath.Caption:=aLibPath;
-  FillGrid(false);
+  FillGrid;
 end;
 
 procedure TCbzLibrary.CheckModified;
@@ -1010,10 +1018,10 @@ end;
 
 procedure TCbzLibrary.DoFillGrid(data: int64);
 begin
-  FillGrid(Boolean(data));
+  FillGrid;
 end;
 
-procedure TCbzLibrary.FillGrid(bAddButton : Boolean = True);
+procedure TCbzLibrary.FillGrid;
 var
   fs : TFillSettings;
 begin
@@ -1039,21 +1047,6 @@ begin
   if Flvl > Length(FPathPos) then
     SetLength(FPathPos, Flvl);
 
-  {
-  if bAddButton then
-  begin
-    FBtnList.Add(TButton.Create(self));
-    with tButton(FBtnList[FBtnList.Count-1]) do
-    begin
-      AutoSize := True;
-      Caption := GetLastPath(ExcludeTrailingPathDelimiter(FCurrentPath));
-      Align := alLeft;
-      Left := 10000;
-      Parent := pnlPath;
-      OnClick := @DefaultBtnClick;
-    end;
-  end;
-  }
   FVisibleList.Clear;
 
   fs.FFileList := FFileList;

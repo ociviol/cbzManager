@@ -1,6 +1,6 @@
 cd ~/Dev/cbzManager/cbzManager
 
-/usr/bin/fpc -B -Tlinux -MObjFPC -Scghi -CX -Cg -O3 -XX -l -vewnhibq -vm5076,5044,4066,4056,4055 -Fi./lib/x86_64-linux -Fu../../Utils -Fu/usr/share/lazarus/2.0.4/components/turbopower_ipro/units/x86_64-linux/gtk2 -Fu/usr/share/lazarus/2.0.4/components/printers/lib/x86_64-linux/gtk2 -Fu/usr/share/lazarus/2.0.4/components/cairocanvas/lib/x86_64-linux/gtk2 -Fu/usr/share/lazarus/2.0.4/lcl/units/x86_64-linux/gtk2 -Fu/usr/share/lazarus/2.0.4/lcl/units/x86_64-linux -Fu/usr/share/lazarus/2.0.4/components/lazutils/lib/x86_64-linux -Fu/usr/share/lazarus/2.0.4/packager/units/x86_64-linux -Fu./ -FU./lib/x86_64-linux/ -FE./ -o./ -dLCL -dLCLgtk2 -dUseCThreads -dRELEASE cbzManager.lpr
+/home/mat/fpcupdeluxe/fpc/bin/x86_64-linux/fpc.sh -Tlinux -MObjFPC -Scghi -CX -Cg -O3 -XX -l -vewnhibq -vm5076,5044,4066,4056,4055 -Filib/x86_64-linux -FuUtils -Fu../../XmlReader/XmlDoc -Fu../../../fpcupdeluxe/lazarus/components/turbopower_ipro/units/x86_64-linux/gtk2 -Fu../../../fpcupdeluxe/lazarus/components/printers/lib/x86_64-linux/gtk2 -Fu../../../fpcupdeluxe/lazarus/components/cairocanvas/lib/x86_64-linux/gtk2 -Fu../../../fpcupdeluxe/lazarus/lcl/units/x86_64-linux/gtk2 -Fu../../../fpcupdeluxe/lazarus/lcl/units/x86_64-linux -Fu../../../fpcupdeluxe/lazarus/components/lazutils/lib/x86_64-linux -Fu../../../fpcupdeluxe/lazarus/packager/units/x86_64-linux -Fu. -FUlib/x86_64-linux -FE. -ocbzManager -dLCL -dLCLgtk2 -dUseCThreads -dRELEASE cbzManager.lpr
 
 cp cbzManager ../precompiled\ binairies/Linux/Files/
 sudo cp cbzManager /usr/local/bin

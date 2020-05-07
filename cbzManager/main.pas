@@ -19,7 +19,8 @@ uses
 {$if defined(Darwin) or defined(Linux)}
   cthreads,
 {$endif}
-  Utils.Arrays, uDataPool, uWorkerThread, uConfig, uCbzLibrary;
+  Utils.Arrays,
+  uDataPool, uWorkerThread, uConfig, uCbzLibrary;
 
 type
   TProgressRec = class
@@ -30,6 +31,7 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionMoveToLib: TAction;
     ActionReadLog: TAction;
     ActionLibrary: TAction;
     ActionFileCleaner: TAction;
@@ -108,6 +110,8 @@ type
     MenuItem36: TMenuItem;
     MenuItem37: TMenuItem;
     MenuItem38: TMenuItem;
+    MenuItem39: TMenuItem;
+    N14: TMenuItem;
     N13: TMenuItem;
     N12: TMenuItem;
     N11: TMenuItem;
@@ -168,6 +172,7 @@ type
     procedure ActionLibraryExecute(Sender: TObject);
     procedure ActionMoveDownExecute(Sender: TObject);
     procedure ActionMoveToBottomExecute(Sender: TObject);
+    procedure ActionMoveToLibExecute(Sender: TObject);
     procedure ActionMoveToTopExecute(Sender: TObject);
     procedure ActionMoveupExecute(Sender: TObject);
     procedure ActionReadLogExecute(Sender: TObject);
@@ -206,6 +211,7 @@ type
     procedure mnuExitClick(Sender: TObject);
     procedure mnuSetDefaultPathClick(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
+    procedure PopupMenu3Popup(Sender: TObject);
     procedure PopupMenuQueuePopup(Sender: TObject);
     procedure Removefromlist1Click(Sender: TObject);
     procedure speBottomChange(Sender: TObject);
@@ -220,7 +226,8 @@ type
     FLog: ILog;
     zf : TCbz;
     FInFill : Boolean;
-    FConfigFile : String;
+    FConfigFile,
+    FFileToMove : String;
     FConfig : TConfig;
     FThreadSearchFiles : TThread;
     FTreeViewPaths : TStringlist;
@@ -236,6 +243,7 @@ type
     //FLibrary : TCbzLibrary;
 
     procedure HideCropTool;
+    procedure DoMoveToLib(data : int64);
     procedure CheckAlbumArt(const aFilename : string);
     procedure AppenFile(const aFileName : String);
     procedure SaveConfig;
@@ -557,6 +565,7 @@ begin
   ActionCropTool.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position >= 0);
 
   // files
+  ActionMoveToLib.Enabled := (zf.Mode <> zmClosed) and Assigned(FindForm(TCbzLibrary));
   ActionAppend.Enabled := (zf.Mode <> zmClosed);
   ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
   ActionChooseFolder.Enabled := not FInFill;
@@ -850,6 +859,11 @@ begin
   EnableActions;
 end;
 
+procedure TMainFrm.PopupMenu3Popup(Sender: TObject);
+begin
+  EnableActions;
+end;
+
 procedure TMainFrm.PopupMenuQueuePopup(Sender: TObject);
 begin
   with lbQueue do
@@ -1070,10 +1084,7 @@ begin
       end;
     end
     else
-    begin
       ResetViewControls;
-      zf.ClearUndo;
-    end;
 end;
 
 procedure TMainFrm.TreeView1CustomDrawItem(Sender: TCustomTreeView;
@@ -1355,7 +1366,7 @@ begin
     end;
   end
   else
-  with TCbzLibrary.Create(Application, FConfig) do
+  with TCbzLibrary.Create(nil, FConfig) do
   begin
     Show;
     BringToFront;
@@ -1403,6 +1414,27 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
+end;
+
+procedure TMainFrm.DoMoveToLib(data : int64);
+begin
+  if TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(FFileToMove) then
+  begin
+    DeleteFile(FFileToMove);
+
+  end;
+  FFileToMove := '';
+end;
+
+procedure TMainFrm.ActionMoveToLibExecute(Sender: TObject);
+begin
+  if Assigned(FindForm(TCbzLibrary)) then
+    if FileExists(TreeView1.Selected.Path) then
+    begin
+      FFileToMove := TreeView1.Selected.Path;
+      ActionRefresh.Execute;
+      Application.QueueAsyncCall(@DoMoveToLib, 0);
+    end;
 end;
 
 procedure TMainFrm.ActionMoveToTopExecute(Sender: TObject);
@@ -1465,22 +1497,22 @@ end;
 
 procedure TMainFrm.ActionRenameFileExecute(Sender: TObject);
 var
-  old, new : string;
+  old, new, p : string;
 begin
-  old := ExtractFileName(TreeView1.Selected.Path);
+  old := TreeView1.Selected.Path;
+  p := ExtractFilePath(old);
   if FileExists(old) then
   begin
     repeat
-      new := InputBox('Rename File', 'Input new Filename', old);
+      new := IncludeTrailingPathDelimiter(p) +
+             InputBox('Rename File', 'Input new Filename', extractfilename(old));
       if FileExists(new) then
         ShowMessage('File "' + new + '" already exists !');
     until (new = '') or (new = old) or not FileExists(new);
     if (new <> '') and (new <> old) then
     begin
       ResetViewControls;
-      old := TreeView1.Selected.Path;
-      TreeView1.Selected.Text := new;
-      new := TreeView1.Selected.Path;
+      TreeView1.Selected.Text := ExtractFileName(new);
       RenameFile(old, new);
     end;
   end;

@@ -210,5 +210,16 @@ object CbzLibrary: TCbzLibrary
       Caption = 'Read Status'
       OnClick = mnuReadStatusClick
     end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object mnuMoveTocbzManager: TMenuItem
+      Caption = 'Move to cbzManager'
+      OnClick = mnuMoveTocbzManagerClick
+    end
+    object mnuDelete: TMenuItem
+      Caption = 'Delete'
+      OnClick = mnuDeleteClick
+    end
   end
 end

@@ -82,6 +82,9 @@ type
     cbVisibleDates: TComboBox;
     cbSearch: TComboBox;
     dgLibrary: TDrawGrid;
+    mnuDelete: TMenuItem;
+    mnuMoveTocbzManager: TMenuItem;
+    N1: TMenuItem;
     mnuReadStatus: TMenuItem;
     Panel1: TPanel;
     Panel2: TPanel;
@@ -109,6 +112,8 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
+    procedure mnuDeleteClick(Sender: TObject);
+    procedure mnuMoveTocbzManagerClick(Sender: TObject);
     procedure mnuReadStatusClick(Sender: TObject);
   private
     function GetCacheFileName: String;
@@ -151,6 +156,7 @@ type
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig); reintroduce;
     //property RootPath : String read FRootPath write FRootPath;
+    function ImportFile(const aFilename : String):Boolean;
   end;
 
 
@@ -160,7 +166,7 @@ var
 implementation
 
 uses
-  Math, StrUtils, DateUtils, utils.zipfile, ucbz, uCbzViewer;
+  Math, StrUtils, DateUtils, utils.zipfile, utils.files, ucbz, uCbzViewer;
 
 
 {$R *.lfm}
@@ -417,6 +423,27 @@ begin
   inherited Create(aOwner);
 end;
 
+function TCbzLibrary.ImportFile(const aFilename: String):Boolean;
+var
+  dest : string;
+begin
+  if FCurrentPath <> '' then
+  try
+    dest := IncludeTrailingPathDelimiter(FCurrentPath) + ExtractFileName(aFilename);
+    if FileExists(dest) then
+      if MessageDlg('Conflict', 'File already exists, overwrite ?', mtInformation, mbYesNo, 0) = mrno then
+        exit(false);
+
+
+    CopyFile(aFilename, dest);
+    FoundFile(dest);
+    FillGrid;
+    result := true;
+  except
+    result := false;
+  end;
+end;
+
 procedure TCbzLibrary.FormCreate(Sender: TObject);
 var
   c : char;
@@ -432,7 +459,6 @@ begin
     'cbzLibrary.log', Fconfig.DoLog);
 
   Flog.Log('cbzLibrary started.');
-  FConfig.RestoreForm(Self);
   FInQueue := 0;
   FDisplayFilters := [dfAll];
   cbHideRead.Checked := Fconfig.LibraryHideRead;
@@ -492,6 +518,7 @@ end;
 
 procedure TCbzLibrary.FormShow(Sender: TObject);
 begin
+  FConfig.RestoreForm(Self);
   dgLibrary.ColCount:=1;
   dgLibrary.RowCount:=1;
   Application.QueueAsyncCall(@AfterShow, 0);
@@ -806,6 +833,34 @@ begin
 //      finally
 //      end;
 //  end;
+end;
+
+procedure TCbzLibrary.mnuDeleteClick(Sender: TObject);
+var
+  dest : string;
+  p : integer;
+begin
+  p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
+  if not FileExists(FVisibleList[p]) then
+    exit;
+
+  if DeleteFile(FVisibleList[p]) then
+  begin
+    TFileItem(FVisibleList.Objects[p]).Deleted:=True;
+    FillGrid;
+  end;
+end;
+
+procedure TCbzLibrary.mnuMoveTocbzManagerClick(Sender: TObject);
+var
+  dest : string;
+  p : integer;
+begin
+  p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
+  dest := IncludeTrailingPathDelimiter(Fconfig.BdPathPath) + 'Library' + PathDelim;
+  ForceDirectories(dest);
+  dest := dest + ExtractFileName(FVisibleList[p]);
+  CopyFile(FVisibleList[p], dest);
 end;
 
 function TCbzLibrary.GetCacheFileName: String;

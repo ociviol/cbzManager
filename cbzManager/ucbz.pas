@@ -400,6 +400,7 @@ begin
     FLog.Log(Format('%s %s %s', [ClassName, 'Close.', FileName]));
   StopStampThread;
   ClearCache;
+  ClearUndo;
 //  FData.Clear;
 
 //  FModified := False;

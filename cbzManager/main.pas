@@ -1091,7 +1091,7 @@ begin
     else
     begin
       ResetViewControls;
-      ClearUndo;
+      zf.ClearUndo;
     end;
 end;
 

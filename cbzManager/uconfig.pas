@@ -26,7 +26,8 @@ type
     FBlog,
     FDeleteFile,
     FShowStats,
-    FLHideRead: Boolean;
+    FLHideRead,
+    FOpenLibrary: Boolean;
 
     FWindowStates: TStringlist;
     FLibPath,
@@ -63,6 +64,7 @@ type
     property ShowStats : Boolean read FShowStats write FShowStats;
     property LibPath : String read FLibPath write FLibPath;
     property SyncPath : String read FSyncPath write FSyncPath;
+    property OpenLibrary : Boolean read FOpenLibrary write FOpenLibrary;
   end;
 
 implementation
@@ -92,6 +94,7 @@ begin
   FDeleteFile := False;
   FAlbumart := False;
   FShowStats := False;
+  FOpenLibrary := False;
   FSyncPath := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\';
 end;
 

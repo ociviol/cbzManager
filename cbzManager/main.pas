@@ -632,6 +632,8 @@ procedure TMainFrm.FormShow(Sender: TObject);
 begin
   if not Application.Terminated then
     EnableActions;
+  if FConfig.OpenLibrary then
+    ActionLibrary.Execute;
 end;
 
 procedure TMainFrm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -666,6 +668,7 @@ begin
   if Assigned(FThreadSearchFiles) then
     FThreadSearchFiles.Terminate;
 
+  FConfig.OpenLibrary:=Assigned(FindForm(TCbzLibrary));
   if Assigned(FindForm(TCbzLibrary)) then
     FindForm(TCbzLibrary).Close;
 

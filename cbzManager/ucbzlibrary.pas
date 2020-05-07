@@ -713,6 +713,7 @@ begin
     exit;
 
   p := -1;
+  cbSearch.DroppedDown:=True;
   Screen.Cursor := crHourGlass;
   try
     for i:= 0 to FVisibleList.Count - 1 do
@@ -787,7 +788,7 @@ begin
   if FCurrentPath = FFileList.RootPath then
     Exit;
 
-  FCurrentPath := ExtractFilePath(FCurrentPath);
+  FCurrentPath := ExcludeTrailingPathDelimiter(ExtractFilePath(FCurrentPath));
   FillGrid;
 
 //  if FBtnList.Count = 1 then

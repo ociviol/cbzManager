@@ -31,7 +31,8 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
-    ActionMoveToLib: TAction;
+    ActionDeleteFile: TAction;
+    ActionCopyToLib: TAction;
     ActionReadLog: TAction;
     ActionLibrary: TAction;
     ActionFileCleaner: TAction;
@@ -111,6 +112,7 @@ type
     MenuItem37: TMenuItem;
     MenuItem38: TMenuItem;
     MenuItem39: TMenuItem;
+    MenuItem40: TMenuItem;
     N14: TMenuItem;
     N13: TMenuItem;
     N12: TMenuItem;
@@ -164,6 +166,7 @@ type
     procedure ActionChooseFolderExecute(Sender: TObject);
     procedure ActionCropToolExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
+    procedure ActionDeleteFileExecute(Sender: TObject);
     procedure ActionFileCleanerExecute(Sender: TObject);
     procedure ActionFirstExecute(Sender: TObject);
     procedure ActionHorizFlipExecute(Sender: TObject);
@@ -172,7 +175,7 @@ type
     procedure ActionLibraryExecute(Sender: TObject);
     procedure ActionMoveDownExecute(Sender: TObject);
     procedure ActionMoveToBottomExecute(Sender: TObject);
-    procedure ActionMoveToLibExecute(Sender: TObject);
+    procedure ActionCopyToLibExecute(Sender: TObject);
     procedure ActionMoveToTopExecute(Sender: TObject);
     procedure ActionMoveupExecute(Sender: TObject);
     procedure ActionReadLogExecute(Sender: TObject);
@@ -565,7 +568,9 @@ begin
   ActionCropTool.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position >= 0);
 
   // files
-  ActionMoveToLib.Enabled := (zf.Mode <> zmClosed) and Assigned(FindForm(TCbzLibrary));
+  with TreeView1 do
+    ActionDeleteFile.Enabled:= Assigned(Selected) and FileExists(Selected.Path);
+  ActionCopyToLib.Enabled := (zf.Mode <> zmClosed) and Assigned(FindForm(TCbzLibrary));
   ActionAppend.Enabled := (zf.Mode <> zmClosed);
   ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
   ActionChooseFolder.Enabled := not FInFill;
@@ -1231,6 +1236,17 @@ begin
   end;
 end;
 
+procedure TMainFrm.ActionDeleteFileExecute(Sender: TObject);
+begin
+  if FileExists(TreeView1.Selected.Path) then
+  begin
+    zf.Close;
+    Image1.Picture.Clear;
+    DeleteFile(TreeView1.Selected.path);
+    ActionRefresh.Execute;
+  end;
+end;
+
 procedure TMainFrm.ActionFileCleanerExecute(Sender: TObject);
 begin
   with TTFormFilenameCleanerConfig.Create(Application) do
@@ -1418,15 +1434,11 @@ end;
 
 procedure TMainFrm.DoMoveToLib(data : int64);
 begin
-  if TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(FFileToMove) then
-  begin
-    DeleteFile(FFileToMove);
-
-  end;
+  TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(FFileToMove);
   FFileToMove := '';
 end;
 
-procedure TMainFrm.ActionMoveToLibExecute(Sender: TObject);
+procedure TMainFrm.ActionCopyToLibExecute(Sender: TObject);
 begin
   if Assigned(FindForm(TCbzLibrary)) then
     if FileExists(TreeView1.Selected.Path) then

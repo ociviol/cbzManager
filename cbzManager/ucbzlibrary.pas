@@ -115,6 +115,7 @@ type
     procedure mnuDeleteClick(Sender: TObject);
     procedure mnuMoveTocbzManagerClick(Sender: TObject);
     procedure mnuReadStatusClick(Sender: TObject);
+    procedure PopupMenu1Popup(Sender: TObject);
   private
     function GetCacheFileName: String;
   private
@@ -686,6 +687,11 @@ begin
   FFileList.SaveToFile(GetCacheFileName);
 end;
 
+procedure TCbzLibrary.PopupMenu1Popup(Sender: TObject);
+begin
+  mnuDelete.Enabled:= not Assigned(FThreadSearchFiles);
+end;
+
 procedure TCbzLibrary.dgLibraryDblClick(Sender: TObject);
 var
   s : String;
@@ -847,6 +853,7 @@ begin
   if DeleteFile(FVisibleList[p]) then
   begin
     TFileItem(FVisibleList.Objects[p]).Deleted:=True;
+    FFileList.SaveToFile(CacheFileName);
     FillGrid;
   end;
 end;
@@ -1092,7 +1099,12 @@ begin
     FLog.Log('TCbzLibrary.FoundFile: Added:' + aFilename);
   end
   else
-    Exit;
+  with FFileList do
+    if TFileItem(Objects[IndexOf(aFilename)]).Deleted then
+    begin
+      TFileItem(Objects[IndexOf(aFilename)]).Deleted := false;
+      Exit;
+    end;
 
   if (FCurrentPath = FFileList.RootPath) then
   begin

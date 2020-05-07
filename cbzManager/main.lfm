@@ -651,9 +651,14 @@ object MainFrm: TMainFrm
       Caption = 'Log Reader'
       OnExecute = ActionReadLogExecute
     end
-    object ActionMoveToLib: TAction
-      Caption = 'Move To Library'
-      OnExecute = ActionMoveToLibExecute
+    object ActionCopyToLib: TAction
+      Caption = 'Copy To Library'
+      OnExecute = ActionCopyToLibExecute
+    end
+    object ActionDeleteFile: TAction
+      Caption = 'Delete File'
+      Enabled = False
+      OnExecute = ActionDeleteFileExecute
     end
   end
   object PopupMenu2: TPopupMenu
@@ -680,7 +685,10 @@ object MainFrm: TMainFrm
       Caption = '-'
     end
     object MenuItem39: TMenuItem
-      Action = ActionMoveToLib
+      Action = ActionCopyToLib
+    end
+    object MenuItem40: TMenuItem
+      Action = ActionDeleteFile
     end
   end
   object Timerstats: TTimer

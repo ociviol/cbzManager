@@ -204,6 +204,7 @@ object CbzLibrary: TCbzLibrary
     TabOrder = 3
   end
   object PopupMenu1: TPopupMenu
+    OnPopup = PopupMenu1Popup
     left = 265
     top = 145
     object mnuReadStatus: TMenuItem

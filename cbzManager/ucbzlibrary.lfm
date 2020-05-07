@@ -215,7 +215,7 @@ object CbzLibrary: TCbzLibrary
       Caption = '-'
     end
     object mnuMoveTocbzManager: TMenuItem
-      Caption = 'Move to cbzManager'
+      Caption = 'Copy to cbzManager'
       OnClick = mnuMoveTocbzManagerClick
     end
     object mnuDelete: TMenuItem

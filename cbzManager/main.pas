@@ -1240,14 +1240,33 @@ begin
 end;
 
 procedure TMainFrm.ActionDeleteFileExecute(Sender: TObject);
+var
+  files : TStringlist;
+  s : string;
 begin
-  if FileExists(TreeView1.Selected.Path) then
-  begin
-    zf.Close;
-    Image1.Picture.Clear;
-    DeleteFile(TreeView1.Selected.path);
-    ActionRefresh.Execute;
-  end;
+  if Assigned(TreeView1.Selected) then
+    if FileExists(TreeView1.Selected.Path) then
+    begin
+      zf.Close;
+      Image1.Picture.Clear;
+      DeleteFile(TreeView1.Selected.path);
+      ActionRefresh.Execute;
+    end
+    else
+    if DirectoryExists(TreeView1.Selected.Path) and
+       (MessageDlg('Delete folder', 'Are your sure you want to delete a folder ?', mtInformation, mbYesNo, 0) = mryes) then
+    begin
+      Files := TSTringlist.Create;
+       try
+         GetFiles(TreeView1.Selected.Path, '*', Files);
+         for s in files do
+           DeleteFile(s);
+         RemoveDir(TreeView1.Selected.Path);
+         ActionRefresh.Execute;
+       finally
+         free;
+       end;
+    end;
 end;
 
 procedure TMainFrm.ActionFileCleanerExecute(Sender: TObject);
@@ -1442,13 +1461,26 @@ begin
 end;
 
 procedure TMainFrm.ActionCopyToLibExecute(Sender: TObject);
+var
+  Files : TStringlist;
+  s : string;
 begin
-  if Assigned(FindForm(TCbzLibrary)) then
+  if Assigned(FindForm(TCbzLibrary)) and Assigned(TreeView1.Selected) then
     if FileExists(TreeView1.Selected.Path) then
     begin
       FFileToMove := TreeView1.Selected.Path;
       ActionRefresh.Execute;
       Application.QueueAsyncCall(@DoMoveToLib, 0);
+    end
+    else
+    if DirectoryExists(TreeView1.Selected.Path) then
+    begin
+       GetFiles(TreeView1.Selected.Path, '*', Files);
+       for s in Files do
+       begin
+         FFileToMove:=s;
+         DoMoveToLib(0);
+       end;
     end;
 end;
 

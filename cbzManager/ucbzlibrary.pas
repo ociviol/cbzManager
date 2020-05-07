@@ -22,7 +22,7 @@ type
 
   TFillSettings = Record
     FFileList : TItemList;
-    FVisibleList: TStringlist;
+    FVisibleList: TThreadStringlist;
     FCurrentPath: String;
     FLvl: Integer;
     FDisplayFilters: TDisplayFilters;
@@ -64,6 +64,7 @@ type
     FItem : TFileItem;
     procedure DoProgress;
     procedure DoNotify;
+    procedure UpdateCount;
   public
     constructor Create(aLog : ILog; aFileList : TItemList;
                        aNotify : TLibraryNotify;
@@ -221,6 +222,11 @@ begin
   FNotifier(Self, laDelete, FItem);
 end;
 
+procedure TThreadScrub.UpdateCount;
+begin
+  FCnt := FFileList.Count;
+end;
+
 procedure TThreadScrub.Execute;
 var
   r : integer;
@@ -248,7 +254,7 @@ begin
     //   (FFileList.DeletedCount > 0) then
     begin
       FLog.Log('TThreadScrub.Execute: Starting scrub.');
-      FCnt := FFileList.Count;
+      Synchronize(@UpdateCount);
       FVal := 0;
       FsyncedIn := 0;
       FsyncedOut := 0;
@@ -303,7 +309,7 @@ begin
         if Terminated then
             Exit;
 
-        FCnt := FFileList.Count;
+        Synchronize(@UpdateCount);
       end;
       Synchronize(@DoProgress);
       FLog.Log('TThreadScrub.Execute: Scrub done.');
@@ -860,14 +866,35 @@ end;
 
 procedure TCbzLibrary.mnuMoveTocbzManagerClick(Sender: TObject);
 var
-  dest : string;
+  dest, destp : string;
   p : integer;
+  Files : TSTringlist;
+  s : string;
 begin
   p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
-  dest := IncludeTrailingPathDelimiter(Fconfig.BdPathPath) + 'Library' + PathDelim;
-  ForceDirectories(dest);
-  dest := dest + ExtractFileName(FVisibleList[p]);
-  CopyFile(FVisibleList[p], dest);
+  destp := IncludeTrailingPathDelimiter(Fconfig.BdPathPath) + 'Library' + PathDelim;
+  ForceDirectories(destp);
+
+  if FileExists(FVisibleList[p]) then
+  begin
+    dest := destp + ExtractFileName(FVisibleList[p]);
+    CopyFile(FVisibleList[p], dest);
+  end
+  else
+  if DirectoryExists(FVisibleList[p]) then
+  begin
+     Files := TSTringlist.Create;
+     try
+       GetFiles(FVisibleList[p], '*', Files);
+       for s in files do
+       begin
+         dest := destp + s.Replace(FFileList.RootPath, '');
+         CopyFile(s, dest);
+       end;
+     finally
+       Free;
+     end;
+  end;
 end;
 
 function TCbzLibrary.GetCacheFileName: String;

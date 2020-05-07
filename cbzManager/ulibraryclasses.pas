@@ -107,10 +107,10 @@ type
   public
     constructor Create(alog : ILog; const aSyncPath : String = '');
     destructor Destroy; override;
-    procedure Clear; override;
-    procedure Delete(index:integer); override;
-    procedure LoadFromFile(const aFilename : String); override;
-    procedure SaveToFile(const aFilename : String); override;
+    procedure Clear;
+    procedure Delete(index:integer);
+    procedure LoadFromFile(const aFilename : String);
+    procedure SaveToFile(const aFilename : String);
     procedure ResetStampState;
 
     property Modified : Boolean read GetModified;
@@ -616,14 +616,14 @@ begin
   result := FModified;
   if result then exit;
 
-  Flock.LockList;
+  with LockList do
   try
     for i:= 0 to Count - 1 do
       if TFileItem(Objects[i]).Modified then
         Exit(True);
     result := False;
   finally
-    FLock.UnlockList;
+    UnlockList;
   end;
 end;
 
@@ -631,24 +631,24 @@ function TItemList.GetDeletedCount: Integer;
 var
   i : integer;
 begin
-  Flock.LockList;
+  with LockList do
   try
     result := 0;
     for i := 0 to Count - 1 do
       if TFileItem(Objects[i]).Deleted then
         inc(result);
   finally
-    FLock.UnlockList;
+    UnlockList;
   end;
 end;
 
 function TItemList.GetRootPath: String;
 begin
-  Flock.LockList;
+  with LockList do
   try
     result := FRootPath;
   finally
-    FLock.UnlockList;
+    UnlockList;
   end;
 end;
 
@@ -656,7 +656,7 @@ function TItemList.GetStampCount: Integer;
 var
   i : integer;
 begin
-  Flock.LockList;
+  with LockList do
   try
     result := 0;
     for i := 0 to Count - 1 do
@@ -664,7 +664,7 @@ begin
         if FStampGenerated and FileExists(CacheFilename) then
           inc(result);
   finally
-    Flock.UnlockList;
+    UnlockList;
   end;
 end;
 
@@ -672,7 +672,7 @@ function TItemList.GetStampLessCount: Integer;
 var
   i : integer;
 begin
-  Flock.LockList;
+  with LockList do
   try
     result := 0;
     for i := 0 to Count - 1 do
@@ -691,27 +691,28 @@ begin
           end;
         end;
   finally
-    FLock.UnlockList;
+    UnlockList;
   end;
 end;
 
 function TItemList.GetSyncPath: String;
 begin
-    Flock.LockList;
+  with LockList do
   try
     Result := FSyncPath;
   finally
-    FLock.UnlockList;
+    UnlockList;
   end;
 end;
 
+
 procedure TItemList.SetRootPath(AValue: String);
 begin
-  Flock.LockList;
+  with LockList do
   try
     FRootPath := AValue;
   finally
-    FLock.UnlockList;
+    UnlockList;
   end;
 end;
 
@@ -719,19 +720,24 @@ function TItemList.GetReadCount: integer;
 var
   i:integer;
 begin
-  result := 0;
-  for i := 0 to Count - 1 do
-    if TfileItem(Objects[i]).ReadState then
-      inc(result);
+  with LockList do
+  try
+    result := 0;
+    for i := 0 to Count - 1 do
+      if TfileItem(Objects[i]).ReadState then
+        inc(result);
+  finally
+    UnlockList;
+  end;
 end;
 
 procedure TItemList.SetSyncPath(AValue: String);
 begin
-    Flock.LockList;
+  with LockList do
   try
     FSyncPath := AValue;
   finally
-    FLock.UnlockList;
+    UnlockList;
   end;
 end;
 
@@ -753,32 +759,42 @@ procedure TItemList.Clear;
 var
   i : Integer;
 begin
-  for i := 0 to Count - 1 do
-    TFileItem(Objects[i]).free;
+  with LockList do
+  try
+    for i := 0 to Count - 1 do
+      TFileItem(Objects[i]).free;
 
-  inherited Clear;
-  FModified := False;
+    inherited Clear;
+    FModified := False;
+  finally
+    UnlockList;
+  end;
 end;
 
 procedure TItemList.Delete(index: integer);
 begin
-  with TFileItem(Objects[index]) do
+  with LockList do
   try
-    if FileExists(CacheFilename) then
-    begin
-       DeleteFile(CacheFilename);
-       FLog.Log('TItemList.Delete : Delete cache : ' + CacheFilename);
+    with TFileItem(Objects[index]) do
+    try
+      if FileExists(CacheFilename) then
+      begin
+         DeleteFile(CacheFilename);
+         FLog.Log('TItemList.Delete : Delete cache : ' + CacheFilename);
+      end;
+
+      free;
+
+    except
+      on e: exception do
+        Flog.Log('TItemList.Delete:Error:' + e.Message);
     end;
 
-    free;
-
-  except
-    on e: exception do
-      Flog.Log('TItemList.Delete:Error:' + e.Message);
+    inherited Delete(index);
+    FModified := True;
+  finally
+    UnlockList;
   end;
-
-  inherited Delete(index);
-  FModified := True;
 end;
 
 procedure TItemList.SaveToFile(const aFilename: String);
@@ -786,25 +802,30 @@ var
   i : integer;
   el, root : TXmlElement;
 begin
-  with TXMLDoc.Create do
+  with LockList do
   try
+    with TXMLDoc.Create do
     try
-      root := CreateNewDocumentElement('Library');
-      root.SetAttribute('RootPath', FRootPath);
-      for i := 0 to Count - 1 do
-        if not TFileItem(Objects[i]).Deleted then
-        begin
-          el := root.AddChildNode('Comic');
-          TFileItem(Objects[i]).SaveToXml(el);
-        end;
-      SaveToFile(aFilename);
-      FModified := False;
-    except
-      on E: Exception do
-        FLog.Log('TItemList.SaveToFile:'+E.Message);
+      try
+        root := CreateNewDocumentElement('Library');
+        root.SetAttribute('RootPath', FRootPath);
+        for i := 0 to Count - 1 do
+          if not TFileItem(Objects[i]).Deleted then
+          begin
+            el := root.AddChildNode('Comic');
+            TFileItem(Objects[i]).SaveToXml(el);
+          end;
+        SaveToFile(aFilename);
+        FModified := False;
+      except
+        on E: Exception do
+          FLog.Log('TItemList.SaveToFile:'+E.Message);
+      end;
+    finally
+      Free;
     end;
   finally
-    Free;
+    UnlockList;
   end;
 end;
 
@@ -812,8 +833,13 @@ procedure TItemList.ResetStampState;
 var
   i : integer;
 begin
-  for i:= 0 To Count - 1 do
+  with LockList do
+  try
+    for i:= 0 To Count - 1 do
     TFileItem(Objects[i]).StampGenerated:=False;
+  finally
+    UnlockList;
+  end;
 end;
 
 procedure TItemList.LoadFromFile(const aFilename: String);
@@ -821,30 +847,36 @@ var
   i : integer;
   fi : TFileItem;
 begin
-  Clear;
-  with TXMLDoc.Create do
+  with LockList do
   try
+    Clear;
+    with TXMLDoc.Create do
     try
-      LoadFromFile(aFilename);
-      with DocumentElement do
-      begin
-        if GetAttributeStr('RootPath') <> '' then
-          FRootPath := GetAttributeStr('RootPath');
-        for i := 0 to NbElements - 1 do
+      try
+        LoadFromFile(aFilename);
+        with DocumentElement do
         begin
-          fi := TFileItem.Create(Self, Flog, '');
-          fi.LoadFromXml(Elements[i]);
-          AddObject(fi.Filename, fi);
+          if GetAttributeStr('RootPath') <> '' then
+            FRootPath := GetAttributeStr('RootPath');
+          for i := 0 to NbElements - 1 do
+          begin
+            fi := TFileItem.Create(Self, Flog, '');
+            fi.LoadFromXml(Elements[i]);
+            AddObject(fi.Filename, fi);
+          end;
         end;
+        FModified := False;
+      except
+        on E: Exception do
+          FLog.Log('TItemList.LoadFromFile:'+E.Message);
       end;
-      FModified := False;
-    except
-      on E: Exception do
-        FLog.Log('TItemList.LoadFromFile:'+E.Message);
+    finally
+      Free;
     end;
   finally
-    Free;
+    UnlockList;
   end;
+
 end;
 
 

@@ -135,6 +135,8 @@ type
     FThreadScrub : TThreadScrub;
 
     procedure UpdateNbItems;
+    procedure SetGridPos(aCol, aRow : Integer); inline;
+    procedure SetGridTopPos(aCol, aRow : Integer); inline;
     procedure MoveIntoFolder(searchindex : integer);
     procedure SwitchPath(const aLibPath : String);
     procedure CheckModified;
@@ -407,6 +409,7 @@ begin
           end;
         end;
       end;
+
     Terminate;
   except
     on e: Exception do
@@ -416,8 +419,6 @@ begin
     end;
   end;
 end;
-
-
 
 
 { TCbzLibrary }
@@ -624,6 +625,8 @@ begin
 
             r := aRect;
             r.top := r.Bottom - (TextHeight(s) * 3);
+            inc(r.Left, 3);
+            dec(r.Right, 3);
             r.Bottom:=r.Bottom-3;
             ts.ShowPrefix:=False;
             ts.Wordbreak:=True;
@@ -643,6 +646,44 @@ begin
   end;
 end;
 
+procedure TCbzLibrary.SetGridTopPos(aCol, aRow : Integer);
+begin
+  with dgLibrary do
+  begin
+    BeginUpdate;
+    try
+      TopRow := aRow;
+      Col := aCol;
+      if length(FPathPos) >= FLvl then
+      begin
+        FPathPos[FLvl-1].x := 0;
+        FPathPos[FLvl-1].y := 0;
+      end;
+    finally
+      EndUpdate;
+    end;
+  end;
+end;
+
+procedure TCbzLibrary.SetGridPos(aCol, aRow : Integer);
+begin
+  with dgLibrary do
+  begin
+    BeginUpdate;
+    try
+      Row := aRow;
+      Col := aCol;
+      if length(FPathPos) >= FLvl then
+      begin
+        FPathPos[FLvl-1].x := 0;
+        FPathPos[FLvl-1].y := 0;
+      end;
+    finally
+      EndUpdate;
+    end;
+  end;
+end;
+
 procedure TCbzLibrary.dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
@@ -653,8 +694,7 @@ begin
     with dgLibrary do
     begin
       MouseToCell(x,y, aCol, aRow);
-      Row := aRow;
-      Col := aCol;
+      SetGridPos(aCol, aRow);
     end;
   end;
 end;
@@ -773,8 +813,9 @@ begin
           p := i;
           r := p div ColCount;
           c := p - (r * ColCount);
-          TopRow := r;
-          col := c;
+          SetGridTopPos(c, r);
+          //TopRow := r;
+          //col := c;
           //MoveIntoFolder(i);
           break;
         end;
@@ -960,8 +1001,9 @@ begin
           p := i;
           r := p div ColCount;
           c := p - (r * ColCount);
-          TopRow := r;
-          col := c;
+          SetGridTopPos(c, r);
+          //TopRow := r;
+          //col := c;
           break;
         end;
     end;
@@ -1034,8 +1076,8 @@ begin
   Progress(Self, 0, 0, 0, 'Loading folder...');
   btnRefresh.Enabled:=False;
 
-  if Length(FPathPos) <= 0 then
-    SetLength(FPathPos, 1);
+  if Length(FPathPos) < FLvl then
+    SetLength(FPathPos, FLvl);
 
   FPathPos[FLvl-1].x := dgLibrary.Col;
   FPathPos[FLvl-1].y := MakeLong(dgLibrary.TopRow, dgLibrary.Row);
@@ -1128,6 +1170,7 @@ begin
 
   if (FCurrentPath = FFileList.RootPath) then
   begin
+    SetGridTopPos(aCol, aRow);
     aRow := (FVisibleList.Count div dgLibrary.ColCount);
     aCol := FVisibleList.Count - (aRow * dgLibrary.ColCount);
 
@@ -1174,9 +1217,8 @@ begin
             if (FPathPos[FLvl-1].y <> 0) and
                ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
             begin
-              Col := FPathPos[FLvl-1].x;
-              TopRow := oldtoprow;
-              Row := oldrow;
+              SetGridPos(FPathPos[FLvl-1].x, oldrow);
+              SetGridTopPos(FPathPos[FLvl-1].x, oldtoprow);
             end;
       end;
   finally
@@ -1201,7 +1243,7 @@ begin
   Progress(Self, 0, 0, 0, 'Ready.');
   FFillThread := nil;
   btnRefresh.Enabled:=True;
-
+  FVisibleList.Sort;
   with cbSearch do
   begin
     Items.BeginUpdate;
@@ -1234,9 +1276,8 @@ begin
             if (FPathPos[FLvl-1].y <> 0) and
                ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
             begin
-              Col := FPathPos[FLvl-1].x;
-              TopRow := oldtoprow;
-              Row := oldrow;
+              SetGridPos(FPathPos[FLvl-1].x, oldrow);
+              SetGridTopPos(FPathPos[FLvl-1].x, oldtoprow);
               FPathPos[FLvl-1].x := 0;
               FPathPos[FLvl-1].y := 0;
             end;

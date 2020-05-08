@@ -934,7 +934,7 @@ begin
   begin
      Files := TSTringlist.Create;
      try
-       GetFiles(FVisibleList[p], '*', Files);
+       GetFiles(FVisibleList[p], ['*'], Files);
        for s in files do
        begin
          dest := destp + s.Replace(FFileList.RootPath, '');

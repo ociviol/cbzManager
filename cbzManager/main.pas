@@ -1261,7 +1261,7 @@ begin
     begin
       Files := TSTringlist.Create;
        try
-         GetFiles(TreeView1.Selected.Path, '*', Files);
+         GetFiles(TreeView1.Selected.Path, ['*'], Files);
          for s in files do
            DeleteFile(s);
          RemoveDir(TreeView1.Selected.Path);
@@ -1478,7 +1478,7 @@ begin
     else
     if DirectoryExists(TreeView1.Selected.Path) then
     begin
-       GetFiles(TreeView1.Selected.Path, '*', Files);
+       GetFiles(TreeView1.Selected.Path, ['*'], Files);
        for s in Files do
        begin
          FFileToMove:=s;

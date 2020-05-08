@@ -2,4 +2,5 @@
 <CONFIG>
   <Compiler Value="/Users/ollivierciviol/fpcupdeluxe/fpc/bin/x86_64-darwin/fpc.sh" Date="1578292201"/>
   <Params Value=" -MObjFPC -Scghi -O1 -gw3 -gl -k-framework -kCocoa -l -vewnhibq -Fi/Users/ollivierciviol/Dev/cbzManager/cbzManager/lib/x86_64-darwin -Fu/Users/ollivierciviol/Dev/Utils -Fu/Users/ollivierciviol/Dev/XmlReader/XmlDoc -Fu/Users/ollivierciviol/fpcupdeluxe/lazarus/lcl/units/x86_64-darwin/cocoa -Fu/Users/ollivierciviol/fpcupdeluxe/lazarus/lcl/units/x86_64-darwin -Fu/Users/ollivierciviol/fpcupdeluxe/lazarus/components/lazutils/lib/x86_64-darwin -Fu/Users/ollivierciviol/fpcupdeluxe/lazarus/packager/units/x86_64-darwin -Fu/Users/ollivierciviol/Dev/cbzManager/cbzManager/ -FU/Users/ollivierciviol/Dev/cbzManager/cbzManager/lib/x86_64-darwin/ -FE/Users/ollivierciviol/Dev/cbzManager/cbzManager/ -o/Users/ollivierciviol/Dev/cbzManager/cbzManager/cbzManagerOsx -dLCL -dLCLcocoa -dUseCThreads cbzManagerOsx.lpr"/>
+  <Complete Value="False"/>
 </CONFIG>

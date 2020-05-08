@@ -7,8 +7,8 @@ object CbzViewerFrame: TCbzViewerFrame
   ClientHeight = 704
   ClientWidth = 783
   TabOrder = 0
-  DesignLeft = 843
-  DesignTop = 151
+  DesignLeft = 829
+  DesignTop = 200
   object Panel1: TPanel
     Left = 0
     Height = 704
@@ -34,10 +34,15 @@ object CbzViewerFrame: TCbzViewerFrame
       FixedCols = 0
       FixedRows = 0
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goThumbTracking, goSmoothScroll, goDontScrollPartCell]
-      PopupMenu = pmGrid
+      PopupMenu = pmgrid
       RowCount = 1
       TabOrder = 0
+      OnDragDrop = DrawGrid1DragDrop
+      OnDragOver = DrawGrid1DragOver
       OnDrawCell = DrawGrid1DrawCell
+      OnKeyUp = DrawGrid1KeyUp
+      OnMouseDown = DrawGrid1MouseDown
+      OnMouseEnter = DrawGrid1MouseEnter
       OnSelectCell = DrawGrid1SelectCell
     end
     object Image1: TImage
@@ -251,82 +256,6 @@ object CbzViewerFrame: TCbzViewerFrame
       Visible = False
     end
   end
-  object pmGrid: TPopupMenu
-    left = 696
-    top = 272
-    object MenuItem3: TMenuItem
-    end
-    object N3: TMenuItem
-      Caption = '-'
-    end
-    object MenuItem4: TMenuItem
-    end
-    object MenuItem5: TMenuItem
-    end
-    object MenuItem34: TMenuItem
-    end
-    object N4: TMenuItem
-      Caption = '-'
-    end
-    object MenuItem14: TMenuItem
-      Caption = 'Flip'
-      object MenuItem16: TMenuItem
-      end
-      object MenuItem15: TMenuItem
-      end
-    end
-    object MenuItem6: TMenuItem
-      Caption = 'Rotate'
-      object MenuItem7: TMenuItem
-      end
-      object MenuItem17: TMenuItem
-      end
-    end
-    object N5: TMenuItem
-      Caption = '-'
-    end
-    object MenuItem11: TMenuItem
-    end
-    object MenuItem13: TMenuItem
-    end
-    object N6: TMenuItem
-      Caption = '-'
-    end
-    object MenuItem18: TMenuItem
-      Caption = 'Move'
-      object MenuItem19: TMenuItem
-      end
-      object MenuItem20: TMenuItem
-      end
-      object MenuItem21: TMenuItem
-      end
-      object MenuItem22: TMenuItem
-      end
-    end
-    object N7: TMenuItem
-      Caption = '-'
-    end
-    object MenuItem12: TMenuItem
-      Caption = 'File Operations'
-      object MenuItem23: TMenuItem
-      end
-      object MenuItem31: TMenuItem
-      end
-    end
-    object N8: TMenuItem
-      Caption = '-'
-    end
-    object MenuItem8: TMenuItem
-    end
-    object MenuItem9: TMenuItem
-    end
-  end
-  object pmImage: TPopupMenu
-    left = 536
-    top = 343
-    object MenuItem30: TMenuItem
-    end
-  end
   object ActionList1: TActionList
     left = 236
     top = 124
@@ -363,48 +292,148 @@ object CbzViewerFrame: TCbzViewerFrame
     object ActionDelete: TAction
       Caption = 'Delete'
       Enabled = False
+      OnExecute = ActionDeleteExecute
     end
     object ActionMoveup: TAction
       Caption = 'Move Up'
+      OnExecute = ActionMoveupExecute
     end
     object ActionMoveDown: TAction
       Caption = 'Move Down'
+      OnExecute = ActionMoveDownExecute
     end
     object ActionMoveToTop: TAction
       Caption = 'Move To Top'
+      OnExecute = ActionMoveToTopExecute
     end
     object ActionMoveToBottom: TAction
       Caption = 'Move To Bottom'
-    end
-    object ActionRefresh: TAction
-      Caption = 'Refresh'
+      OnExecute = ActionMoveToBottomExecute
     end
     object ActionJoin: TAction
       Caption = 'Join Images'
+      OnExecute = ActionJoinExecute
     end
     object ActionSplitImage: TAction
       Caption = 'Split Image'
+      OnExecute = ActionSplitImageExecute
     end
     object ActionUndo: TAction
       Caption = 'Undo'
+      OnExecute = ActionUndoExecute
     end
     object ActionUndoAll: TAction
       Caption = 'Undo All'
+      OnExecute = ActionUndoAllExecute
     end
     object ActionRewriteManga: TAction
       Caption = 'Rewrite Manga'
+      OnExecute = ActionRewriteMangaExecute
     end
     object ActionCropTool: TAction
       Caption = 'Crop tool'
-    end
-    object ActionAppend: TAction
-      Caption = 'Append File'
+      OnExecute = ActionCropToolExecute
     end
     object ActionSelectAll: TAction
       Caption = 'Select All'
+      OnExecute = ActionSelectAllExecute
     end
-    object ActionShowStats: TAction
-      Caption = 'Show Stats'
+  end
+  object pmgrid: TPopupMenu
+    OnPopup = pmgridPopup
+    left = 688
+    top = 248
+    object MenuItem3: TMenuItem
+      Action = ActionDelete
+    end
+    object N3: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem4: TMenuItem
+      Action = ActionFirst
+    end
+    object MenuItem5: TMenuItem
+      Action = ActionLast
+    end
+    object MenuItem34: TMenuItem
+      Action = ActionSelectAll
+    end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem14: TMenuItem
+      Caption = 'Flip'
+      object MenuItem16: TMenuItem
+        Action = ActionHorizFlip
+      end
+      object MenuItem15: TMenuItem
+        Action = ActionVertFlip
+      end
+    end
+    object MenuItem6: TMenuItem
+      Caption = 'Rotate'
+      object MenuItem7: TMenuItem
+        Action = ActionRot90
+      end
+      object MenuItem17: TMenuItem
+        Action = ActionRotm90
+      end
+    end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem11: TMenuItem
+      Action = ActionJoin
+    end
+    object MenuItem13: TMenuItem
+      Action = ActionSplitImage
+    end
+    object N6: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem18: TMenuItem
+      Caption = 'Move'
+      object MenuItem19: TMenuItem
+        Action = ActionMoveup
+      end
+      object MenuItem20: TMenuItem
+        Action = ActionMoveDown
+      end
+      object MenuItem21: TMenuItem
+        Action = ActionMoveToTop
+      end
+      object MenuItem22: TMenuItem
+        Action = ActionMoveToBottom
+      end
+    end
+    object N7: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem12: TMenuItem
+      Caption = 'File Operations'
+      object MenuItem23: TMenuItem
+        Action = ActionRewriteManga
+      end
+      object MenuItem31: TMenuItem
+        Caption = 'Append File'
+      end
+    end
+    object N8: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem8: TMenuItem
+      Action = ActionUndo
+    end
+    object MenuItem9: TMenuItem
+      Action = ActionUndoAll
+    end
+  end
+  object pmImage: TPopupMenu
+    OnPopup = pmImagePopup
+    left = 536
+    top = 343
+    object MenuItem30: TMenuItem
+      Action = ActionCropTool
     end
   end
 end

@@ -41,7 +41,7 @@ begin
   begin
     FConfig := aConfig;
     Caption := 'CbzViewer : ' + ExtractFilename(aFilename);
-    CbzViewerFrame := TCbzViewerFrame.Create(f, aLog);
+    CbzViewerFrame := TCbzViewerFrame.Create(f, aConfig, aLog);
     CbzViewerFrame.Parent := f;
     ActiveControl := CbzViewerFrame.DrawGrid1;
     Show;

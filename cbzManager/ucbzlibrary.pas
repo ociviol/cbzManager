@@ -1242,12 +1242,15 @@ begin
 
         with dgLibrary do
           if (RowCount >= oldrow) and (RowCount > 0) then
-            if (FPathPos[FLvl-1].y <> 0) and
-               ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
-            begin
-              SetGridPos(FPathPos[FLvl-1].x, oldrow);
-              SetGridTopPos(FPathPos[FLvl-1].x, oldtoprow);
-            end;
+            if (FPathPos[FLvl-1].y <> 0) then
+              if (TopRow <> oldtoprow) then
+                TopRow:=oldtoprow
+              else
+              if (Row <> oldrow) then
+                Row := oldrow
+              else
+              if (Col <> FPathPos[FLvl-1].x) then
+                Col := FPathPos[FLvl-1].x;
       end;
   finally
     dec(FInQueue);

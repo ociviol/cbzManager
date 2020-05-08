@@ -55,11 +55,11 @@ object CbzLibrary: TCbzLibrary
     Width = 1156
     Panels = <    
       item
-        Width = 200
+        Width = 150
       end    
       item
         Alignment = taCenter
-        Width = 450
+        Width = 400
       end    
       item
         Width = 600

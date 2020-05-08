@@ -475,6 +475,7 @@ begin
 {$endif}
     'cbzLibrary.log', Fconfig.DoLog);
 
+  StatusBar1.Font.Size := 9;
   Flog.Log('cbzLibrary started.');
   FInQueue := 0;
   FDisplayFilters := [dfAll];

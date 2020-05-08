@@ -405,7 +405,7 @@ begin
     // update
   if FileExists(SyncFilename) then
   try
-    if (FileDateTodateTime(FileAge(SyncFilename)) <> FSyncFileDAte) then
+    if (FileDateTodateTime(FileAge(SyncFilename)) > FSyncFileDAte) then
       with TXmlDoc.Create do
       try
         LoadFromFile(SyncFilename);

@@ -35,3 +35,4 @@ cbzManager/lib/x86_64-darwin/main.lfm
 cbzManager/Logs/*
 cbzManager/Library/*
 
+*.res

@@ -315,7 +315,7 @@ uses
 {$endif}
   Utils.Vcl,
   Utils.SoftwareVersion, uDataTypes,
-  Utils.ZipFile, Utils.Graphics,
+  Utils.ZipFile, Utils.Graphics, Utils.Files,
   uLoadReport, uAbout, uFileCleaner;
 
 
@@ -391,7 +391,7 @@ end;
 
 
 { TMainFrm }
-
+{
 procedure test;
 var
   c : char;
@@ -428,7 +428,7 @@ begin
     Free;
   end;
 end;
-
+ }
 procedure TMainFrm.FormCreate(Sender: TObject);
 begin
   //test;
@@ -570,7 +570,10 @@ begin
 
     // files
     with TreeView1 do
-      ActionDeleteFile.Enabled:= Assigned(Selected) and FileExists(Selected.Path) or DirectoryExists(Selected.Path);
+      ActionDeleteFile.Enabled:=
+        Assigned(Selected) and FileExists(Selected.Path) or
+        (DirectoryExists(Selected.Path) and (Selected.Path.Length > FConfig.BdPathPath.Length));
+
     ActionCopyToLib.Enabled := (zf.Mode <> zmClosed) and Assigned(FindForm(TCbzLibrary));
     ActionAppend.Enabled := (zf.Mode <> zmClosed);
     ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
@@ -1250,6 +1253,7 @@ var
   files : TStringlist;
   s : string;
   i : integer;
+  n : TTreeNode;
 begin
   if Assigned(TreeView1.Selected) then
     if FileExists(TreeView1.Selected.Path) then
@@ -1263,20 +1267,16 @@ begin
     if DirectoryExists(TreeView1.Selected.Path) and
        (MessageDlg('Delete folder', 'Are your sure you want to delete a folder ?', mtInformation, mbYesNo, 0) = mryes) then
     begin
-       Files := TSTringlist.Create;
-       try
-         GetFiles(TreeView1.Selected.Path, ['*'], Files);
-         for s in files do
-           DeleteFile(s);
-         Files.Clear;
-         GetDirectories(TreeView1.Selected.Path, Files);
-         for i := Files.count-1 downto 0 do
-           RemoveDir(Files[i]);
-         RemoveDir(TreeView1.Selected.Path);
-         ActionRefresh.Execute;
-       finally
-         Files.free;
-       end;
+      with TreeView1 do
+      begin
+        n := Selected;
+        if n.Level < 1 then exit;
+        Selected := Items[0];
+        KillFolder(n.Path);
+        RemoveDir(n.Path);
+        Items.Delete(n);
+      end;
+      //ActionRefresh.Execute;
     end;
 end;
 

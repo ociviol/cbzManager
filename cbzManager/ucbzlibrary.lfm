@@ -1,7 +1,7 @@
 object CbzLibrary: TCbzLibrary
-  Left = 680
+  Left = 441
   Height = 746
-  Top = 282
+  Top = 233
   Width = 1156
   Caption = 'Library'
   ClientHeight = 746
@@ -234,6 +234,10 @@ object CbzLibrary: TCbzLibrary
     object mnuDelete: TMenuItem
       Caption = 'Delete'
       OnClick = mnuDeleteClick
+    end
+    object mnuCreateFolder: TMenuItem
+      Caption = 'Create folder'
+      OnClick = mnuCreateFolderClick
     end
     object N2: TMenuItem
       Caption = '-'

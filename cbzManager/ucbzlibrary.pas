@@ -83,6 +83,7 @@ type
     cbVisibleDates: TComboBox;
     cbSearch: TComboBox;
     dgLibrary: TDrawGrid;
+    mnuCreateFolder: TMenuItem;
     mnuCut: TMenuItem;
     mnuPaste: TMenuItem;
     mnuDelete: TMenuItem;
@@ -116,6 +117,7 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
+    procedure mnuCreateFolderClick(Sender: TObject);
     procedure mnuCutClick(Sender: TObject);
     procedure mnuDeleteClick(Sender: TObject);
     procedure mnuMoveTocbzManagerClick(Sender: TObject);
@@ -907,6 +909,11 @@ begin
 //  end;
 end;
 
+procedure TcbzLibrary.mnuCreateFolderClick(Sender: TObject);
+begin
+
+end;
+
 procedure TcbzLibrary.mnuDeleteClick(Sender: TObject);
 var
   dest : string;
@@ -917,7 +924,6 @@ begin
   if DeleteFile(SelectedStr) then
   begin
     TFileItem(SelectedObj).Deleted:=True;
-    FFileList.SaveToFile(CacheFileName);
     FillGrid;
   end;
 end;

@@ -383,7 +383,7 @@ begin
           Exit;
         end;
 
-        if FFileList[i].StartsWith(FCurrentPath) then
+        if FFileList[i].StartsWith(IncludeTrailingPathDelimiter(FCurrentPath)) then
         begin
           s := ExcludeTrailingPathDelimiter(ExtractFilePath(FFileList[i]));
           if Length(s.Split([PathDelim])) > FLvl then

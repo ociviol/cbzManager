@@ -1249,6 +1249,7 @@ procedure TMainFrm.ActionDeleteFileExecute(Sender: TObject);
 var
   files : TStringlist;
   s : string;
+  i : integer;
 begin
   if Assigned(TreeView1.Selected) then
     if FileExists(TreeView1.Selected.Path) then
@@ -1267,6 +1268,10 @@ begin
          GetFiles(TreeView1.Selected.Path, ['*'], Files);
          for s in files do
            DeleteFile(s);
+         Files.Clear;
+         GetDirectories(TreeView1.Selected.Path, Files);
+         for i := Files.count-1 downto 0 do
+           RemoveDir(Files[i]);
          RemoveDir(TreeView1.Selected.Path);
          ActionRefresh.Execute;
        finally

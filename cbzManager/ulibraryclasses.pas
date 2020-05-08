@@ -773,8 +773,11 @@ var
 begin
   with LockList do
   try
-    for i := 0 to Count - 1 do
-      TFileItem(Objects[i]).free;
+    try
+      for i := 0 to Count - 1 do
+        TFileItem(Objects[i]).Free;
+    except
+    end;
 
     inherited Clear;
     FModified := False;

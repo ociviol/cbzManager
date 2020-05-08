@@ -62,6 +62,9 @@ implementation
 
 {$R *.lfm}
 
+uses
+  utils.vcl, uCbzLibrary;
+
 { TConfigFrm }
 
 procedure TConfigFrm.sbCwebpClick(Sender: TObject);
@@ -121,6 +124,14 @@ begin
   cbDeleteFile.Checked := Config.DeleteFile;
   cbAlbumArt.Checked := Config.DoAlbumart;
   edtSyncPath.Text:=Config.SyncPath;
+
+  if Assigned(FindForm(TCbzLibrary)) then
+  begin
+    edtSyncPath.Enabled:=false;
+    sbSyncPath.Enabled:=false;
+    edtLibPath.Enabled:=false;
+    sbLibPath.Enabled:=false;
+  end;
 end;
 
 procedure TConfigFrm.BitBtn1Click(Sender: TObject);

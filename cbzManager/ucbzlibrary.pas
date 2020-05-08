@@ -73,11 +73,11 @@ type
     procedure Execute; override;
   end;
 
-  { TCbzLibrary }
+  { TcbzLibrary }
 
-  TCbzLibrary = class(TForm)
+  TcbzLibrary = class(TForm)
     btnReturn: TSpeedButton;
-    btnTopPath: TButton;
+    btnTopPath: TSpeedButton;
     btnRefresh: TButton;
     cbHideRead: TCheckBox;
     cbVisibleDates: TComboBox;
@@ -119,6 +119,7 @@ type
     procedure PopupMenu1Popup(Sender: TObject);
   private
     function GetCacheFileName: String;
+    procedure SetCurrentPath(AValue: String);
   private
     Flog : ILog;
     FFileList : TItemList;
@@ -157,15 +158,13 @@ type
     procedure VisibleListChanged(Sender : TObject);
     procedure ThreadFillTerminate(Sender : TObject);
     procedure ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);
+    property CurrentPath : String read FCurrentPath write SetCurrentPath;
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig); reintroduce;
     //property RootPath : String read FRootPath write FRootPath;
     function ImportFile(const aFilename : String):Boolean;
   end;
 
-
-var
-  CbzLibrary: TCbzLibrary;
 
 implementation
 
@@ -421,9 +420,9 @@ begin
 end;
 
 
-{ TCbzLibrary }
+{ TcbzLibrary }
 
-constructor TCbzLibrary.Create(aOwner: TComponent; aConfig: TConfig);
+constructor TcbzLibrary.Create(aOwner: TComponent; aConfig: TConfig);
 begin
   FConfig := aConfig;
   FFillThread := nil;
@@ -431,13 +430,13 @@ begin
   inherited Create(aOwner);
 end;
 
-function TCbzLibrary.ImportFile(const aFilename: String):Boolean;
+function TcbzLibrary.ImportFile(const aFilename: String):Boolean;
 var
   dest : string;
 begin
-  if FCurrentPath <> '' then
+  if CurrentPath <> '' then
   try
-    dest := IncludeTrailingPathDelimiter(FCurrentPath) + ExtractFileName(aFilename);
+    dest := IncludeTrailingPathDelimiter(CurrentPath) + ExtractFileName(aFilename);
     if FileExists(dest) then
       if MessageDlg('Conflict', 'File already exists, overwrite ?', mtInformation, mbYesNo, 0) = mrno then
         exit(false);
@@ -452,7 +451,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.FormCreate(Sender: TObject);
+procedure TcbzLibrary.FormCreate(Sender: TObject);
 var
   c : char;
   s : string;
@@ -489,7 +488,7 @@ begin
     end;
 end;
 
-procedure TCbzLibrary.FormDestroy(Sender: TObject);
+procedure TcbzLibrary.FormDestroy(Sender: TObject);
 begin
   if Assigned(FThreadSearchFiles) then
     begin
@@ -504,9 +503,9 @@ begin
   Flog := nil;
 end;
 
-procedure TCbzLibrary.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+procedure TcbzLibrary.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-  FConfig.LibCurPath:=FCurrentPath;
+  FConfig.LibCurPath:=CurrentPath;
   FConfig.SaveForm(Self);
   CheckModified;
 
@@ -520,12 +519,12 @@ begin
   CloseAction := caFree;
 end;
 
-procedure TCbzLibrary.FormResize(Sender: TObject);
+procedure TcbzLibrary.FormResize(Sender: TObject);
 begin
   SizeGrid;
 end;
 
-procedure TCbzLibrary.FormShow(Sender: TObject);
+procedure TcbzLibrary.FormShow(Sender: TObject);
 begin
   FConfig.RestoreForm(Self);
   dgLibrary.ColCount:=1;
@@ -533,17 +532,17 @@ begin
   Application.QueueAsyncCall(@AfterShow, 0);
 end;
 
-procedure TCbzLibrary.AfterShow(data : int64);
+procedure TcbzLibrary.AfterShow(data : int64);
 begin
   if FileExists(CacheFileName) then
   try
     FFileList.LoadFromFile(CacheFileName);
-    FCurrentPath := FFileList.RootPath;
-    btnTopPath.Caption:=FCurrentPath;
+    CurrentPAth := FFileList.RootPath;
+    //cbzLibrary.Caption:=CurrentPath;
     UpdateVisibleDates;
     if Fconfig.LibCurPath <> '' then
     begin
-      FCurrentPath:=Fconfig.LibCurPath;
+      CurrentPath:=Fconfig.LibCurPath;
       Flvl := 1;
       FillGrid;
     end
@@ -554,19 +553,18 @@ begin
   end
   else
   begin
-    FCurrentPath := FFileList.RootPath;
-    btnTopPath.Caption:=FCurrentPath;
-    FLvl := length(FCurrentPath.Split([PathDelim]));
+    CurrentPath := FFileList.RootPath;
+    FLvl := length(CurrentPath.Split([PathDelim]));
     btnRefresh.Enabled:=false;
     Progress(Self, 0, 0, 0, 'Scanning...');
-    FThreadSearchFiles := ThreadedSearchFiles(FCurrentPath, '*.cbz', @FoundFile, @SearchEnded,
+    FThreadSearchFiles := ThreadedSearchFiles(CurrentPath, '*.cbz', @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
   FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
 end;
 
-procedure TCbzLibrary.dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
+procedure TcbzLibrary.dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
   aRect: TRect; aState: TGridDrawState);
 var
   p, x, y : integer;
@@ -646,7 +644,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.SetGridTopPos(aCol, aRow : Integer);
+procedure TcbzLibrary.SetGridTopPos(aCol, aRow : Integer);
 begin
   with dgLibrary do
   begin
@@ -665,7 +663,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.SetGridPos(aCol, aRow : Integer);
+procedure TcbzLibrary.SetGridPos(aCol, aRow : Integer);
 begin
   with dgLibrary do
   begin
@@ -684,7 +682,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TcbzLibrary.dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   arow, acol : integer;
@@ -699,7 +697,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.dgLibraryMouseUp(Sender: TObject; Button: TMouseButton;
+procedure TcbzLibrary.dgLibraryMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   p : integer;
@@ -716,7 +714,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.mnuReadStatusClick(Sender: TObject);
+procedure TcbzLibrary.mnuReadStatusClick(Sender: TObject);
 var
   p, i : integer;
 begin
@@ -741,12 +739,12 @@ begin
   FFileList.SaveToFile(GetCacheFileName);
 end;
 
-procedure TCbzLibrary.PopupMenu1Popup(Sender: TObject);
+procedure TcbzLibrary.PopupMenu1Popup(Sender: TObject);
 begin
   mnuDelete.Enabled:= not Assigned(FThreadSearchFiles);
 end;
 
-procedure TCbzLibrary.dgLibraryDblClick(Sender: TObject);
+procedure TcbzLibrary.dgLibraryDblClick(Sender: TObject);
 var
   s : String;
   c : integer;
@@ -757,7 +755,7 @@ begin
   s := FVisibleList[c];
   if DirectoryExists(s) then
   begin
-    FCurrentPath := ExcludeTrailingPathDelimiter(s);
+    CurrentPath := ExcludeTrailingPathDelimiter(s);
     FillGrid;
   end
   else
@@ -767,19 +765,7 @@ begin
   ;
 end;
 
-procedure TCbzLibrary.btnTopPathClick(Sender: TObject);
-begin
-  //while FBtnList.Count > 0 do
-  //begin
-  //  TButton(FBtnList[0]).Free;
-  //  FBtnList.Delete(0);
-  //end;
-  FCurrentPath := FFileList.RootPath;
-  Flvl := 1;
-  FillGrid;
-end;
-
-procedure TCbzLibrary.cbHideReadClick(Sender: TObject);
+procedure TcbzLibrary.cbHideReadClick(Sender: TObject);
 begin
   Fconfig.LibraryHideRead:=cbHideRead.Checked;
   if cbHideRead.Checked then
@@ -791,7 +777,7 @@ begin
     FillGrid;
 end;
 
-procedure TCbzLibrary.cbSearchChange(Sender: TObject);
+procedure TcbzLibrary.cbSearchChange(Sender: TObject);
 var
   p, c, r, i : integer;
   s, ltr : string;
@@ -825,7 +811,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.MoveIntoFolder(searchindex : integer);
+procedure TcbzLibrary.MoveIntoFolder(searchindex : integer);
 var
   i : integer;
   s : string;
@@ -836,26 +822,26 @@ begin
       s := FVisibleList[i];
       if DirectoryExists(s) then
       begin
-        FCurrentPath := ExcludeTrailingPathDelimiter(s);
+        CurrentPath := ExcludeTrailingPathDelimiter(s);
         FillGrid;
       end;
       break;
     end;
 end;
 
-procedure TCbzLibrary.cbSearchCloseUp(Sender: TObject);
+procedure TcbzLibrary.cbSearchCloseUp(Sender: TObject);
 begin
   with cbSearch do
     if ItemIndex >= 0 then
       MoveIntoFolder(cbSearch.ItemIndex);
 end;
 
-procedure TCbzLibrary.cbVisibleDatesChange(Sender: TObject);
+procedure TcbzLibrary.cbVisibleDatesChange(Sender: TObject);
 begin
   Application.QueueAsyncCall(@DoFillGrid, 0);
 end;
 
-procedure TCbzLibrary.btnRefreshClick(Sender: TObject);
+procedure TcbzLibrary.btnRefreshClick(Sender: TObject);
 begin
   if not Assigned(FThreadSearchFiles) then
   begin
@@ -869,18 +855,25 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.btnReturnClick(Sender: TObject);
+procedure TcbzLibrary.btnTopPathClick(Sender: TObject);
+begin
+  CurrentPath := FFileList.RootPath;
+  Flvl := 1;
+  FillGrid
+end;
+
+procedure TcbzLibrary.btnReturnClick(Sender: TObject);
 var
   s : string;
 begin
-  if FCurrentPath = FFileList.RootPath then
+  if CurrentPath = FFileList.RootPath then
     Exit;
 
-  FCurrentPath := ExcludeTrailingPathDelimiter(ExtractFilePath(FCurrentPath));
+  CurrentPath := ExcludeTrailingPathDelimiter(ExtractFilePath(CurrentPath));
   FillGrid;
 
 //  if FBtnList.Count = 1 then
-//    btnTopPath.Click
+//    cbzLibrary.Click
 //  else
 //  if FBtnList.Count > 1 then
 //    TButton(FBtnList[FBtnList.Count-2]).Click
@@ -896,7 +889,7 @@ begin
 //  end;
 end;
 
-procedure TCbzLibrary.mnuDeleteClick(Sender: TObject);
+procedure TcbzLibrary.mnuDeleteClick(Sender: TObject);
 var
   dest : string;
   p : integer;
@@ -913,7 +906,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.mnuMoveTocbzManagerClick(Sender: TObject);
+procedure TcbzLibrary.mnuMoveTocbzManagerClick(Sender: TObject);
 var
   dest, destp : string;
   p : integer;
@@ -946,7 +939,7 @@ begin
   end;
 end;
 
-function TCbzLibrary.GetCacheFileName: String;
+function TcbzLibrary.GetCacheFileName: String;
 begin
   result :=
 {$if defined(Darwin) or defined(Linux)}
@@ -958,13 +951,20 @@ begin
   ForceDirectories(ExtractFilePath(result));
 end;
 
-procedure TCbzLibrary.UpdateNbItems;
+procedure TcbzLibrary.SetCurrentPath(AValue: String);
+begin
+  if FCurrentPath=AValue then Exit;
+  FCurrentPath:=AValue;
+  Caption := 'Library (' + FCurrentPath + ')';
+end;
+
+procedure TcbzLibrary.UpdateNbItems;
 begin
   StatusBar1.Panels[0].Text := IntToStr(FFileList.Count - FFileList.DeletedCount) + ' Albums, ' +
                                IntToStr(FFileList.ReadCount) + ' Read';
 end;
 
-procedure TCbzLibrary.SwitchPath(const aLibPath: String);
+procedure TcbzLibrary.SwitchPath(const aLibPath: String);
 begin
   Fconfig.LibPath:=aLibPath;
   FVisibleList.Clear;
@@ -972,18 +972,17 @@ begin
   FThreadScrub.WaitFor;
   FFileList.Clear;
   FFileList.RootPath:=aLibPath;
-  FCurrentPath:=aLibPath;
-  btnTopPath.Caption:=aLibPath;
+  CurrentPath:=aLibPath;
   FillGrid;
 end;
 
-procedure TCbzLibrary.CheckModified;
+procedure TcbzLibrary.CheckModified;
 begin
   if FFileList.Modified then
     FFileList.SaveToFile(GetCacheFileName);
 end;
 
-procedure TCbzLibrary.btnletterclick(sender: Tobject);
+procedure TcbzLibrary.btnletterclick(sender: Tobject);
 var
   p, c, r, i : integer;
   s, ltr : string;
@@ -1012,7 +1011,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.SizeGrid;
+procedure TcbzLibrary.SizeGrid;
 var
   c : integer;
 begin
@@ -1031,7 +1030,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.DefaultBtnClick(Sender: TObject);
+procedure TcbzLibrary.DefaultBtnClick(Sender: TObject);
 //var
 //  i, j : integer;
 //  s : string;
@@ -1048,7 +1047,7 @@ begin
   //    dec(j);
   //  end;
   //  s := IncludeTrailingPathDelimiter(FFileList.RootPath) + s;
-  //  FCurrentPath := s;
+  //  CurrentPath := s;
   //  while (i + 1 < FBtnList.Count) do
   //  begin
   //    TButton(FBtnList[FBtnList.Count-1]).Free;
@@ -1058,12 +1057,12 @@ begin
   //end;
 end;
 
-procedure TCbzLibrary.DoFillGrid(data: int64);
+procedure TcbzLibrary.DoFillGrid(data: int64);
 begin
   FillGrid;
 end;
 
-procedure TCbzLibrary.FillGrid;
+procedure TcbzLibrary.FillGrid;
 var
   fs : TFillSettings;
 begin
@@ -1082,7 +1081,7 @@ begin
   FPathPos[FLvl-1].x := dgLibrary.Col;
   FPathPos[FLvl-1].y := MakeLong(dgLibrary.TopRow, dgLibrary.Row);
 
-  Flvl := length(FCurrentPath.Split([PathDelim]));
+  Flvl := length(CurrentPath.Split([PathDelim]));
 
   //SizeGrid;
 
@@ -1093,7 +1092,7 @@ begin
 
   fs.FFileList := FFileList;
   fs.FVisibleList:= FVisibleList;
-  fs.FCurrentPath:=FCurrentPath;
+  fs.FCurrentPath:= CurrentPath;
   fs.FLvl:=FLvl;
   fs.FDisplayFilters:=FDisplayFilters;
   fs.Fdate := 0;
@@ -1104,7 +1103,7 @@ begin
   FFillThread := TThreadFill.Create(Flog, fs,@ThreadFillTerminate, @Progress);
 end;
 
-procedure TCbzLibrary.SearchEnded(Sender: TObject);
+procedure TcbzLibrary.SearchEnded(Sender: TObject);
 begin
   FThreadSearchFiles := nil;
   StatusBar1.Panels[2].Text := 'Ready.';
@@ -1116,7 +1115,7 @@ begin
   FLog.Log('TCbzLibrary.SearchEnded : Refresh ended.');
 end;
 
-procedure TCbzLibrary.UpdateVisibleDates;
+procedure TcbzLibrary.UpdateVisibleDates;
 var
   i : integer;
   s : string;
@@ -1144,7 +1143,7 @@ begin
   end;
 end;
 
-function TCbzLibrary.FoundFile(const aFileName: string; IsNew: Boolean): TTreeNode;
+function TcbzLibrary.FoundFile(const aFileName: string; IsNew: Boolean): TTreeNode;
 var
   fi : TFileItem;
   acol, arow : integer;
@@ -1168,7 +1167,7 @@ begin
       Exit;
     end;
 
-  if (FCurrentPath = FFileList.RootPath) then
+  if (CurrentPath = FFileList.RootPath) then
   begin
     SetGridTopPos(aCol, aRow);
     aRow := (FVisibleList.Count div dgLibrary.ColCount);
@@ -1187,7 +1186,7 @@ begin
   result := nil;
 end;
 
-procedure TCbzLibrary.Progress(Sender: TObject; const ProgressID: QWord;
+procedure TcbzLibrary.Progress(Sender: TObject; const ProgressID: QWord;
   const aPos, aMax: Integer; const Msg: String);
 var
   ind : integer;
@@ -1196,7 +1195,7 @@ begin
   StatusBar1.Panels[ind].Text := Msg;
 end;
 
-procedure TCbzLibrary.DoSizegrid(data : int64);
+procedure TcbzLibrary.DoSizegrid(data : int64);
 var
   oldtoprow,
   oldrow : integer;
@@ -1226,7 +1225,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.VisibleListChanged(Sender: TObject);
+procedure TcbzLibrary.VisibleListChanged(Sender: TObject);
 begin
   if (FVisibleList.Count > 0) and (FInQueue = 0) then
   begin
@@ -1235,7 +1234,7 @@ begin
   end;
 end;
 
-procedure TCbzLibrary.ThreadFillTerminate(Sender: TObject);
+procedure TcbzLibrary.ThreadFillTerminate(Sender: TObject);
 var
   oldtoprow, oldrow, i : Integer;
   s : string;
@@ -1254,7 +1253,7 @@ begin
       begin
         s := FVisibleList[i];
         if not s.ToLower.EndsWith('.cbz') then
-          Items.Add(ExcludeLeadingPathDelimiter(ExcludeTrailingPathDelimiter(s.Replace(FCurrentPath, ''))));
+          Items.Add(ExcludeLeadingPathDelimiter(ExcludeTrailingPathDelimiter(s.Replace(CurrentPath, ''))));
       end;
     finally
       Items.EndUpdate;
@@ -1289,7 +1288,7 @@ begin
   UpdateNbItems;
 end;
 
-procedure TCbzLibrary.ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);
+procedure TcbzLibrary.ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);
 begin
   if aAction = laDelete then
     if FVisibleList.HasObject(aFileItem) then

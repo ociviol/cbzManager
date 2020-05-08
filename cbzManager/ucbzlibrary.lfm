@@ -77,16 +77,6 @@ object CbzLibrary: TCbzLibrary
     ClientHeight = 26
     ClientWidth = 1136
     TabOrder = 2
-    object btnTopPath: TButton
-      Left = 25
-      Height = 22
-      Top = 2
-      Width = 26
-      Align = alLeft
-      AutoSize = True
-      OnClick = btnTopPathClick
-      TabOrder = 0
-    end
     object btnRefresh: TButton
       Left = 1059
       Height = 22
@@ -95,7 +85,7 @@ object CbzLibrary: TCbzLibrary
       Align = alRight
       Caption = 'Refresh'
       OnClick = btnRefreshClick
-      TabOrder = 1
+      TabOrder = 0
     end
     object btnReturn: TSpeedButton
       Left = 2
@@ -129,7 +119,7 @@ object CbzLibrary: TCbzLibrary
       BevelOuter = bvLowered
       ClientHeight = 22
       ClientWidth = 115
-      TabOrder = 2
+      TabOrder = 1
       object cbHideRead: TCheckBox
         Left = 1
         Height = 20
@@ -151,7 +141,7 @@ object CbzLibrary: TCbzLibrary
       BevelOuter = bvLowered
       ClientHeight = 22
       ClientWidth = 274
-      TabOrder = 3
+      TabOrder = 2
       object cbSearch: TComboBox
         Left = 1
         Height = 23
@@ -179,7 +169,7 @@ object CbzLibrary: TCbzLibrary
       BevelOuter = bvLowered
       ClientHeight = 22
       ClientWidth = 170
-      TabOrder = 4
+      TabOrder = 3
       object cbVisibleDates: TComboBox
         Left = 1
         Height = 23
@@ -192,6 +182,29 @@ object CbzLibrary: TCbzLibrary
         Style = csDropDownList
         TabOrder = 0
       end
+    end
+    object btnTopPath: TSpeedButton
+      Left = 25
+      Height = 22
+      Top = 2
+      Width = 23
+      Align = alLeft
+      Glyph.Data = {
+        76010000424D7801000000000000760000002800000020000000100000000100
+        04000000000000000000120B0000120B00000000000000000000000000000000
+        800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333000333
+        3333333333777F33333333333309033333333333337F7F333333333333090333
+        33333333337F7F33333333333309033333333333337F7F333333333333090333
+        33333333337F7F33333333333309033333333333FF7F7FFFF333333000090000
+        3333333777737777F333333099999990333333373F3333373333333309999903
+        333333337F33337F33333333099999033333333373F333733333333330999033
+        3333333337F337F3333333333099903333333333373F37333333333333090333
+        33333333337F7F33333333333309033333333333337373333333333333303333
+        333333333337F333333333333330333333333333333733333333
+      }
+      NumGlyphs = 2
+      OnClick = btnTopPathClick
     end
   end
   object pnlbtns: TPanel

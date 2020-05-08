@@ -1198,9 +1198,9 @@ begin
 
   if (CurrentPath = FFileList.RootPath) then
   begin
-    SetGridTopPos(aCol, aRow);
     aRow := (FVisibleList.Count div dgLibrary.ColCount);
     aCol := FVisibleList.Count - (aRow * dgLibrary.ColCount);
+    SetGridTopPos(aCol, aRow);
 
     s := ExcludeTrailingPathDelimiter(ExtractFilePath(aFilename));
     if Length(s.Split([PathDelim])) > FLvl then

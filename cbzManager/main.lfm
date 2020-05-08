@@ -1,7 +1,7 @@
 object MainFrm: TMainFrm
-  Left = 445
+  Left = 503
   Height = 718
-  Top = 324
+  Top = 244
   Width = 964
   Align = alBottom
   Caption = 'cbzManager'

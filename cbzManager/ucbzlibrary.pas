@@ -180,7 +180,7 @@ type
 implementation
 
 uses
-  Math, StrUtils, DateUtils, utils.zipfile, utils.files, ucbz, uCbzViewer;
+  Math, StrUtils, DateUtils, utils.files, ucbz, uCbzViewer;
 
 
 {$R *.lfm}
@@ -883,30 +883,12 @@ begin
 end;
 
 procedure TcbzLibrary.btnReturnClick(Sender: TObject);
-var
-  s : string;
 begin
   if CurrentPath = FFileList.RootPath then
     Exit;
 
   CurrentPath := ExcludeTrailingPathDelimiter(ExtractFilePath(CurrentPath));
   FillGrid;
-
-//  if FBtnList.Count = 1 then
-//    cbzLibrary.Click
-//  else
-//  if FBtnList.Count > 1 then
-//    TButton(FBtnList[FBtnList.Count-2]).Click
-//  else
-//  begin
-////    if not DirectoryExists(FConfig.LibPath) then
-//      with TSelectDirectoryDialog.Create(Self) do
-//      try
-//        if Execute then
-//          SwitchPath(Filename);
-//      finally
-//      end;
-//  end;
 end;
 
 procedure TcbzLibrary.mnuCreateFolderClick(Sender: TObject);
@@ -915,8 +897,6 @@ begin
 end;
 
 procedure TcbzLibrary.mnuDeleteClick(Sender: TObject);
-var
-  dest : string;
 begin
   if not FileExists(SelectedStr) then
     exit;

@@ -1257,27 +1257,28 @@ var
 begin
   if Assigned(TreeView1.Selected) then
     if FileExists(TreeView1.Selected.Path) then
-    begin
-      zf.Close;
-      Image1.Picture.Clear;
-      DeleteFile(TreeView1.Selected.path);
-      ActionRefresh.Execute;
-    end
-    else
-    if DirectoryExists(TreeView1.Selected.Path) and
-       (MessageDlg('Delete folder', 'Are your sure you want to delete a folder ?', mtInformation, mbYesNo, 0) = mryes) then
-    begin
       with TreeView1 do
       begin
         n := Selected;
-        if n.Level < 1 then exit;
-        Selected := Items[0];
+        Selected := n.Parent;
+        zf.Close;
+        Image1.Picture.Clear;
+        DeleteFile(TreeView1.Selected.path);
+        Items.Delete(n);
+        //ActionRefresh.Execute;
+      end
+    else
+    if DirectoryExists(TreeView1.Selected.Path) and
+       (MessageDlg('Delete folder', 'Are your sure you want to delete a folder ?', mtInformation, mbYesNo, 0) = mryes) then
+      with TreeView1 do
+      begin
+        n := Selected;
+        //if n.Level < 1 then exit;
+        Selected := n.Parent;
         KillFolder(n.Path);
         RemoveDir(n.Path);
         Items.Delete(n);
       end;
-      //ActionRefresh.Execute;
-    end;
 end;
 
 procedure TMainFrm.ActionFileCleanerExecute(Sender: TObject);

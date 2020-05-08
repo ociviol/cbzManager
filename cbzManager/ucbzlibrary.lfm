@@ -15,8 +15,8 @@ object CbzLibrary: TCbzLibrary
   LCLVersion = '2.0.6.0'
   object dgLibrary: TDrawGrid
     Left = 50
-    Height = 667
-    Top = 46
+    Height = 566
+    Top = 147
     Width = 1096
     Align = alClient
     BorderSpacing.Around = 10
@@ -69,7 +69,7 @@ object CbzLibrary: TCbzLibrary
   object pnlPath: TPanel
     Left = 10
     Height = 26
-    Top = 10
+    Top = 111
     Width = 1136
     Align = alTop
     BorderSpacing.Around = 10
@@ -209,12 +209,27 @@ object CbzLibrary: TCbzLibrary
   end
   object pnlbtns: TPanel
     Left = 10
-    Height = 667
-    Top = 46
+    Height = 566
+    Top = 147
     Width = 30
     Align = alLeft
     BorderSpacing.Around = 10
     TabOrder = 3
+  end
+  object CoolBar1: TCoolBar
+    Left = 0
+    Height = 75
+    Top = 0
+    Width = 1156
+    Bands = <>
+  end
+  object ToolBar1: TToolBar
+    Left = 0
+    Height = 26
+    Top = 75
+    Width = 1156
+    Caption = 'ToolBar1'
+    TabOrder = 5
   end
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu1Popup

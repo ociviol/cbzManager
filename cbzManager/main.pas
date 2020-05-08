@@ -533,82 +533,85 @@ end;
 
 procedure TMainFrm.EnableActions;
 begin
-  ActionUndo.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
-  ActionUndoAll.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
-  //ActionCrop.Enabled := (zf.Mode <> zmClosed) and
-  //  ImageEnView1.CropToolInteraction.Selected;
-  //ActionCropAll.Enabled := (zf.Mode <> zmClosed) and
-  //  ImageEnView1.CropToolInteraction.Selected;
-  //ActionFilters.Enabled := (zf.Mode <> zmClosed) and
-  //  Assigned(ImageEnView1.Bitmap);
-  ActionDelete.Enabled := zf.Mode <> zmClosed;
-  //ActionJoin.Enabled := (zf.Mode <> zmClosed) and
-  //  (Length(SelectedGridItems) = 2);
-  //ActionExport.Enabled := (zf.Mode <> zmClosed) and
-  //  (Length(SelectedGridItems) = 1);
-  //ActionImportAbove.Enabled := (zf.Mode <> zmClosed) and
-  //  (Length(SelectedGridItems) = 1);
-  //ActionImportBelow.Enabled := (zf.Mode <> zmClosed) and
-  //  (Length(SelectedGridItems) = 1);
-  //ActionExportSelection.Enabled := (zf.Mode <> zmClosed) and
-  //(Length(SelectedGridItems) >= 1);
-  ActionSelectAll.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0);
-  ActionMoveUp.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position > 0);
-  ActionMoveDown.Enabled := (zf.Mode <> zmClosed) and
-    (DrawGrid1.Position < zf.ImageCount - 1);
-  //ActionClip.Enabled := (zf.Mode <> zmClosed) and
-  //  ImageEnView1.CropToolInteraction.Selected;
-  //ActionRemoveBorders.Enabled := (zf.Mode <> zmClosed) and
-  //  (Length(SelectedGridItems) = 1);
-  //ActionRemoveAllBorders.Enabled := (zf.Mode <> zmClosed);
-  ActionMoveToTop.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position > 0);
-  ActionMoveToBottom.Enabled := (zf.Mode <> zmClosed) and
-    (DrawGrid1.Position < zf.FileCount - 1);
-  //ActionFit.Enabled := (zf.Mode <> zmClosed) and Assigned(ImageEnView1.Bitmap);
-  ActionCropTool.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position >= 0);
+  try
+    ActionUndo.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
+    ActionUndoAll.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
+    //ActionCrop.Enabled := (zf.Mode <> zmClosed) and
+    //  ImageEnView1.CropToolInteraction.Selected;
+    //ActionCropAll.Enabled := (zf.Mode <> zmClosed) and
+    //  ImageEnView1.CropToolInteraction.Selected;
+    //ActionFilters.Enabled := (zf.Mode <> zmClosed) and
+    //  Assigned(ImageEnView1.Bitmap);
+    ActionDelete.Enabled := zf.Mode <> zmClosed;
+    //ActionJoin.Enabled := (zf.Mode <> zmClosed) and
+    //  (Length(SelectedGridItems) = 2);
+    //ActionExport.Enabled := (zf.Mode <> zmClosed) and
+    //  (Length(SelectedGridItems) = 1);
+    //ActionImportAbove.Enabled := (zf.Mode <> zmClosed) and
+    //  (Length(SelectedGridItems) = 1);
+    //ActionImportBelow.Enabled := (zf.Mode <> zmClosed) and
+    //  (Length(SelectedGridItems) = 1);
+    //ActionExportSelection.Enabled := (zf.Mode <> zmClosed) and
+    //(Length(SelectedGridItems) >= 1);
+    ActionSelectAll.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0);
+    ActionMoveUp.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position > 0);
+    ActionMoveDown.Enabled := (zf.Mode <> zmClosed) and
+      (DrawGrid1.Position < zf.ImageCount - 1);
+    //ActionClip.Enabled := (zf.Mode <> zmClosed) and
+    //  ImageEnView1.CropToolInteraction.Selected;
+    //ActionRemoveBorders.Enabled := (zf.Mode <> zmClosed) and
+    //  (Length(SelectedGridItems) = 1);
+    //ActionRemoveAllBorders.Enabled := (zf.Mode <> zmClosed);
+    ActionMoveToTop.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position > 0);
+    ActionMoveToBottom.Enabled := (zf.Mode <> zmClosed) and
+      (DrawGrid1.Position < zf.FileCount - 1);
+    //ActionFit.Enabled := (zf.Mode <> zmClosed) and Assigned(ImageEnView1.Bitmap);
+    ActionCropTool.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position >= 0);
 
-  // files
-  with TreeView1 do
-    ActionDeleteFile.Enabled:= Assigned(Selected) and FileExists(Selected.Path);
-  ActionCopyToLib.Enabled := (zf.Mode <> zmClosed) and Assigned(FindForm(TCbzLibrary));
-  ActionAppend.Enabled := (zf.Mode <> zmClosed);
-  ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
-  ActionChooseFolder.Enabled := not FInFill;
-  //ActionRewrite.Enabled := Assigned(TreeView1.Selected) and
-  //  (TreeView1.SelectionCount = 1);
-  //ActionJoinFiles.Enabled := TreeView1.SelectionCount > 1;
-  ActionRenameFile.Enabled := Assigned(TreeView1.Selected) and
-                             (TreeView1.SelectionCount = 1) and
-                             not (TreeView1.Selected.HasChildren);
-  ActionRefresh.Enabled := (FConfig.BdPathPath.Length > 0) and not FInFill;
-  //ActionTest.Enabled := Assigned(TreeView1.Selected);
-  //ActionFixFilenames.Enabled := Assigned(TreeView1.Selected);
-  //ActionCollapsenodes.Enabled := Assigned(TreeView1.Selected) and
-  //  TreeView1.Selected.HasChildren;
-  //ActionExpandNodes.Enabled := Assigned(TreeView1.Selected) and
-  //  TreeView1.Selected.HasChildren;
-  //ActionDeleteFile.Enabled := Assigned(TreeView1.Selected) and
-  //  not TreeView1.Selected.HasChildren;
-  //ActionSetDefaultPath.Enabled := FPath <> '';
-  //ActionCreateFolder.Enabled := Assigned(TreeView1.Selected) and
-  //  (TDirectory.Exists(TreeView1.Selected.Path));
-  //ActionReader.Enabled := (zf.Mode <> zmClosed);
-  // btns
-  ActionRotm90.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-    (Length(SelectedGridItems) >= 1);
-  ActionRot90.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-    (Length(SelectedGridItems) >= 1);
-  ActionFirst.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-    (DrawGrid1.Position > 0);
-  ActionLast.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-    (DrawGrid1.Position < zf.ImageCount - 1);
-  ActionHorizflip.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-    (Length(SelectedGridItems) = 1);
-  ActionVertflip.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-    (Length(SelectedGridItems) = 1);
-  ActionJoin.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-    (Length(SelectedGridItems) = 2);
-  ActionSplitImage.Enabled := (zf.Mode <> zmClosed) and (Length(SelectedGridItems) = 1);
+    // files
+    with TreeView1 do
+      ActionDeleteFile.Enabled:= Assigned(Selected) and FileExists(Selected.Path) or DirectoryExists(Selected.Path);
+    ActionCopyToLib.Enabled := (zf.Mode <> zmClosed) and Assigned(FindForm(TCbzLibrary));
+    ActionAppend.Enabled := (zf.Mode <> zmClosed);
+    ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
+    ActionChooseFolder.Enabled := not FInFill;
+    //ActionRewrite.Enabled := Assigned(TreeView1.Selected) and
+    //  (TreeView1.SelectionCount = 1);
+    //ActionJoinFiles.Enabled := TreeView1.SelectionCount > 1;
+    ActionRenameFile.Enabled := Assigned(TreeView1.Selected) and
+                               (TreeView1.SelectionCount = 1) and
+                               not (TreeView1.Selected.HasChildren);
+    ActionRefresh.Enabled := (FConfig.BdPathPath.Length > 0) and not FInFill;
+    //ActionTest.Enabled := Assigned(TreeView1.Selected);
+    //ActionFixFilenames.Enabled := Assigned(TreeView1.Selected);
+    //ActionCollapsenodes.Enabled := Assigned(TreeView1.Selected) and
+    //  TreeView1.Selected.HasChildren;
+    //ActionExpandNodes.Enabled := Assigned(TreeView1.Selected) and
+    //  TreeView1.Selected.HasChildren;
+    //ActionDeleteFile.Enabled := Assigned(TreeView1.Selected) and
+    //  not TreeView1.Selected.HasChildren;
+    //ActionSetDefaultPath.Enabled := FPath <> '';
+    //ActionCreateFolder.Enabled := Assigned(TreeView1.Selected) and
+    //  (TDirectory.Exists(TreeView1.Selected.Path));
+    //ActionReader.Enabled := (zf.Mode <> zmClosed);
+    // btns
+    ActionRotm90.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
+      (Length(SelectedGridItems) >= 1);
+    ActionRot90.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
+      (Length(SelectedGridItems) >= 1);
+    ActionFirst.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
+      (DrawGrid1.Position > 0);
+    ActionLast.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
+      (DrawGrid1.Position < zf.ImageCount - 1);
+    ActionHorizflip.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
+      (Length(SelectedGridItems) = 1);
+    ActionVertflip.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
+      (Length(SelectedGridItems) = 1);
+    ActionJoin.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
+      (Length(SelectedGridItems) = 2);
+    ActionSplitImage.Enabled := (zf.Mode <> zmClosed) and (Length(SelectedGridItems) = 1);
+  except
+  end;
 end;
 
 procedure TMainFrm.FormDestroy(Sender: TObject);
@@ -1259,7 +1262,7 @@ begin
     if DirectoryExists(TreeView1.Selected.Path) and
        (MessageDlg('Delete folder', 'Are your sure you want to delete a folder ?', mtInformation, mbYesNo, 0) = mryes) then
     begin
-      Files := TSTringlist.Create;
+       Files := TSTringlist.Create;
        try
          GetFiles(TreeView1.Selected.Path, ['*'], Files);
          for s in files do
@@ -1267,7 +1270,7 @@ begin
          RemoveDir(TreeView1.Selected.Path);
          ActionRefresh.Execute;
        finally
-         free;
+         Files.free;
        end;
     end;
 end;

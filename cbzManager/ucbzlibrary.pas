@@ -82,6 +82,7 @@ type
     cbHideRead: TCheckBox;
     cbVisibleDates: TComboBox;
     cbSearch: TComboBox;
+    CoolBar1: TCoolBar;
     dgLibrary: TDrawGrid;
     mnuCut: TMenuItem;
     mnuPaste: TMenuItem;
@@ -97,6 +98,7 @@ type
     pnlPath: TPanel;
     PopupMenu1: TPopupMenu;
     StatusBar1: TStatusBar;
+    ToolBar1: TToolBar;
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
     procedure cbHideReadClick(Sender: TObject);

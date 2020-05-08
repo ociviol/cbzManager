@@ -587,6 +587,8 @@ begin
           FLog.Log('TCbzLibrary.dgLibraryDrawCell:File not found:'+TFileItem(FVisibleList.Objects[p]).Filename);
         end
         else
+        begin
+          Font.Color := clWhite;
         {$ifdef Darwin}
         if DirectoryExists(FVisibleList[p]) then
           Brush.Color := clLtGray
@@ -598,13 +600,17 @@ begin
         {$else}
         if FileExists(FVisibleList[p]) and
            (not TFileItem(FVisibleList.Objects[p]).ReadState) then
-           Brush.color := clWhite
+        begin
+           Brush.color := clWhite;
+           Font.Color := clBlack;
+        end
         else
         if TFileItem(FVisibleList.Objects[p]).ReadState then
           Brush.Color := clGray
         else
           Brush.color := clSilver; //clLime // clYellow
         {$endif}
+        end;
 
         r := aRect;
         r.Inflate(-2, -2, -2, -2);

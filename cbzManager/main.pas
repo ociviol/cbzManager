@@ -2222,7 +2222,7 @@ begin
     zf.Close;
   end;
 
-  FThreadSearchFiles := ThreadedSearchFiles(Path, '*.cbz;*.cbr;*.zip;*.rar', @AddFileToTree2, @SearchEnded,
+  FThreadSearchFiles := ThreadedSearchFiles(Path, ['*.cbz','*.cbr','*.zip','*.rar'], @AddFileToTree2, @SearchEnded,
                                             @Progress, //str_scanning
                                             'scanning : ', [sfoRecurse, sfoFolders]);
 end;

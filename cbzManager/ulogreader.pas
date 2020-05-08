@@ -132,7 +132,7 @@ end;
 procedure TFrmLogReader.Search;
 begin
   TreeView1.Items.BeginUpdate;
-  FThreadSearchFiles := ThreadedSearchFiles(FLog.ArchivePath, '*.zip', @FoundFile, @SearchEnded,
+  FThreadSearchFiles := ThreadedSearchFiles(FLog.ArchivePath, ['*.zip'], @FoundFile, @SearchEnded,
                                             nil, 'scanning : ', [sfoRecurse]);
 end;
 

@@ -111,6 +111,9 @@ type
     procedure ActionUndoAllExecute(Sender: TObject);
     procedure ActionUndoExecute(Sender: TObject);
     procedure ActionVertFlipExecute(Sender: TObject);
+    procedure DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
     procedure DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
     procedure DrawGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
@@ -595,6 +598,26 @@ begin
       Screen.Cursor := crDefault;
     end;
   end;
+end;
+
+procedure TCbzViewerFrame.DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
+var
+  aRow, ACol: Integer;
+begin
+  DrawGrid1.MouseToCell(X, Y, ACol, aRow);
+  zf.Invert(DrawGrid1.Position, aRow, @Progress);
+  DrawGrid1.Invalidate;
+  SetMainImage(DrawGrid1.Position);
+end;
+
+procedure TCbzViewerFrame.DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+var
+  aRow, ACol: Integer;
+begin
+  DrawGrid1.MouseToCell(X, Y, ACol, aRow);
+  Accept := (Sender = Source) and (aRow <> DrawGrid1.Position) and
+    (State <> dsDragEnter); // and (GetKeyState(VK_LBUTTON) and $8000 <> 0);
 end;
 
 

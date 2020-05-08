@@ -7,8 +7,8 @@ object CbzViewerFrame: TCbzViewerFrame
   ClientHeight = 704
   ClientWidth = 783
   TabOrder = 0
-  DesignLeft = 446
-  DesignTop = 71
+  DesignLeft = 829
+  DesignTop = 200
   object Panel1: TPanel
     Left = 0
     Height = 704
@@ -37,6 +37,8 @@ object CbzViewerFrame: TCbzViewerFrame
       PopupMenu = pmgrid
       RowCount = 1
       TabOrder = 0
+      OnDragDrop = DrawGrid1DragDrop
+      OnDragOver = DrawGrid1DragOver
       OnDrawCell = DrawGrid1DrawCell
       OnKeyUp = DrawGrid1KeyUp
       OnMouseDown = DrawGrid1MouseDown

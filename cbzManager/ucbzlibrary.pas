@@ -83,10 +83,13 @@ type
     cbVisibleDates: TComboBox;
     cbSearch: TComboBox;
     dgLibrary: TDrawGrid;
+    mnuCut: TMenuItem;
+    mnuPaste: TMenuItem;
     mnuDelete: TMenuItem;
     mnuMoveTocbzManager: TMenuItem;
     N1: TMenuItem;
     mnuReadStatus: TMenuItem;
+    N2: TMenuItem;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
@@ -113,8 +116,10 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
+    procedure mnuCutClick(Sender: TObject);
     procedure mnuDeleteClick(Sender: TObject);
     procedure mnuMoveTocbzManagerClick(Sender: TObject);
+    procedure mnuPasteClick(Sender: TObject);
     procedure mnuReadStatusClick(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
   private
@@ -134,6 +139,7 @@ type
     FDisplayFilters : TDisplayFilters;
     FInQueue : Integer;
     FThreadScrub : TThreadScrub;
+    FFileToCopy : TFileItem;
 
     procedure UpdateNbItems;
     procedure SetGridPos(aCol, aRow : Integer); inline;
@@ -158,6 +164,9 @@ type
     procedure VisibleListChanged(Sender : TObject);
     procedure ThreadFillTerminate(Sender : TObject);
     procedure ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);
+    function SelectedStr : String;
+    function SelectedObj : TFileItem;
+
     property CurrentPath : String read FCurrentPath write SetCurrentPath;
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig); reintroduce;
@@ -427,6 +436,7 @@ begin
   FConfig := aConfig;
   FFillThread := nil;
   FThreadScrub:=nil;
+  FFileToCopy := nil;
   inherited Create(aOwner);
 end;
 
@@ -557,7 +567,7 @@ begin
     FLvl := length(CurrentPath.Split([PathDelim]));
     btnRefresh.Enabled:=false;
     Progress(Self, 0, 0, 0, 'Scanning...');
-    FThreadSearchFiles := ThreadedSearchFiles(CurrentPath, '*.cbz', @FoundFile, @SearchEnded,
+    FThreadSearchFiles := ThreadedSearchFiles(CurrentPath, ['*.cbz'], @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
@@ -705,15 +715,11 @@ end;
 
 procedure TcbzLibrary.dgLibraryMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var
-  p : integer;
 begin
   if Button = mbRight then
   begin
-    p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
-    //mnuReadStatus.Enabled := FileExists(FVisibleList[p]);
     mnuReadStatus.Caption :=
-            ifThen(TFileItem(FVisibleList.Objects[p]).ReadState,
+            ifThen(SelectedObj.ReadState,
                    'Mark as Unread', 'Mark as Read');
 
     PopupMenu1.PopUp(dgLibrary.ClientOrigin.x + X, dgLibrary.ClientOrigin.y + Y);
@@ -722,15 +728,14 @@ end;
 
 procedure TcbzLibrary.mnuReadStatusClick(Sender: TObject);
 var
-  p, i : integer;
+  i : integer;
 begin
-  p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
-  if FileExists(FVisibleList[p]) then
-    with TFileItem(FVisibleList.Objects[p]) do
+  if FileExists(SelectedStr) then
+    with TFileItem(SelectedObj) do
       ReadState := not ReadState
   else
   for i := 0 to FFileList.Count - 1 do
-    if FFileList[i].StartsWith(FVisibleList[p]) then
+    if FFileList[i].StartsWith(SelectedStr) then
       if FileExists(FFileList[i]) then
          with TFileItem(FFileList.Objects[i]) do
            ReadState := not ReadState;
@@ -748,6 +753,8 @@ end;
 procedure TcbzLibrary.PopupMenu1Popup(Sender: TObject);
 begin
   mnuDelete.Enabled:= not Assigned(FThreadSearchFiles);
+  mnuCut.Enabled := not FileExists(SelectedStr);
+  mnuPaste.Enabled:= Assigned(FFileToCopy);
 end;
 
 procedure TcbzLibrary.dgLibraryDblClick(Sender: TObject);
@@ -855,7 +862,7 @@ begin
     FFileList.ResetStampState;
     //FFileList.Clear;
     FLog.Log('TCbzLibrary.btnRefreshClick : Refresh started.');
-    FThreadSearchFiles := ThreadedSearchFiles(FFileList.RootPath, '*.cbz', @FoundFile, @SearchEnded,
+    FThreadSearchFiles := ThreadedSearchFiles(FFileList.RootPath, ['*.cbz'], @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
@@ -898,15 +905,13 @@ end;
 procedure TcbzLibrary.mnuDeleteClick(Sender: TObject);
 var
   dest : string;
-  p : integer;
 begin
-  p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
-  if not FileExists(FVisibleList[p]) then
+  if not FileExists(SelectedStr) then
     exit;
 
-  if DeleteFile(FVisibleList[p]) then
+  if DeleteFile(SelectedStr) then
   begin
-    TFileItem(FVisibleList.Objects[p]).Deleted:=True;
+    TFileItem(SelectedObj).Deleted:=True;
     FFileList.SaveToFile(CacheFileName);
     FillGrid;
   end;
@@ -915,25 +920,23 @@ end;
 procedure TcbzLibrary.mnuMoveTocbzManagerClick(Sender: TObject);
 var
   dest, destp : string;
-  p : integer;
   Files : TSTringlist;
   s : string;
 begin
-  p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
   destp := IncludeTrailingPathDelimiter(Fconfig.BdPathPath) + 'Library' + PathDelim;
   ForceDirectories(destp);
 
-  if FileExists(FVisibleList[p]) then
+  if FileExists(SelectedStr) then
   begin
-    dest := destp + ExtractFileName(FVisibleList[p]);
-    CopyFile(FVisibleList[p], dest);
+    dest := destp + ExtractFileName(SelectedStr);
+    CopyFile(SelectedStr, dest);
   end
   else
-  if DirectoryExists(FVisibleList[p]) then
+  if DirectoryExists(SelectedStr) then
   begin
      Files := TSTringlist.Create;
      try
-       GetFiles(FVisibleList[p], ['*'], Files);
+       GetFiles(SelectedStr, ['*'], Files);
        for s in files do
        begin
          dest := destp + s.Replace(FFileList.RootPath, '');
@@ -943,6 +946,25 @@ begin
        Free;
      end;
   end;
+end;
+
+
+procedure TcbzLibrary.mnuCutClick(Sender: TObject);
+begin
+  if FileExists(SelectedStr) then
+    FFileToCopy := SelectedObj;
+end;
+
+procedure TcbzLibrary.mnuPasteClick(Sender: TObject);
+var
+  dest : string;
+begin
+  dest := IncludeTrailingPathDelimiter(SelectedStr) + ExtractFileName(FFileToCopy.Filename);
+  if DirectoryExists(SelectedStr) then
+    if RenameFile(FFileToCopy.Filename, dest) then
+      FFileToCopy.Filename := dest;
+
+  FFileToCopy := nil;
 end;
 
 function TcbzLibrary.GetCacheFileName: String;
@@ -1299,6 +1321,22 @@ begin
   if aAction = laDelete then
     if FVisibleList.HasObject(aFileItem) then
       Application.QueueAsyncCall(@DoFillGrid, 0);
+end;
+
+function TcbzLibrary.SelectedStr: String;
+var
+    p : integer;
+begin
+  p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
+  result := FVisibleList[p];
+end;
+
+function TcbzLibrary.SelectedObj: TFileItem;
+var
+  p : integer;
+begin
+  p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
+  result := TFileItem(FVisibleList.Objects[p]);
 end;
 
 

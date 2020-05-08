@@ -235,5 +235,18 @@ object CbzLibrary: TCbzLibrary
       Caption = 'Delete'
       OnClick = mnuDeleteClick
     end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object mnuCut: TMenuItem
+      Caption = 'Cut'
+      Enabled = False
+      OnClick = mnuCutClick
+    end
+    object mnuPaste: TMenuItem
+      Caption = 'Paste'
+      Enabled = False
+      OnClick = mnuPasteClick
+    end
   end
 end

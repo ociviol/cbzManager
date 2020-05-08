@@ -39,6 +39,7 @@ type
     FSyncPathFilename : String;
 
     function GetSyncFileDAte: TDateTime;
+    procedure SetFilename(AValue: String);
     procedure SetFSyncFileDAte(AValue: TDateTime);
     function SyncPathName(const aFilename : string):String;
     function SyncFilename : String;
@@ -75,7 +76,7 @@ type
     function CheckSync:integer;
     procedure SyncFileDelete;
 
-    property Filename : String read GetFilename;
+    property Filename : String read GetFilename write SetFilename;
     property ReadState : Boolean read GetReadState write SetReadState;
     property Img:TBitmap read GetImg;
     property Text : String Read GetText write SetText;
@@ -483,6 +484,17 @@ begin
   FLock.LockList;
   try
     Result := FSyncFileDAte;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+procedure TFileItem.SetFilename(AValue: String);
+begin
+  FLock.LockList;
+  try
+    FFilename := AValue;
+    FModified:=True;
   finally
     FLock.UnlockList;
   end;

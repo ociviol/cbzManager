@@ -864,6 +864,7 @@ begin
       lst := SelectedGridItems;
 
       //TreeView1.Selected.Text := ExtractFileName(zf.Delete(lst, @Progress));
+      zf.Delete(lst, @Progress);
       DrawGrid1.Max := zf.ImageCount;
       while (rpos >= zf.ImageCount) and (rpos > 0) do
         dec(rpos);

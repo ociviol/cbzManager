@@ -476,6 +476,10 @@ begin
     'cbzLibrary.log', Fconfig.DoLog);
 
   StatusBar1.Font.Size := 9;
+  {$if defined(Linux)}
+  StatusBar1.Panels[0].Width:=200;
+  StatusBar1.Panels[1].Width:=550;
+  {$endif}
   Flog.Log('cbzLibrary started.');
   FInQueue := 0;
   FDisplayFilters := [dfAll];

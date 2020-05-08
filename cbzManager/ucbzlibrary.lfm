@@ -15,7 +15,7 @@ object CbzLibrary: TCbzLibrary
   LCLVersion = '2.0.6.0'
   object dgLibrary: TDrawGrid
     Left = 50
-    Height = 667
+    Height = 669
     Top = 46
     Width = 1096
     Align = alClient
@@ -50,8 +50,8 @@ object CbzLibrary: TCbzLibrary
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 23
-    Top = 723
+    Height = 21
+    Top = 725
     Width = 1156
     Panels = <    
       item
@@ -144,7 +144,7 @@ object CbzLibrary: TCbzLibrary
       TabOrder = 2
       object cbSearch: TComboBox
         Left = 1
-        Height = 23
+        Height = 20
         Top = 1
         Width = 272
         Align = alClient
@@ -153,7 +153,7 @@ object CbzLibrary: TCbzLibrary
         AutoDropDown = True
         DropDownCount = 20
         Enabled = False
-        ItemHeight = 15
+        ItemHeight = 0
         OnChange = cbSearchChange
         OnCloseUp = cbSearchCloseUp
         Sorted = True
@@ -172,12 +172,12 @@ object CbzLibrary: TCbzLibrary
       TabOrder = 3
       object cbVisibleDates: TComboBox
         Left = 1
-        Height = 23
+        Height = 20
         Top = 1
         Width = 168
         Align = alClient
         Enabled = False
-        ItemHeight = 15
+        ItemHeight = 0
         OnChange = cbVisibleDatesChange
         Style = csDropDownList
         TabOrder = 0
@@ -209,7 +209,7 @@ object CbzLibrary: TCbzLibrary
   end
   object pnlbtns: TPanel
     Left = 10
-    Height = 667
+    Height = 669
     Top = 46
     Width = 30
     Align = alLeft

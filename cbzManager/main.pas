@@ -1263,9 +1263,8 @@ begin
         Selected := n.Parent;
         zf.Close;
         Image1.Picture.Clear;
-        DeleteFile(TreeView1.Selected.path);
+        DeleteFile(n.path);
         Items.Delete(n);
-        //ActionRefresh.Execute;
       end
     else
     if DirectoryExists(TreeView1.Selected.Path) and
@@ -1273,7 +1272,6 @@ begin
       with TreeView1 do
       begin
         n := Selected;
-        //if n.Level < 1 then exit;
         Selected := n.Parent;
         KillFolder(n.Path);
         RemoveDir(n.Path);

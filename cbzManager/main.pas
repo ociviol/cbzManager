@@ -190,7 +190,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Config, LclIntf,
+  Config, LclIntf, strutils,
   Utils.Strings, frmwait,
   fpHttpClient, uLogReader,
 {$if defined(Darwin) or defined(Linux)}
@@ -1117,7 +1117,7 @@ end;
 
 function TMainFrm.NodeSort(Node1, Node2 : TTreeNode): Integer;
 begin
-  Result := AnsiNaturalCompareStrings(Node1.Text, Node2.Text);
+  Result := NaturalCompareText(Node1.Text, Node2.Text);
 end;
 
 procedure TMainFrm.AddFileToTree(const aFileName: string;

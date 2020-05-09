@@ -925,8 +925,9 @@ begin
   if TFileItem(SelectedObj).Deleted then
     exit;
 
-  DeleteFile(SelectedStr);
-  TFileItem(SelectedObj).Deleted:=True;
+  if MessageDlg('Confirmation', 'Delete comic file as well ?', mtInformation, mbYesNo, 0) = mryes then
+    DeleteFile(SelectedStr);
+
   FillGrid;
 end;
 

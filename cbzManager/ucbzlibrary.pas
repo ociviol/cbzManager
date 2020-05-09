@@ -922,14 +922,12 @@ end;
 
 procedure TcbzLibrary.mnuDeleteClick(Sender: TObject);
 begin
-  if not FileExists(SelectedStr) then
+  if TFileItem(SelectedObj).Deleted then
     exit;
 
-  if DeleteFile(SelectedStr) then
-  begin
-    TFileItem(SelectedObj).Deleted:=True;
-    FillGrid;
-  end;
+  DeleteFile(SelectedStr);
+  TFileItem(SelectedObj).Deleted:=True;
+  FillGrid;
 end;
 
 procedure TcbzLibrary.mnuMoveTocbzManagerClick(Sender: TObject);

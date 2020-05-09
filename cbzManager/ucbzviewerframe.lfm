@@ -167,6 +167,7 @@ object CbzViewerFrame: TCbzViewerFrame
         Top = 1
         Width = 62
         Align = alLeft
+        OnChange = speLeftChange
         TabOrder = 0
       end
       object Label2: TLabel
@@ -185,6 +186,7 @@ object CbzViewerFrame: TCbzViewerFrame
         Top = 1
         Width = 62
         Align = alLeft
+        OnChange = speBottomChange
         TabOrder = 1
       end
       object Label3: TLabel
@@ -203,6 +205,7 @@ object CbzViewerFrame: TCbzViewerFrame
         Top = 1
         Width = 62
         Align = alLeft
+        OnChange = speRightChange
         TabOrder = 2
       end
       object Label4: TLabel
@@ -221,6 +224,7 @@ object CbzViewerFrame: TCbzViewerFrame
         Top = 1
         Width = 62
         Align = alLeft
+        OnChange = speTopChange
         TabOrder = 3
       end
       object btnCrop: TButton
@@ -230,6 +234,7 @@ object CbzViewerFrame: TCbzViewerFrame
         Width = 75
         Align = alRight
         Caption = 'Crop'
+        OnClick = btnCropClick
         TabOrder = 4
       end
       object btnCancel: TButton
@@ -239,6 +244,7 @@ object CbzViewerFrame: TCbzViewerFrame
         Width = 75
         Align = alRight
         Caption = 'Cancel'
+        OnClick = btnCancelClick
         TabOrder = 5
       end
     end
@@ -256,7 +262,7 @@ object CbzViewerFrame: TCbzViewerFrame
       Visible = False
     end
   end
-  object ActionList1: TActionList
+  object alViewerFrame: TActionList
     left = 236
     top = 124
     object ActionLast: TAction
@@ -326,10 +332,6 @@ object CbzViewerFrame: TCbzViewerFrame
       Caption = 'Undo All'
       OnExecute = ActionUndoAllExecute
     end
-    object ActionRewriteManga: TAction
-      Caption = 'Rewrite Manga'
-      OnExecute = ActionRewriteMangaExecute
-    end
     object ActionCropTool: TAction
       Caption = 'Crop tool'
       OnExecute = ActionCropToolExecute
@@ -337,6 +339,14 @@ object CbzViewerFrame: TCbzViewerFrame
     object ActionSelectAll: TAction
       Caption = 'Select All'
       OnExecute = ActionSelectAllExecute
+    end
+    object ActionRewriteManga: TAction
+      Caption = 'Rewrite Manga'
+      OnExecute = ActionRewriteMangaExecute
+    end
+    object ActionAppendFile: TAction
+      Caption = 'ActionAppendFile'
+      OnExecute = ActionAppendFileExecute
     end
   end
   object pmgrid: TPopupMenu
@@ -415,7 +425,7 @@ object CbzViewerFrame: TCbzViewerFrame
         Action = ActionRewriteManga
       end
       object MenuItem31: TMenuItem
-        Caption = 'Append File'
+        Action = ActionAppendFile
       end
     end
     object N8: TMenuItem

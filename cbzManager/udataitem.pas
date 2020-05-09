@@ -93,7 +93,7 @@ type
     function GetOut(Index : Integer; out Value : TDataRec):Boolean;
     procedure Put(Rec : TDataRec);
     function Empty:Boolean;
-    procedure Stats(var nbIn, nbOut : Integer);
+    procedure Stats(out nbIn, nbOut : Integer);
     procedure Disable;
     property InCount : Integer read GetInCount;
     property OutCount : Integer read GetOutCount;
@@ -355,7 +355,7 @@ begin
   end;
 end;
 
-procedure TThreadDataItem.Stats(var nbIn, nbOut: Integer);
+procedure TThreadDataItem.Stats(out nbIn, nbOut: Integer);
 begin
   nbIn := GetInCount;
   nbOut := GetOutCount;

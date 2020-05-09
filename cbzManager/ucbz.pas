@@ -355,7 +355,13 @@ procedure TCbz.Open(const aFileName: string; OpenMode: TZipMode;
   end;
 
 begin
-  FLog.Log(Format('%s %s "%s"', [ClassName, 'Open', FFilename]));
+  FLog.Log(Format('%s %s "%s"', [ClassName, 'Open', aFilename]));
+  if FMode <> zmClosed then
+  begin
+    ClearUndo;
+    Close;
+  end;
+
   FMode := OpenMode;
   FileName := aFileName;
 

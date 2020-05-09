@@ -11,15 +11,15 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Menus,
-  ComCtrls, ExtCtrls, Grids, ActnList, Spin, uCbz, Utils.treeview,
+  ComCtrls, ExtCtrls, ActnList, uCbz, Utils.treeview,
 {$ifdef Darwin}
   OpenSslSockets,
 {$endif}
-  Utils.Logger, Utils.SearchFiles, Utils.Gridhelper, Types,
+  Utils.Logger, Utils.SearchFiles, Utils.Gridhelper,
 {$if defined(Darwin) or defined(Linux)}
   cthreads,
 {$endif}
-  Utils.Arrays,
+  Utils.Arrays, uCbzViewerFrame,
   uDataPool, uWorkerThread, uConfig, uCbzLibrary;
 
 type
@@ -37,44 +37,12 @@ type
     ActionLibrary: TAction;
     ActionFileCleaner: TAction;
     ActionShowStats: TAction;
-    ActionSelectAll: TAction;
     ActionRenameFile: TAction;
-    ActionAppend: TAction;
-    ActionCropTool: TAction;
-    ActionRewriteManga: TAction;
-    ActionUndoAll: TAction;
-    ActionUndo: TAction;
-    ActionSplitImage: TAction;
     ActionJoin: TAction;
     ActionRefresh: TAction;
     ActionChooseFolder: TAction;
-    ActionMoveToTop: TAction;
-    ActionMoveToBottom: TAction;
-    ActionMoveDown: TAction;
-    ActionMoveup: TAction;
-    ActionDelete: TAction;
-    ActionRotm90: TAction;
-    ActionVertFlip: TAction;
-    ActionRot90: TAction;
-    ActionHorizFlip: TAction;
-    ActionFirst: TAction;
-    ActionLast: TAction;
     ActionList1: TActionList;
     Addtoqueue1: TMenuItem;
-    btnCancel: TButton;
-    btnFirst: TButton;
-    btnHorizFlip: TButton;
-    btnLast: TButton;
-    btnRotateLeft: TButton;
-    btnRotateRight: TButton;
-    btnVertFlip: TButton;
-    btnCrop: TButton;
-    DrawGrid1: TDrawGrid;
-    Image1: TImage;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
     Label5: TLabel;
     lbConvThreads: TListBox;
     lblFilesInQueue: TLabel;
@@ -83,30 +51,14 @@ type
     memoLog: TMemo;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
-    MenuItem11: TMenuItem;
-    MenuItem12: TMenuItem;
-    MenuItem13: TMenuItem;
-    MenuItem14: TMenuItem;
-    MenuItem15: TMenuItem;
-    MenuItem16: TMenuItem;
-    MenuItem17: TMenuItem;
-    MenuItem18: TMenuItem;
-    MenuItem19: TMenuItem;
-    MenuItem20: TMenuItem;
-    MenuItem21: TMenuItem;
-    MenuItem22: TMenuItem;
-    MenuItem23: TMenuItem;
     MenuItem24: TMenuItem;
     MenuItem25: TMenuItem;
     MenuItem26: TMenuItem;
     MenuItem27: TMenuItem;
     MenuItem28: TMenuItem;
     MenuItem29: TMenuItem;
-    MenuItem30: TMenuItem;
-    MenuItem31: TMenuItem;
     MenuItem32: TMenuItem;
     MenuItem33: TMenuItem;
-    MenuItem34: TMenuItem;
     MenuItem35: TMenuItem;
     MenuItem36: TMenuItem;
     MenuItem37: TMenuItem;
@@ -119,20 +71,7 @@ type
     N11: TMenuItem;
     N10: TMenuItem;
     N9: TMenuItem;
-    N8: TMenuItem;
-    N7: TMenuItem;
-    MenuItem6: TMenuItem;
-    MenuItem7: TMenuItem;
-    MenuItem8: TMenuItem;
-    MenuItem9: TMenuItem;
-    N6: TMenuItem;
-    N5: TMenuItem;
     MenuItem2: TMenuItem;
-    MenuItem3: TMenuItem;
-    MenuItem4: TMenuItem;
-    MenuItem5: TMenuItem;
-    N4: TMenuItem;
-    N3: TMenuItem;
     mnuAbout: TMenuItem;
     mnuConfig: TMenuItem;
     N2: TMenuItem;
@@ -143,68 +82,26 @@ type
     mnuFile: TMenuItem;
     Panel1: TPanel;
     Panel2: TPanel;
-    PanelCrop: TPanel;
     pnlProgress: TPanel;
-    Panel3: TPanel;
-    pnlimgName: TPanel;
     pnlStats: TPanel;
-    PopupMenu1: TPopupMenu;
-    PopupMenu2: TPopupMenu;
-    PopupMenu3: TPopupMenu;
+    pmTreeView: TPopupMenu;
     PopupMenuQueue: TPopupMenu;
     Removefromlist1: TMenuItem;
     SelectDirectoryDialog1: TSelectDirectoryDialog;
-    Shape1: TShape;
-    speLeft: TSpinEdit;
-    speBottom: TSpinEdit;
-    speRight: TSpinEdit;
-    speTop: TSpinEdit;
     Splitter1: TSplitter;
     Timerstats: TTimer;
     TreeView1: TTreeView;
-    procedure ActionAppendExecute(Sender: TObject);
+
     procedure ActionChooseFolderExecute(Sender: TObject);
-    procedure ActionCropToolExecute(Sender: TObject);
-    procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionDeleteFileExecute(Sender: TObject);
     procedure ActionFileCleanerExecute(Sender: TObject);
-    procedure ActionFirstExecute(Sender: TObject);
-    procedure ActionHorizFlipExecute(Sender: TObject);
-    procedure ActionJoinExecute(Sender: TObject);
-    procedure ActionLastExecute(Sender: TObject);
     procedure ActionLibraryExecute(Sender: TObject);
-    procedure ActionMoveDownExecute(Sender: TObject);
-    procedure ActionMoveToBottomExecute(Sender: TObject);
     procedure ActionCopyToLibExecute(Sender: TObject);
-    procedure ActionMoveToTopExecute(Sender: TObject);
-    procedure ActionMoveupExecute(Sender: TObject);
     procedure ActionReadLogExecute(Sender: TObject);
     procedure ActionRefreshExecute(Sender: TObject);
     procedure ActionRenameFileExecute(Sender: TObject);
-    procedure ActionRewriteMangaExecute(Sender: TObject);
-    procedure ActionRot90Execute(Sender: TObject);
-    procedure ActionRotm90Execute(Sender: TObject);
-    procedure ActionSelectAllExecute(Sender: TObject);
     procedure ActionShowStatsExecute(Sender: TObject);
-    procedure ActionSplitImageExecute(Sender: TObject);
-    procedure ActionUndoAllExecute(Sender: TObject);
-    procedure ActionUndoExecute(Sender: TObject);
-    procedure ActionVertFlipExecute(Sender: TObject);
     procedure Addtoqueue1Click(Sender: TObject);
-    procedure btnCancelClick(Sender: TObject);
-    procedure btnCropClick(Sender: TObject);
-    procedure DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
-    procedure DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integer;
-      State: TDragState; var Accept: Boolean);
-    procedure DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
-      aRect: TRect; aState: TGridDrawState);
-    procedure DrawGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
-      );
-    procedure DrawGrid1MouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure DrawGrid1MouseEnter(Sender: TObject);
-    procedure DrawGrid1SelectCell(Sender: TObject; aCol, aRow: Integer;
-      var CanSelect: Boolean);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -213,21 +110,15 @@ type
     procedure mnuConfigClick(Sender: TObject);
     procedure mnuExitClick(Sender: TObject);
     procedure mnuSetDefaultPathClick(Sender: TObject);
-    procedure PopupMenu1Popup(Sender: TObject);
-    procedure PopupMenu3Popup(Sender: TObject);
+    procedure pmTreeViewPopup(Sender: TObject);
     procedure PopupMenuQueuePopup(Sender: TObject);
     procedure Removefromlist1Click(Sender: TObject);
-    procedure speBottomChange(Sender: TObject);
-    procedure speLeftChange(Sender: TObject);
-    procedure speRightChange(Sender: TObject);
-    procedure speTopChange(Sender: TObject);
     procedure TimerstatsTimer(Sender: TObject);
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
     procedure TreeView1CustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
       State: TCustomDrawState; var DefaultDraw: Boolean);
   private
     FLog: ILog;
-    zf : TCbz;
     FInFill : Boolean;
     FConfigFile,
     FFileToMove : String;
@@ -236,19 +127,16 @@ type
     FTreeViewPaths : TStringlist;
     FClosing : Boolean;
     FProgress: TStringList;
-    FoldPos: Integer;
     FThreadDataPool: TThreadDataPool;
     FJobpool : TJobPool;
     FWorkerThreads: Array of TCbzWorkerThread;
     FConvertReport : TstringList;
     FLastUPdate : TDateTime;
     Fignores : TStringlist;
-    //FLibrary : TCbzLibrary;
+    CbzViewerFrame : TCbzViewerFrame;
 
-    procedure HideCropTool;
     procedure DoMoveToLib(data : int64);
-    procedure CheckAlbumArt(const aFilename : string);
-    procedure AppenFile(const aFileName : String);
+    //procedure CheckAlbumArt(const aFilename : string);
     procedure SaveConfig;
     function CheckPrograms:boolean;
     procedure FillTreeView(const Path: String);
@@ -268,15 +156,10 @@ type
     procedure Progress(Sender: TObject; const ProgressID: QWord;
                        const aPos, aMax: Integer; const Msg: String = '');
     function GetProgress(ProgressID: QWord; Sender: TObject):TProgressRec;
-    procedure SetMainImage(Index: Integer);
-    procedure StampReady(ProgressID: QWord; Index: Integer);
-    function SelectedGridItems: TIntArray;
     procedure SetAppCaption;
     procedure EnableActions;
-    procedure ResetViewControls;
     procedure OpenFileForview(aNode : TTreeNode);
 
-    procedure AfterCellSelect(data : int64);
     procedure CheckVersionTerminate(Sender : TObject);
   public
 
@@ -315,7 +198,7 @@ uses
 {$endif}
   Utils.Vcl,
   Utils.SoftwareVersion, uDataTypes,
-  Utils.ZipFile, Utils.Graphics, Utils.Files,
+  Utils.ZipFile, Utils.Files,
   uLoadReport, uAbout, uFileCleaner;
 
 
@@ -383,11 +266,6 @@ begin
 
   Terminate;
 end;
-
-//  CS_BDPATH = 'bdpath';
-//  CS_CWEBP = 'cwebp';
-//  CS_UNRAR =  'unrar';
-//  CS_P7ZIP = 'p7zip';
 
 
 { TMainFrm }
@@ -475,15 +353,14 @@ begin
 
   Flog.Log('cbzManager started.');
 
+  CbzViewerFrame := TCbzViewerFrame.Create(self, FConfig, FLog, @Progress);
+  CbzViewerFrame.Parent := self;
+
   //FConfig.QueueSize := CPUCount;
 
   FTreeViewPaths := TStringlist.Create;
   FProgress := TStringList.Create;
   FIgnores := Tstringlist.Create;
-
-  zf := TCbz.Create(FLog, DrawGrid1.DefaultColWidth - 5,
-                    DrawGrid1.DefaultRowHeight - 5,
-                    FConfig.WebpQuality, @StampReady);
 
   // check required programs
   if not CheckPrograms then
@@ -534,85 +411,18 @@ end;
 procedure TMainFrm.EnableActions;
 begin
   try
-    ActionUndo.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
-    ActionUndoAll.Enabled := (zf.Mode <> zmClosed) and zf.CanUndo;
-    //ActionCrop.Enabled := (zf.Mode <> zmClosed) and
-    //  ImageEnView1.CropToolInteraction.Selected;
-    //ActionCropAll.Enabled := (zf.Mode <> zmClosed) and
-    //  ImageEnView1.CropToolInteraction.Selected;
-    //ActionFilters.Enabled := (zf.Mode <> zmClosed) and
-    //  Assigned(ImageEnView1.Bitmap);
-    ActionDelete.Enabled := zf.Mode <> zmClosed;
-    //ActionJoin.Enabled := (zf.Mode <> zmClosed) and
-    //  (Length(SelectedGridItems) = 2);
-    //ActionExport.Enabled := (zf.Mode <> zmClosed) and
-    //  (Length(SelectedGridItems) = 1);
-    //ActionImportAbove.Enabled := (zf.Mode <> zmClosed) and
-    //  (Length(SelectedGridItems) = 1);
-    //ActionImportBelow.Enabled := (zf.Mode <> zmClosed) and
-    //  (Length(SelectedGridItems) = 1);
-    //ActionExportSelection.Enabled := (zf.Mode <> zmClosed) and
-    //(Length(SelectedGridItems) >= 1);
-    ActionSelectAll.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0);
-    ActionMoveUp.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position > 0);
-    ActionMoveDown.Enabled := (zf.Mode <> zmClosed) and
-      (DrawGrid1.Position < zf.ImageCount - 1);
-    //ActionClip.Enabled := (zf.Mode <> zmClosed) and
-    //  ImageEnView1.CropToolInteraction.Selected;
-    //ActionRemoveBorders.Enabled := (zf.Mode <> zmClosed) and
-    //  (Length(SelectedGridItems) = 1);
-    //ActionRemoveAllBorders.Enabled := (zf.Mode <> zmClosed);
-    ActionMoveToTop.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position > 0);
-    ActionMoveToBottom.Enabled := (zf.Mode <> zmClosed) and
-      (DrawGrid1.Position < zf.FileCount - 1);
-    //ActionFit.Enabled := (zf.Mode <> zmClosed) and Assigned(ImageEnView1.Bitmap);
-    ActionCropTool.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position >= 0);
-
     // files
     with TreeView1 do
       ActionDeleteFile.Enabled:=
         Assigned(Selected) and FileExists(Selected.Path) or
         (DirectoryExists(Selected.Path) and (Selected.Path.Length > FConfig.BdPathPath.Length));
 
-    ActionCopyToLib.Enabled := (zf.Mode <> zmClosed) and Assigned(FindForm(TCbzLibrary));
-    ActionAppend.Enabled := (zf.Mode <> zmClosed);
-    ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
+    ActionCopyToLib.Enabled := (CbzViewerFrame.State <> zmClosed) and Assigned(FindForm(TCbzLibrary));
     ActionChooseFolder.Enabled := not FInFill;
-    //ActionRewrite.Enabled := Assigned(TreeView1.Selected) and
-    //  (TreeView1.SelectionCount = 1);
-    //ActionJoinFiles.Enabled := TreeView1.SelectionCount > 1;
     ActionRenameFile.Enabled := Assigned(TreeView1.Selected) and
                                (TreeView1.SelectionCount = 1) and
                                not (TreeView1.Selected.HasChildren);
     ActionRefresh.Enabled := (FConfig.BdPathPath.Length > 0) and not FInFill;
-    //ActionTest.Enabled := Assigned(TreeView1.Selected);
-    //ActionFixFilenames.Enabled := Assigned(TreeView1.Selected);
-    //ActionCollapsenodes.Enabled := Assigned(TreeView1.Selected) and
-    //  TreeView1.Selected.HasChildren;
-    //ActionExpandNodes.Enabled := Assigned(TreeView1.Selected) and
-    //  TreeView1.Selected.HasChildren;
-    //ActionDeleteFile.Enabled := Assigned(TreeView1.Selected) and
-    //  not TreeView1.Selected.HasChildren;
-    //ActionSetDefaultPath.Enabled := FPath <> '';
-    //ActionCreateFolder.Enabled := Assigned(TreeView1.Selected) and
-    //  (TDirectory.Exists(TreeView1.Selected.Path));
-    //ActionReader.Enabled := (zf.Mode <> zmClosed);
-    // btns
-    ActionRotm90.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-      (Length(SelectedGridItems) >= 1);
-    ActionRot90.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-      (Length(SelectedGridItems) >= 1);
-    ActionFirst.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-      (DrawGrid1.Position > 0);
-    ActionLast.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-      (DrawGrid1.Position < zf.ImageCount - 1);
-    ActionHorizflip.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-      (Length(SelectedGridItems) = 1);
-    ActionVertflip.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-      (Length(SelectedGridItems) = 1);
-    ActionJoin.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
-      (Length(SelectedGridItems) = 2);
-    ActionSplitImage.Enabled := (zf.Mode <> zmClosed) and (Length(SelectedGridItems) = 1);
   except
   end;
 end;
@@ -624,8 +434,6 @@ begin
   FTreeViewPaths.Free;
   FProgress.Free;
   FIgnores.Free;
-  zf.Close;
-  zf.Free;
   FConvertReport.Free;
   FConfig.Free;
 
@@ -759,21 +567,6 @@ begin
   memoLog.Visible := True;
 end;
 
-procedure TMainFrm.StampReady(ProgressID: QWord; Index: Integer);
-begin
-  if Application.Terminated then
-    Exit;
-
-  if Index < 0 then
-    Progress(Self, ProgressID, 0, 0, '')
-  else
-  begin
-    Progress(Self, ProgressID, zf.StampCount, zf.ImageCount, 'Generating stamps...');
-    DrawGrid1.InvalidateCell(0, Index);
-    Application.ProcessMessages;
-  end;
-end;
-
 procedure TMainFrm.mnuAboutClick(Sender: TObject);
 begin
   with TfrmAbout.Create(Application) do
@@ -868,12 +661,7 @@ begin
   SaveConfig;
 end;
 
-procedure TMainFrm.PopupMenu1Popup(Sender: TObject);
-begin
-  EnableActions;
-end;
-
-procedure TMainFrm.PopupMenu3Popup(Sender: TObject);
+procedure TMainFrm.pmTreeViewPopup(Sender: TObject);
 begin
   EnableActions;
 end;
@@ -893,28 +681,6 @@ begin
   with lbQueue do
     if ItemIndex >= 0 then
       FJobpool.DeleteJob(Items[ItemIndex]);
-end;
-
-procedure TMainFrm.speBottomChange(Sender: TObject);
-begin
-  Shape1.Height := speBottom.Value;
-end;
-
-procedure TMainFrm.speLeftChange(Sender: TObject);
-begin
-  Shape1.left := speLeft.Value;
-  speRight.MaxValue:=(Image1.left+(Image1.DestRect.Right - Image1.DestRect.left))-Shape1.left;
-end;
-
-procedure TMainFrm.speRightChange(Sender: TObject);
-begin
-  Shape1.width := speRight.Value;
-end;
-
-procedure TMainFrm.speTopChange(Sender: TObject);
-begin
-  Shape1.Top := speTop.Value;
-  speBottom.MaxValue:=(Image1.top+(Image1.DestRect.Bottom - Image1.DestRect.Top))-shape1.top;
 end;
 
 procedure TMainFrm.TimerstatsTimer(Sender: TObject);
@@ -958,19 +724,7 @@ begin
     end;
   end;
 end;
-
-procedure TMainFrm.AfterCellSelect(data : int64);
-begin
-  EnableActions;
-  SetMainImage(DrawGrid1.Position);
-end;
-
-procedure TMainFrm.HideCropTool;
-begin
-  PanelCrop.Visible:=false;
-  Shape1.Visible:=False;
-end;
-
+   {
 procedure TMainFrm.CheckAlbumArt(const aFilename: string);
 var
   b : TBitmap;
@@ -1011,76 +765,12 @@ begin
       FLog.Log('Error generating album art :' + e.Message);
   end;
 end;
-
-procedure TMainFrm.SetMainImage(Index: Integer);
-var
-  b: TBitmap;
-begin
-  Screen.Cursor := crHourGlass;
-  try
-    if (zf.Mode <> zmClosed) and (Index < zf.ImageCount) then
-    begin
-      {
-      if (Index = zf.FileCount - 1) then
-      begin
-        Image1.Visible := False;
-        pnlimgName.Caption := format('%s', [zf.FileNames[Index]]);
-      end
-      else
-      }
-      begin
-        HideCropTool;
-        Image1.Visible := True;
-        b := zf.Image[Index];
-        try
-          if Assigned(b) then
-          begin
-            pnlimgName.Caption := format('%s (%dx%d)',
-              [zf.FileNames[Index], b.Width, b.Height]);
-            if Assigned(b) then
-              Image1.Picture.Bitmap := b;
-          end;
-        finally
-          b.free;
-        end;
-      end;
-    end
-    else
-      Image1.Picture.Clear;
-  finally
-    Screen.Cursor := crDefault;
-  end;
-end;
-
-procedure TMainFrm.ResetViewControls;
-begin
-  zf.Close;
-  with DrawGrid1 do
-  begin
-    FoldPos := -1;
-    RowCount := 1;
-    Row := 0;
-    Refresh;
-  end;
-  Image1.Picture.Clear;
-  pnlimgName.Caption := '';
-  EnableActions;
-end;
-
+  }
 procedure TMainFrm.OpenFileForview(aNode : TTreeNode);
 begin
   aNode.Data := nil;
   TreeView1.Refresh;
-  zf.Open(aNode.Path, zmRead);
-  zf.Progress := @Progress;
-  with DrawGrid1 do
-  begin
-    Visible := False;
-    Max := zf.ImageCount;
-    Position := 0;
-    Visible := True;
-    Application.QueueAsyncCall(@AfterCellSelect, 0);
-  end;
+  CbzViewerFrame.Filename:= aNode.Path;
 end;
 
 procedure TMainFrm.TreeView1Change(Sender: TObject; Node: TTreeNode);
@@ -1090,7 +780,7 @@ begin
     begin
       if FileExists(Node.Path) then
       begin
-        ResetViewControls;
+        CbzViewerFrame.Filename:=Node.Path;
         try
           OpenFileForview(Node);
         except
@@ -1099,8 +789,8 @@ begin
     end
     else
     begin
-      ResetViewControls;
-      zf.ClearUndo;
+      CbzViewerFrame.Clear;
+      CbzViewerFrame.ClearUndo;
     end;
 end;
 
@@ -1114,145 +804,9 @@ begin
       Font.Style := [];
 end;
 
-function TMainFrm.SelectedGridItems: TIntArray;
-var
-  i: Integer;
-begin
-  SetLength(Result, 0);
-  for i := 0 to DrawGrid1.Max - 1 do
-    if DrawGrid1.Selected[i] then
-    begin
-      SetLength(Result, Length(Result) + 1);
-      Result[Length(Result) - 1] := i;
-    end;
-end;
-
-procedure JoinImages(b1, b2, bFinal: TBitmap);
-begin
-  {$ifdef Linux}
-    bFinal.PixelFormat := pf24bit;
-  {$else}
-    bFinal.PixelFormat := pf32bit;
-  {$endif}
-  bFinal.Width := b1.Width * 2;
-  bFinal.Height := b1.Height;
-  bFinal.Canvas.AntialiasingMode:=amOn;
-  bFinal.Canvas.Draw(0, 0, b1);
-  bFinal.Canvas.Draw(b1.Width, 0, b2);
-end;
-
-procedure TMainFrm.ActionHorizFlipExecute(Sender: TObject);
-var
-  rpos: Integer;
-begin
-  if DrawGrid1.Position >= 0 then
-  begin
-    Screen.Cursor := crHourGlass;
-    try
-      rpos := DrawGrid1.Position;
-      zf.HorizontalFlip(SelectedGridItems, @Progress);
-      DrawGrid1.Position := rpos;
-      SetMainImage(DrawGrid1.Position);
-    finally
-      Screen.Cursor := crDefault;
-    end;
-  end;
-end;
-
-procedure TMainFrm.ActionJoinExecute(Sender: TObject);
-var
-  lst: TIntArray;
-  ar : TIntArray;
-  b1, b2 : Tbitmap;
-  bFinal: TBitmap;
-  ms : TMemoryStream;
-  ars : TStreamArray;
-begin
-  if DrawGrid1.Position >= 0 then
-  begin
-    Screen.Cursor := crHourGlass;
-    try
-      lst := SelectedGridItems;
-      if Length(lst) <> 2 then
-        raise Exception.Create('Can only join 2 images.');
-
-      b1 := zf.Image[lst[0]];
-      try
-        b2 := zf.Image[lst[1]];
-        try
-          bFinal := TBitmap.Create;
-          try
-            JoinImages(b1, b2, bFinal);
-            ms := TMemoryStream.Create;
-            bFinal.SaveToStream(ms);
-            // delete images
-            SetLength(ar, 2);
-            ar[0] := lst[0];
-            ar[1] := lst[1];
-            zf.Delete(ar, @Progress);
-            // insert joined image
-            SetLength(ars, 1);
-            ars[0] := ms;
-            zf.Insert(ars, lst[0]);
-            // re select
-            DrawGrid1.Max := zf.ImageCount;
-            DrawGrid1.Position := lst[0];
-            DrawGrid1.Invalidate;
-            Application.QueueAsyncCall(@AfterCellSelect, 0);
-          finally
-            bFinal.Free;
-          end;
-        finally
-          b2.Free;
-        end;
-      finally
-        b1.Free;
-      end;
-    finally
-      Screen.Cursor := crDefault;
-    end;
-  end;
-end;
-
-procedure TMainFrm.ActionFirstExecute(Sender: TObject);
-begin
-  if zf.Mode <> zmClosed then
-  begin
-    DrawGrid1.Position := 0;
-    Application.QueueAsyncCall(@AfterCellSelect, 0);
-  end;
-end;
-
-procedure TMainFrm.ActionDeleteExecute(Sender: TObject);
-var
-  rpos: Integer;
-  lst: TIntArray;
-begin
-  if DrawGrid1.Position >= 0 then
-  begin
-    Screen.Cursor := crHourGlass;
-    try
-      rpos := DrawGrid1.Position;
-      lst := SelectedGridItems;
-
-      TreeView1.Selected.Text := ExtractFileName(zf.Delete(lst, @Progress));
-      DrawGrid1.Max := zf.ImageCount;
-      while (rpos >= zf.ImageCount) and (rpos > 0) do
-        dec(rpos);
-      DrawGrid1.Position := rpos;
-      DrawGrid1.Invalidate;
-      Application.QueueAsyncCall(@AfterCellSelect, 0);
-    finally
-      Screen.Cursor := crDefault;
-    end;
-  end;
-end;
 
 procedure TMainFrm.ActionDeleteFileExecute(Sender: TObject);
 var
-  files : TStringlist;
-  s : string;
-  i : integer;
   n : TTreeNode;
 begin
   if Assigned(TreeView1.Selected) then
@@ -1261,8 +815,7 @@ begin
       begin
         n := Selected;
         Selected := n.Parent;
-        zf.Close;
-        Image1.Picture.Clear;
+        CbzViewerFrame.FullClear;
         DeleteFile(n.path);
         Items.Delete(n);
       end
@@ -1300,104 +853,6 @@ begin
     end;
 end;
 
-procedure TMainFrm.AppenFile(const aFileName : String);
-var
-  tmpz : TCbz;
-  i : longint;
-  sar : TStreamArray;
-  rpos : integer;
-begin
-  tmpz := TCbz.Create(FLog);
-  try
-    SetLength(sar, 0);
-    rpos := DrawGrid1.Position;
-    try
-      tmpz.Open(aFileName, zmRead);
-      for i:=0 to tmpz.FileCount-1 do
-        if TCbz.AllowedFile(tmpz.FileNames[i]) then
-        begin
-          SetLength(sar, length(sar)+1);
-          sar[length(sar)-1] := tmpz.GetFileStream(i);
-        end;
-        zf.Add(sar, @Progress);
-        // refresh
-        DrawGrid1.Max := zf.ImageCount;
-        DrawGrid1.Position := rpos;
-        DrawGrid1.Invalidate;
-        Application.QueueAsyncCall(@AfterCellSelect, 0);
-    finally
-      for i:=low(sar) to high(sar) do
-        if Assigned(sar[i]) then
-          sar[i].Free;
-    end;
-  finally
-    tmpz.Free;
-  end;
-end;
-
-procedure TMainFrm.ActionAppendExecute(Sender: TObject);
-var
-  i : integer;
-begin
-  with TOpenDialog.Create(Self) do
-  try
-    Title := 'Choose cbz to append';
-    Filter := 'Cbz files (*.cbz)|*.cbz';
-    Options:=[ofHideReadOnly,ofAllowMultiSelect,ofPathMustExist,ofFileMustExist,
-              ofNoTestFileCreate,ofEnableSizing,ofDontAddToRecent,ofViewDetail];
-    if Execute then
-      for i:=0 to Files.Count-1 do
-        AppenFile(Files[i]);
-  finally
-    Free;
-  end;
-end;
-
-procedure TMainFrm.ActionCropToolExecute(Sender: TObject);
-var
-  r : TRect;
-begin
-  PanelCrop.Visible := true;
-  Update;
-  r := Image1.DestRect;
-  // shape
-  Shape1.Left:= Image1.Left + r.left + 10;
-  Shape1.top := Image1.Top + r.top + 10;
-  Shape1.Width:= (r.Right - r.left) - 20;
-  Shape1.Height := (r.Bottom - r.Top) - 20;
-  // width
-  speRight.MinValue := (r.Right - r.left) div 2;
-  speRight.MaxValue := (r.Right - r.left);
-  speRight.Value:=(r.Right - r.left) - 20;
-  // height
-  speBottom.MinValue:= (r.Bottom - r.Top) div 2;
-  speBottom.MaxValue:= (r.Bottom - r.Top);
-  speBottom.Value:= (r.Bottom - r.Top) - 20;
-  //left
-  speLeft.MinValue := Image1.Left + r.left;
-  speLeft.MaxValue := Image1.Left + (r.Right - r.left) div 2;
-  speLeft.Value:= Image1.Left + r.left + 10;
-  // top
-  speTop.MinValue:=Image1.top + r.Top;
-  speTop.MaxValue:=Image1.Top + (r.Bottom - r.top) div 2;
-  speTop.Value:= Image1.Top + r.top + 10;
-  // shape
-  //Shape1.Left:= Image1.left + r.left + 10;
-  //Shape1.top := Image1.Top + r.top + 10;
-  //Shape1.Width:= Image1.Left + (r.Right - r.left) - 20;
-  //Shape1.Height := Image1.Top + (r.Bottom - r.Top) - 20;
-  Shape1.Visible:=True;
-end;
-
-procedure TMainFrm.ActionLastExecute(Sender: TObject);
-begin
-  if zf.Mode <> zmClosed then
-  begin
-    DrawGrid1.Position := zf.ImageCount - 1;
-    Application.QueueAsyncCall(@AfterCellSelect, 0);
-  end;
-end;
-
 procedure TMainFrm.ActionLibraryExecute(Sender: TObject);
 begin
   if ((FConfig.LibPath = '') or (not DirectoryExists(FConfig.LibPath))) or
@@ -1418,49 +873,6 @@ begin
   begin
     Show;
     BringToFront;
-  end;
-end;
-
-procedure TMainFrm.ActionMoveDownExecute(Sender: TObject);
-begin
-  Screen.Cursor := crHourGlass;
-  try
-    zf.Invert(DrawGrid1.Position, DrawGrid1.Position + 1, @Progress);
-    DrawGrid1.Position := DrawGrid1.Position + 1;
-    DrawGrid1.Invalidate;
-    SetMainImage(DrawGrid1.Position);
-  finally
-    Screen.Cursor := crDefault;
-  end;
-end;
-
-procedure TMainFrm.ActionMoveToBottomExecute(Sender: TObject);
-var
-  b: TBitmap;
-  ms: TMemoryStream;
-  ar : TIntArray;
-  ars : TStreamArray;
-begin
-  Screen.Cursor := crHourGlass;
-  try
-    b := zf.Image[DrawGrid1.Position];
-    try
-      ms := TMemoryStream.Create;
-      b.SaveToStream(ms);
-      SetLength(ar, 1);
-      ar[0] := DrawGrid1.Position;
-      zf.Delete(ar, @Progress);
-      SetLength(ars, 1);
-      ars[0] := ms;
-      zf.Insert(ars, zf.FileCount);
-      DrawGrid1.Position := zf.FileCount - 1;
-      DrawGrid1.Invalidate;
-      SetMainImage(DrawGrid1.Position);
-    finally
-      b.Free;
-    end;
-  finally
-    Screen.Cursor := crDefault;
   end;
 end;
 
@@ -1485,56 +897,18 @@ begin
     else
     if DirectoryExists(TreeView1.Selected.Path) then
     begin
-       GetFiles(TreeView1.Selected.Path, ['*'], Files);
-       for s in Files do
-       begin
-         FFileToMove:=s;
-         DoMoveToLib(0);
+       Files := TStringlist.Create;
+       try
+         GetFiles(TreeView1.Selected.Path, ['*'], Files);
+         for s in Files do
+         begin
+           FFileToMove:=s;
+           DoMoveToLib(0);
+         end;
+       finally
+         Files.Free;
        end;
     end;
-end;
-
-procedure TMainFrm.ActionMoveToTopExecute(Sender: TObject);
-var
-  b: TBitmap;
-  ms: TMemoryStream;
-  ar : TIntArray;
-  ars : TSTreamArray;
-begin
-  Screen.Cursor := crHourGlass;
-  try
-    b := zf.Image[DrawGrid1.Position];
-    try
-      ms := TMemoryStream.Create;
-      b.SaveToStream(ms);
-      SetLength(ar, 1);
-      ar[0] := DrawGrid1.Position;
-      zf.Delete(ar, @Progress);
-      SetLength(ars, 1);
-      ars[0] := ms;
-      zf.Insert(ars, 0);
-      DrawGrid1.Position := 0;
-      DrawGrid1.Invalidate;
-      SetMainImage(DrawGrid1.Position);
-    finally
-      b.Free;
-    end;
-  finally
-    Screen.Cursor := crDefault;
-  end;
-end;
-
-procedure TMainFrm.ActionMoveupExecute(Sender: TObject);
-begin
-  Screen.Cursor := crHourGlass;
-  try
-    zf.Invert(DrawGrid1.Position, DrawGrid1.Position - 1, @Progress);
-    DrawGrid1.Position := DrawGrid1.Position - 1;
-    DrawGrid1.Invalidate;
-    SetMainImage(DrawGrid1.Position);
-  finally
-    Screen.Cursor := crDefault;
-  end;
 end;
 
 procedure TMainFrm.ActionReadLogExecute(Sender: TObject);
@@ -1568,65 +942,10 @@ begin
     until (new = '') or (new = old) or not FileExists(new);
     if (new <> '') and (new <> old) then
     begin
-      ResetViewControls;
+      CbzViewerFrame.Clear;
       TreeView1.Selected.Text := ExtractFileName(new);
       RenameFile(old, new);
     end;
-  end;
-end;
-
-procedure TMainFrm.ActionRewriteMangaExecute(Sender: TObject);
-begin
-  with TreeView1 do
-    if Assigned(Selected) then
-      if not Selected.HasChildren then
-      begin
-        Screen.Cursor := crHourGlass;
-        try
-          zf.RewriteManga(@Progress);
-          DrawGrid1.Invalidate;
-          SetMainImage(DrawGrid1.Position);
-        finally
-          Screen.Cursor := crDefault;
-        end;
-      end;
-end;
-
-procedure TMainFrm.ActionRot90Execute(Sender: TObject);
-begin
-  if DrawGrid1.Position >= 0 then
-  begin
-    Screen.Cursor := crHourGlass;
-    try
-      zf.Rotate(SelectedGridItems, -90, @Progress);
-      SetMainImage(DrawGrid1.Position);
-    finally
-      Screen.Cursor := crDefault;
-    end;
-  end;
-end;
-
-procedure TMainFrm.ActionRotm90Execute(Sender: TObject);
-begin
-  if DrawGrid1.Position >= 0 then
-  Screen.Cursor := crHourGlass;
-  try
-    zf.Rotate(SelectedGridItems, 90, @Progress);
-    SetMainImage(DrawGrid1.Position);
-  finally
-    Screen.Cursor := crDefault;
-  end;
-end;
-
-procedure TMainFrm.ActionSelectAllExecute(Sender: TObject);
-var
-  i : integer;
-begin
-  with DrawGrid1 do
-  begin
-    for i := 0 to RowCount - 1 do
-      Selected[i] := true;
-    Invalidate;
   end;
 end;
 
@@ -1637,106 +956,6 @@ begin
   Timerstats.Enabled:=FConfig.ShowStats;
   FConfig.Save(FConfigFile);
   Flog.Log('Config saved.');
-end;
-
-procedure TMainFrm.ActionSplitImageExecute(Sender: TObject);
-var
-  b, b1, b2: TBitmap;
-  ms1, ms2: TMemoryStream;
-  ar : TIntArray;
-  sa : TStreamArray;
-begin
-  if DrawGrid1.Position >= 0 then
-  begin
-    Screen.Cursor := crHourGlass;
-    try
-      b := zf.Image[DrawGrid1.Position];
-      try
-        b1 := TBitmap.Create;
-        b1.Canvas.AntialiasingMode:=amOn;
-        b2 := TBitmap.Create;
-        b2.Canvas.AntialiasingMode:=amOn;
-        try
-          b1.PixelFormat := b.PixelFormat;
-          b2.PixelFormat := b.PixelFormat;
-          b1.Height := b.Height;
-          b2.Height := b.Height;
-          b1.Width := b.Width div 2;
-          b2.Width := b.Width div 2;
-          b1.Canvas.CopyRect(Rect(0, 0, b1.Width - 1, b1.Height - 1), b.Canvas,
-            Rect(0, 0, b1.Width - 1, b1.Height - 1));
-          b2.Canvas.CopyRect(Rect(0, 0, b2.Width - 1, b2.Height - 1), b.Canvas,
-            Rect(b1.Width, 0, b.Width - 1, b.Height - 1));
-
-          SetLength(ar, 1);
-          ar[0] := DrawGrid1.Position;
-          zf.Delete(ar, @Progress);
-          ms1 := TMemoryStream.Create;
-          ms2 := TMemoryStream.Create;
-          b1.SaveToStream(ms1);
-          b2.SaveToStream(ms2);
-          SetLength(sa, 2);
-          sa[0] := ms1;
-          sa[1] := ms2;
-          zf.Insert(sa, DrawGrid1.Position);
-          SetMainImage(DrawGrid1.Position);
-          DrawGrid1.Invalidate;
-        finally
-          b1.Free;
-          b2.Free;
-        end;
-      finally
-        b.Free;
-      end;
-    finally
-      Screen.Cursor := crDefault;
-    end;
-  end;
-end;
-
-procedure TMainFrm.ActionUndoAllExecute(Sender: TObject);
-begin
-  Screen.Cursor := crHourGlass;
-  try
-    while zf.CanUndo do
-      zf.Undo(nil);
-    DrawGrid1.Max := zf.ImageCount;
-    DrawGrid1.Invalidate;
-  finally
-    Screen.Cursor := crDefault;
-  end;
-end;
-
-procedure TMainFrm.ActionUndoExecute(Sender: TObject);
-begin
-  Screen.Cursor := crHourGlass;
-  try
-    zf.Undo(@Progress);
-    DrawGrid1.Max := zf.ImageCount;
-    DrawGrid1.Invalidate;
-    SetMainImage(DrawGrid1.Position);
-    EnableActions;
-  finally
-    Screen.Cursor := crDefault;
-  end;
-end;
-
-procedure TMainFrm.ActionVertFlipExecute(Sender: TObject);
-var
-  rpos: Integer;
-begin
-  if DrawGrid1.Position >= 0 then
-  begin
-    Screen.Cursor := crHourGlass;
-    try
-      rpos := DrawGrid1.Position;
-      zf.VerticalFlip(SelectedGridItems, @Progress);
-      SetMainImage(DrawGrid1.Position);
-      DrawGrid1.Position := rpos;
-    finally
-      Screen.Cursor := crDefault;
-    end;
-  end;
 end;
 
 procedure TMainFrm.Addtoqueue1Click(Sender: TObject);
@@ -1755,182 +974,6 @@ begin
   end;
 end;
 
-procedure TMainFrm.btnCancelClick(Sender: TObject);
-begin
-  HideCropTool;
-end;
-
-procedure TMainFrm.btnCropClick(Sender: TObject);
-var
-  r : TRect;
-  b : TBitmap;
-begin
-  Screen.Cursor := crHourGlass;
-  try
-    b := zf.Image[DrawGrid1.Position];
-    r := Rect(shape1.Left, Shape1.Top, shape1.Left + Shape1.Width - 1, shape1.Top + Shape1.Height - 1);
-    CropBitmap(b, r);
-    zf.Image[DrawGrid1.Position] := b;
-    SetMainImage(DrawGrid1.Position);
-  finally
-    Screen.Cursor := crDefault;
-  end;
-end;
-
-procedure TMainFrm.DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
-var
-  aRow, ACol: Integer;
-begin
-  DrawGrid1.MouseToCell(X, Y, ACol, aRow);
-  zf.Invert(DrawGrid1.Position, aRow, @Progress);
-  DrawGrid1.Invalidate;
-  SetMainImage(DrawGrid1.Position);
-end;
-
-procedure TMainFrm.DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integer;
-  State: TDragState; var Accept: Boolean);
-var
-  aRow, ACol: Integer;
-begin
-  DrawGrid1.MouseToCell(X, Y, ACol, aRow);
-  Accept := (Sender = Source) and (aRow <> DrawGrid1.Position) and
-    (State <> dsDragEnter); // and (GetKeyState(VK_LBUTTON) and $8000 <> 0);
-end;
-
-procedure TMainFrm.DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
-  aRect: TRect; aState: TGridDrawState);
-var
-  b: TBitmap;
-  X, Y: Integer;
-  //function Apos:Integer;
-  //begin
-  //  result := ifthen(Fconfig.StampView = svVert, aRow, aCol);
-  //end;
-begin
-  if zf.Mode <> zmClosed then
-    with DrawGrid1.Canvas do
-    begin
-      if DrawGrid1.Selected[aRow] then
-        Brush.Color := clHighlight
-      else
-        Brush.Color := clWhite;
-
-      FillRect(aRect);
-
-      //b := nil;
-      b := zf.Stamp[aRow];
-      if Assigned(b) then
-      begin
-        X := (DrawGrid1.DefaultColWidth - b.Width) div 2;
-        Y := (DrawGrid1.DefaultRowHeight - b.Height) div 2;
-        Draw(aRect.Left + X, aRect.Top + Y, b);
-      end;
-
-      // if gdFocused in State then
-      if aRow = DrawGrid1.Position then
-        DrawFocusRect(aRect);
-    end;
-end;
-
-procedure TMainFrm.DrawGrid1KeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (zf.Mode <> zmClosed) then
-    with DrawGrid1 do
-      case Key of
-        40, // down
-        37: // left
-          if Position >= 0 then
-          begin
-            //Position := Position - 1;
-            ClearSelection;
-            Selected[Position] := true;
-            SetMainImage(Position);
-          end;
-
-        38, // up
-        39: //right
-          if Position <= Max then
-          begin
-            //Position := Position + 1;
-            ClearSelection;
-            Selected[Position] := true;
-            SetMainImage(Position);
-          end;
-      end;
-end;
-
-procedure TMainFrm.DrawGrid1MouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-var
-  i, aRow, ACol: Integer;
-begin
-  if zf.Mode <> zmClosed then
-    with DrawGrid1 do
-    begin
-      ACol:=0;
-      aRow:=0;
-      MouseToCell(X, Y, ACol, aRow);
-
-      if (aRow >= 0) and (ACol >= 0) then
-      begin
-{$ifdef Darwin}
-        if (Button = mbLeft) and (ssMeta in Shift) then
-{$else}
-        if (Button = mbLeft) and (ssCtrl in Shift) then
-{$endif}
-          Selected[aRow] := not Selected[aRow]
-        else
-        if (Button = mbLeft) and (ssShift in Shift) then
-        begin
-          ClearSelection;
-          if aRow > FoldPos then
-            for i := FoldPos to aRow do
-              Selected[i] := not Selected[aRow]
-          else
-            for i := FoldPos downto aRow do
-              Selected[i] := not Selected[aRow];
-        end
-        else if ((Button = mbRight) and not Selected[aRow]) or (Button = mbLeft)
-        then
-        begin
-          if aRow <> Position then
-            Position := aRow;
-          ClearSelection;
-          Selected[aRow] := True;
-          Application.QueueAsyncCall(@AfterCellSelect, 0);
-        end;
-      end;
-
-      Invalidate;
-    end;
-  EnableActions;
-end;
-
-procedure TMainFrm.DrawGrid1MouseEnter(Sender: TObject);
-begin
-  if zf.Mode <> zmClosed then
-    DrawGrid1.SetFocus;
-end;
-
-procedure TMainFrm.DrawGrid1SelectCell(Sender: TObject; aCol, aRow: Integer;
-  var CanSelect: Boolean);
-var
-  ShiftState: TShiftState;
-begin
-  if Application.Terminated then
-    Exit;
-
-  ShiftState := GetKeyShiftState;
-  if not (ssShift in ShiftState) then
-    FoldPos := aRow;
-
-  CanSelect := zf.Mode <> zmClosed;
-  if not CanSelect then
-    Exit;
-
-  EnableActions;
-end;
 
 procedure TMainFrm.mnuConfigClick(Sender: TObject);
 begin
@@ -2161,8 +1204,8 @@ begin
         Free;
       end;
 
-      if FConfig.DoAlbumart then
-        CheckAlbumArt(aFilename);
+      //if FConfig.DoAlbumart then
+      //  CheckAlbumArt(aFilename);
     end
     else if Assigned(FIgnores) and not FJobpool.FileInQueue(aFileName) then
     //and not InOpList(aFileName) then
@@ -2226,7 +1269,7 @@ begin
     Items.BeginUpdate;
     FIgnores.Clear;
     Items.Clear;
-    zf.Close;
+    CbzViewerFrame.FullClear;
   end;
 
   FThreadSearchFiles := ThreadedSearchFiles(Path, ['*.cbz','*.cbr','*.zip','*.rar'], @AddFileToTree2, @SearchEnded,

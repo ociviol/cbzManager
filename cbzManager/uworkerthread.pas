@@ -48,7 +48,7 @@ type
     constructor Create(Log : ILog);
     destructor Destroy; override;
     procedure AddJob(const Filename : String; arcType : TArcType = arcZip; Operations : TImgOperations = [opConvert]);
-    procedure Stats(var nbZip, nbRar, nbPdf : Integer);
+    procedure Stats(out nbZip, nbRar, nbPdf : Integer);
     procedure DeleteJob(const Filename : String);
     function FileInQueue(const Filename : String):Boolean;
     property Count:Integer read GetCount;
@@ -150,7 +150,7 @@ begin
   end;
 end;
 
-procedure TJobPool.Stats(var nbZip, nbRAr, nbPdf : Integer);
+procedure TJobPool.Stats(out nbZip, nbRAr, nbPdf : Integer);
 var
   i : integer;
 begin

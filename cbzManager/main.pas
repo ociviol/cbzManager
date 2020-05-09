@@ -909,7 +909,10 @@ begin
       s := TTreeNode(Sel[i]).Path;
       if FileExists(s) then
       begin
-        TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, '', CbzViewerFrame.Cbz);
+        if CbzViewerFrame.Filename = s then
+          TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, '', CbzViewerFrame.Cbz)
+        else
+          TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, '');
       end
       else
       if DirectoryExists(s) then
@@ -921,7 +924,10 @@ begin
            begin
              p := ExtractFilePath(s.Replace(FConfig.BdPathPath, ''));
              p := ExcludeTrailingPathDelimiter(ExcludeLeadingPathDelimiter(p));
-             TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, p);
+             if CbzViewerFrame.Filename = s then
+               TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, p, CbzViewerFrame.Cbz)
+             else
+               TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, p);
            end;
          finally
            Files.Free;

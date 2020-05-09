@@ -470,6 +470,9 @@ begin
       else
         CopyFile(aFilename, dest, Flog);
 
+      if FFileList.IndexOf(dest) >= 0 then
+        TFileItem(FFileList.Objects[FFileList.IndexOf(dest)]).Deleted := True;
+
       FoundFile(dest);
       FillGrid;
       result := true;

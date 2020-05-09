@@ -198,9 +198,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="500"/>
+        <TopLine Value="213"/>
         <CursorPos Y="516"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="1">
@@ -243,9 +242,10 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="85"/>
-        <CursorPos Y="411"/>
+        <TopLine Value="607"/>
+        <CursorPos X="53" Y="614"/>
         <UsageCount Value="213"/>
         <Loaded Value="True"/>
       </Unit21>
@@ -276,7 +276,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
         <CursorPos Y="21"/>
-        <UsageCount Value="147"/>
+        <UsageCount Value="148"/>
         <Loaded Value="True"/>
       </Unit24>
       <Unit25>
@@ -542,14 +542,14 @@
         <Filename Value="../../../../lazarus/fpc/3.0.4/source/rtl/objpas/sysutils/diskh.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="10" Y="23"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit58>
       <Unit59>
         <Filename Value="../../../../lazarus/fpc/3.0.4/source/rtl/objpas/sysutils/disk.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="92"/>
         <CursorPos X="3" Y="109"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit59>
       <Unit60>
         <Filename Value="../../Utils/utils.epub.pas"/>
@@ -713,7 +713,7 @@
         <Loaded Value="True"/>
       </Unit81>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="2099" TopLine="2083"/>
@@ -830,6 +830,10 @@
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="533" TopLine="517"/>
       </Position29>
+      <Position30>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="114" Column="16" TopLine="95"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -610,8 +610,8 @@ begin
     SetAttributeDate('SyncFileDAte', FSyncFileDAte);
     SetAttributeDate('DateSetReadState', FDateSetReadState);
     AddChildNode('Filename').Text:=FFilename;
-    AddChildNode('CacheFile').Text:=FCacheFilename;
-    AddChildNode('SyncFile').Text:=FSyncFilename;
+    //AddChildNode('CacheFile').Text:=FCacheFilename;
+    //AddChildNode('SyncFile').Text:=FSyncFilename;
   end;
   FModified := False;
 end;
@@ -627,8 +627,8 @@ begin
     FSyncFileDAte := GetAttributeDate('SyncFileDAte', 0);
     FDateSetReadState := GetAttributeDate('DateSetReadState', 0);
     FFilename:= GetNode('Filename', true).Text;
-    FCacheFilename := GetNode('CacheFile', true).Text;
-    FSyncFilename := GetNode('SyncFile', true).Text;
+    //FCacheFilename := GetNode('CacheFile', true).Text;
+    //FSyncFilename := GetNode('SyncFile', true).Text;
   end;
 end;
 

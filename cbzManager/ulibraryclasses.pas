@@ -130,7 +130,7 @@ function GetLastPath(const aPath : String):string;
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile
+  Forms, uCbz, Utils.Zipfile, strutils
   //, utils.epub
   ;
 
@@ -510,6 +510,18 @@ begin
   end;
 end;
 
+function makefilename(const aFilename : String):String;
+var
+  //s := 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+  c : char;
+begin
+  //s := lowercase(ExtractFilename(FFilename));
+  //  s := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
+  result := '';
+  for c in aFilename do
+    result := result + ifthen(c < #127, c, '.');
+end;
+
 function TFileItem.SyncFilename: String;
 var
   s : string;
@@ -519,8 +531,7 @@ begin
     if FSyncFilename <> '' then
       Exit(FSyncFilename);
 
-    s := lowercase(ExtractFilename(FFilename));
-    //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
+    s := makefilename(ExtractFilename(FFilename));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.xml');
@@ -539,8 +550,7 @@ begin
     if FCacheFilename <> '' then
       Exit(FCacheFilename);
 
-    s := lowercase(ExtractFilename(FFilename));
-    //md := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
+    s := makefilename(ExtractFilename(FFilename));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.jpg');
@@ -594,12 +604,14 @@ procedure TFileItem.SaveToXml(aNode: TXmlElement);
 begin
   with aNode do
   begin
-    SetAttribute('Filename', FFilename);
     SetAttributeBool('ReadState', FReadState);
     SetAttributeBool('HasStamp', FStampGenerated);
     SetAttributeDate('DateAdded', FDateAdded);
     SetAttributeDate('SyncFileDAte', FSyncFileDAte);
     SetAttributeDate('DateSetReadState', FDateSetReadState);
+    AddChildNode('Filename').Text:=FFilename;
+    AddChildNode('CacheFile').Text:=FCacheFilename;
+    AddChildNode('SyncFile').Text:=FSyncFilename;
   end;
   FModified := False;
 end;
@@ -611,10 +623,12 @@ begin
   begin
     FReadState := GetAttributeBool('ReadState');
     FStampGenerated := GetAttributeBool('HasStamp');
-    FFilename:= GetAttribute('Filename');
-    FSyncFileDAte := GetAttributeDate('SyncFileDAte', 0);
     FDateAdded := GetAttributeDate('DateAdded', now);
+    FSyncFileDAte := GetAttributeDate('SyncFileDAte', 0);
     FDateSetReadState := GetAttributeDate('DateSetReadState', 0);
+    FFilename:= GetNode('Filename', true).Text;
+    FCacheFilename := GetNode('CacheFile', true).Text;
+    FSyncFilename := GetNode('SyncFile', true).Text;
   end;
 end;
 

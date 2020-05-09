@@ -196,7 +196,7 @@ begin
   FItem := nil;
   FFileList := aFileList;
   FNotifier:=aNotify;
-  FreeOnTerminate:=True;
+  FreeOnTerminate:=False;
   FPRogress := aProgress;
   inherited Create(False);
   Priority:=tpLower;
@@ -527,12 +527,15 @@ begin
   CheckModified;
 
   FThreadScrub.Terminate;
+  FThreadScrub.Waitfor;
+  FThreadScrub.Free;
 
   if Assigned(FFillThread) then
   begin
     FFillThread.Terminate;
     FFillThread.Waitfor;
   end;
+
   CloseAction := caFree;
 end;
 

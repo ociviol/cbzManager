@@ -11,25 +11,26 @@ uses
     cthreads,
   {$endif}
   utils.Logger, Utils.Gridhelper, utils.Arrays, Types, graphics,
-  Utils.Graphics, uconfig;
+  Utils.Graphics, uconfig, utils.zipfile, uDataTypes;
 
 type
   TViewMode = (vmRead, vmModify);
   { TCbzViewerFrame }
 
   TCbzViewerFrame = class(TFrame)
+    ActionAppendFile: TAction;
+    ActionRewriteManga: TAction;
     ActionCropTool: TAction;
     ActionDelete: TAction;
     ActionFirst: TAction;
     ActionHorizFlip: TAction;
     ActionJoin: TAction;
     ActionLast: TAction;
-    ActionList1: TActionList;
+    alViewerFrame: TActionList;
     ActionMoveDown: TAction;
     ActionMoveToBottom: TAction;
     ActionMoveToTop: TAction;
     ActionMoveup: TAction;
-    ActionRewriteManga: TAction;
     ActionRot90: TAction;
     ActionRotm90: TAction;
     ActionSelectAll: TAction;
@@ -93,6 +94,7 @@ type
     speRight: TSpinEdit;
     speTop: TSpinEdit;
 
+    procedure ActionAppendFileExecute(Sender: TObject);
     procedure ActionCropToolExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionFirstExecute(Sender: TObject);
@@ -111,6 +113,8 @@ type
     procedure ActionUndoAllExecute(Sender: TObject);
     procedure ActionUndoExecute(Sender: TObject);
     procedure ActionVertFlipExecute(Sender: TObject);
+    procedure btnCancelClick(Sender: TObject);
+    procedure btnCropClick(Sender: TObject);
     procedure DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
@@ -125,6 +129,10 @@ type
       var CanSelect: Boolean);
     procedure pmgridPopup(Sender: TObject);
     procedure pmImagePopup(Sender: TObject);
+    procedure speBottomChange(Sender: TObject);
+    procedure speLeftChange(Sender: TObject);
+    procedure speRightChange(Sender: TObject);
+    procedure speTopChange(Sender: TObject);
   private
     FConfig : TConfig;
     FLog : ILog;
@@ -132,7 +140,11 @@ type
     zf : TCbz;
     FFilename : String;
     FoldPos: Integer;
+    FProgress : TCbzProgressEvent;
 
+    function GetStampHeight: Integer;
+    function GetStampWidth: Integer;
+    function GetState: TZipMode;
     procedure SetFilename(AValue: String);
     //procedure SetViewMode(AValue: TViewMode);
     procedure StampReady(ProgressID: QWord; Index: Integer);
@@ -143,13 +155,21 @@ type
     procedure SetMainImage(Index: Integer);
     procedure HideCropTool;
     function SelectedGridItems: TIntArray;
+    procedure AppendFile(const aFileName : String);
   public
-    constructor Create(aOwner: TComponent; aConfig : TConfig; aLog : ILog); reintroduce;
+    constructor Create(aOwner: TComponent; aConfig : TConfig; aLog : ILog;
+                       const aProgress : TCbzProgressEvent = nil); reintroduce;
     destructor Destroy; override;
 
     procedure Clear;
+    procedure ClearUndo;
+    procedure FullClear;
+
     property Filename : String read FFilename write SetFilename;
+    property State : TZipMode read GetState;
     //property Mode : TViewMode read FViewMode write SetViewMode;
+    property StampWidth:Integer read GetStampWidth;
+    property StampHeight : Integer read GetStampHeight;
   end;
 
 implementation
@@ -157,17 +177,21 @@ implementation
 {$R *.lfm}
 
 uses
-  dialogs, utils.zipfile, utils.vcl;
+  dialogs, utils.vcl;
 
 { TCbzViewerFrame }
 
-constructor TCbzViewerFrame.Create(aOwner: TComponent; aConfig : TConfig; aLog : ILog);
+constructor TCbzViewerFrame.Create(aOwner: TComponent; aConfig : TConfig; aLog : ILog;
+                                   const aProgress : TCbzProgressEvent = nil);
 begin
   inherited Create(aOwner);
   FLog := aLog;
-  zf := nil;
   Fconfig := aConfig;
-  //Mode := vmRead;
+  FProgress := aProgress;
+  zf := TCbz.Create(FLog, DrawGrid1.DefaultColWidth - 5,
+                      DrawGrid1.DefaultRowHeight - 5,
+                      75, @StampReady);
+  zf.Progress := @Progress;
 end;
 
 destructor TCbzViewerFrame.Destroy;
@@ -186,6 +210,7 @@ begin
   if zf.Mode <> zmClosed then
   begin
     DrawGrid1.Position := zf.ImageCount - 1;
+    DrawGrid1.Selected[zf.ImageCount - 1] := True;
     Application.QueueAsyncCall(@AfterCellSelect, 0);
   end;
 end;
@@ -326,6 +351,7 @@ begin
   Application.QueueAsyncCall(@AfterCellSelect, 0);
 end;
 
+
 procedure TCbzViewerFrame.pmgridPopup(Sender: TObject);
 begin
   EnableActions;
@@ -336,11 +362,34 @@ begin
   EnableActions;
 end;
 
+procedure TCbzViewerFrame.speBottomChange(Sender: TObject);
+begin
+  Shape1.Height := speBottom.Value;
+end;
+
+procedure TCbzViewerFrame.speLeftChange(Sender: TObject);
+begin
+  Shape1.left := speLeft.Value;
+  speRight.MaxValue:=(Image1.left+(Image1.DestRect.Right - Image1.DestRect.left))-Shape1.left;
+end;
+
+procedure TCbzViewerFrame.speRightChange(Sender: TObject);
+begin
+  Shape1.width := speRight.Value;
+end;
+
+procedure TCbzViewerFrame.speTopChange(Sender: TObject);
+begin
+  Shape1.Top := speTop.Value;
+  speBottom.MaxValue:=(Image1.top+(Image1.DestRect.Bottom - Image1.DestRect.Top))-shape1.top;
+end;
+
 procedure TCbzViewerFrame.ActionFirstExecute(Sender: TObject);
 begin
   if zf.Mode <> zmClosed then
   begin
     DrawGrid1.Position := 0;
+    DrawGrid1.Selected[0] := True;
     Application.QueueAsyncCall(@AfterCellSelect, 0);
   end;
 end;
@@ -354,21 +403,42 @@ end;
 procedure TCbzViewerFrame.SetFilename(AValue: String);
 begin
   if FFilename=AValue then Exit;
+
   FFilename:=AValue;
-  zf := TCbz.Create(FLog, DrawGrid1.DefaultColWidth - 5,
-                    DrawGrid1.DefaultRowHeight - 5,
-                    75, @StampReady);
-  zf.Progress := @Progress;
-  zf.Open(FFilename, zmRead);
-  with DrawGrid1 do
+  if AVAlue.IsEmpty then
   begin
-    Visible := False;
-    Max := zf.ImageCount;
-    Position := 0;
-    Visible := True;
-    Application.QueueAsyncCall(@AfterCellSelect, 0);
+    zf.close;
+    Image1.Picture.Clear;
+  end
+  else
+  begin
+    zf.Open(AVAlue, zmRead);
+    with DrawGrid1 do
+    begin
+      Visible := False;
+      Max := zf.ImageCount;
+      Position := 0;
+      Visible := True;
+      Application.QueueAsyncCall(@AfterCellSelect, 0);
+    end;
   end;
 end;
+
+function TCbzViewerFrame.GetStampHeight: Integer;
+begin
+  result := DrawGrid1.DefaultRowHeight;
+end;
+
+function TCbzViewerFrame.GetStampWidth: Integer;
+begin
+  result := DrawGrid1.DefaultColWidth;
+end;
+
+function TCbzViewerFrame.GetState: TZipMode;
+begin
+  result := zf.Mode;
+end;
+
 {
 procedure TCbzViewerFrame.SetViewMode(AValue: TViewMode);
 begin
@@ -390,8 +460,20 @@ end;
 
 procedure TCbzViewerFrame.Clear;
 begin
-  if Assigned(zf) then
-    FreeAndNil(zf);
+  zf.Close;
+  Image1.Picture.Clear;
+  EnableActions;
+end;
+
+procedure TCbzViewerFrame.ClearUndo;
+begin
+  zf.ClearUndo;
+end;
+
+procedure TCbzViewerFrame.FullClear;
+begin
+  Clear;
+  ClearUndo;
 end;
 
 procedure TCbzViewerFrame.StampReady(ProgressID: QWord; Index: Integer);
@@ -412,7 +494,8 @@ end;
 procedure TCbzViewerFrame.Progress(Sender: TObject; const ProgressID: QWord;
   const aPos, aMax: Integer; const Msg: String);
 begin
-
+  if Assigned(FProgress) then
+    FProgress(Self, ProgressID, aPos, aMax, Msg);
 end;
 
 procedure TCbzViewerFrame.HideCropTool;
@@ -480,7 +563,9 @@ begin
     ActionMoveToBottom.Enabled := (zf.Mode <> zmClosed) and
       (DrawGrid1.Position < zf.FileCount - 1);
     ActionCropTool.Enabled := (zf.Mode <> zmClosed) and (DrawGrid1.Position >= 0);
-
+    // files
+    ActionAppendFile.Enabled := (zf.Mode <> zmClosed);
+    ActionRewriteManga.Enabled := (zf.Mode <> zmClosed);
     // btns
     ActionRotm90.Enabled := (zf.Mode <> zmClosed) and (zf.ImageCount > 0) and
       (Length(SelectedGridItems) >= 1);
@@ -600,6 +685,28 @@ begin
   end;
 end;
 
+procedure TCbzViewerFrame.btnCancelClick(Sender: TObject);
+begin
+  HideCropTool;
+end;
+
+procedure TCbzViewerFrame.btnCropClick(Sender: TObject);
+var
+  r : TRect;
+  b : TBitmap;
+begin
+  Screen.Cursor := crHourGlass;
+  try
+    b := zf.Image[DrawGrid1.Position];
+    r := Rect(shape1.Left, Shape1.Top, shape1.Left + Shape1.Width - 1, shape1.Top + Shape1.Height - 1);
+    CropBitmap(b, r);
+    zf.Image[DrawGrid1.Position] := b;
+    SetMainImage(DrawGrid1.Position);
+  finally
+    Screen.Cursor := crDefault;
+  end;
+end;
+
 procedure TCbzViewerFrame.DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
 var
   aRow, ACol: Integer;
@@ -655,6 +762,59 @@ begin
   //Shape1.Width:= Image1.Left + (r.Right - r.left) - 20;
   //Shape1.Height := Image1.Top + (r.Bottom - r.Top) - 20;
   Shape1.Visible:=True;
+end;
+
+procedure TCbzViewerFrame.ActionAppendFileExecute(Sender: TObject);
+var
+  i : integer;
+begin
+  with TOpenDialog.Create(Self) do
+  try
+    Title := 'Choose cbz to append';
+    Filter := 'Cbz files (*.cbz)|*.cbz';
+    Options:=[ofHideReadOnly,ofAllowMultiSelect,ofPathMustExist,ofFileMustExist,
+              ofNoTestFileCreate,ofEnableSizing,ofDontAddToRecent,ofViewDetail];
+    if Execute then
+      for i:=0 to Files.Count-1 do
+        AppendFile(Files[i]);
+  finally
+    Free;
+  end;
+end;
+
+procedure TCbzViewerFrame.AppendFile(const aFileName: String);
+var
+  tmpz : TCbz;
+  i : longint;
+  sar : TStreamArray;
+  rpos : integer;
+begin
+  tmpz := TCbz.Create(FLog);
+  try
+    SetLength(sar, 0);
+    rpos := DrawGrid1.Position;
+    try
+      tmpz.Open(aFileName, zmRead);
+      for i:=0 to tmpz.FileCount-1 do
+        if TCbz.AllowedFile(tmpz.FileNames[i]) then
+        begin
+          SetLength(sar, length(sar)+1);
+          sar[length(sar)-1] := tmpz.GetFileStream(i);
+        end;
+        zf.Add(sar, @Progress);
+        // refresh
+        DrawGrid1.Max := zf.ImageCount;
+        DrawGrid1.Position := rpos;
+        DrawGrid1.Invalidate;
+        Application.QueueAsyncCall(@AfterCellSelect, 0);
+    finally
+      for i:=low(sar) to high(sar) do
+        if Assigned(sar[i]) then
+          sar[i].Free;
+    end;
+  finally
+    tmpz.Free;
+  end;
 end;
 
 procedure TCbzViewerFrame.ActionMoveDownExecute(Sender: TObject);
@@ -743,10 +903,16 @@ begin
   end;
 end;
 
-
 procedure TCbzViewerFrame.ActionRewriteMangaExecute(Sender: TObject);
 begin
-
+  Screen.Cursor := crHourGlass;
+  try
+    zf.RewriteManga(@Progress);
+    DrawGrid1.Invalidate;
+    SetMainImage(DrawGrid1.Position);
+  finally
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 procedure TCbzViewerFrame.ActionRot90Execute(Sender: TObject);

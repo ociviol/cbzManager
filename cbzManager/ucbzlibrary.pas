@@ -146,7 +146,7 @@ type
     procedure UpdateNbItems;
     procedure SetGridPos(aCol, aRow : Integer); inline;
     procedure SetGridTopPos(aCol, aRow : Integer); inline;
-    procedure MoveIntoFolder(searchindex : integer);
+    procedure MoveIntoFolder;
     procedure SwitchPath(const aLibPath : String);
     procedure CheckModified;
     procedure btnletterclick(sender : Tobject);
@@ -834,7 +834,7 @@ begin
   end;
 end;
 
-procedure TcbzLibrary.MoveIntoFolder(searchindex : integer);
+procedure TcbzLibrary.MoveIntoFolder;
 var
   i : integer;
   s : string;
@@ -856,7 +856,7 @@ procedure TcbzLibrary.cbSearchCloseUp(Sender: TObject);
 begin
   with cbSearch do
     if ItemIndex >= 0 then
-      MoveIntoFolder(cbSearch.ItemIndex);
+      MoveIntoFolder;
 end;
 
 procedure TcbzLibrary.cbVisibleDatesChange(Sender: TObject);

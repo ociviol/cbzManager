@@ -1,7 +1,7 @@
 object CbzLibrary: TCbzLibrary
-  Left = 680
+  Left = 441
   Height = 746
-  Top = 282
+  Top = 233
   Width = 1156
   Caption = 'Library'
   ClientHeight = 746
@@ -34,7 +34,7 @@ object CbzLibrary: TCbzLibrary
     Font.Name = 'Comic Sans MS'
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
-    Options = [goThumbTracking, goSmoothScroll, goScrollKeepVisible]
+    Options = [goThumbTracking, goSmoothScroll, goScrollKeepVisible, goDontScrollPartCell]
     ParentFont = False
     TabOrder = 0
     TitleFont.CharSet = ANSI_CHARSET
@@ -55,11 +55,11 @@ object CbzLibrary: TCbzLibrary
     Width = 1156
     Panels = <    
       item
-        Width = 200
+        Width = 150
       end    
       item
         Alignment = taCenter
-        Width = 450
+        Width = 400
       end    
       item
         Width = 600
@@ -234,6 +234,10 @@ object CbzLibrary: TCbzLibrary
     object mnuDelete: TMenuItem
       Caption = 'Delete'
       OnClick = mnuDeleteClick
+    end
+    object mnuCreateFolder: TMenuItem
+      Caption = 'Create folder'
+      OnClick = mnuCreateFolderClick
     end
     object N2: TMenuItem
       Caption = '-'

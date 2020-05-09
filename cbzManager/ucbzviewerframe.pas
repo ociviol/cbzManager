@@ -193,6 +193,7 @@ begin
                       DrawGrid1.DefaultRowHeight - 5,
                       75, @StampReady);
   zf.Progress := @Progress;
+  DrawGrid1.Visible:=FAlse;
 end;
 
 destructor TCbzViewerFrame.Destroy;
@@ -410,6 +411,7 @@ begin
   begin
     zf.close;
     Image1.Picture.Clear;
+    DrawGrid1.Visible:=False;
   end
   else
   begin
@@ -463,6 +465,7 @@ procedure TCbzViewerFrame.Clear;
 begin
   zf.Close;
   Image1.Picture.Clear;
+  DrawGrid1.Visible:=FAlse;
   EnableActions;
 end;
 

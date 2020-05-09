@@ -69,6 +69,7 @@ object MainFrm: TMainFrm
       Width = 267
       Align = alClient
       HideSelection = False
+      MultiSelect = True
       PopupMenu = pmTreeView
       ReadOnly = True
       RightClickSelect = True
@@ -77,7 +78,7 @@ object MainFrm: TMainFrm
       TabOrder = 0
       OnChange = TreeView1Change
       OnCustomDrawItem = TreeView1CustomDrawItem
-      Options = [tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
+      Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
       TreeLinePenStyle = psDashDot
     end
     object pnlStats: TPanel

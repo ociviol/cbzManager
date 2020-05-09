@@ -130,7 +130,7 @@ function GetLastPath(const aPath : String):string;
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile, strutils
+  Forms, uCbz, Utils.Zipfile, strutils, LazUTF8
   //, utils.epub
   ;
 
@@ -510,16 +510,62 @@ begin
   end;
 end;
 
+function Fix(AnUTF8String: string):string;
+var
+  p: PChar;
+  CPLen: integer;
+  FirstByte, SecondByte, ThirdByte, FourthByte: Char;
+begin
+  result := '';
+  p:=PChar(AnUTF8String);
+  repeat
+    CPLen := UTF8CodepointSize(p);
+
+    if CPLen = 1 then
+      result := result + String(p[0])
+    else
+    // Here you have a pointer to the char and its length
+    // You can access the bytes of the UTF-8 Char like this:
+    if CPLen >= 1 then FirstByte := P[0];
+    if CPLen >= 2 then SecondByte := P[1];
+    if CPLen >= 3 then ThirdByte := P[2];
+    if CPLen = 4 then FourthByte := P[3];
+
+    inc(p,CPLen);
+  until (CPLen=0) or (p^ = #0);
+end;
+
+//
+//  accented : ansistring =   'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+//  unaccented : ansistring = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
+//
 function makefilename(const aFilename : String):String;
 var
-  //s := 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
-  c : char;
+  p: PChar;
+  CPLen: integer;
+  //FirstByte, SecondByte, ThirdByte, FourthByte: Char;
 begin
-  //s := lowercase(ExtractFilename(FFilename));
-  //  s := MD5Print(MD5String(lowercase(ExtractFilename(FFilename))));
-  result := '';
-  for c in aFilename do
-    result := result + ifthen(c < #127, c, '.');
+  p:=PChar(aFilename);
+  repeat
+    CPLen := UTF8CodepointSize(p);
+
+    if CPLen = 1 then
+      result := result + String(p[0]);
+    //else
+    //if p[0] < #128  then
+    //  result := result + String(p[0])
+    //else
+    //  result := result + '.';
+    {
+    // Here you have a pointer to the char and its length
+    // You can access the bytes of the UTF-8 Char like this:
+    if CPLen >= 1 then FirstByte := P[0];
+    if CPLen >= 2 then SecondByte := P[1];
+    if CPLen >= 3 then ThirdByte := P[2];
+    if CPLen = 4 then FourthByte := P[3];
+    }
+    inc(p,CPLen);
+  until (CPLen=0) or (p^ = #0);
 end;
 
 function TFileItem.SyncFilename: String;

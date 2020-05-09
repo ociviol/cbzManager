@@ -135,6 +135,7 @@ type
     Fignores : TStringlist;
     CbzViewerFrame : TCbzViewerFrame;
 
+    function SelectionValid:boolean;
     procedure DoMoveToLib(data : int64);
     //procedure CheckAlbumArt(const aFilename : string);
     procedure SaveConfig;
@@ -414,10 +415,14 @@ begin
     // files
     with TreeView1 do
       ActionDeleteFile.Enabled:=
-        Assigned(Selected) and FileExists(Selected.Path) or
-        (DirectoryExists(Selected.Path) and (Selected.Path.Length > FConfig.BdPathPath.Length));
+        Assigned(Selected) and
+        (FileExists(Selected.Path) or DirectoryExists(Selected.Path)) and
+        SelectionValid;
 
-    ActionCopyToLib.Enabled := (CbzViewerFrame.State <> zmClosed) and Assigned(FindForm(TCbzLibrary));
+    ActionCopyToLib.Enabled := (Treeview1.SelectionCount > 0) and
+                               Assigned(FindForm(TCbzLibrary)) and
+                               SelectionValid;
+
     ActionChooseFolder.Enabled := not FInFill;
     ActionRenameFile.Enabled := Assigned(TreeView1.Selected) and
                                (TreeView1.SelectionCount = 1) and
@@ -804,6 +809,16 @@ begin
       Font.Style := [];
 end;
 
+function TMainFrm.SelectionValid:boolean;
+var
+  i : integer;
+begin
+  with TreeView1 do
+    for i := 0 to SelectionCount - 1 do
+      if not Selections[i].Path.Contains(FConfig.BdPathPath) then
+        exit(false);
+  result := true;
+end;
 
 procedure TMainFrm.ActionDeleteFileExecute(Sender: TObject);
 var
@@ -885,30 +900,53 @@ end;
 procedure TMainFrm.ActionCopyToLibExecute(Sender: TObject);
 var
   Files : TStringlist;
-  s : string;
+  Sel : TList;
+  s,p : string;
+  i : integer;
 begin
   if Assigned(FindForm(TCbzLibrary)) and Assigned(TreeView1.Selected) then
-    if FileExists(TreeView1.Selected.Path) then
-    begin
-      FFileToMove := TreeView1.Selected.Path;
-      ActionRefresh.Execute;
-      Application.QueueAsyncCall(@DoMoveToLib, 0);
-    end
+
+  Sel := TList.Create;
+  try
+    for i := 0 to TreeView1.SelectionCount - 1 do
+      Sel.Add(TreeView1.Selections[i]);
+
+    if Sel.Count = 1 then
+      TreeView1.Selected := TreeView1.Selections[0].Parent
     else
-    if DirectoryExists(TreeView1.Selected.Path) then
+      TreeView1.Selected := TreeView1.Items[0];
+
+    for i := 0 to Sel.Count - 1 do
     begin
-       Files := TStringlist.Create;
-       try
-         GetFiles(TreeView1.Selected.Path, ['*'], Files);
-         for s in Files do
-         begin
-           FFileToMove:=s;
-           DoMoveToLib(0);
+      s := TTreeNode(Sel[i]).Path;
+      if FileExists(s) then
+      begin
+        CbzViewerFrame.Clear;
+        TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, '');
+        //ActionRefresh.Execute;
+        //Application.QueueAsyncCall(@DoMoveToLib, 0);
+      end
+      else
+      if DirectoryExists(s) then
+      begin
+         Files := TStringlist.Create;
+         try
+           GetFiles(s, ['*.cbz'], Files);
+           for s in Files do
+           begin
+             CbzViewerFrame.Clear;
+             p := ExtractFilePath(s.Replace(FConfig.BdPathPath, ''));
+             p := ExcludeTrailingPathDelimiter(ExcludeLeadingPathDelimiter(p));
+             TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, p);
+           end;
+         finally
+           Files.Free;
          end;
-       finally
-         Files.Free;
-       end;
+      end;
     end;
+  finally
+    Sel.Free;
+  end;
 end;
 
 procedure TMainFrm.ActionReadLogExecute(Sender: TObject);

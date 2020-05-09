@@ -173,7 +173,7 @@ type
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig); reintroduce;
     //property RootPath : String read FRootPath write FRootPath;
-    function ImportFile(const aFilename : String):Boolean;
+    function ImportFile(const aFilename : String; const RelativePath : String = ''):Boolean;
   end;
 
 
@@ -442,17 +442,22 @@ begin
   inherited Create(aOwner);
 end;
 
-function TcbzLibrary.ImportFile(const aFilename: String):Boolean;
+function TcbzLibrary.ImportFile(const aFilename: String; const RelativePath : String = ''):Boolean;
 var
   dest : string;
 begin
   if CurrentPath <> '' then
   try
-    dest := IncludeTrailingPathDelimiter(CurrentPath) + ExtractFileName(aFilename);
+    dest := IncludeTrailingPathDelimiter(CurrentPath) +
+            ifthen(RelativePath.IsEmpty, '', IncludeTrailingPathDelimiter(RelativePath));
+
+    if not ForceDirectories(dest) then
+      raise Exception.Create('Unable to create folder : ' + dest);
+
+    dest := dest + ExtractFileName(aFilename);
     if FileExists(dest) then
       if MessageDlg('Conflict', 'File already exists, overwrite ?', mtInformation, mbYesNo, 0) = mrno then
         exit(false);
-
 
     CopyFile(aFilename, dest);
     FoundFile(dest);

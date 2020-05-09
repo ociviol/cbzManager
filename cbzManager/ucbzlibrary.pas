@@ -13,7 +13,7 @@ uses
   cthreads,
 {$endif}
   Utils.SearchFiles, utils.Logger, uConfig,
-  Utils.Strings, uLibraryClasses;
+  Utils.Strings, uLibraryClasses, ucbz;
 
 
 type
@@ -173,14 +173,15 @@ type
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig); reintroduce;
     //property RootPath : String read FRootPath write FRootPath;
-    function ImportFile(const aFilename : String; const RelativePath : String = ''):Boolean;
+    function ImportFile(const aFilename : String; const RelativePath : String = '';
+                        aCbz : TCbz = nil):Boolean;
   end;
 
 
 implementation
 
 uses
-  Math, StrUtils, DateUtils, utils.files, ucbz, uCbzViewer;
+  Math, StrUtils, DateUtils, utils.files, uCbzViewer;
 
 
 {$R *.lfm}
@@ -270,6 +271,8 @@ begin
       FVal := 0;
       FsyncedIn := 0;
       FsyncedOut := 0;
+
+      FFileList.Cleanup;
 
       while (FCnt > FVal) do
       begin
@@ -442,7 +445,8 @@ begin
   inherited Create(aOwner);
 end;
 
-function TcbzLibrary.ImportFile(const aFilename: String; const RelativePath : String = ''):Boolean;
+function TcbzLibrary.ImportFile(const aFilename: String; const RelativePath : String = '';
+                                aCbz : TCbz = nil):Boolean;
 var
   dest : string;
 begin
@@ -459,7 +463,11 @@ begin
       if MessageDlg('Conflict', 'File already exists, overwrite ?', mtInformation, mbYesNo, 0) = mrno then
         exit(false);
 
-    CopyFile(aFilename, dest);
+    if assigned(aCbz) then
+      aCbz.SaveToFile(dest)
+    else
+      CopyFile(aFilename, dest, Flog);
+
     FoundFile(dest);
     FillGrid;
     result := true;
@@ -1179,37 +1187,36 @@ begin
   if (not FileExists(aFilename)) then
     exit;
 
+  if (FFileList.IndexOf(aFilename) >= 0) then
+  with FFileList do
+    if TFileItem(Objects[IndexOf(aFilename)]).Deleted then
+      Delete(IndexOf(aFilename));
+
   if (FFileList.IndexOf(aFilename) < 0) then
   begin
     fi := TFileItem.Create(FFileList, FLog, aFilename);
     fi.Text := GetLastPath(aFilename);
     FFileList.AddObject(aFilename, fi);
     FLog.Log('TCbzLibrary.FoundFile: Added:' + aFilename);
-  end
-  else
-  with FFileList do
-    if TFileItem(Objects[IndexOf(aFilename)]).Deleted then
+
+    if (CurrentPath = FFileList.RootPath) then
     begin
-      TFileItem(Objects[IndexOf(aFilename)]).Deleted := false;
-      Exit;
+      aRow := (FVisibleList.Count div dgLibrary.ColCount);
+      aCol := FVisibleList.Count - (aRow * dgLibrary.ColCount);
+      SetGridTopPos(aCol, aRow);
+
+      s := ExcludeTrailingPathDelimiter(ExtractFilePath(aFilename));
+      if Length(s.Split([PathDelim])) > FLvl then
+        s := GetFirstPath(s, FLvl)
+      else
+        s := aFilename;
+
+      with FVisibleList do
+        if IndexOf(s) < 0 then
+          AddObject(s, fi);
     end;
-
-  if (CurrentPath = FFileList.RootPath) then
-  begin
-    aRow := (FVisibleList.Count div dgLibrary.ColCount);
-    aCol := FVisibleList.Count - (aRow * dgLibrary.ColCount);
-    SetGridTopPos(aCol, aRow);
-
-    s := ExcludeTrailingPathDelimiter(ExtractFilePath(aFilename));
-    if Length(s.Split([PathDelim])) > FLvl then
-      s := GetFirstPath(s, FLvl)
-    else
-      s := aFilename;
-
-    with FVisibleList do
-      if IndexOf(s) < 0 then
-        AddObject(s, fi);
   end;
+
   result := nil;
 end;
 

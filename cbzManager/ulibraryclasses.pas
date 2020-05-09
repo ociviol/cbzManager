@@ -113,6 +113,7 @@ type
     procedure LoadFromFile(const aFilename : String);
     procedure SaveToFile(const aFilename : String);
     procedure ResetStampState;
+    procedure Cleanup;
 
     property Modified : Boolean read GetModified;
     property RootPath : String read GetRootPath write SetRootPath;
@@ -915,6 +916,22 @@ begin
   try
     for i:= 0 To Count - 1 do
     TFileItem(Objects[i]).StampGenerated:=False;
+  finally
+    UnlockList;
+  end;
+end;
+
+procedure TItemList.Cleanup;
+var
+  i,j : integer;
+begin
+  with LockList do
+  try
+    for i:= Count - 1 downto 0 do
+      for j:=0 to i-1 do
+        if TFileItem(Objects[i]).Filename =
+           TFileItem(Objects[j]).Filename then
+           Delete(i);
   finally
     UnlockList;
   end;

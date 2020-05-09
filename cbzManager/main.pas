@@ -136,7 +136,6 @@ type
     CbzViewerFrame : TCbzViewerFrame;
 
     function SelectionValid:boolean;
-    procedure DoMoveToLib(data : int64);
     //procedure CheckAlbumArt(const aFilename : string);
     procedure SaveConfig;
     function CheckPrograms:boolean;
@@ -891,12 +890,6 @@ begin
   end;
 end;
 
-procedure TMainFrm.DoMoveToLib(data : int64);
-begin
-  TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(FFileToMove);
-  FFileToMove := '';
-end;
-
 procedure TMainFrm.ActionCopyToLibExecute(Sender: TObject);
 var
   Files : TStringlist;
@@ -911,20 +904,12 @@ begin
     for i := 0 to TreeView1.SelectionCount - 1 do
       Sel.Add(TreeView1.Selections[i]);
 
-    if Sel.Count = 1 then
-      TreeView1.Selected := TreeView1.Selections[0].Parent
-    else
-      TreeView1.Selected := TreeView1.Items[0];
-
     for i := 0 to Sel.Count - 1 do
     begin
       s := TTreeNode(Sel[i]).Path;
       if FileExists(s) then
       begin
-        CbzViewerFrame.Clear;
-        TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, '');
-        //ActionRefresh.Execute;
-        //Application.QueueAsyncCall(@DoMoveToLib, 0);
+        TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, '', CbzViewerFrame.Cbz);
       end
       else
       if DirectoryExists(s) then
@@ -934,7 +919,6 @@ begin
            GetFiles(s, ['*.cbz'], Files);
            for s in Files do
            begin
-             CbzViewerFrame.Clear;
              p := ExtractFilePath(s.Replace(FConfig.BdPathPath, ''));
              p := ExcludeTrailingPathDelimiter(ExcludeLeadingPathDelimiter(p));
              TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, p);

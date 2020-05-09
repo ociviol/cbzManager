@@ -170,6 +170,7 @@ type
     //property Mode : TViewMode read FViewMode write SetViewMode;
     property StampWidth:Integer read GetStampWidth;
     property StampHeight : Integer read GetStampHeight;
+    property Cbz : TCbz read zf;
   end;
 
 implementation

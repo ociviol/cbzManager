@@ -214,6 +214,7 @@ type
   End;
 
 procedure FileToTrash(const aFileName : String);
+procedure CopyCbz(aCbz : TCbz; const aDest : String);
 
 implementation
 
@@ -226,6 +227,16 @@ uses
 {$endif}
   Utils.Files, zstream, uXmldoc;
 
+
+procedure FileToTrash(const aFileName: String);
+begin
+  DeleteFile(aFileName);
+end;
+
+procedure CopyCbz(aCbz: TCbz; const aDest: String);
+begin
+
+end;
 
 { TUndoObject }
 
@@ -966,11 +977,6 @@ begin
   finally
     FInUndo := False;
   end;
-end;
-
-procedure FileToTrash(const aFileName: String);
-begin
-  DeleteFile(aFileName);
 end;
 
 function TCbz.GetImageCount: Integer;

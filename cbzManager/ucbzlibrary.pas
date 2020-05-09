@@ -450,29 +450,34 @@ function TcbzLibrary.ImportFile(const aFilename: String; const RelativePath : St
 var
   dest : string;
 begin
-  if CurrentPath <> '' then
+  SCreen.Cursor := crHourglass;
   try
-    dest := IncludeTrailingPathDelimiter(CurrentPath) +
-            ifthen(RelativePath.IsEmpty, '', IncludeTrailingPathDelimiter(RelativePath));
+    if CurrentPath <> '' then
+    try
+      dest := IncludeTrailingPathDelimiter(CurrentPath) +
+              ifthen(RelativePath.IsEmpty, '', IncludeTrailingPathDelimiter(RelativePath));
 
-    if not ForceDirectories(dest) then
-      raise Exception.Create('Unable to create folder : ' + dest);
+      if not ForceDirectories(dest) then
+        raise Exception.Create('Unable to create folder : ' + dest);
 
-    dest := dest + ExtractFileName(aFilename);
-    if FileExists(dest) then
-      if MessageDlg('Conflict', 'File already exists, overwrite ?', mtInformation, mbYesNo, 0) = mrno then
-        exit(false);
+      dest := dest + ExtractFileName(aFilename);
+      if FileExists(dest) then
+        if MessageDlg('Conflict', 'File already exists, overwrite ?', mtInformation, mbYesNo, 0) = mrno then
+          exit(false);
 
-    if assigned(aCbz) then
-      aCbz.SaveToFile(dest)
-    else
-      CopyFile(aFilename, dest, Flog);
+      if assigned(aCbz) then
+        aCbz.SaveToFile(dest)
+      else
+        CopyFile(aFilename, dest, Flog);
 
-    FoundFile(dest);
-    FillGrid;
-    result := true;
-  except
-    result := false;
+      FoundFile(dest);
+      FillGrid;
+      result := true;
+    except
+      result := false;
+  end;
+  finally
+    SCreen.Cursor := crDefault;
   end;
 end;
 

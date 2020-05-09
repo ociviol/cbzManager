@@ -545,6 +545,8 @@ var
   CPLen: integer;
   //FirstByte, SecondByte, ThirdByte, FourthByte: Char;
 begin
+  result := aFilename;
+  (*
   p:=PChar(aFilename);
   repeat
     CPLen := UTF8CodepointSize(p);
@@ -566,6 +568,7 @@ begin
     }
     inc(p,CPLen);
   until (CPLen=0) or (p^ = #0);
+  *)
 end;
 
 function TFileItem.SyncFilename: String;

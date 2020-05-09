@@ -17,7 +17,6 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="404"/>
         <CursorPos X="69" Y="419"/>
@@ -244,9 +243,10 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="531"/>
-        <CursorPos Y="547"/>
+        <TopLine Value="540"/>
+        <CursorPos X="4" Y="571"/>
         <UsageCount Value="213"/>
         <Loaded Value="True"/>
       </Unit21>

@@ -68,7 +68,9 @@ object MainFrm: TMainFrm
       Top = 1
       Width = 267
       Align = alClient
+      DragMode = dmAutomatic
       HideSelection = False
+      HotTrack = True
       MultiSelect = True
       PopupMenu = pmTreeView
       ReadOnly = True
@@ -78,7 +80,9 @@ object MainFrm: TMainFrm
       TabOrder = 0
       OnChange = TreeView1Change
       OnCustomDrawItem = TreeView1CustomDrawItem
-      Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
+      OnDragDrop = TreeView1DragDrop
+      OnDragOver = TreeView1DragOver
+      Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHotTrack, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
       TreeLinePenStyle = psDashDot
     end
     object pnlStats: TPanel
@@ -232,9 +236,9 @@ object MainFrm: TMainFrm
     object ActionJoin: TAction
       Caption = 'Join Images'
     end
-    object ActionRenameFile: TAction
-      Caption = 'Rename File'
-      OnExecute = ActionRenameFileExecute
+    object ActionRename: TAction
+      Caption = 'Rename'
+      OnExecute = ActionRenameExecute
     end
     object ActionShowStats: TAction
       Caption = 'Show Stats'
@@ -261,6 +265,10 @@ object MainFrm: TMainFrm
       Enabled = False
       OnExecute = ActionDeleteFileExecute
     end
+    object ActionNewFolder: TAction
+      Caption = 'New Folder'
+      OnExecute = ActionNewFolderExecute
+    end
   end
   object pmTreeView: TPopupMenu
     OnPopup = pmTreeViewPopup
@@ -273,7 +281,10 @@ object MainFrm: TMainFrm
       Caption = '-'
     end
     object MenuItem33: TMenuItem
-      Action = ActionRenameFile
+      Action = ActionRename
+    end
+    object MenuItem3: TMenuItem
+      Action = ActionNewFolder
     end
     object N14: TMenuItem
       Caption = '-'

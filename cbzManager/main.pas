@@ -31,13 +31,14 @@ type
 
   { TMainFrm }
   TMainFrm = class(TForm)
+    ActionNewFolder: TAction;
     ActionDeleteFile: TAction;
     ActionCopyToLib: TAction;
     ActionReadLog: TAction;
     ActionLibrary: TAction;
     ActionFileCleaner: TAction;
     ActionShowStats: TAction;
-    ActionRenameFile: TAction;
+    ActionRename: TAction;
     ActionJoin: TAction;
     ActionRefresh: TAction;
     ActionChooseFolder: TAction;
@@ -57,6 +58,7 @@ type
     MenuItem27: TMenuItem;
     MenuItem28: TMenuItem;
     MenuItem29: TMenuItem;
+    MenuItem3: TMenuItem;
     MenuItem32: TMenuItem;
     MenuItem33: TMenuItem;
     MenuItem35: TMenuItem;
@@ -97,9 +99,10 @@ type
     procedure ActionFileCleanerExecute(Sender: TObject);
     procedure ActionLibraryExecute(Sender: TObject);
     procedure ActionCopyToLibExecute(Sender: TObject);
+    procedure ActionNewFolderExecute(Sender: TObject);
     procedure ActionReadLogExecute(Sender: TObject);
     procedure ActionRefreshExecute(Sender: TObject);
-    procedure ActionRenameFileExecute(Sender: TObject);
+    procedure ActionRenameExecute(Sender: TObject);
     procedure ActionShowStatsExecute(Sender: TObject);
     procedure Addtoqueue1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -117,6 +120,9 @@ type
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
     procedure TreeView1CustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
       State: TCustomDrawState; var DefaultDraw: Boolean);
+    procedure TreeView1DragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure TreeView1DragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
   private
     FLog: ILog;
     FInFill : Boolean;
@@ -162,7 +168,6 @@ type
 
     procedure CheckVersionTerminate(Sender : TObject);
   public
-
   end;
 
   { TThreadCheckVersion }
@@ -423,9 +428,10 @@ begin
                                SelectionValid;
 
     ActionChooseFolder.Enabled := not FInFill;
-    ActionRenameFile.Enabled := Assigned(TreeView1.Selected) and
+    ActionNewFolder.Enabled:= (TreeView1.SelectionCount = 1) and DirectoryExists(TreeView1.Selected.Path);
+    ActionRename.Enabled := Assigned(TreeView1.Selected) and
                                (TreeView1.SelectionCount = 1) and
-                               not (TreeView1.Selected.HasChildren);
+                               SelectionValid;
     ActionRefresh.Enabled := (FConfig.BdPathPath.Length > 0) and not FInFill;
   except
   end;
@@ -808,6 +814,43 @@ begin
       Font.Style := [];
 end;
 
+procedure TMainFrm.TreeView1DragOver(Sender, Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+var
+  Src, Dst : TTreeNode;
+begin
+  Src := TreeView1.Selected;
+  if Sender is TTreeView then
+  begin
+    Dst := TreeView1.GetNodeAt(X, Y);
+    Accept := (Src.Level > 0) and not Src.HasChildren and Assigned(Dst) and
+      ((Src <> Dst) and DirectoryExists(Dst.Path)) and
+    // Dst.Path.ToLower.Contains(FPath.ToLower) and
+      (Assigned(Src.Parent) and (Src.Parent <> Dst));
+  end
+  else
+  if Sender is TDrawGrid then
+    Accept := TDrawGrid(Sender).Owner = FindForm(TcbzLibrary)
+  else
+    Accept := false;
+end;
+
+procedure TMainFrm.TreeView1DragDrop(Sender, Source: TObject; X, Y: Integer);
+var
+  Src, Dst: TTreeNode;
+  DstFile: String;
+begin
+  Src := TreeView1.Selected;
+  Dst := TreeView1.GetNodeAt(X, Y);
+
+  CbzViewerFrame.FullClear;
+  DstFile := IncludeTrailingPathDelimiter(Dst.Path) +
+                ExtractFileName(Src.Path);
+  RenameFile(Src.Path, DstFile);
+  TreeView1.Items.Delete(Src);
+  TreeView1.Selected := AddFileToTree2(DstFile);
+end;
+
 function TMainFrm.SelectionValid:boolean;
 var
   i : integer;
@@ -899,6 +942,7 @@ var
 begin
   if Assigned(FindForm(TCbzLibrary)) and Assigned(TreeView1.Selected) then
 
+  Screen.Cursor:=crHourglass;
   Sel := TList.Create;
   try
     for i := 0 to TreeView1.SelectionCount - 1 do
@@ -936,6 +980,24 @@ begin
     end;
   finally
     Sel.Free;
+    Screen.Cursor:=crDefault;
+  end;
+end;
+
+procedure TMainFrm.ActionNewFolderExecute(Sender: TObject);
+var
+  new : string;
+begin
+  repeat
+    new := IncludeTrailingPathDelimiter(TreeView1.Selected.Path) +
+           InputBox('Create Folder', 'Input name', '');
+    if DirectoryExists(new) then
+      ShowMessage('Folder "' + new + '" already exists !');
+  until (new = '') or not DirectoryExists(new);
+  if (new <> '') then
+  begin
+    TreeView1.Items.AddChild(TreeView1.Selected, ExtractFileName(new));
+    CreateDir(new);
   end;
 end;
 
@@ -954,14 +1016,14 @@ begin
   FillTreeView(FConfig.BdPathPath);
 end;
 
-procedure TMainFrm.ActionRenameFileExecute(Sender: TObject);
+procedure TMainFrm.ActionRenameExecute(Sender: TObject);
 var
   old, new, p : string;
 begin
   old := TreeView1.Selected.Path;
-  p := ExtractFilePath(old);
   if FileExists(old) then
   begin
+    p := ExtractFilePath(old);
     repeat
       new := IncludeTrailingPathDelimiter(p) +
              InputBox('Rename File', 'Input new Filename', extractfilename(old));
@@ -973,6 +1035,22 @@ begin
       CbzViewerFrame.Clear;
       TreeView1.Selected.Text := ExtractFileName(new);
       RenameFile(old, new);
+    end;
+  end
+  else
+  if DirectoryExists(old) then
+  begin
+    p := old;
+    repeat
+      new := IncludeTrailingPathDelimiter(p) +
+             InputBox('Rename Folder', 'Input new name', extractfilename(old));
+      if DirectoryExists(new) then
+        ShowMessage('Folder "' + new + '" already exists !');
+    until (new = '') or (new = old) or not DirectoryExists(new);
+    if (new <> '') and (new <> old) then
+    begin
+      if RenameFile(old, new) then
+        TreeView1.Selected.Text := ExtractFileName(new);
     end;
   end;
 end;

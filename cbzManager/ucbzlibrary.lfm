@@ -44,6 +44,8 @@ object CbzLibrary: TCbzLibrary
     TitleFont.Pitch = fpVariable
     TitleFont.Quality = fqDraft
     OnDblClick = dgLibraryDblClick
+    OnDragDrop = dgLibraryDragDrop
+    OnDragOver = dgLibraryDragOver
     OnDrawCell = dgLibraryDrawCell
     OnMouseDown = dgLibraryMouseDown
     OnMouseUp = dgLibraryMouseUp

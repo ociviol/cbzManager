@@ -105,6 +105,9 @@ type
     procedure cbSearchCloseUp(Sender: TObject);
     procedure cbVisibleDatesChange(Sender: TObject);
     procedure dgLibraryDblClick(Sender: TObject);
+    procedure dgLibraryDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure dgLibraryDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
     procedure dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
     procedure dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;
@@ -181,7 +184,7 @@ type
 implementation
 
 uses
-  Math, StrUtils, DateUtils, utils.files, uCbzViewer;
+  Math, StrUtils, DateUtils, utils.files, uCbzViewer, main, Utils.Vcl;
 
 
 {$R *.lfm}
@@ -807,6 +810,19 @@ begin
     ShowComics(FLog, s, FConfig)
   else
   ;
+end;
+
+procedure TcbzLibrary.dgLibraryDragDrop(Sender, Source: TObject; X, Y: Integer);
+begin
+  if Source is TTreeView then
+    if Assigned(FindForm(TMainFrm)) then
+      TMainFrm(FindForm(TMainFrm)).ActionCopyToLibExecute(Self);
+end;
+
+procedure TcbzLibrary.dgLibraryDragOver(Sender, Source: TObject; X, Y: Integer;
+  State: TDragState; var Accept: Boolean);
+begin
+  Accept := Source is TTreeView;
 end;
 
 procedure TcbzLibrary.cbHideReadClick(Sender: TObject);

@@ -40,8 +40,9 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="1075"/>
+        <TopLine Value="85"/>
         <CursorPos X="10" Y="1094"/>
         <UsageCount Value="252"/>
         <Loaded Value="True"/>
@@ -148,7 +149,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <TopLine Value="542"/>
         <CursorPos X="67" Y="560"/>

@@ -73,7 +73,7 @@ type
     destructor Destroy; override;
 
     function GenerateStamp:TBitmap;
-    function CheckSync:integer;
+    function CheckSync(bForce : Boolean = False):integer;
     procedure SyncFileDelete;
 
     property Filename : String read GetFilename write SetFilename;
@@ -314,7 +314,7 @@ begin
     FDateSetReadState:=now;
     FModified := True;
     FSyncFileDAte:=now;
-    CheckSync;
+    CheckSync(True);
   finally
     FLock.UnlockList;
   end;
@@ -399,12 +399,12 @@ begin
   end;
 end;
 
-function TFileItem.CheckSync:integer;
+function TFileItem.CheckSync(bForce : Boolean = False):integer;
 begin
   result := 0;
 
     // update
-  if FileExists(SyncFilename) then
+  if FileExists(SyncFilename) and not bForce then
   try
     if (FileDateTodateTime(FileAge(SyncFilename)) > FSyncFileDAte) then
       with TXmlDoc.Create do
@@ -536,16 +536,29 @@ begin
   until (CPLen=0) or (p^ = #0);
 end;
 
-//
-//  accented : ansistring =   'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+//const
+//  accented : String =   'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+//  arracc : array[0..52] of string =
+//      ('À','Á','Â','Ã','Ä','Å','à','á','â','ã','ä','å',
+//       'Ò','Ó','Ô','Õ','Ö','Ø','ò','ó','ô','õ','ö','ø',
+//       'È','É','Ê','Ë','è','é','ê','ë',
+//       'Ç','ç',
+//       'Ì','Í','Î','Ï','ì','í','î','ï',
+//       'Ù','Ú','Û','Ü','ù','ú','û','ü','ÿ',
+//       'Ñ','ñ'
+//      );
 //  unaccented : ansistring = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
 //
 function makefilename(const aFilename : String):String;
-var
-  p: PChar;
-  CPLen: integer;
+//var
+//  p: PChar;
+//  CPLen: integer;
+//  s : string;
   //FirstByte, SecondByte, ThirdByte, FourthByte: Char;
 begin
+  //if s <> accented then
+  //  convert(s);
+
   result := aFilename;
   (*
   p:=PChar(aFilename);

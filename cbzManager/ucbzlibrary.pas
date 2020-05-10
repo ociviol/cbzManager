@@ -112,6 +112,7 @@ type
     procedure ActionReadStatusExecute(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
+    //procedure Button1Click(Sender: TObject);
     procedure cbHideReadClick(Sender: TObject);
     procedure cbSearchChange(Sender: TObject);
     procedure cbSearchCloseUp(Sender: TObject);
@@ -190,7 +191,10 @@ type
 implementation
 
 uses
-  Math, StrUtils, DateUtils, utils.files, uCbzViewer, main, Utils.Vcl;
+  LazUTF8,
+  Math, StrUtils, DateUtils,
+  utils.files, uCbzViewer,
+  main, Utils.Vcl;
 
 
 {$R *.lfm}
@@ -1003,7 +1007,60 @@ begin
   Flvl := 1;
   FillGrid
 end;
+{
+procedure TcbzLibrary.Button1Click(Sender: TObject);
+const
+  accented : String =   'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+    procedure dump(s, fnm : string);
+  var
+    p: PChar;
+    CPLen: integer;
+    FirstByte, SecondByte, ThirdByte, FourthByte: Char;
+    tmp : String;
+  begin
+    tmp := '';
+    p:=PChar(s);
+    repeat
+      CPLen := UTF8CodepointSize(p);
 
+      if CPLen = 1 then
+        tmp := tmp + String(p[0])
+      else
+      // Here you have a pointer to the char and its length
+      // You can access the bytes of the UTF-8 Char like this:
+      if CPLen >= 1 then
+        tmp := tmp + hexStr(integer(p[0]), 2);  //FirstByte := P[0];
+      if CPLen >= 2 then
+        tmp := tmp + hexStr(integer(p[1]), 2); // SecondByte := P[1];
+      if CPLen >= 3 then
+        tmp := tmp + hexStr(integer(p[2]), 2); //ThirdByte := P[2];
+      if CPLen = 4 then
+        tmp := tmp + hexStr(integer(p[3]), 2); //FourthByte := P[3];
+
+      tmp := tmp + #13#10;
+      inc(p,CPLen);
+    until (CPLen=0) or (p^ = #0);
+
+    with TStringList.Create do
+    try
+      Add(tmp);
+      SaveToFile(fnm);
+    finally
+      Free;
+    end;
+  end;
+
+var
+  s : string;
+begin
+  with TSelectDirectoryDialog.Create(Application) do
+    if Execute then
+      s := Filename;
+
+  dump(accented, 'c:\temp\accented1.txt');
+  dump(s, 'c:\temp\accented2.txt');
+end;
+}
 procedure TcbzLibrary.btnReturnClick(Sender: TObject);
 begin
   if CurrentPath = FFileList.RootPath then

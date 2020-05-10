@@ -8,7 +8,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Grids, ComCtrls,
-  ExtCtrls, StdCtrls, Buttons, Menus, Types,
+  ExtCtrls, StdCtrls, Buttons, Menus, ActnList, Types,
 {$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}
@@ -76,6 +76,13 @@ type
   { TcbzLibrary }
 
   TcbzLibrary = class(TForm)
+    ActionPaste: TAction;
+    ActionCut: TAction;
+    ActionCreateFolder: TAction;
+    ActionDelete: TAction;
+    ActionCopyToMngr: TAction;
+    ActionReadStatus: TAction;
+    ActionList1: TActionList;
     btnReturn: TSpeedButton;
     btnTopPath: TSpeedButton;
     btnRefresh: TButton;
@@ -91,13 +98,18 @@ type
     N1: TMenuItem;
     mnuReadStatus: TMenuItem;
     N2: TMenuItem;
-    Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
     pnlbtns: TPanel;
     pnlPath: TPanel;
     PopupMenu1: TPopupMenu;
     StatusBar1: TStatusBar;
+    procedure ActionCopyToMngrExecute(Sender: TObject);
+    procedure ActionCreateFolderExecute(Sender: TObject);
+    procedure ActionCutExecute(Sender: TObject);
+    procedure ActionDeleteExecute(Sender: TObject);
+    procedure ActionPasteExecute(Sender: TObject);
+    procedure ActionReadStatusExecute(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
     procedure cbHideReadClick(Sender: TObject);
@@ -120,16 +132,7 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
-    procedure mnuCreateFolderClick(Sender: TObject);
-    procedure mnuCutClick(Sender: TObject);
-    procedure mnuDeleteClick(Sender: TObject);
-    procedure mnuMoveTocbzManagerClick(Sender: TObject);
-    procedure mnuPasteClick(Sender: TObject);
-    procedure mnuReadStatusClick(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
-  private
-    function GetCacheFileName: String;
-    procedure SetCurrentPath(AValue: String);
   private
     Flog : ILog;
     FFileList : TItemList;
@@ -146,6 +149,9 @@ type
     FThreadScrub : TThreadScrub;
     FFileToCopy : TFileItem;
 
+    procedure EnableActions;
+    function GetCacheFileName: String;
+    procedure SetCurrentPath(AValue: String);
     procedure UpdateNbItems;
     procedure SetGridPos(aCol, aRow : Integer); inline;
     procedure SetGridTopPos(aCol, aRow : Integer); inline;
@@ -760,35 +766,22 @@ begin
   end;
 end;
 
-procedure TcbzLibrary.mnuReadStatusClick(Sender: TObject);
-var
-  i : integer;
-begin
-  if FileExists(SelectedStr) then
-    with TFileItem(SelectedObj) do
-      ReadState := not ReadState
-  else
-  for i := 0 to FFileList.Count - 1 do
-    if FFileList[i].StartsWith(SelectedStr) then
-      if FileExists(FFileList[i]) then
-         with TFileItem(FFileList.Objects[i]) do
-           ReadState := not ReadState;
-
-  if not cbHideRead.Checked then
-  begin
-    dgLibrary.InvalidateCell(dgLibrary.Col, dgLibrary.Row);
-    UpdateNbItems;
-  end
-  else
-    FillGrid;
-  FFileList.SaveToFile(GetCacheFileName);
-end;
-
 procedure TcbzLibrary.PopupMenu1Popup(Sender: TObject);
 begin
-  mnuDelete.Enabled:= not Assigned(FThreadSearchFiles);
-  mnuCut.Enabled := not FileExists(SelectedStr);
-  mnuPaste.Enabled:= Assigned(FFileToCopy);
+  EnableActions;
+  //mnuDelete.Enabled:= not Assigned(FThreadSearchFiles);
+  //mnuCut.Enabled := not FileExists(SelectedStr);
+  //mnuPaste.Enabled:= Assigned(FFileToCopy);
+end;
+
+procedure TcbzLibrary.EnableActions;
+begin
+  ActionCopyToMngr.enabled := Assigned(SelectedObj);
+  ActionCreateFolder.enabled := True;
+  ActionCut.enabled := not FileExists(SelectedStr) and not Assigned(FFileToCopy);
+  ActionDelete.enabled := Assigned(SelectedObj);
+  ActionPaste.enabled := Assigned(FFileToCopy);
+  ActionReadStatus.enabled := Assigned(SelectedObj);
 end;
 
 procedure TcbzLibrary.dgLibraryDblClick(Sender: TObject);
@@ -915,39 +908,31 @@ begin
   end;
 end;
 
-procedure TcbzLibrary.btnTopPathClick(Sender: TObject);
+procedure TcbzLibrary.ActionReadStatusExecute(Sender: TObject);
+var
+  i : integer;
 begin
-  CurrentPath := FFileList.RootPath;
-  Flvl := 1;
-  FillGrid
+  if FileExists(SelectedStr) then
+    with TFileItem(SelectedObj) do
+      ReadState := not ReadState
+  else
+  for i := 0 to FFileList.Count - 1 do
+    if FFileList[i].StartsWith(SelectedStr) then
+      if FileExists(FFileList[i]) then
+         with TFileItem(FFileList.Objects[i]) do
+           ReadState := not ReadState;
+
+  if not cbHideRead.Checked then
+  begin
+    dgLibrary.InvalidateCell(dgLibrary.Col, dgLibrary.Row);
+    UpdateNbItems;
+  end
+  else
+    FillGrid;
+  FFileList.SaveToFile(GetCacheFileName);
 end;
 
-procedure TcbzLibrary.btnReturnClick(Sender: TObject);
-begin
-  if CurrentPath = FFileList.RootPath then
-    Exit;
-
-  CurrentPath := ExcludeTrailingPathDelimiter(ExtractFilePath(CurrentPath));
-  FillGrid;
-end;
-
-procedure TcbzLibrary.mnuCreateFolderClick(Sender: TObject);
-begin
-
-end;
-
-procedure TcbzLibrary.mnuDeleteClick(Sender: TObject);
-begin
-  if TFileItem(SelectedObj).Deleted then
-    exit;
-
-  if MessageDlg('Confirmation', 'Delete comic file as well ?', mtInformation, mbYesNo, 0) = mryes then
-    DeleteFile(SelectedStr);
-
-  FillGrid;
-end;
-
-procedure TcbzLibrary.mnuMoveTocbzManagerClick(Sender: TObject);
+procedure TcbzLibrary.ActionCopyToMngrExecute(Sender: TObject);
 var
   dest, destp : string;
   Files : TSTringlist;
@@ -978,14 +963,29 @@ begin
   end;
 end;
 
+procedure TcbzLibrary.ActionCreateFolderExecute(Sender: TObject);
+begin
 
-procedure TcbzLibrary.mnuCutClick(Sender: TObject);
+end;
+
+procedure TcbzLibrary.ActionCutExecute(Sender: TObject);
 begin
   if FileExists(SelectedStr) then
     FFileToCopy := SelectedObj;
 end;
 
-procedure TcbzLibrary.mnuPasteClick(Sender: TObject);
+procedure TcbzLibrary.ActionDeleteExecute(Sender: TObject);
+begin
+  if TFileItem(SelectedObj).Deleted then
+    exit;
+
+  if MessageDlg('Confirmation', 'Delete comic file as well ?', mtInformation, mbYesNo, 0) = mryes then
+    DeleteFile(SelectedStr);
+
+  FillGrid;
+end;
+
+procedure TcbzLibrary.ActionPasteExecute(Sender: TObject);
 var
   dest : string;
 begin
@@ -995,6 +995,22 @@ begin
       FFileToCopy.Filename := dest;
 
   FFileToCopy := nil;
+end;
+
+procedure TcbzLibrary.btnTopPathClick(Sender: TObject);
+begin
+  CurrentPath := FFileList.RootPath;
+  Flvl := 1;
+  FillGrid
+end;
+
+procedure TcbzLibrary.btnReturnClick(Sender: TObject);
+begin
+  if CurrentPath = FFileList.RootPath then
+    Exit;
+
+  CurrentPath := ExcludeTrailingPathDelimiter(ExtractFilePath(CurrentPath));
+  FillGrid;
 end;
 
 function TcbzLibrary.GetCacheFileName: String;

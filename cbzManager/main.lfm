@@ -260,10 +260,10 @@ object MainFrm: TMainFrm
       Caption = 'Copy To Library'
       OnExecute = ActionCopyToLibExecute
     end
-    object ActionDeleteFile: TAction
-      Caption = 'Delete File'
+    object ActionDelete: TAction
+      Caption = 'Delete'
       Enabled = False
-      OnExecute = ActionDeleteFileExecute
+      OnExecute = ActionDeleteExecute
     end
     object ActionNewFolder: TAction
       Caption = 'New Folder'
@@ -293,7 +293,7 @@ object MainFrm: TMainFrm
       Action = ActionCopyToLib
     end
     object MenuItem40: TMenuItem
-      Action = ActionDeleteFile
+      Action = ActionDelete
     end
   end
   object Timerstats: TTimer

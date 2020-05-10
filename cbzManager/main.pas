@@ -32,7 +32,7 @@ type
   { TMainFrm }
   TMainFrm = class(TForm)
     ActionNewFolder: TAction;
-    ActionDeleteFile: TAction;
+    ActionDelete: TAction;
     ActionCopyToLib: TAction;
     ActionReadLog: TAction;
     ActionLibrary: TAction;
@@ -95,7 +95,7 @@ type
     TreeView1: TTreeView;
 
     procedure ActionChooseFolderExecute(Sender: TObject);
-    procedure ActionDeleteFileExecute(Sender: TObject);
+    procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionFileCleanerExecute(Sender: TObject);
     procedure ActionLibraryExecute(Sender: TObject);
     procedure ActionCopyToLibExecute(Sender: TObject);
@@ -418,7 +418,7 @@ begin
   try
     // files
     with TreeView1 do
-      ActionDeleteFile.Enabled:=
+      ActionDelete.Enabled:=
         Assigned(Selected) and
         (FileExists(Selected.Path) or DirectoryExists(Selected.Path)) and
         SelectionValid;
@@ -862,7 +862,7 @@ begin
   result := true;
 end;
 
-procedure TMainFrm.ActionDeleteFileExecute(Sender: TObject);
+procedure TMainFrm.ActionDeleteExecute(Sender: TObject);
 var
   n : TTreeNode;
 begin
@@ -877,8 +877,13 @@ begin
         Items.Delete(n);
       end
     else
-    if DirectoryExists(TreeView1.Selected.Path) and
-       (MessageDlg('Delete folder', 'Are your sure you want to delete a folder ?', mtInformation, mbYesNo, 0) = mryes) then
+    if DirectoryExists(TreeView1.Selected.Path) then
+    begin
+      if FileCount(TreeView1.Selected.Path) > 0 then
+        if MessageDlg('Delete folder', 'Are your sure you want to delete a folder ?',
+                      mtInformation, mbYesNo, 0) = mrno then
+          Exit;
+
       with TreeView1 do
       begin
         n := Selected;
@@ -887,6 +892,7 @@ begin
         RemoveDir(n.Path);
         Items.Delete(n);
       end;
+    end;
 end;
 
 procedure TMainFrm.ActionFileCleanerExecute(Sender: TObject);

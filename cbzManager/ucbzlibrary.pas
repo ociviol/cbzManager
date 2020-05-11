@@ -76,6 +76,7 @@ type
   { TcbzLibrary }
 
   TcbzLibrary = class(TForm)
+    ActionRename: TAction;
     ActionPaste: TAction;
     ActionCut: TAction;
     ActionCreateFolder: TAction;
@@ -90,6 +91,7 @@ type
     cbVisibleDates: TComboBox;
     cbSearch: TComboBox;
     dgLibrary: TDrawGrid;
+    MenuItem1: TMenuItem;
     mnuCreateFolder: TMenuItem;
     mnuCut: TMenuItem;
     mnuPaste: TMenuItem;
@@ -110,6 +112,7 @@ type
     procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionPasteExecute(Sender: TObject);
     procedure ActionReadStatusExecute(Sender: TObject);
+    procedure ActionRenameExecute(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
     //procedure Button1Click(Sender: TObject);
@@ -766,9 +769,10 @@ procedure TcbzLibrary.dgLibraryMouseUp(Sender: TObject; Button: TMouseButton;
 begin
   if Button = mbRight then
   begin
-    mnuReadStatus.Caption :=
-            ifThen(SelectedObj.ReadState,
-                   'Mark as Unread', 'Mark as Read');
+    if Assigned(SelectedObj) then
+      mnuReadStatus.Caption :=
+              ifThen(SelectedObj.ReadState,
+                     'Mark as Unread', 'Mark as Read');
 
     PopupMenu1.PopUp(dgLibrary.ClientOrigin.x + X, dgLibrary.ClientOrigin.y + Y);
   end;
@@ -786,10 +790,11 @@ procedure TcbzLibrary.EnableActions;
 begin
   ActionCopyToMngr.enabled := Assigned(SelectedObj);
   ActionCreateFolder.enabled := True;
-  ActionCut.enabled := not FileExists(SelectedStr) and not Assigned(FFileToCopy);
+  ActionCut.enabled := FileExists(SelectedStr) and not Assigned(FFileToCopy);
   ActionDelete.enabled := Assigned(SelectedObj);
   ActionPaste.enabled := Assigned(FFileToCopy);
   ActionReadStatus.enabled := Assigned(SelectedObj);
+  ActionRename.Enabled:= DirectoryExists(SelectedStr) or FileExists(SelectedStr);
 end;
 
 procedure TcbzLibrary.dgLibraryDblClick(Sender: TObject);
@@ -940,6 +945,44 @@ begin
   FFileList.SaveToFile(GetCacheFileName);
 end;
 
+procedure TcbzLibrary.ActionRenameExecute(Sender: TObject);
+var
+  new : string;
+begin
+  if FileExists(SelectedStr) then
+  begin
+    repeat
+      new := IncludeTrailingPathDelimiter(FCurrentPath) +
+             InputBox('Rename File', 'Input new Filename', extractfilename(SelectedObj.Filename));
+      if FileExists(new) then
+        ShowMessage('File "' + new + '" already exists !');
+    until (new = '') or not FileExists(new);
+
+    if new <> '' then
+    begin
+      RenameFile(SelectedObj.Filename, new);
+      SelectedObj.Deleted := True;
+      btnRefresh.Click;
+    end;
+  end
+  else
+  if DirectoryExists(SelectedStr) then
+  begin
+    repeat
+      new := IncludeTrailingPathDelimiter(FCurrentPath) +
+             InputBox('Rename Folder', 'Input new Foldename', GetLastPath(ExtractFilePath(SelectedObj.Filename)));
+      if DirectoryExists(new) then
+        ShowMessage('Folder "' + new + '" already exists !');
+    until (new = '') or not DirectoryExists(new);
+
+    if new <> '' then
+    begin
+      RenameFile(SelectedStr, new);
+      btnRefresh.Click;
+    end;
+  end;
+end;
+
 procedure TcbzLibrary.ActionCopyToMngrExecute(Sender: TObject);
 var
   dest, destp : string;
@@ -997,12 +1040,30 @@ end;
 
 procedure TcbzLibrary.ActionPasteExecute(Sender: TObject);
 var
-  dest : string;
+  dest, dfile, ext : string;
+  i : integer;
 begin
-  dest := IncludeTrailingPathDelimiter(SelectedStr) + ExtractFileName(FFileToCopy.Filename);
-  if DirectoryExists(SelectedStr) then
-    if RenameFile(FFileToCopy.Filename, dest) then
-      FFileToCopy.Filename := dest;
+  i := 1;
+  dest := IncludeTrailingPathDelimiter(FCurrentPath) +
+          ExtractFileName(FFileToCopy.Filename);
+
+  dfile := ExtractFileName(FFileToCopy.Filename);
+  ext := ExtractFileExt(dfile);
+
+  while FileExists(dest) do
+  begin
+    dest := Format('%s%s(%d)%s',
+                   [IncludeTrailingPathDelimiter(FCurrentPath),
+                    ChangeFileExt(ExtractFileName(FFileToCopy.Filename), ''),
+                    i, Ext]);
+    inc(i);
+  end;
+
+  if RenameFile(FFileToCopy.Filename, dest) then
+  begin
+    FFileToCopy.Deleted := True;
+    btnRefresh.Click;
+  end;
 
   FFileToCopy := nil;
 end;

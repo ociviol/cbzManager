@@ -235,6 +235,9 @@ object CbzLibrary: TCbzLibrary
     object mnuPaste: TMenuItem
       Action = ActionPaste
     end
+    object MenuItem1: TMenuItem
+      Action = ActionRename
+    end
   end
   object ActionList1: TActionList
     left = 144
@@ -262,6 +265,10 @@ object CbzLibrary: TCbzLibrary
     object ActionPaste: TAction
       Caption = 'Paste'
       OnExecute = ActionPasteExecute
+    end
+    object ActionRename: TAction
+      Caption = 'Rename'
+      OnExecute = ActionRenameExecute
     end
   end
 end

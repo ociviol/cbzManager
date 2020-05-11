@@ -906,7 +906,7 @@ begin
     FFileList.ResetStampState;
     //FFileList.Clear;
     FLog.Log('TCbzLibrary.btnRefreshClick : Refresh started.');
-    FThreadSearchFiles := ThreadedSearchFiles(FFileList.RootPath, ['*.cbz'], @FoundFile, @SearchEnded,
+    FThreadSearchFiles := ThreadedSearchFiles(FCurrentPath, ['*.cbz'], @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
@@ -982,6 +982,8 @@ procedure TcbzLibrary.ActionDeleteExecute(Sender: TObject);
 begin
   if TFileItem(SelectedObj).Deleted then
     exit;
+
+  TFileItem(SelectedObj).Deleted := True;
 
   if MessageDlg('Confirmation', 'Delete comic file as well ?', mtInformation, mbYesNo, 0) = mryes then
     DeleteFile(SelectedStr);
@@ -1243,6 +1245,7 @@ begin
   btnRefresh.Enabled:=True;
   UpdateNbItems;
   UpdateVisibleDates;
+  Application.QueueAsyncCall(@DoFillGrid, 0);
   FLog.Log('TCbzLibrary.SearchEnded : Refresh ended.');
 end;
 

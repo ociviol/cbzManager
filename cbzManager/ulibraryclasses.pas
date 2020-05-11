@@ -300,6 +300,11 @@ begin
   FLock.LockList;
   try
     FDeleted := AValue;
+    if FileExists(CacheFilename) then
+      DeleteFile(CacheFilename);
+    If FileExists(SyncFilename) then
+      DeleteFile(SyncFilename);
+
     FModified:=True;
   finally
     FLock.UnlockList;

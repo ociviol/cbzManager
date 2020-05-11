@@ -792,7 +792,7 @@ begin
   ActionCopyToMngr.enabled := Assigned(SelectedObj);
   ActionCreateFolder.enabled := True;
   ActionCut.enabled := FileExists(SelectedStr) and not Assigned(FFileToCopy);
-  ActionDelete.enabled := FileExists(SelectedStr);
+  ActionDelete.enabled := FileExists(SelectedStr) or DirectoryExists(SelectedStr);
   ActionPaste.enabled := Assigned(FFileToCopy);
   ActionReadStatus.enabled := Assigned(SelectedObj);
   ActionRename.Enabled:= DirectoryExists(SelectedStr) or FileExists(SelectedStr);
@@ -1031,15 +1031,25 @@ end;
 
 procedure TcbzLibrary.ActionDeleteExecute(Sender: TObject);
 begin
-  if TFileItem(SelectedObj).Deleted then
-    exit;
+  if FileExists(SelectedStr) then
+  begin
+    if TFileItem(SelectedObj).Deleted then
+      exit;
 
-  TFileItem(SelectedObj).Deleted := True;
+    TFileItem(SelectedObj).Deleted := True;
 
-  if MessageDlg('Confirmation', 'Delete comic file as well ?', mtInformation, mbYesNo, 0) = mryes then
-    DeleteFile(SelectedStr);
+    if MessageDlg('Confirmation', 'Delete comic file as well ?', mtInformation, mbYesNo, 0) = mryes then
+      DeleteFile(SelectedStr);
 
-  FillGrid;
+    FillGrid;
+  end
+  else
+  if DirectoryExists(SelectedStr) then
+    if MessageDlg('Confirmation', 'Delete all comic files ?', mtInformation, mbYesNo, 0) = mryes then
+    begin
+      KillFolder(SelectedStr);
+      btnRefresh.Click;
+    end;
 end;
 
 procedure TcbzLibrary.ActionPasteExecute(Sender: TObject);

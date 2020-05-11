@@ -410,6 +410,10 @@ begin
             s := FFileList[i];
 
           fi := TFileItem(FFileList.Objects[i]);
+
+          if not FileExists(fi.Filename) then
+            fi.Deleted:=True;
+
           if (dfUnread in FDisplayFilters) then
             if fi.ReadState then
               continue;

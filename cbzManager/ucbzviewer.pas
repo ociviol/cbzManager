@@ -38,14 +38,17 @@ var
 begin
   f := TFrmCbzViewer.Create(Application);
   with f do
-  begin
+  try
     FConfig := aConfig;
-    Caption := 'CbzViewer : ' + ExtractFilename(aFilename);
+    Caption := ExtractFilename(aFilename);
     CbzViewerFrame := TCbzViewerFrame.Create(f, aConfig, aLog);
     CbzViewerFrame.Parent := f;
     ActiveControl := CbzViewerFrame.DrawGrid1;
-    Show;
     CbzViewerFrame.Filename:=aFilename;
+    Show;
+  except
+    On E: Exception do
+      ShowMessage('Unable to open file : ' + E.Message);
   end;
 end;
 

@@ -813,7 +813,10 @@ begin
   end
   else
   if FileExists(s) then
-    ShowComics(FLog, s, FConfig)
+    if Assigned(FindForm(ExtractFileName(s))) then
+      FindForm(ExtractFileName(s)).BringToFront
+    else
+      ShowComics(FLog, s, FConfig)
   else
   ;
 end;

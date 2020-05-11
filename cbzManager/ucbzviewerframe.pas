@@ -414,7 +414,7 @@ begin
     DrawGrid1.Visible:=False;
   end
   else
-  begin
+  try
     zf.Open(AVAlue, zmRead);
     with DrawGrid1 do
     begin
@@ -423,6 +423,12 @@ begin
       Position := 0;
       Visible := True;
       Application.QueueAsyncCall(@AfterCellSelect, 0);
+    end;
+  except
+    on E: Exception do
+    begin
+      Flog.Log('TCbzViewerFrame.SetFilename: Error : ' + E.Message);
+      raise;
     end;
   end;
 end;

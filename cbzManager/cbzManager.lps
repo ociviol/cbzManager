@@ -20,7 +20,6 @@
         <ResourceBaseClass Value="Form"/>
         <TopLine Value="172"/>
         <CursorPos X="41" Y="188"/>
-        <ComponentState Value="1"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="2">
           <Item0 Y="953" ID="1"/>
@@ -172,7 +171,6 @@
         <EditorIndex Value="4"/>
         <TopLine Value="467"/>
         <CursorPos X="3" Y="480"/>
-        <ComponentState Value="1"/>
         <UsageCount Value="63"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -369,7 +367,6 @@
         <EditorIndex Value="1"/>
         <TopLine Value="141"/>
         <CursorPos X="16" Y="141"/>
-        <ComponentState Value="1"/>
         <UsageCount Value="31"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

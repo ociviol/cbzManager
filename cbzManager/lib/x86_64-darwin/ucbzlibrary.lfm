@@ -220,6 +220,9 @@ object CbzLibrary: TCbzLibrary
     object mnuMoveTocbzManager: TMenuItem
       Action = ActionCopyToMngr
     end
+    object MenuItem1: TMenuItem
+      Action = ActionRename
+    end
     object mnuDelete: TMenuItem
       Action = ActionDelete
     end
@@ -234,9 +237,6 @@ object CbzLibrary: TCbzLibrary
     end
     object mnuPaste: TMenuItem
       Action = ActionPaste
-    end
-    object MenuItem1: TMenuItem
-      Action = ActionRename
     end
   end
   object ActionList1: TActionList

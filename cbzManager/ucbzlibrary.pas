@@ -792,7 +792,7 @@ begin
   ActionCopyToMngr.enabled := Assigned(SelectedObj);
   ActionCreateFolder.enabled := True;
   ActionCut.enabled := FileExists(SelectedStr) and not Assigned(FFileToCopy);
-  ActionDelete.enabled := Assigned(SelectedObj);
+  ActionDelete.enabled := FileExists(SelectedStr);
   ActionPaste.enabled := Assigned(FFileToCopy);
   ActionReadStatus.enabled := Assigned(SelectedObj);
   ActionRename.Enabled:= DirectoryExists(SelectedStr) or FileExists(SelectedStr);

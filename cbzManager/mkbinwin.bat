@@ -5,7 +5,7 @@ rem C:\fpcupdeluxe\fpc\bin\x86_64-win64\fpc.exe -B -Twin64 -MObjFPC -Scghi -CX -
 copy .\Bin-Win\*.* "..\precompiled binairies\Windows"
 cd "..\precompiled binairies\Windows"
 
-pause
+rem pause
 
 del cbzManagerWin.zip
 copy cbzManager.exe C:\Users\Ollivier\Documents\cbzManager\

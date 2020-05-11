@@ -44,6 +44,8 @@ object CbzLibrary: TCbzLibrary
     TitleFont.Pitch = fpVariable
     TitleFont.Quality = fqDraft
     OnDblClick = dgLibraryDblClick
+    OnDragDrop = dgLibraryDragDrop
+    OnDragOver = dgLibraryDragOver
     OnDrawCell = dgLibraryDrawCell
     OnMouseDown = dgLibraryMouseDown
     OnMouseUp = dgLibraryMouseUp
@@ -110,30 +112,8 @@ object CbzLibrary: TCbzLibrary
       NumGlyphs = 2
       OnClick = btnReturnClick
     end
-    object Panel1: TPanel
-      Left = 944
-      Height = 22
-      Top = 2
-      Width = 115
-      Align = alRight
-      BevelOuter = bvLowered
-      ClientHeight = 22
-      ClientWidth = 115
-      TabOrder = 1
-      object cbHideRead: TCheckBox
-        Left = 1
-        Height = 20
-        Top = 1
-        Width = 108
-        Align = alClient
-        BorderSpacing.Right = 5
-        Caption = 'Hide read books '
-        OnClick = cbHideReadClick
-        TabOrder = 0
-      end
-    end
     object Panel2: TPanel
-      Left = 670
+      Left = 709
       Height = 22
       Top = 2
       Width = 274
@@ -141,7 +121,7 @@ object CbzLibrary: TCbzLibrary
       BevelOuter = bvLowered
       ClientHeight = 22
       ClientWidth = 274
-      TabOrder = 2
+      TabOrder = 1
       object cbSearch: TComboBox
         Left = 1
         Height = 23
@@ -161,7 +141,7 @@ object CbzLibrary: TCbzLibrary
       end
     end
     object Panel3: TPanel
-      Left = 500
+      Left = 539
       Height = 22
       Top = 2
       Width = 170
@@ -169,7 +149,7 @@ object CbzLibrary: TCbzLibrary
       BevelOuter = bvLowered
       ClientHeight = 22
       ClientWidth = 170
-      TabOrder = 3
+      TabOrder = 2
       object cbVisibleDates: TComboBox
         Left = 1
         Height = 23
@@ -206,6 +186,17 @@ object CbzLibrary: TCbzLibrary
       NumGlyphs = 2
       OnClick = btnTopPathClick
     end
+    object cbHideRead: TCheckBox
+      Left = 983
+      Height = 22
+      Top = 2
+      Width = 71
+      Align = alRight
+      BorderSpacing.Right = 5
+      Caption = 'Hide read'
+      OnClick = cbHideReadClick
+      TabOrder = 3
+    end
   end
   object pnlbtns: TPanel
     Left = 10
@@ -221,36 +212,56 @@ object CbzLibrary: TCbzLibrary
     left = 265
     top = 145
     object mnuReadStatus: TMenuItem
-      Caption = 'Read Status'
-      OnClick = mnuReadStatusClick
+      Action = ActionReadStatus
     end
     object N1: TMenuItem
       Caption = '-'
     end
     object mnuMoveTocbzManager: TMenuItem
-      Caption = 'Copy to cbzManager'
-      OnClick = mnuMoveTocbzManagerClick
+      Action = ActionCopyToMngr
     end
     object mnuDelete: TMenuItem
-      Caption = 'Delete'
-      OnClick = mnuDeleteClick
+      Action = ActionDelete
     end
     object mnuCreateFolder: TMenuItem
-      Caption = 'Create folder'
-      OnClick = mnuCreateFolderClick
+      Action = ActionCreateFolder
     end
     object N2: TMenuItem
       Caption = '-'
     end
     object mnuCut: TMenuItem
-      Caption = 'Cut'
-      Enabled = False
-      OnClick = mnuCutClick
+      Action = ActionCut
     end
     object mnuPaste: TMenuItem
+      Action = ActionPaste
+    end
+  end
+  object ActionList1: TActionList
+    left = 144
+    top = 112
+    object ActionReadStatus: TAction
+      Caption = 'Read Status'
+      OnExecute = ActionReadStatusExecute
+    end
+    object ActionCopyToMngr: TAction
+      Caption = 'Copy To CbzMngr'
+      OnExecute = ActionCopyToMngrExecute
+    end
+    object ActionDelete: TAction
+      Caption = 'Delete'
+      OnExecute = ActionDeleteExecute
+    end
+    object ActionCreateFolder: TAction
+      Caption = 'CreateFolder'
+      OnExecute = ActionCreateFolderExecute
+    end
+    object ActionCut: TAction
+      Caption = 'Cut'
+      OnExecute = ActionCutExecute
+    end
+    object ActionPaste: TAction
       Caption = 'Paste'
-      Enabled = False
-      OnClick = mnuPasteClick
+      OnExecute = ActionPasteExecute
     end
   end
 end

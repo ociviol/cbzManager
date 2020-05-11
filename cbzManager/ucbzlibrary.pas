@@ -340,6 +340,7 @@ begin
         if Terminated then
             Exit;
 
+        FFileList.Save;
         Synchronize(@UpdateCount);
       end;
       Synchronize(@DoProgress);

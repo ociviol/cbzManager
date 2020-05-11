@@ -91,6 +91,7 @@ type
   TItemList = Class(TThreadStringList)
   private
     Flog : ILog;
+    FFilename,
     FRootPath,
     FSyncPath: String;
     FModified : Boolean;
@@ -112,6 +113,7 @@ type
     procedure Delete(index:integer);
     procedure LoadFromFile(const aFilename : String);
     procedure SaveToFile(const aFilename : String);
+    procedure Save;
     procedure ResetStampState;
     procedure Cleanup;
 
@@ -841,6 +843,7 @@ constructor TItemList.Create(alog: ILog; const aSyncPath: String = '');
 begin
   Flog := alog;
   FSyncPath := aSyncPath;
+  FFilename:='';
   inherited Create;
 end;
 
@@ -915,6 +918,7 @@ begin
             TFileItem(Objects[i]).SaveToXml(el);
           end;
         SaveToFile(aFilename);
+        FFilename:=aFilename;
         FModified := False;
       except
         on E: Exception do
@@ -926,6 +930,12 @@ begin
   finally
     UnlockList;
   end;
+end;
+
+procedure TItemList.Save;
+begin
+  if Modified and (FFilename <> '') then
+    SaveToFile(FFilename);
 end;
 
 procedure TItemList.ResetStampState;
@@ -969,6 +979,7 @@ begin
     try
       try
         LoadFromFile(aFilename);
+        FFilename:=aFilename;
         with DocumentElement do
         begin
           if GetAttributeStr('RootPath') <> '' then

@@ -205,6 +205,7 @@ uses
   Utils.Vcl,
   Utils.SoftwareVersion, uDataTypes,
   Utils.ZipFile, Utils.Files,
+  Utils.NaturalSortStringList,
   uLoadReport, uAbout, uFileCleaner;
 
 
@@ -1212,7 +1213,8 @@ end;
 
 function TMainFrm.NodeSort(Node1, Node2 : TTreeNode): Integer;
 begin
-  Result := NaturalCompareText(Node1.Text, Node2.Text);
+  Result := NaturalCompare(Node1.Text, Node2.Text);
+  //Result := NaturalCompareText(Node1.Text, Node2.Text);
 end;
 
 procedure TMainFrm.AddFileToTree(const aFileName: string;

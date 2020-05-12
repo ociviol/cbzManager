@@ -146,6 +146,7 @@ type
     function GetStampWidth: Integer;
     function GetState: TZipMode;
     procedure SetFilename(AValue: String);
+    procedure CellReady(data : int64);
     //procedure SetViewMode(AValue: TViewMode);
     procedure StampReady(ProgressID: QWord; Index: Integer);
     procedure Progress(Sender: TObject; const ProgressID: QWord;
@@ -439,6 +440,12 @@ begin
   end;
 end;
 
+procedure TCbzViewerFrame.CellReady(data: int64);
+begin
+  if zf.Mode <> zmClosed then
+    DrawGrid1.InvalidateCell(0, Data);
+end;
+
 function TCbzViewerFrame.GetStampHeight: Integer;
 begin
   result := DrawGrid1.DefaultRowHeight;
@@ -502,8 +509,7 @@ begin
   else
   begin
     Progress(Self, ProgressID, zf.StampCount, zf.ImageCount, 'Generating stamps...');
-    if zf.Mode <> zmClosed then
-    DrawGrid1.InvalidateCell(0, Index);
+    Application.QueueAsyncCall(@CellReady, Index);
     Application.ProcessMessages;
   end;
 end;

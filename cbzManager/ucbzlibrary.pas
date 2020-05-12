@@ -428,10 +428,10 @@ begin
                 continue;
 
             with FVisibleList do
-              if FileExists(s) and (GetLevel(ExtractFilePath(s)) <= GetLevel(FCurrentPath) + 1) then
+              if FileExists(s) then //and (GetLevel(ExtractFilePath(s)) <= GetLevel(FCurrentPath) + 1) then
                 AddObject(s, fi)
               else
-              if (IndexOf(s) < 0) and (GetLevel(ExtractFilePath(s)) <= GetLevel(FCurrentPath) + 1) then
+              if (IndexOf(s) < 0) then //and (GetLevel(ExtractFilePath(s)) <= GetLevel(FCurrentPath) + 1) then
                 AddObject(s, fi);
           end;
 

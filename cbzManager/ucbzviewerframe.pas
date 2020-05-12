@@ -509,7 +509,7 @@ begin
   else
   begin
     Progress(Self, ProgressID, zf.StampCount, zf.ImageCount, 'Generating stamps...');
-    Application.QueueAsyncCall(@CellReady, Index);
+    CellReady(Index);
   end;
 end;
 

@@ -86,6 +86,7 @@ type
     btnReturn: TSpeedButton;
     btnTopPath: TSpeedButton;
     btnRefresh: TButton;
+    btnTest: TButton;
     cbHideRead: TCheckBox;
     cbVisibleDates: TComboBox;
     cbSearch: TComboBox;
@@ -113,6 +114,7 @@ type
     procedure ActionReadStatusExecute(Sender: TObject);
     procedure ActionRenameExecute(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure btnTestClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
     //procedure Button1Click(Sender: TObject);
     procedure cbHideReadClick(Sender: TObject);
@@ -524,6 +526,9 @@ begin
   StatusBar1.Panels[0].Width:=200;
   StatusBar1.Panels[1].Width:=550;
   {$endif}
+  {$ifndef Debug}
+  btnTest.Visible := False;
+  {$endif}
   Flog.Log('cbzLibrary started.');
   FInQueue := 0;
   FDisplayFilters := [dfAll];
@@ -923,6 +928,13 @@ begin
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
+end;
+
+procedure TcbzLibrary.btnTestClick(Sender: TObject);
+var
+  c : integer;
+begin
+  c := FFileList.StampCount;
 end;
 
 procedure TcbzLibrary.ActionReadStatusExecute(Sender: TObject);

@@ -151,7 +151,6 @@ type
     procedure Progress(Sender: TObject; const ProgressID: QWord;
                        const aPos, aMax: Integer; const Msg: String = '');
     procedure AfterCellSelect(data : int64);
-    procedure CellReady(data : int64);
     procedure EnableActions;
     procedure SetMainImage(Index: Integer);
     procedure HideCropTool;
@@ -409,12 +408,6 @@ begin
   end;
 end;
 
-procedure TCbzViewerFrame.CellReady(data: int64);
-begin
-   if zf.Mode <> zmClosed then
-    DrawGrid1.InvalidateCell(0, Data);
-end;
-
 procedure TCbzViewerFrame.SetFilename(AValue: String);
 begin
   if FFilename=AValue then Exit;
@@ -509,7 +502,9 @@ begin
   else
   begin
     Progress(Self, ProgressID, zf.StampCount, zf.ImageCount, 'Generating stamps...');
-    CellReady(Index);
+    if zf.Mode <> zmClosed then
+    DrawGrid1.InvalidateCell(0, Index);
+    Application.ProcessMessages;
   end;
 end;
 

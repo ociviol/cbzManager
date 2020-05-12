@@ -134,7 +134,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="17">
+    <Units Count="18">
       <Unit0>
         <Filename Value="cbzManagerOsx.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -223,6 +223,11 @@
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit16>
+      <Unit17>
+        <Filename Value="ulibraryclasses.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uLibraryClasses"/>
+      </Unit17>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

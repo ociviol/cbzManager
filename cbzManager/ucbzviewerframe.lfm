@@ -155,14 +155,14 @@ object CbzViewerFrame: TCbzViewerFrame
         Left = 1
         Height = 21
         Top = 4
-        Width = 29
+        Width = 38
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Left : '
         ParentColor = False
       end
       object speLeft: TSpinEdit
-        Left = 30
+        Left = 39
         Height = 24
         Top = 1
         Width = 62
@@ -171,17 +171,17 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 0
       end
       object Label2: TLabel
-        Left = 285
+        Left = 311
         Height = 21
         Top = 4
-        Width = 45
+        Width = 54
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Height : '
         ParentColor = False
       end
       object speBottom: TSpinEdit
-        Left = 330
+        Left = 365
         Height = 24
         Top = 1
         Width = 62
@@ -190,17 +190,17 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 1
       end
       object Label3: TLabel
-        Left = 182
+        Left = 198
         Height = 21
         Top = 4
-        Width = 41
+        Width = 51
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Width : '
         ParentColor = False
       end
       object speRight: TSpinEdit
-        Left = 223
+        Left = 249
         Height = 24
         Top = 1
         Width = 62
@@ -209,17 +209,17 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 2
       end
       object Label4: TLabel
-        Left = 92
+        Left = 101
         Height = 21
         Top = 4
-        Width = 28
+        Width = 35
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Top : '
         ParentColor = False
       end
       object speTop: TSpinEdit
-        Left = 120
+        Left = 136
         Height = 24
         Top = 1
         Width = 62

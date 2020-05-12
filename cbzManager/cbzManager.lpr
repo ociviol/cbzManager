@@ -8,7 +8,8 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, main, config, webp, uCbz, Utils.ZipFile, frmwait, uDataPool, uDataItem,
-  uThreadConvert, uWorkerThread, uThreadExtract, uConfig;
+  uThreadConvert, uWorkerThread, uThreadExtract, uConfig, uCbzViewer,
+  uCbzViewerFrame, uLibraryClasses;
 
 {$R *.res}
 

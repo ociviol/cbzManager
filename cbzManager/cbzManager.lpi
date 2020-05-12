@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="11"/>
+      <BuildNr Value="13"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>
@@ -85,7 +85,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="Utils;../../XmlReader/XmlDoc"/>
+            <OtherUnitFiles Value="../../Utils;../../XmlReader/XmlDoc"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -132,7 +132,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="16">
+    <Units Count="19">
       <Unit0>
         <Filename Value="cbzManager.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -222,6 +222,25 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
       </Unit15>
+      <Unit16>
+        <Filename Value="ucbzviewer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="uCbzViewer"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="ulibraryclasses.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uLibraryClasses"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="ucbzviewerframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="CbzViewerFrame"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="uCbzViewerFrame"/>
+      </Unit18>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

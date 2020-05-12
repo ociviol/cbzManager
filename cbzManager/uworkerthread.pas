@@ -468,7 +468,7 @@ begin
               Exit;
             end;
 
-            Sleep(250);
+            Sleep(50);
             if not ThreadExtract.Working and (ThreadExtract.NbFiles = 0) then
               break;
 
@@ -712,7 +712,7 @@ begin
     begin
       if (FJobPool.AvailFileCount = 0) and (FProgressID > 0) then
         ClearProgress;
-      Sleep(1000);
+      Sleep(100);
     end;
   end;
   ClearProgress;

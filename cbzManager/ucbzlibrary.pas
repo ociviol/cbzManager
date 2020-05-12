@@ -55,8 +55,7 @@ type
   private
     FVal,
     FCnt,
-    FsyncedIn,
-    FsyncedOut : Integer;
+    Fsynced : Integer;
     FFileList: TItemList;
     FProgress : TProgressEvent;
     FLog : ILog;
@@ -203,6 +202,11 @@ uses
 {$R *.lfm}
 
 
+function GetLevel(const Path : String):Integer; //inline;
+begin
+  result := length(Path.Split([PathDelim]));
+end;
+
 { TThreadScrub }
 
 constructor TThreadScrub.Create(aLog : ILog; aFileList: TItemList;
@@ -235,10 +239,9 @@ begin
     del := FFileList.DeletedCount;
 //    dec(cnt, del);
     if (FVal < FCnt - 1) and (Fcnt > 0) then
-      FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Deleted:%d - Synced:In:%d,Out:%d',
+      FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Deleted:%d - Synced:%d',
                                      [IntToStr((FVal * 100) div cnt) + '%',
-                                      cnt, FFileList.StampCount, del,
-                                      FSyncedIn, FSyncedOut]))
+                                      cnt, FFileList.StampCount, del, FSynced]))
     //FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
       //          IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
@@ -285,10 +288,9 @@ begin
       FLog.Log('TThreadScrub.Execute: Starting scrub.');
       Synchronize(@UpdateCount);
       FVal := 0;
-      FsyncedIn := 0;
-      FsyncedOut := 0;
+      Fsynced := 0;
 
-      FFileList.Cleanup;
+      //FFileList.Cleanup;
 
       while (FCnt > FVal) do
       begin
@@ -311,10 +313,7 @@ begin
               _DeleteItem
             else
             if r = 1 then
-              inc(FSyncedIn)
-            else
-            if r = 1 then
-              inc(FSyncedOut);
+              inc(FSynced);
           end
           {$endif};
 
@@ -385,12 +384,12 @@ begin
     '-': FProgressChar := '\';
     '\': FProgressChar := '|';
   end;
-  FProgress(Self, 0, 0, 0, 'Loading folder ' + FProgressChar);
+  FProgress(Self, 0, 0, 0, ifthen(Terminated, 'Fill done.', 'Loading folder ' + FProgressChar));
 end;
 
 procedure TThreadFill.Execute;
 var
-  i : integer;
+  i, lvl : integer;
   s : string;
   fi : TFileItem;
 begin
@@ -429,10 +428,10 @@ begin
                 continue;
 
             with FVisibleList do
-              if FileExists(s) then
+              if FileExists(s) and (GetLevel(ExtractFilePath(s)) <= GetLevel(FCurrentPath) + 1) then
                 AddObject(s, fi)
               else
-              if IndexOf(s) < 0 then
+              if (IndexOf(s) < 0) and (GetLevel(ExtractFilePath(s)) <= GetLevel(FCurrentPath) + 1) then
                 AddObject(s, fi);
           end;
 
@@ -445,6 +444,7 @@ begin
       end;
 
     Terminate;
+    Synchronize(@DoProgress);
   except
     on e: Exception do
     begin
@@ -1456,10 +1456,11 @@ var
   oldtoprow, oldrow, i : Integer;
   s : string;
 begin
-  Progress(Self, 0, 0, 0, 'Ready.');
+  Progress(Self, 0, 0, 0, 'Sorting...');
   FFillThread := nil;
   btnRefresh.Enabled:=True;
   FVisibleList.Sort;
+
   with cbSearch do
   begin
     Items.BeginUpdate;
@@ -1503,6 +1504,7 @@ begin
       end;
     end;
   UpdateNbItems;
+  Progress(Self, 0, 0, 0, 'Ready.');
 end;
 
 procedure TcbzLibrary.ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);

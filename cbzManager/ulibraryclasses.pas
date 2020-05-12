@@ -936,8 +936,8 @@ begin
   try
     for i:= Count - 1 downto 0 do
       for j:=0 to i-1 do
-        if TFileItem(Objects[i]).Filename =
-           TFileItem(Objects[j]).Filename then
+        if Utf8CompareStr(TFileItem(Objects[i]).Filename,
+                          TFileItem(Objects[j]).Filename) = 0 then
            Delete(i);
   finally
     UnlockList;

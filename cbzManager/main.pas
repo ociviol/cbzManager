@@ -196,7 +196,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Config, LclIntf, strutils,
+  Config, LclIntf, strutils, LazUTF8,
   Utils.Strings, frmwait,
   fpHttpClient, uLogReader,
 {$if defined(Darwin) or defined(Linux)}
@@ -966,7 +966,7 @@ begin
       s := TTreeNode(Sel[i]).Path;
       if FileExists(s) then
       begin
-        if CbzViewerFrame.Filename = s then
+        if Utf8CompareStr(CbzViewerFrame.Filename, s) = 0 then
           TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, '', CbzViewerFrame.Cbz)
         else
           TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, '');
@@ -981,7 +981,7 @@ begin
            begin
              p := ExtractFilePath(s.Replace(FConfig.BdPathPath, ''));
              p := ExcludeTrailingPathDelimiter(ExcludeLeadingPathDelimiter(p));
-             if CbzViewerFrame.Filename = s then
+             if Utf8CompareStr(CbzViewerFrame.Filename, s) = 0 then
                TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, p, CbzViewerFrame.Cbz)
              else
                TCbzLibrary(FindForm(TCbzLibrary)).ImportFile(s, p);

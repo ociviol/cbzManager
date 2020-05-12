@@ -214,7 +214,6 @@ type
   End;
 
 procedure FileToTrash(const aFileName : String);
-procedure CopyCbz(aCbz : TCbz; const aDest : String);
 
 implementation
 
@@ -231,11 +230,6 @@ uses
 procedure FileToTrash(const aFileName: String);
 begin
   DeleteFile(aFileName);
-end;
-
-procedure CopyCbz(aCbz: TCbz; const aDest: String);
-begin
-
 end;
 
 { TUndoObject }

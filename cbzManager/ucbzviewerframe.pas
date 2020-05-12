@@ -151,6 +151,7 @@ type
     procedure Progress(Sender: TObject; const ProgressID: QWord;
                        const aPos, aMax: Integer; const Msg: String = '');
     procedure AfterCellSelect(data : int64);
+    procedure CellReady(data : int64);
     procedure EnableActions;
     procedure SetMainImage(Index: Integer);
     procedure HideCropTool;
@@ -199,12 +200,15 @@ end;
 destructor TCbzViewerFrame.Destroy;
 begin
   if Assigned(zf) then
-  begin
     zf.Close;
-    zf.Free;
-  end;
-  FLog := nil;
+
   inherited Destroy;
+  Application.RemoveAsyncCalls(self);
+
+  if Assigned(zf) then
+    FreeAndNil(zf);
+
+  FLog := nil;
 end;
 
 procedure TCbzViewerFrame.ActionLastExecute(Sender: TObject);
@@ -398,8 +402,17 @@ end;
 
 procedure TCbzViewerFrame.AfterCellSelect(data : int64);
 begin
-  EnableActions;
-  SetMainImage(DrawGrid1.Position);
+  if zf.Mode <> zmClosed then
+  begin
+    EnableActions;
+    SetMainImage(DrawGrid1.Position);
+  end;
+end;
+
+procedure TCbzViewerFrame.CellReady(data: int64);
+begin
+   if zf.Mode <> zmClosed then
+    DrawGrid1.InvalidateCell(0, Data);
 end;
 
 procedure TCbzViewerFrame.SetFilename(AValue: String);
@@ -496,8 +509,7 @@ begin
   else
   begin
     Progress(Self, ProgressID, zf.StampCount, zf.ImageCount, 'Generating stamps...');
-    DrawGrid1.InvalidateCell(0, Index);
-    Application.ProcessMessages;
+    Application.QueueAsyncCall(@CellReady, Index);
   end;
 end;
 

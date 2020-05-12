@@ -197,6 +197,16 @@ object CbzLibrary: TCbzLibrary
       OnClick = cbHideReadClick
       TabOrder = 3
     end
+    object btnTest: TButton
+      Left = 48
+      Height = 22
+      Top = 2
+      Width = 75
+      Align = alLeft
+      Caption = 'Test'
+      OnClick = btnTestClick
+      TabOrder = 4
+    end
   end
   object pnlbtns: TPanel
     Left = 10

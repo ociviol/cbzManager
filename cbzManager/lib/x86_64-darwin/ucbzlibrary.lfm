@@ -1,7 +1,7 @@
 object CbzLibrary: TCbzLibrary
-  Left = 441
+  Left = 435
   Height = 746
-  Top = 233
+  Top = 192
   Width = 1156
   Caption = 'Library'
   ClientHeight = 746

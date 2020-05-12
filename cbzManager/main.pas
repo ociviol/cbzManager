@@ -125,7 +125,8 @@ type
       State: TDragState; var Accept: Boolean);
   private
     FLog: ILog;
-    FInFill : Boolean;
+    FInFill,
+    FLibDocked: Boolean;
     FConfigFile,
     FFileToMove : String;
     FConfig : TConfig;
@@ -343,6 +344,7 @@ begin
   if FConfig.MngrTreeViewWidth <> 0 then
     Panel2.Width := FConfig.MngrTreeViewWidth;
 
+  FLibDocked := False;
   pnlStats.Visible := FConfig.ShowStats;
   MenuItem35.Checked := FConfig.ShowStats;
   Timerstats.Enabled:=FConfig.ShowStats;
@@ -879,7 +881,7 @@ begin
     else
     if DirectoryExists(TreeView1.Selected.Path) then
     begin
-      if FileCount(TreeView1.Selected.Path) > 0 then
+      if FileCount(TreeView1.Selected.Path, ['*.cbz']) > 0 then
         if MessageDlg('Delete folder', 'Are your sure you want to delete a folder ?',
                       mtInformation, mbYesNo, 0) = mrno then
           Exit;
@@ -934,6 +936,11 @@ begin
   else
   with TCbzLibrary.Create(nil, FConfig) do
   begin
+    if FLibDocked then
+    begin
+      Align := alRight;
+      Parent := Self;
+    end;
     Show;
     BringToFront;
   end;
@@ -1024,40 +1031,44 @@ end;
 
 procedure TMainFrm.ActionRenameExecute(Sender: TObject);
 var
-  old, new, p : string;
+  old, new, p, v : string;
+  done : boolean;
 begin
   old := TreeView1.Selected.Path;
   if FileExists(old) then
   begin
+    v := extractfilename(old);
     p := ExtractFilePath(old);
-    repeat
-      new := IncludeTrailingPathDelimiter(p) +
-             InputBox('Rename File', 'Input new Filename', extractfilename(old));
+
+    done := InputQuery('Rename File', 'Input new Filename', v);
+    new := IncludeTrailingPathDelimiter(p) + v;
+    if done then
       if FileExists(new) then
-        ShowMessage('File "' + new + '" already exists !');
-    until (new = '') or (new = old) or not FileExists(new);
-    if (new <> '') and (new <> old) then
-    begin
-      CbzViewerFrame.Clear;
-      TreeView1.Selected.Text := ExtractFileName(new);
-      RenameFile(old, new);
-    end;
+        ShowMessage('File "' + new + '" already exists !')
+      else
+      begin
+        CbzViewerFrame.Clear;
+        TreeView1.Selected.Text := ExtractFileName(new);
+        RenameFile(old, new);
+      end;
+
   end
   else
   if DirectoryExists(old) then
   begin
-    p := old;
-    repeat
-      new := IncludeTrailingPathDelimiter(p) +
-             InputBox('Rename Folder', 'Input new name', extractfilename(old));
+    p := extractfilepath(old);
+    v := GetLastPath(old);
+
+    done := InputQuery('Rename Folder', 'Input new Foldername', v);
+    new := IncludeTrailingPathDelimiter(p) + v;
+
+    if done then
       if DirectoryExists(new) then
-        ShowMessage('Folder "' + new + '" already exists !');
-    until (new = '') or (new = old) or not DirectoryExists(new);
-    if (new <> '') and (new <> old) then
-    begin
-      if RenameFile(old, new) then
-        TreeView1.Selected.Text := ExtractFileName(new);
-    end;
+        ShowMessage('Folder "' + new + '" already exists !')
+      else
+        if RenameFile(old, new) then
+          TreeView1.Selected.Text := ExtractFileName(new);
+
   end;
 end;
 

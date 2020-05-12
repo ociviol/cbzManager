@@ -127,8 +127,6 @@ type
   end;
 
 
-function GetFirstPath(const aPath : String; Lvl : integer = 2):String;
-function GetLastPath(const aPath : String):string;
 
 implementation
 
@@ -140,27 +138,6 @@ uses
 const
   CS_StampWidth = 120;
   CS_StampHeight = 160;
-
-
-function GetFirstPath(const aPath : String; Lvl : integer = 2):String;
-var
-  a : TStringArray;
-  i : integer;
-begin
-  a := aPath.Split([PathDelim]);
-  result := '';
-  for i:=0 to lvl do
-    result := result + a[i] + PathDelim;
-end;
-
-function GetLastPath(const aPath : String):string;
-var
-  a : TStringArray;
-begin
-  result := '';
-  a := aPath.Split([PathDelim]);
-  result := a[High(a)];
-end;
 
 { TFileItem }
 

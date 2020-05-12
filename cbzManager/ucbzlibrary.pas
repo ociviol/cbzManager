@@ -951,39 +951,41 @@ end;
 
 procedure TcbzLibrary.ActionRenameExecute(Sender: TObject);
 var
-  new : string;
+  new, v : string;
+  done : boolean;
 begin
   if FileExists(SelectedStr) then
   begin
-    repeat
-      new := IncludeTrailingPathDelimiter(FCurrentPath) +
-             InputBox('Rename File', 'Input new Filename', extractfilename(SelectedObj.Filename));
+    v := extractfilename(SelectedStr);
+    done := InputQuery('Rename File', 'Input new Filename', v);
+    new := IncludeTrailingPathDelimiter(FCurrentPath) + v;
+    if done then
       if FileExists(new) then
-        ShowMessage('File "' + new + '" already exists !');
-    until (new = '') or not FileExists(new);
-
-    if new <> '' then
-    begin
-      RenameFile(SelectedObj.Filename, new);
-      SelectedObj.Deleted := True;
-      btnRefresh.Click;
-    end;
+        ShowMessage('File "' + new + '" already exists !')
+      else
+      begin
+        RenameFile(SelectedObj.Filename, new);
+        SelectedObj.Deleted := True;
+        btnRefresh.Click;
+      end;
   end
   else
   if DirectoryExists(SelectedStr) then
   begin
-    repeat
-      new := IncludeTrailingPathDelimiter(FCurrentPath) +
-             InputBox('Rename Folder', 'Input new Foldename', GetLastPath(ExtractFilePath(SelectedObj.Filename)));
-      if DirectoryExists(new) then
-        ShowMessage('Folder "' + new + '" already exists !');
-    until (new = '') or not DirectoryExists(new);
+    v := GetLastPath(SelectedStr);
 
-    if new <> '' then
-    begin
-      RenameFile(SelectedStr, new);
-      btnRefresh.Click;
-    end;
+    done := InputQuery('Rename Folder', 'Input new Foldername', v);
+    new := IncludeTrailingPathDelimiter(FCurrentPath) + v;
+
+    if done then
+      if DirectoryExists(new) then
+        ShowMessage('Folder "' + new + '" already exists !')
+      else
+      begin
+        RenameFile(SelectedStr, new);
+        btnRefresh.Click;
+      end;
+
   end;
 end;
 

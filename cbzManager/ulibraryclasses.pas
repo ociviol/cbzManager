@@ -398,57 +398,61 @@ end;
 function TFileItem.CheckSync(bForce : Boolean = False):integer;
 begin
   result := 0;
-
-    // update
-  if FileExists(SyncFilename) and not bForce then
+  FLock.LockList;
   try
-    if (FileDateTodateTime(FileAge(SyncFilename)) > FSyncFileDAte) then
+    // update
+    if FileExists(SyncFilename) and not bForce then
+    try
+      if (FileDateTodateTime(FileAge(SyncFilename)) > FSyncFileDAte) then
+        with TXmlDoc.Create do
+        try
+          LoadFromFile(SyncFilename);
+          with DocumentElement do
+            if FDateSetReadState < GetAttributeDate('DateSetReadState', 0) then
+            begin
+              FDateSetReadState := GetAttributeDate('DateSetReadState', 0);
+              FReadState := GetAttributeBool('ReadState');
+              FModified := True;
+              result := 1;
+            end
+            else
+            if FDateSetReadState > GetAttributeDate('DateSetReadState', 0) then
+            begin
+              SetAttributeDate('DateSetReadState', FDateSetReadState);
+              SetAttributeBool('ReadState', FReadState);
+              SaveToFile(SyncFilename);
+              result := 2;
+            end;
+          FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
+        finally
+          free;
+        end;
+    except
+      on E: Exception do
+        FLog.Log('TFileItem.CheckSync:'+E.Message);
+    end
+    else
+    // create file
+    try
       with TXmlDoc.Create do
       try
-        LoadFromFile(SyncFilename);
-        with DocumentElement do
-          if FDateSetReadState < GetAttributeDate('DateSetReadState', 0) then
-          begin
-            FDateSetReadState := GetAttributeDate('DateSetReadState', 0);
-            FReadState := GetAttributeBool('ReadState');
-            FModified := True;
-            result := 1;
-          end
-          else
-          if FDateSetReadState > GetAttributeDate('DateSetReadState', 0) then
-          begin
-            SetAttributeDate('DateSetReadState', FDateSetReadState);
-            SetAttributeBool('ReadState', FReadState);
-            SaveToFile(SyncFilename);
-            result := 2;
-          end;
-        FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
+        with CreateNewDocumentElement('Comic') do
+        begin
+          SetAttributeDate('DateSetReadState', FDateSetReadState);
+          SetAttributeBool('ReadState', FReadState);
+          result := 2;
+        end;
+        SaveToFile(SyncFilename);
       finally
-        free;
+        Free;
       end;
-  except
-    on E: Exception do
-      FLog.Log('TFileItem.CheckSync:'+E.Message);
-  end
-  else
-  // create file
-  try
-    with TXmlDoc.Create do
-    try
-      with CreateNewDocumentElement('Comic') do
-      begin
-        SetAttributeDate('DateSetReadState', FDateSetReadState);
-        SetAttributeBool('ReadState', FReadState);
-        result := 2;
-      end;
-      SaveToFile(SyncFilename);
-    finally
-      Free;
+      FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
+    except
+      on e: Exception do
+        FLog.Log('TFileItem.CheckSync:Error:' + E.Message);
     end;
-    FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
-  except
-    on e: Exception do
-      FLog.Log('TFileItem.CheckSync:Error:' + E.Message);
+  finally
+    FLock.UnlockList;
   end;
 end;
 

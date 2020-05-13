@@ -55,12 +55,15 @@ type
   private
     FVal,
     FCnt,
+    FDeleted,
+    FStampCount,
     Fsynced : Integer;
     FFileList: TItemList;
     FProgress : TProgressEvent;
     FLog : ILog;
     FNotifier : TLibraryNotify;
     FItem : TFileItem;
+
     procedure DoProgress;
     procedure DoNotify;
     procedure UpdateCount;
@@ -232,18 +235,13 @@ begin
 end;
 
 procedure TThreadScrub.DoProgress;
-var
-  cnt, del : integer;
 begin
   if Assigned(FProgress) then
   begin
-    cnt := FFileList.Count;
-    del := FFileList.DeletedCount;
-//    dec(cnt, del);
     if (FVal < FCnt - 1) and (Fcnt > 0) then
       FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Deleted:%d - Synced:%d',
-                                     [IntToStr((FVal * 100) div cnt) + '%',
-                                      cnt, FFileList.StampCount, del, FSynced]))
+                                     [IntToStr((FVal * 100) div FCnt) + '%',
+                                      FCnt, FStampCount, FDeleted, FSynced]))
     //FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
       //          IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
@@ -259,6 +257,7 @@ end;
 procedure TThreadScrub.UpdateCount;
 begin
   FCnt := FFileList.Count;
+  FStampCount := FFileList.StampCount;
 end;
 
 procedure TThreadScrub.Execute;
@@ -275,7 +274,7 @@ var
         if Assigned(FNotifier) then
           Synchronize(@DoNotify);
         Fitem.SyncFileDelete;
-        //FFileList.Delete(FVal);
+        inc(FDeleted);
         FLog.Log('TThreadScrub.Execute: Deleted:' + Filename);
       end;
   end;
@@ -288,9 +287,11 @@ begin
     //   (FFileList.DeletedCount > 0) then
     begin
       FLog.Log('TThreadScrub.Execute: Starting scrub.');
-      Synchronize(@UpdateCount);
+      //Synchronize(@UpdateCount);
+      UpdateCount;
       FVal := 0;
       Fsynced := 0;
+      FDeleted := 0;
 
       //FFileList.Cleanup;
 
@@ -301,37 +302,41 @@ begin
 
         // remove invalid entries
         FItem := TFileItem(FFileList.Objects[FVal]);
-        if not FItem.Deleted then
-        begin
-          if not FileExists(FItem.Filename) then
-            _DeleteItem
-            {$ifdef Library}
-          else
-          // sync needed
-          if FFileList.SyncPath.Length > 0 then
+        if Assigned(FItem) then
+          if not FItem.Deleted then
           begin
-            r := TFileItem(FFileList.Objects[FVal]).CheckSync;
-            if r < 0 then
+            if not FileExists(FItem.Filename) then
               _DeleteItem
+              {$ifdef Library}
             else
-            if r = 1 then
-              inc(FSynced);
-          end
-          {$endif};
+            // sync needed
+            if FFileList.SyncPath.Length > 0 then
+            begin
+              r := TFileItem(FFileList.Objects[FVal]).CheckSync;
+              if r < 0 then
+                _DeleteItem
+              else
+              if r = 1 then
+                inc(FSynced);
+            end
+            {$endif};
 
-          if Terminated then
-            Exit;
+            if Terminated then
+              Exit;
 
-          // make stamp if needed
-          with TFileItem(FFileList.Objects[FVal]) do
-          begin
-            b := GenerateStamp;
-            if Assigned(b) then
-              b.Free;
+            // make stamp if needed
+            with TFileItem(FFileList.Objects[FVal]) do
+            begin
+              b := GenerateStamp;
+              if Assigned(b) then
+                b.Free;
+            end;
           end;
-        end;
 
         inc(FVal);
+
+        UpdateCount;
+        //Synchronize(@UpdateCount);
 
         if (FVal mod 50) = 0 then
           Synchronize(@DoProgress);
@@ -341,11 +346,11 @@ begin
         if Terminated then
             Exit;
 
-        FFileList.Save;
-        Synchronize(@UpdateCount);
+        //
       end;
       Synchronize(@DoProgress);
       FLog.Log('TThreadScrub.Execute: Scrub done.');
+      FFileList.Save;
       Sleep(15000);
     end;
    // else
@@ -550,6 +555,7 @@ begin
       //enabled := false;
       onclick := @btnletterclick;
     end;
+  FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
 end;
 
 procedure TcbzLibrary.FormDestroy(Sender: TObject);
@@ -628,7 +634,6 @@ begin
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
-  FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
 end;
 
 procedure TcbzLibrary.dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
@@ -1337,6 +1342,7 @@ begin
   UpdateNbItems;
   UpdateVisibleDates;
   Application.QueueAsyncCall(@DoFillGrid, 0);
+
   FLog.Log('TCbzLibrary.SearchEnded : Refresh ended.');
 end;
 
@@ -1377,36 +1383,40 @@ begin
   if (not FileExists(aFilename)) then
     exit;
 
-  if (FFileList.IndexOf(aFilename) >= 0) then
-  with FFileList do
-    if TFileItem(Objects[IndexOf(aFilename)]).Deleted then
-      Delete(IndexOf(aFilename));
+  try
+    if (FFileList.IndexOf(aFilename) >= 0) then
+    with FFileList do
+      if TFileItem(Objects[IndexOf(aFilename)]).Deleted then
+        Delete(IndexOf(aFilename));
 
-  if (FFileList.IndexOf(aFilename) < 0) then
-  begin
-    fi := TFileItem.Create(FFileList, FLog, aFilename);
-    fi.Text := GetLastPath(aFilename);
-    FFileList.AddObject(aFilename, fi);
-    FLog.Log('TCbzLibrary.FoundFile: Added:' + aFilename);
-
-    if (CurrentPath = FFileList.RootPath) then
+    if (FFileList.IndexOf(aFilename) < 0) then
     begin
-      aRow := (FVisibleList.Count div dgLibrary.ColCount);
-      aCol := FVisibleList.Count - (aRow * dgLibrary.ColCount);
-      SetGridTopPos(aCol, aRow);
+      fi := TFileItem.Create(FFileList, FLog, aFilename);
+      fi.Text := GetLastPath(aFilename);
+      FFileList.AddObject(aFilename, fi);
+      FLog.Log('TCbzLibrary.FoundFile: Added:' + aFilename);
 
-      s := ExcludeTrailingPathDelimiter(ExtractFilePath(aFilename));
-      if Length(s.Split([PathDelim])) > FLvl then
-        s := GetFirstPath(s, FLvl)
-      else
-        s := aFilename;
+      if (CurrentPath = FFileList.RootPath) then
+      begin
+        aRow := (FVisibleList.Count div dgLibrary.ColCount);
+        aCol := FVisibleList.Count - (aRow * dgLibrary.ColCount);
+        SetGridTopPos(aCol, aRow);
 
-      with FVisibleList do
-        if IndexOf(s) < 0 then
-          AddObject(s, fi);
+        s := ExcludeTrailingPathDelimiter(ExtractFilePath(aFilename));
+        if Length(s.Split([PathDelim])) > FLvl then
+          s := GetFirstPath(s, FLvl)
+        else
+          s := aFilename;
+
+        with FVisibleList do
+          if IndexOf(s) < 0 then
+            AddObject(s, fi);
+      end;
     end;
+  except
+    on E: Exception do
+      FLog.Log('TcbzLibrary.FoundFile:Error:'+E.Message);
   end;
-
   result := nil;
 end;
 

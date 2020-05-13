@@ -150,7 +150,7 @@ begin
   FImg := nil;
   //CreateGUID(FGuid);
   FDateAdded := now;
-  Fimg := TBitmap.Create;
+  Fimg := nil;
   FLock := TThreadList.Create;
   FStampGenerated:=False;
 end;
@@ -173,9 +173,10 @@ begin
   inherited Destroy;
 end;
 
-function TFileItem.GetImg: TBitmap;
+function TFileItem.GetImg:TBitmap;
   procedure _Load;
   begin
+    FImg := TBitmap.Create;
     with TPicture.Create do
     try
       LoadFromFile(CacheFilename);
@@ -191,11 +192,13 @@ function TFileItem.GetImg: TBitmap;
 begin
   FLock.LockList;
   try
-    if FStampGenerated then
-      if not FileExists(CacheFilename) then
-        Img := GenerateStamp
-      else
-        _Load;
+    if Assigned(FImg) then
+      Exit(FImg);
+
+    if FileExists(CacheFilename) then
+      _Load
+    else
+      Img := GenerateStamp;
 
     result := FImg;
   finally

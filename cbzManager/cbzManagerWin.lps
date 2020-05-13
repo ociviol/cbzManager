@@ -19,8 +19,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="507"/>
-        <CursorPos X="33" Y="525"/>
+        <TopLine Value="428"/>
+        <CursorPos Y="454"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
           <Item0 X="4" Y="870" ID="3"/>
@@ -202,8 +202,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="562"/>
-        <CursorPos Y="567"/>
+        <TopLine Value="561"/>
+        <CursorPos Y="586"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="1387"/>
@@ -244,11 +244,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
         <EditorIndex Value="10"/>
-        <TopLine Value="178"/>
+        <TopLine Value="181"/>
         <CursorPos Y="196"/>
         <UsageCount Value="213"/>
         <Bookmarks Count="1">
-          <Item0 X="13" Y="196" ID="1"/>
+          <Item0 X="11" Y="201" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit21>
@@ -815,126 +815,126 @@
         <UsageCount Value="11"/>
       </Unit95>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="27">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="main.pas"/>
-        <Caret Line="445" Column="11" TopLine="442"/>
+        <Filename Value="../../Utils/utils.json.pas"/>
+        <Caret Line="18" Column="24"/>
       </Position1>
       <Position2>
-        <Filename Value="main.pas"/>
-        <Caret Line="147" Column="15" TopLine="133"/>
+        <Filename Value="../../Utils/utils.json.pas"/>
+        <Caret Line="19" Column="34"/>
       </Position2>
       <Position3>
-        <Filename Value="main.pas"/>
-        <Caret Line="596" Column="3" TopLine="592"/>
+        <Filename Value="../../../../fpcupdeluxe/fpcsrc/rtl/objpas/classes/lists.inc"/>
+        <Caret Line="982" Column="14" TopLine="966"/>
       </Position3>
       <Position4>
-        <Filename Value="main.pas"/>
-        <Caret Line="110" Column="15" TopLine="95"/>
+        <Filename Value="../../../../fpcupdeluxe/fpcsrc/rtl/objpas/classes/classesh.inc"/>
+        <Caret Line="364" Column="15" TopLine="348"/>
       </Position4>
       <Position5>
-        <Filename Value="main.pas"/>
-        <Caret Line="445" Column="14" TopLine="441"/>
+        <Filename Value="../../../../fpcupdeluxe/fpcsrc/rtl/objpas/classes/classesh.inc"/>
+        <Caret Line="359" Column="17" TopLine="348"/>
       </Position5>
       <Position6>
-        <Filename Value="main.pas"/>
-        <Caret Line="147" Column="15" TopLine="133"/>
+        <Filename Value="../../Utils/utils.json.pas"/>
+        <Caret Line="39" Column="33" TopLine="27"/>
       </Position6>
       <Position7>
         <Filename Value="main.pas"/>
         <Caret Line="596" Column="3" TopLine="591"/>
       </Position7>
       <Position8>
-        <Filename Value="../../Utils/utils.json.pas"/>
-        <Caret Line="16" Column="21"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="108" Column="15" TopLine="93"/>
       </Position8>
       <Position9>
-        <Filename Value="../../../../fpcupdeluxe/fpcsrc/rtl/objpas/classes/classesh.inc"/>
-        <Caret Line="358" Column="19" TopLine="339"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="484" Column="13" TopLine="473"/>
       </Position9>
       <Position10>
-        <Filename Value="../../Utils/utils.json.pas"/>
-        <Caret Line="18" Column="24"/>
+        <Filename Value="frmwait.pas"/>
+        <Caret Line="26" Column="55"/>
       </Position10>
       <Position11>
-        <Filename Value="../../Utils/utils.json.pas"/>
-        <Caret Line="19" Column="34"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="502" Column="5" TopLine="482"/>
       </Position11>
       <Position12>
-        <Filename Value="../../../../fpcupdeluxe/fpcsrc/rtl/objpas/classes/lists.inc"/>
-        <Caret Line="982" Column="14" TopLine="966"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="477" Column="16" TopLine="470"/>
       </Position12>
       <Position13>
-        <Filename Value="../../../../fpcupdeluxe/fpcsrc/rtl/objpas/classes/classesh.inc"/>
-        <Caret Line="364" Column="15" TopLine="348"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="496" TopLine="470"/>
       </Position13>
       <Position14>
-        <Filename Value="../../../../fpcupdeluxe/fpcsrc/rtl/objpas/classes/classesh.inc"/>
-        <Caret Line="359" Column="17" TopLine="348"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="500" TopLine="474"/>
       </Position14>
       <Position15>
-        <Filename Value="../../Utils/utils.json.pas"/>
-        <Caret Line="39" Column="33" TopLine="27"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="503" TopLine="477"/>
       </Position15>
       <Position16>
-        <Filename Value="main.pas"/>
-        <Caret Line="596" Column="3" TopLine="591"/>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="586" TopLine="565"/>
       </Position16>
       <Position17>
         <Filename Value="main.pas"/>
-        <Caret Line="108" Column="15" TopLine="93"/>
+        <Caret Line="507" TopLine="481"/>
       </Position17>
       <Position18>
-        <Filename Value="main.pas"/>
-        <Caret Line="484" Column="13" TopLine="473"/>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="567" TopLine="562"/>
       </Position18>
       <Position19>
-        <Filename Value="frmwait.pas"/>
-        <Caret Line="26" Column="55"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="528" TopLine="512"/>
       </Position19>
       <Position20>
-        <Filename Value="main.pas"/>
-        <Caret Line="502" Column="5" TopLine="482"/>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="196" TopLine="174"/>
       </Position20>
       <Position21>
-        <Filename Value="main.pas"/>
-        <Caret Line="477" Column="16" TopLine="470"/>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="200" TopLine="176"/>
       </Position21>
       <Position22>
-        <Filename Value="main.pas"/>
-        <Caret Line="496" TopLine="470"/>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="199" Column="7" TopLine="176"/>
       </Position22>
       <Position23>
-        <Filename Value="main.pas"/>
-        <Caret Line="500" TopLine="474"/>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="176" Column="9" TopLine="160"/>
       </Position23>
       <Position24>
-        <Filename Value="main.pas"/>
-        <Caret Line="503" TopLine="477"/>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="199" TopLine="181"/>
       </Position24>
       <Position25>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="586" TopLine="565"/>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="196" TopLine="181"/>
       </Position25>
       <Position26>
         <Filename Value="main.pas"/>
-        <Caret Line="507" TopLine="481"/>
+        <Caret Line="496" TopLine="480"/>
       </Position26>
       <Position27>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="567" TopLine="562"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="500" TopLine="480"/>
       </Position27>
       <Position28>
         <Filename Value="main.pas"/>
-        <Caret Line="528" TopLine="512"/>
+        <Caret Line="503" TopLine="480"/>
       </Position28>
       <Position29>
-        <Filename Value="main.pas"/>
-        <Caret Line="445" TopLine="428"/>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="586" TopLine="561"/>
       </Position29>
       <Position30>
         <Filename Value="main.pas"/>
-        <Caret Line="454" TopLine="428"/>
+        <Caret Line="529" TopLine="505"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -943,7 +943,7 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="13">
+    <BreakPoints Count="4">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
@@ -970,71 +970,8 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
-        <Line Value="196"/>
+        <Line Value="201"/>
       </Item4>
-      <Item5>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="586"/>
-      </Item5>
-      <Item6>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="567"/>
-      </Item6>
-      <Item7>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="529"/>
-      </Item7>
-      <Item8>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="507"/>
-      </Item8>
-      <Item9>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="445"/>
-      </Item9>
-      <Item10>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="454"/>
-      </Item10>
-      <Item11>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="496"/>
-      </Item11>
-      <Item12>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="500"/>
-      </Item12>
-      <Item13>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="503"/>
-      </Item13>
     </BreakPoints>
     <Watches Count="1">
       <Item1>

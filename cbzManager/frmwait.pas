@@ -19,15 +19,30 @@ type
   TFormWait = class(TForm)
     Panel1: TPanel;
   private
+    function GetText: String;
+    procedure SetText(AValue: String);
 
   public
-
+    property Text : String read GetText write SetText;
   end;
 
 
 implementation
 
 {$R *.lfm}
+
+{ TFormWait }
+
+function TFormWait.GetText: String;
+begin
+  result := Panel1.Caption;
+end;
+
+procedure TFormWait.SetText(AValue: String);
+begin
+  Panel1.Caption := AValue;
+  PAnel1.Refresh;
+end;
 
 end.
 

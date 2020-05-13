@@ -442,8 +442,6 @@ end;
 
 procedure TMainFrm.FormDestroy(Sender: TObject);
 begin
-  SaveConfig;
-
   FTreeViewPaths.Free;
   FProgress.Free;
   FIgnores.Free;
@@ -464,8 +462,6 @@ begin
 end;
 
 procedure TMainFrm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
-var
-  i : Integer;
 
   procedure SetCursor(aCursor : TCursor);
   var
@@ -476,12 +472,16 @@ var
         TControl(Components[j]).Cursor := aCursor;
   end;
 
+var
+  i : Integer;
+  f : TFormWait;
 begin
   SetCursor(crHourglass);
   Update;
   Refresh;
   FClosing := True;
-  with TFormWait.Create(self) do
+  f := TFormWait.Create(self);
+  with f do
   begin
     Show;
     Update;
@@ -492,15 +492,21 @@ begin
     ThreadSwitch;
   end;
 
+  f.Text := 'Stopping Search files thread ...';
   if Assigned(FThreadSearchFiles) then
     FThreadSearchFiles.Terminate;
 
   FConfig.OpenLibrary:=Assigned(FindForm(TCbzLibrary));
   if Assigned(FindForm(TCbzLibrary)) then
+  begin
+    f.Text := 'Closing Library ...';
     FindForm(TCbzLibrary).Close;
+  end;
 
+   f.Text := 'Stopping Data Pools ...';
   FThreadDataPool.Stop;
 
+  f.Text := 'Stopping Worker threads ...';
   for i := 0 to Length(FWorkerThreads) - 1 do
     with FWorkerThreads[i] do
     begin
@@ -516,8 +522,10 @@ begin
       Application.ProcessMessages;
     end;
 
+  f.Text := 'Closing Application ...';
   FThreadDataPool.Free;
   FJobpool.Free;
+  SaveConfig;
   CloseAction:=caFree;;
 end;
 

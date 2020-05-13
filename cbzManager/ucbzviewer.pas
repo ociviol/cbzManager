@@ -59,9 +59,12 @@ end;
 procedure TFrmCbzViewer.FormClose(Sender: TObject; var CloseAction: TCloseAction
   );
 begin
-  FConfig.SaveForm(Self);
-  CbzViewerFrame.Cbz.Close;
-  CloseAction:=caFree;
+  try
+    FConfig.SaveForm(Self);
+    CbzViewerFrame.Cbz.Close;
+  finally
+    CloseAction:=caFree;
+  end;
 end;
 
 procedure TFrmCbzViewer.FormCreate(Sender: TObject);

@@ -685,7 +685,7 @@ begin
 
         if Assigned(FVisibleList.Objects[p]) then
         begin
-          pic := TFileItem(FVisibleList.Objects[p]).Img;
+          pic := TFileItem(FVisibleList.Objects[p]).Image;
           if assigned(pic) then
           begin
             s := GetLastPath(ExcludeTrailingPathDelimiter(FVisibleList[p]));
@@ -1045,21 +1045,19 @@ end;
 
 procedure TcbzLibrary.ActionDeleteExecute(Sender: TObject);
 begin
-  if FileExists(SelectedStr) then
+  if Assigned(SelectedObj) and not DirectoryExists(SelectedStr) then
   begin
-    if TFileItem(SelectedObj).Deleted then
-      exit;
+    TFileItem(SelectedObj).Deleted:=True;
 
-    TFileItem(SelectedObj).Deleted := True;
-
-    if MessageDlg('Confirmation', 'Delete comic file as well ?', mtInformation, mbYesNo, 0) = mryes then
-      DeleteFile(SelectedStr);
+    if FileExists(SelectedStr) then
+      if MessageDlg('Confirmation', 'Delete comic file as well ?', mtInformation, mbYesNo, 0) = mryes then
+        DeleteFile(SelectedStr);
 
     FillGrid;
   end
   else
   if DirectoryExists(SelectedStr) then
-    if MessageDlg('Confirmation', 'Delete all comic files ?', mtInformation, mbYesNo, 0) = mryes then
+    if MessageDlg('Confirmation', 'Delete folder and all comic files ?', mtInformation, mbYesNo, 0) = mryes then
     begin
       KillFolder(SelectedStr);
       btnRefresh.Click;

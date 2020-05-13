@@ -20,6 +20,8 @@ type
 
   TFileItem = Class
   private
+    procedure SetImg(AValue: TBitmap);
+  private
     FFilename : String;
     FImg : TBitmap;
     FLog : ILog;
@@ -60,6 +62,7 @@ type
     procedure SetReadState(AValue: Boolean);
     procedure SetStampGenerated(AValue: Boolean);
     procedure SetText(const AValue: String);
+    property  Img : TBitmap write SetImg;
   protected
     procedure SaveToXml(aNode : TXmlElement);
     procedure LoadFromXml(aNode : TXmlElement);
@@ -78,7 +81,7 @@ type
 
     property Filename : String read GetFilename write SetFilename;
     property ReadState : Boolean read GetReadState write SetReadState;
-    property Img:TBitmap read GetImg;
+    property Image:TBitmap read GetImg;
     property Text : String Read GetText write SetText;
     property DateAdded : TDAteTime read GetDateAdded write SetDateAdded;
     property DateSetReadState : TDateTime read GetDateSetReadState write SetDateSetReadState;
@@ -147,6 +150,7 @@ begin
   FImg := nil;
   //CreateGUID(FGuid);
   FDateAdded := now;
+  Fimg := TBitmap.Create;
   FLock := TThreadList.Create;
   FStampGenerated:=False;
 end;
@@ -170,26 +174,29 @@ begin
 end;
 
 function TFileItem.GetImg: TBitmap;
+  procedure _Load;
+  begin
+    with TPicture.Create do
+    try
+      LoadFromFile(CacheFilename);
+      FImg.Width:=Graphic.Width;
+      FImg.Height:=Graphic.Height;
+      FImg.PixelFormat:=pf24bit;
+      FImg.Canvas.Draw(0, 0, Graphic);
+    finally
+      Free;
+    end;
+  end;
+
 begin
   FLock.LockList;
   try
-    if not Assigned(FImg) then
-    begin
-      Fimg := TBitmap.Create;
-      if FileExists(CacheFilename) then
-        with TPicture.Create do
-        try
-          LoadFromFile(CacheFilename);
-          FImg.Width:=Graphic.Width;
-          FImg.Height:=Graphic.Height;
-          FImg.PixelFormat:=pf24bit;
-          FImg.Canvas.Draw(0, 0, Graphic);
-        finally
-          Free;
-        end
+    if FStampGenerated then
+      if not FileExists(CacheFilename) then
+        Img := GenerateStamp
       else
-        FImg := GenerateStamp;
-    end;
+        _Load;
+
     result := FImg;
   finally
     FLock.UnlockList;
@@ -464,6 +471,13 @@ begin
   result := extractFilePath(aFilename);
   result := ExcludeLeadingPathDelimiter(result.Replace(Parent.FRootPath, ''));
   FSyncPathFilename := result;
+end;
+
+procedure TFileItem.SetImg(AValue: TBitmap);
+begin
+  if Assigned(FImg) then
+    FreeAndNil(FImg);
+  FImg:=AValue;
 end;
 
 function TFileItem.GetSyncFileDAte: TDateTime;
@@ -753,7 +767,6 @@ begin
     for i := 0 to Count - 1 do
       with TFileItem(Objects[i]) do
         if not FStampGenerated then
-        begin
           if not FileExists(CacheFilename) then
           begin
             inc(result);
@@ -764,7 +777,6 @@ begin
             FStampGenerated := True;
             FModified:=True;
           end;
-        end;
   finally
     UnlockList;
   end;

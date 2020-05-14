@@ -36,3 +36,4 @@ cbzManager/Logs/*
 cbzManager/Library/*
 
 *.res
+precompiled binairies/Windows/UnRAR.exe

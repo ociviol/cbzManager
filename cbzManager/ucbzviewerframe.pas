@@ -485,6 +485,7 @@ begin
   zf.Close;
   Image1.Picture.Clear;
   DrawGrid1.Visible:=FAlse;
+  FFilename:='';
   EnableActions;
 end;
 

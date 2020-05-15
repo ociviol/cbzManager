@@ -651,7 +651,12 @@ begin
       with dgLibrary, Canvas do
       begin
         if gdFocused in aState then
-          Brush.Color := clLime
+        begin
+          Brush.Color := clLime;
+          {$ifdef Darwin}
+          Font.Color := clBlack;
+          {$endif}
+        end
         else
         if not FileExists(TFileItem(FVisibleList.Objects[p]).Filename) then
         begin

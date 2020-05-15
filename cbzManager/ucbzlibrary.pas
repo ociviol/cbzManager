@@ -651,7 +651,7 @@ begin
       with dgLibrary, Canvas do
       begin
         if gdFocused in aState then
-          Brush.Color := clActiveCaption
+          Brush.Color := clLime
         else
         if not FileExists(TFileItem(FVisibleList.Objects[p]).Filename) then
         begin

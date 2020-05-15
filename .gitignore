@@ -37,3 +37,4 @@ cbzManager/Library/*
 
 *.res
 precompiled binairies/Windows/UnRAR.exe
+cbzManager/Bin-Win/cbzManager.exe

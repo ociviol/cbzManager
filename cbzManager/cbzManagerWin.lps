@@ -202,11 +202,11 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="648"/>
-        <CursorPos X="32" Y="654"/>
+        <TopLine Value="645"/>
+        <CursorPos X="32" Y="657"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="1">
-          <Item0 X="3" Y="1387"/>
+          <Item0 X="3" Y="1392"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -854,7 +854,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="1050"/>
+        <Line Value="1055"/>
       </Item3>
       <Item4>
         <Kind Value="bpkSource"/>

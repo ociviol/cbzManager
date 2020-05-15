@@ -1053,6 +1053,9 @@ var
   wi : TWebpImage;
 begin
   result := nil;
+  if FileCount <= Index then
+    exit;
+
   with FStampSync.LockList do
   try
     try
@@ -1095,7 +1098,7 @@ begin
     except
       on e: exception do
       begin
-        FLog.Log(Format('%s %s : %s', [ClassName, 'GetImage Error', e.Message]));
+        FLog.Log(Format('%s %s : %s', [Self.ClassName, 'GetImage Error', e.Message]));
         raise;
       end;
     end;
@@ -1495,7 +1498,7 @@ begin
     end;
   except
     on E: Exception do
-      FLog.Log(Format('%s %s : %s', [ClassName, 'MakeStamp Error', e.Message]));
+      FLog.Log(Format('%s %s : %s', [Self.ClassName, 'MakeStamp Error', e.Message]));
   end;
 end;
 

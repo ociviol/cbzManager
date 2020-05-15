@@ -534,26 +534,29 @@ var
 begin
   Screen.Cursor := crHourGlass;
   try
-    if (zf.Mode <> zmClosed) and (Index < zf.ImageCount) then
-    begin
-      HideCropTool;
-      Image1.Visible := True;
-      b := zf.Image[Index];
-      try
-        if Assigned(b) then
-        begin
-          pnlimgName.Caption := format('%s (%dx%d)',
-            [zf.FileNames[Index], b.Width, b.Height]);
+    try
+      if (zf.Mode <> zmClosed) and (Index < zf.ImageCount) and (Index >= 0) then
+      begin
+        HideCropTool;
+        Image1.Visible := True;
+        b := zf.Image[Index];
+        try
           if Assigned(b) then
-            Image1.Picture.Bitmap.Assign(b);
-          Image1.Update;
+          begin
+            pnlimgName.Caption := format('%s (%dx%d)',
+              [zf.FileNames[Index], b.Width, b.Height]);
+            if Assigned(b) then
+              Image1.Picture.Bitmap.Assign(b);
+            Image1.Update;
+          end;
+        finally
+          b.free;
         end;
-      finally
-        b.free;
-      end;
-    end
-    else
-      Image1.Picture.Clear;
+      end
+      else
+        Image1.Picture.Clear;
+    except
+    end;
   finally
     Screen.Cursor := crDefault;
   end;

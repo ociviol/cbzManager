@@ -353,6 +353,8 @@ begin
         try
           try
             Open(Self.FFilename, zmRead);
+            if FileCount <= 0 then
+              Exit;
             result := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
             if Assigned(result) then
             begin

@@ -666,8 +666,8 @@ begin
   begin
     msg := 'WARNING:' +#13 + #13 + msg;
     ShowMessage(msg);
-    Application.Terminate;
-    Halt;
+    //Application.Terminate;
+    //Halt;
   end;
   Result := True;
 end;

@@ -575,9 +575,17 @@ begin
           begin
             result := newf;
             Flog.Log('TCbzWorkerThread Rename ' + fname + ' -> ' + newf);
-            CopyFile(fname, newf);
-            if FileExists(newf) then
-              DeleteFile(fname);
+            try
+              CopyFile(fname, newf);
+              if FileExists(newf) then
+                DeleteFile(fname);
+            except
+              // restore original file
+              RenameFile(s, aFilename);
+              FCanceled := True;
+              FTimeOut:=True;
+              raise;
+            end;
           end;
         end
         else

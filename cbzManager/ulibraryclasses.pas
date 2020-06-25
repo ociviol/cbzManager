@@ -997,6 +997,7 @@ begin
     finally
       Free;
     end;
+    Sort;
   finally
     UnlockList;
   end;

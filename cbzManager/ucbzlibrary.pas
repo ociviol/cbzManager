@@ -450,6 +450,7 @@ begin
         end;
       end;
 
+    FFillSettings.FVisibleList.Sort;
     Terminate;
     Synchronize(@DoProgress);
   except
@@ -544,7 +545,7 @@ begin
   //FBtnList := TList.Create;
   FVisibleList := TThreadStringList.Create;
   FVisibleList.OnChanging := @VisibleListChanged;
-  FVisibleList.Sorted:=True;
+  //FVisibleList.Sorted:=True;
 
   for c := 'Z' downto 'A' do
     with TSpeedButton.Create(self) do

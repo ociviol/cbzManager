@@ -1343,7 +1343,6 @@ begin
   FThreadSearchFiles := nil;
   StatusBar1.Panels[2].Text := 'Ready.';
 
-  FFileList.Sort;
   FFileList.SaveToFile(GetCacheFileName);
   btnRefresh.Enabled:=True;
   UpdateNbItems;

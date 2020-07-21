@@ -351,7 +351,12 @@ begin
       Synchronize(@DoProgress);
       FLog.Log('TThreadScrub.Execute: Scrub done.');
       FFileList.Save;
-      Sleep(15000);
+      for r := 0 to 14 do
+      begin
+        Sleep(1000);
+        if Terminated then
+          Exit;
+      end;
     end;
    // else
    //   Sleep(2000);

@@ -503,7 +503,7 @@ begin
     FindForm(TCbzLibrary).Close;
   end;
 
-   f.Text := 'Stopping Data Pools ...';
+  f.Text := 'Stopping Data Pools ...';
   FThreadDataPool.Stop;
 
   f.Text := 'Stopping Worker threads ...';

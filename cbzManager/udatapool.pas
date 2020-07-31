@@ -72,7 +72,8 @@ begin
   Stop;
   for i := 0 to FThreads.Count - 1 do
   begin
-    TThread(FThreads[i]).WaitFor;
+    if not TThread(FThreads[i]).Finished then
+      TThread(FThreads[i]).WaitFor;
     TThread(FThreads[i]).Free;
   end;
 

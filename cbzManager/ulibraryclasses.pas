@@ -9,13 +9,26 @@ uses
 {$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}
-  utils.Logger, uxmldoc, Utils.Strings;
+  utils.Logger, uxmldoc, Utils.Strings, utils.Json;
 
 type
   TDisplayFilter = (dfUnread, dfAll);
   TDisplayFilters = set of TDisplayFilter;
 
   TItemList = Class;
+
+  { TSyncObject }
+
+  TSyncObject = class(TJsonObject)
+    private
+      FDateSetReadState: string;
+      FReadState: boolean;
+    published
+      constructor Create(const aDateSetReadState: string=''; bReadState: boolean=false);
+      property DateSetReadState : string read FDateSetReadState write FDateSetReadState;
+      property ReadState : boolean read FReadState write FReadState;
+  end;
+
   { TFileItem }
 
   TFileItem = Class
@@ -37,6 +50,7 @@ type
     FDeleted : Boolean;
     FParent : TItemList;
     FSyncFilename,
+    FSyncJsonFilename,
     FCacheFilename,
     FSyncPathFilename : String;
 
@@ -45,6 +59,7 @@ type
     procedure SetFSyncFileDAte(AValue: TDateTime);
     function SyncPathName(const aFilename : string):String;
     function SyncFilename : String;
+    function SyncJsonFilename : String;
     function GetCacheFilename: String;
     function GetDateAdded: TDAteTime;
     function GetDateSetReadState: TDateTime;
@@ -78,10 +93,10 @@ type
     function GenerateStamp:TBitmap;
     function CheckSync(bForce : Boolean = False):integer;
     procedure SyncFileDelete;
-
+    property Image:TBitmap read GetImg;
+ published
     property Filename : String read GetFilename write SetFilename;
     property ReadState : Boolean read GetReadState write SetReadState;
-    property Image:TBitmap read GetImg;
     property Text : String Read GetText write SetText;
     property DateAdded : TDAteTime read GetDateAdded write SetDateAdded;
     property DateSetReadState : TDateTime read GetDateSetReadState write SetDateSetReadState;
@@ -134,13 +149,26 @@ type
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile, strutils, LazUTF8
+  Forms, uCbz, Utils.Zipfile, strutils, LazUTF8, DateUtils
   //, utils.epub
   ;
 
 const
   CS_StampWidth = 120;
   CS_StampHeight = 160;
+
+{ TSyncObject }
+
+constructor TSyncObject.Create(const aDateSetReadState : string = ''; bReadState : boolean = false);
+begin
+  inherited Create;
+  FReadState:=bReadState;
+  if aDateSetReadState <> '' then
+    FDateSetReadState := aDateSetReadState
+  else
+    FDateSetReadState:=FormatDateTime('yyyy-mm-dd', 0) + 'T' +
+                       FormatDateTime('hh":"nn":"ss.zzz', 0);
+end;
 
 { TFileItem }
 
@@ -397,38 +425,113 @@ begin
   end;
 end;
 
+function _IsDateTime(aText : String): Boolean; {$ifdef O_INLINE} inline; {$endif}
+begin
+  result := False;
+  // is xmldatetime
+  if (length(aText) = 23) or (length(aText) = 19) then
+    result := (aText[5] = '-') and (aText[11] = 'T');
+end;
+
+function _IsDate(aText : String): Boolean; {$ifdef O_INLINE} inline; {$endif}
+begin
+  // 2015-12-31
+  result := False;
+  if length(aText) = 10 then
+  begin
+    result := (aText[5] = '-') and (aText[8] = '-');
+    if result then
+      try
+        strtoint(copy(aText, 1, 4));
+        strtoint(copy(aText, 6, 2));
+        strtoint(copy(aText, 9, 2));
+      except
+        result := False;
+      end;
+  end;
+end;
+
+function _IsoDateToDateTime(isoDate : String):TDateTime;
+var
+  sy, sm, sd, sh, smm, ss, sms : string;
+  y, m, d, h, mm, s, ms : word;
+begin
+  // i.e : 2015-01-01
+  sy := '';
+  sm := '';
+  sd := '';
+  sh := '';
+  smm := '';
+  ss := '';
+  sms := '';
+
+  if (length(isoDate) >= 10) and
+     (_IsDate(isoDate) or _IsDateTime(isoDate)) then
+  begin
+    sy  := copy(isoDate, 1, 4);
+    sm  := copy(isoDate, 6, 2);
+    sd  := copy(isoDate, 9, 2);
+  end;
+  // has time part
+  // i.e : 2015-01-01T00:00:00
+  if (length(isoDate) >= 19) and _IsDateTime(isoDate) then
+  begin
+    sh  := copy(isoDate, 12, 2);
+    smm := copy(isoDate, 15, 2);
+    ss  := copy(isoDate, 18, 2);
+  end;
+  // has milliseconds part
+  // i.e : 2015-01-01T00:00:00.000
+  // i.e : 2015-01-01T00:00:00.5
+  if (length(isoDate) > 19) and _IsDateTime(isoDate) then
+    sms := copy(isoDate, 21, 3);
+
+  y  := StrToIntDef(sy, 0);
+  m  := StrToIntDef(sm, 0);
+  d  := StrToIntDef(sd, 0);
+  h  := StrToIntDef(sh, 0);
+  mm := StrToIntDef(smm, 0);
+  s  := StrToIntDef(ss, 0);
+  ms := StrToIntDef(sms, 0);
+
+  Result := EncodeDateTime(y, m, d, h, mm, s, ms);
+end;
+
 function TFileItem.CheckSync(bForce : Boolean = False):integer;
+var
+  o : TSyncObject;
 begin
   result := 0;
   FLock.LockList;
   try
     // update
-    if FileExists(SyncFilename) and not bForce then
+    if FileExists(SyncJsonFilename) and (not bForce) then
     try
-      if (FileDateTodateTime(FileAge(SyncFilename)) > FSyncFileDAte) then
-        with TXmlDoc.Create do
+      if (FileDateTodateTime(FileAge(SyncJsonFilename)) > FSyncFileDAte) then
+      begin
+        o := TSyncObject(TJsonObject.Load(SyncJsonFilename, TSyncObject.Create));
         try
-          LoadFromFile(SyncFilename);
-          with DocumentElement do
-            if FDateSetReadState < GetAttributeDate('DateSetReadState', 0) then
-            begin
-              FDateSetReadState := GetAttributeDate('DateSetReadState', 0);
-              FReadState := GetAttributeBool('ReadState');
-              FModified := True;
-              result := 1;
-            end
-            else
-            if FDateSetReadState > GetAttributeDate('DateSetReadState', 0) then
-            begin
-              SetAttributeDate('DateSetReadState', FDateSetReadState);
-              SetAttributeBool('ReadState', FReadState);
-              SaveToFile(SyncFilename);
-              result := 2;
-            end;
-          FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
+          if FDateSetReadState < _IsoDateToDateTime(o.DateSetReadState) then
+          begin
+            FDateSetReadState := _IsoDateToDateTime(o.DateSetReadState);
+            FReadState := o.ReadState;
+            FModified := True;
+            result := 1;
+          end
+          else
+          if FDateSetReadState > _IsoDateToDateTime(o.DateSetReadState) then
+          begin
+            o.DateSetReadState := FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
+                                  FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState);
+            o.ReadState := FReadState;
+            o.Save(SyncJsonFilename);
+            result := 2;
+          end;
+          FSyncFileDAte := FileDateTodateTime(FileAge(SyncJsonFilename));
         finally
-          free;
+          o.free;
         end;
+      end;
     except
       on E: Exception do
         FLog.Log('TFileItem.CheckSync:'+E.Message);
@@ -436,19 +539,15 @@ begin
     else
     // create file
     try
-      with TXmlDoc.Create do
+      o := TSyncObject.Create(FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
+                              FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState),
+                              FReadState);
       try
-        with CreateNewDocumentElement('Comic') do
-        begin
-          SetAttributeDate('DateSetReadState', FDateSetReadState);
-          SetAttributeBool('ReadState', FReadState);
-          result := 2;
-        end;
-        SaveToFile(SyncFilename);
+        o.Save(SyncJsonFilename);
       finally
-        Free;
+        o.free;
       end;
-      FSyncFileDAte := FileDateTodateTime(FileAge(SyncFilename));
+      FSyncFileDAte := FileDateTodateTime(FileAge(SyncJsonFilename));
     except
       on e: Exception do
         FLog.Log('TFileItem.CheckSync:Error:' + E.Message);
@@ -592,6 +691,26 @@ begin
     inc(p,CPLen);
   until (CPLen=0) or (p^ = #0);
   *)
+end;
+
+
+function TFileItem.SyncJsonFilename: String;
+var
+  s : string;
+begin
+  FLock.LockList;
+  try
+    if FSyncJsonFilename <> '' then
+      Exit(FSyncJsonFilename);
+
+    s := makefilename(ExtractFilename(FFilename));
+    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
+    ForceDirectories(result);
+    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.json');
+    FSyncJsonFilename := result;
+  finally
+    Flock.UnlockList;
+  end;
 end;
 
 function TFileItem.SyncFilename: String;

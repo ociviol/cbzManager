@@ -465,36 +465,40 @@ begin
   ss := '';
   sms := '';
 
-  if (length(isoDate) >= 10) and
-     (_IsDate(isoDate) or _IsDateTime(isoDate)) then
-  begin
-    sy  := copy(isoDate, 1, 4);
-    sm  := copy(isoDate, 6, 2);
-    sd  := copy(isoDate, 9, 2);
-  end;
-  // has time part
-  // i.e : 2015-01-01T00:00:00
-  if (length(isoDate) >= 19) and _IsDateTime(isoDate) then
-  begin
-    sh  := copy(isoDate, 12, 2);
-    smm := copy(isoDate, 15, 2);
-    ss  := copy(isoDate, 18, 2);
-  end;
-  // has milliseconds part
-  // i.e : 2015-01-01T00:00:00.000
-  // i.e : 2015-01-01T00:00:00.5
-  if (length(isoDate) > 19) and _IsDateTime(isoDate) then
-    sms := copy(isoDate, 21, 3);
+  try
+    if (length(isoDate) >= 10) and
+       (_IsDate(isoDate) or _IsDateTime(isoDate)) then
+    begin
+      sy  := copy(isoDate, 1, 4);
+      sm  := copy(isoDate, 6, 2);
+      sd  := copy(isoDate, 9, 2);
+    end;
+    // has time part
+    // i.e : 2015-01-01T00:00:00
+    if (length(isoDate) >= 19) and _IsDateTime(isoDate) then
+    begin
+      sh  := copy(isoDate, 12, 2);
+      smm := copy(isoDate, 15, 2);
+      ss  := copy(isoDate, 18, 2);
+    end;
+    // has milliseconds part
+    // i.e : 2015-01-01T00:00:00.000
+    // i.e : 2015-01-01T00:00:00.5
+    if (length(isoDate) > 19) and _IsDateTime(isoDate) then
+      sms := copy(isoDate, 21, 3);
 
-  y  := StrToIntDef(sy, 0);
-  m  := StrToIntDef(sm, 0);
-  d  := StrToIntDef(sd, 0);
-  h  := StrToIntDef(sh, 0);
-  mm := StrToIntDef(smm, 0);
-  s  := StrToIntDef(ss, 0);
-  ms := StrToIntDef(sms, 0);
+    y  := StrToIntDef(sy, 0);
+    m  := StrToIntDef(sm, 0);
+    d  := StrToIntDef(sd, 0);
+    h  := StrToIntDef(sh, 0);
+    mm := StrToIntDef(smm, 0);
+    s  := StrToIntDef(ss, 0);
+    ms := StrToIntDef(sms, 0);
 
-  Result := EncodeDateTime(y, m, d, h, mm, s, ms);
+    Result := EncodeDateTime(y, m, d, h, mm, s, ms);
+  except
+    result := 0;
+  end;
 end;
 
 function TFileItem.CheckSync(bForce : Boolean = False):integer;

@@ -186,7 +186,7 @@
         <Filename Value="../../Utils/utils.json.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="7"/>
+        <TopLine Value="61"/>
         <CursorPos X="33" Y="39"/>
         <UsageCount Value="230"/>
         <Loaded Value="True"/>
@@ -242,12 +242,12 @@
         <UnitName Value="uLibraryClasses"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="505"/>
-        <CursorPos Y="513"/>
-        <FoldState Value=" T1lX2C T0oJ45365 TMvX41023 TKwP2M@"/>
+        <TopLine Value="507"/>
+        <CursorPos Y="534"/>
+        <FoldState Value=" T1lX2C T0oJ45365 TMvb41023 TKwT2Mt"/>
         <UsageCount Value="213"/>
         <Bookmarks Count="2">
-          <Item0 X="9" Y="554" ID="1"/>
+          <Item0 X="9" Y="558" ID="1"/>
           <Item1 X="14" Y="22" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -815,123 +815,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="538" TopLine="523"/>
+        <Caret Line="496" TopLine="472"/>
       </Position1>
       <Position2>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="540" TopLine="523"/>
+        <Caret Line="498" TopLine="472"/>
       </Position2>
       <Position3>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="538" TopLine="523"/>
+        <Caret Line="500" TopLine="474"/>
       </Position3>
       <Position4>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="165" TopLine="148"/>
+        <Caret Line="468" TopLine="451"/>
       </Position4>
       <Position5>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="166" TopLine="148"/>
+        <Caret Line="458" TopLine="451"/>
       </Position5>
       <Position6>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="167" TopLine="148"/>
+        <Caret Line="520" TopLine="504"/>
       </Position6>
       <Position7>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="163" TopLine="148"/>
+        <Caret Line="469" TopLine="453"/>
       </Position7>
       <Position8>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="165" TopLine="148"/>
+        <Caret Line="478" TopLine="453"/>
       </Position8>
       <Position9>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="538" TopLine="523"/>
+        <Caret Line="487" TopLine="472"/>
       </Position9>
       <Position10>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="541" TopLine="523"/>
+        <Caret Line="490" TopLine="472"/>
       </Position10>
       <Position11>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="542" TopLine="523"/>
+        <Caret Line="500" TopLine="474"/>
       </Position11>
       <Position12>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="510" TopLine="504"/>
+        <Caret Line="520" TopLine="503"/>
       </Position12>
       <Position13>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="509" TopLine="503"/>
+        <Caret Line="521" TopLine="503"/>
       </Position13>
       <Position14>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="506" TopLine="499"/>
+        <Caret Line="522" TopLine="503"/>
       </Position14>
       <Position15>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="510" TopLine="497"/>
+        <Caret Line="523" TopLine="503"/>
       </Position15>
       <Position16>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="512" TopLine="497"/>
+        <Caret Line="500" Column="16" TopLine="491"/>
       </Position16>
       <Position17>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="513" TopLine="497"/>
+        <Caret Line="469" TopLine="452"/>
       </Position17>
       <Position18>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="514" TopLine="497"/>
+        <Caret Line="500" TopLine="485"/>
       </Position18>
       <Position19>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="522" TopLine="497"/>
+        <Caret Line="518" TopLine="501"/>
       </Position19>
       <Position20>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="513" TopLine="497"/>
+        <Caret Line="526" TopLine="501"/>
       </Position20>
       <Position21>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="509" TopLine="497"/>
+        <Caret Line="500" TopLine="485"/>
       </Position21>
       <Position22>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="530" TopLine="505"/>
+        <Caret Line="526" TopLine="510"/>
       </Position22>
       <Position23>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="512" TopLine="505"/>
+        <Caret Line="528" TopLine="510"/>
       </Position23>
       <Position24>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="513" TopLine="505"/>
+        <Caret Line="529" TopLine="510"/>
       </Position24>
       <Position25>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="514" TopLine="505"/>
+        <Caret Line="528" TopLine="510"/>
       </Position25>
       <Position26>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="516" TopLine="505"/>
+        <Caret Line="530" TopLine="510"/>
       </Position26>
       <Position27>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="517" TopLine="505"/>
+        <Caret Line="531" TopLine="510"/>
       </Position27>
       <Position28>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="518" TopLine="505"/>
+        <Caret Line="532" TopLine="510"/>
       </Position28>
       <Position29>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="519" TopLine="505"/>
+        <Caret Line="534" TopLine="510"/>
       </Position29>
       <Position30>
         <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="530" TopLine="505"/>
+        <Caret Line="517" TopLine="510"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -940,7 +940,7 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="20">
+    <BreakPoints Count="17">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
@@ -1060,27 +1060,6 @@
         <Source Value="uworkerthread.pas"/>
         <Line Value="621"/>
       </Item17>
-      <Item18>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="516"/>
-      </Item18>
-      <Item19>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="512"/>
-      </Item19>
-      <Item20>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="530"/>
-      </Item20>
     </BreakPoints>
     <Watches Count="4">
       <Item1>

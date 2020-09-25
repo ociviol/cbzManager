@@ -179,9 +179,10 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="919"/>
-        <CursorPos X="12" Y="939"/>
+        <TopLine Value="56"/>
+        <CursorPos X="32" Y="64"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit17>
@@ -226,7 +227,6 @@
       <Unit22>
         <Filename Value="../../Utils/utils.logger.pas"/>
         <UnitName Value="Utils.Logger"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="10"/>
         <TopLine Value="30"/>
         <CursorPos X="5" Y="49"/>

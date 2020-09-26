@@ -38,3 +38,6 @@ cbzManager/Library/*
 *.res
 precompiled binairies/Windows/UnRAR.exe
 cbzManager/Bin-Win/cbzManager.exe
+cbzManager/cbzManagerOsx
+cbzManager/lib/x86_64-darwin/cbzManagerOsx.compiled
+precompiled binairies/Mac OsX/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx

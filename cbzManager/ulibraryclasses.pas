@@ -25,10 +25,10 @@ type
       FDateSetReadState: string;
       FReadState: boolean;
     published
-      constructor Create(const aDateSetReadState: string=''; bReadState: boolean=false);
       constructor Create(const aDateSetReadState: string=''; bReadState: boolean=false; iCurPage : integer = 0);
       property DateSetReadState : string read FDateSetReadState write FDateSetReadState;
       property ReadState : boolean read FReadState write FReadState;
+      property CurPage : integer read FCurPage write FCurPage;
   end;
 
   { TFileItem }

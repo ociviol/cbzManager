@@ -21,10 +21,12 @@ type
 
   TSyncObject = class(TJsonObject)
     private
+      FCurPage: integer;
       FDateSetReadState: string;
       FReadState: boolean;
     published
       constructor Create(const aDateSetReadState: string=''; bReadState: boolean=false);
+      constructor Create(const aDateSetReadState: string=''; bReadState: boolean=false; iCurPage : integer = 0);
       property DateSetReadState : string read FDateSetReadState write FDateSetReadState;
       property ReadState : boolean read FReadState write FReadState;
   end;
@@ -39,7 +41,8 @@ type
     FImg : TBitmap;
     FLog : ILog;
     FText: String;
-    FReadState : Boolean;
+    FReadState: Boolean;
+    FCurPage : integer;
     //FGuid : TGUID;
     FModified : Boolean;
     FLock : TThreadList;
@@ -159,10 +162,12 @@ const
 
 { TSyncObject }
 
-constructor TSyncObject.Create(const aDateSetReadState : string = ''; bReadState : boolean = false);
+constructor TSyncObject.Create(const aDateSetReadState: string;
+  bReadState: boolean; iCurPage: integer);
 begin
   inherited Create;
   FReadState:=bReadState;
+  FCurPage := iCurPage;
   if aDateSetReadState <> '' then
     FDateSetReadState := aDateSetReadState
   else
@@ -520,6 +525,7 @@ begin
           begin
             FDateSetReadState := _IsoDateToDateTime(o.DateSetReadState);
             FReadState := o.ReadState;
+            FCurPage := o.CurPage;
             FModified := True;
             result := 1;
           end
@@ -532,6 +538,15 @@ begin
             o.Save(SyncJsonFilename);
             result := 2;
           end;
+          if o.CurPage <> FCurPage then
+            if o.CurPage > FCurPage then
+              FCurPage := o.CurPage
+            else
+            begin
+              o.CurPage := FCurPage;
+              o.Save(SyncJsonFilename);
+            end;
+
           FSyncFileDAte := FileDateTodateTime(FileAge(SyncJsonFilename));
         finally
           o.free;
@@ -546,7 +561,7 @@ begin
     try
       o := TSyncObject.Create(FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
                               FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState),
-                              FReadState);
+                              FReadState, FCurPage);
       try
         o.Save(SyncJsonFilename);
       finally

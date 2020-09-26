@@ -248,6 +248,7 @@ function TFileItem.GetReadState: Boolean;
 begin
   FLock.LockList;
   try
+    CheckSync;
     result := FReadState;
   finally
     FLock.UnlockList;

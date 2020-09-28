@@ -1396,12 +1396,14 @@ begin
     exit;
 
   try
+    s := ExtractFileName(aFileName);
+
     if (FFileList.IndexOf(aFilename) >= 0) then
     with FFileList do
-      if TFileItem(Objects[IndexOf(aFilename)]).Deleted then
+      if TFileItem(Objects[IndexOf(aFilename)]).Deleted or s.StartsWith('._') then
         Delete(IndexOf(aFilename));
 
-    if (FFileList.IndexOf(aFilename) < 0) then
+    if (FFileList.IndexOf(aFilename) < 0) and not s.StartsWith('._') then
     begin
       fi := TFileItem.Create(FFileList, FLog, aFilename);
       fi.Text := GetLastPath(aFilename);

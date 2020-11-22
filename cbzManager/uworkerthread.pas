@@ -409,7 +409,7 @@ begin
     FCur := 0;
     FMax := 1;
     FMsg := '(Converting : ' + ExtractFilename(aFilename);
-    Synchronize(@DoProgress);
+    Queue(@DoProgress);
   end;
 
   try
@@ -505,7 +505,7 @@ begin
                 FCur := i;
                 FMsg := 'Writing ' + ExtractFilename(newf) + ' : Adding :' + s +
                         ' (' + GetETA(FStartDate, i, FFilesToProcess) + ')';
-                Synchronize(@DoProgress);
+                Queue(@DoProgress);
               end;
             end;
           finally

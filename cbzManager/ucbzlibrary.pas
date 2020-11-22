@@ -339,7 +339,7 @@ begin
         //Synchronize(@UpdateCount);
 
         if (FVal mod 50) = 0 then
-          Synchronize(@DoProgress);
+          Queue(@DoProgress);
           //yield;
 
         Sleep(50);
@@ -449,7 +449,7 @@ begin
 
           if (i mod 250) = 0 then
           begin
-            Synchronize(@DoProgress);
+            Queue(@DoProgress);
             Sleep(10);
           end;
         end;

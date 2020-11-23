@@ -1918,7 +1918,7 @@ begin
                 if Assigned(FNotify) then
                 begin
                   FCur := i;
-                  Queue(@DoProgress);
+                  Synchronize(@DoProgress);
                   //Sleep(50);
                   Yield;
                 end;
@@ -1939,7 +1939,7 @@ begin
                   if Assigned(FNotify) then
                   begin
                     FCur := j;
-                    Queue(@DoProgress);
+                    Synchronize(@DoProgress);
                     //Sleep(50);
                     Yield;
                   end;

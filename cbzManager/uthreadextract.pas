@@ -228,7 +228,7 @@ begin
   FMax := 1;
   FCur := 0;
   FMsg := 'Processing file : ' + ExtractFileName(FFilename);
-  Queue(@DoProgress);
+  Synchronize(@DoProgress);
   try
     // extract
     FLog.Log('Running : ' + FCmd);
@@ -296,7 +296,7 @@ begin
               FPoolData.AddItem(nil, FNbFiles, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
               FCur := i;
               FMsg := '(' + ExtractFileName(FFilename) + ') Loading images ...';
-              Queue(@DoProgress);
+              Synchronize(@DoProgress);
               inc(FNbFiles);
               Sleep(20);
             end;

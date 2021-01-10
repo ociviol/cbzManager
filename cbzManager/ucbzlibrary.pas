@@ -93,6 +93,7 @@ type
     cbHideRead: TCheckBox;
     cbVisibleDates: TComboBox;
     cbSearch: TComboBox;
+    cbReadingList: TComboBox;
     dgLibrary: TDrawGrid;
     MenuItem1: TMenuItem;
     mnuCreateFolder: TMenuItem;
@@ -150,6 +151,7 @@ type
     FCurrentPath : String;
     FLvl : Integer;
     Fconfig : TConfig;
+    FReadingList : TStringlist;
     FPathPos : array of TPoint;
     FFillThread : TThreadFill;
     FDisplayFilters : TDisplayFilters;
@@ -189,6 +191,7 @@ type
     property CurrentPath : String read FCurrentPath write SetCurrentPath;
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig); reintroduce;
+    destructor Destroy; override;
     //property RootPath : String read FRootPath write FRootPath;
     function ImportFile(const aFilename : String; const RelativePath : String = '';
                         aCbz : TCbz = nil):Boolean;
@@ -476,7 +479,15 @@ begin
   FFillThread := nil;
   FThreadScrub:=nil;
   FFileToCopy := nil;
+  FReadingList := TStringList.Create;
+
   inherited Create(aOwner);
+end;
+
+destructor TcbzLibrary.Destroy;
+begin
+  FReadingList.Free;
+  inherited Destroy;
 end;
 
 function TcbzLibrary.ImportFile(const aFilename: String; const RelativePath : String = '';
@@ -551,6 +562,15 @@ begin
   FVisibleList := TThreadStringList.Create;
   FVisibleList.OnChanging := @VisibleListChanged;
   //FVisibleList.Sorted:=True;
+
+  s := IncludeTrailingPathDelimiter(FConfig.SyncPath) + 'cbzReadingList.json';
+  if FileExists(s) then
+  begin
+    FReadingList.LoadFromFile(s);
+    cbReadingList.Clear;
+    for s in FReadingList do
+        cbReadingList.items.add(ExtractFileName(s))
+  end;
 
   for c := 'Z' downto 'A' do
     with TSpeedButton.Create(self) do

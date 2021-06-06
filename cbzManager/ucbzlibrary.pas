@@ -191,6 +191,7 @@ type
     property CurrentPath : String read FCurrentPath write SetCurrentPath;
   public
     constructor Create(aOwner : TComponent; aConfig : TConfig); reintroduce;
+    destructor Destroy; override;
     //property RootPath : String read FRootPath write FRootPath;
     function ImportFile(const aFilename : String; const RelativePath : String = '';
                         aCbz : TCbz = nil):Boolean;
@@ -481,6 +482,12 @@ begin
   FReadingList := TStringList.Create;
 
   inherited Create(aOwner);
+end;
+
+destructor TcbzLibrary.Destroy;
+begin
+  FReadingList.Free;
+  inherited Destroy;
 end;
 
 function TcbzLibrary.ImportFile(const aFilename: String; const RelativePath : String = '';

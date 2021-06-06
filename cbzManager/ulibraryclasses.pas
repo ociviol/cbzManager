@@ -157,8 +157,8 @@ uses
   ;
 
 const
-  CS_StampWidth = 120;
-  CS_StampHeight = 160;
+  CS_StampWidth = 240; //120;
+  CS_StampHeight = 320; //160;
 
 { TSyncObject }
 

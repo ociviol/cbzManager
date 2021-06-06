@@ -1,11 +1,12 @@
 object CbzLibrary: TCbzLibrary
   Left = 435
-  Height = 746
+  Height = 1492
   Top = 192
-  Width = 1156
+  Width = 2312
   Caption = 'Library'
-  ClientHeight = 746
-  ClientWidth = 1156
+  ClientHeight = 1492
+  ClientWidth = 2312
+  DesignTimePPI = 192
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -14,23 +15,23 @@ object CbzLibrary: TCbzLibrary
   Position = poDefault
   LCLVersion = '2.0.6.0'
   object dgLibrary: TDrawGrid
-    Left = 50
-    Height = 667
-    Top = 46
-    Width = 1096
+    Left = 100
+    Height = 1336
+    Top = 92
+    Width = 2192
     Align = alClient
-    BorderSpacing.Around = 10
+    BorderSpacing.Around = 20
     ColCount = 9
-    DefaultColWidth = 140
+    DefaultColWidth = 280
     DefaultDrawing = False
-    DefaultRowHeight = 200
+    DefaultRowHeight = 400
     ExtendedSelect = False
     FixedCols = 0
     FixedRows = 0
     Flat = True
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
-    Font.Height = -12
+    Font.Height = -24
     Font.Name = 'Comic Sans MS'
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
@@ -39,7 +40,7 @@ object CbzLibrary: TCbzLibrary
     TabOrder = 0
     TitleFont.CharSet = ANSI_CHARSET
     TitleFont.Color = clBlack
-    TitleFont.Height = -12
+    TitleFont.Height = -24
     TitleFont.Name = 'Comic Sans MS'
     TitleFont.Pitch = fpVariable
     TitleFont.Quality = fqDraft
@@ -52,48 +53,51 @@ object CbzLibrary: TCbzLibrary
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 23
-    Top = 723
-    Width = 1156
+    Height = 44
+    Top = 1448
+    Width = 2312
     Panels = <    
       item
-        Width = 150
+        Width = 300
       end    
       item
         Alignment = taCenter
-        Width = 400
+        Width = 800
       end    
       item
-        Width = 600
+        Width = 1200
       end>
+    ParentFont = False
     SimplePanel = False
   end
   object pnlPath: TPanel
-    Left = 10
-    Height = 26
-    Top = 10
-    Width = 1136
+    Left = 20
+    Height = 52
+    Top = 20
+    Width = 2272
     Align = alTop
-    BorderSpacing.Around = 10
+    BorderSpacing.Around = 20
     BevelInner = bvLowered
-    ClientHeight = 26
-    ClientWidth = 1136
+    ClientHeight = 52
+    ClientWidth = 2272
+    ParentFont = False
     TabOrder = 2
     object btnRefresh: TButton
-      Left = 1059
-      Height = 22
+      Left = 2120
+      Height = 48
       Top = 2
-      Width = 75
+      Width = 150
       Align = alRight
       Caption = 'Refresh'
       OnClick = btnRefreshClick
+      ParentFont = False
       TabOrder = 0
     end
     object btnReturn: TSpeedButton
       Left = 2
-      Height = 22
+      Height = 48
       Top = 2
-      Width = 23
+      Width = 46
       Align = alLeft
       Glyph.Data = {
         76010000424D7801000000000000760000002800000020000000100000000100
@@ -111,63 +115,68 @@ object CbzLibrary: TCbzLibrary
       }
       NumGlyphs = 2
       OnClick = btnReturnClick
+      ParentFont = False
     end
     object Panel2: TPanel
-      Left = 709
-      Height = 22
+      Left = 1422
+      Height = 48
       Top = 2
-      Width = 274
+      Width = 548
       Align = alRight
       BevelOuter = bvLowered
-      ClientHeight = 22
-      ClientWidth = 274
+      ClientHeight = 48
+      ClientWidth = 548
+      ParentFont = False
       TabOrder = 1
       object cbSearch: TComboBox
         Left = 1
-        Height = 23
+        Height = 40
         Top = 1
-        Width = 272
+        Width = 546
         Align = alClient
         AutoComplete = True
         AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
         AutoDropDown = True
         DropDownCount = 20
         Enabled = False
-        ItemHeight = 15
+        ItemHeight = 32
         OnChange = cbSearchChange
         OnCloseUp = cbSearchCloseUp
+        ParentFont = False
         Sorted = True
         TabOrder = 0
       end
     end
     object Panel3: TPanel
-      Left = 539
-      Height = 22
+      Left = 1082
+      Height = 48
       Top = 2
-      Width = 170
+      Width = 340
       Align = alRight
       BevelOuter = bvLowered
-      ClientHeight = 22
-      ClientWidth = 170
+      ClientHeight = 48
+      ClientWidth = 340
+      ParentFont = False
       TabOrder = 2
       object cbVisibleDates: TComboBox
         Left = 1
-        Height = 23
+        Height = 40
         Top = 1
-        Width = 168
+        Width = 338
         Align = alClient
         Enabled = False
-        ItemHeight = 15
+        ItemHeight = 32
         OnChange = cbVisibleDatesChange
+        ParentFont = False
         Style = csDropDownList
         TabOrder = 0
       end
     end
     object btnTopPath: TSpeedButton
-      Left = 25
-      Height = 22
+      Left = 48
+      Height = 48
       Top = 2
-      Width = 23
+      Width = 46
       Align = alLeft
       Glyph.Data = {
         76010000424D7801000000000000760000002800000020000000100000000100
@@ -185,52 +194,57 @@ object CbzLibrary: TCbzLibrary
       }
       NumGlyphs = 2
       OnClick = btnTopPathClick
+      ParentFont = False
     end
     object cbHideRead: TCheckBox
-      Left = 983
-      Height = 22
+      Left = 1970
+      Height = 48
       Top = 2
-      Width = 71
+      Width = 140
       Align = alRight
-      BorderSpacing.Right = 5
+      BorderSpacing.Right = 10
       Caption = 'Hide read'
       OnClick = cbHideReadClick
+      ParentFont = False
       TabOrder = 3
     end
     object btnTest: TButton
-      Left = 48
-      Height = 22
+      Left = 94
+      Height = 48
       Top = 2
-      Width = 75
+      Width = 150
       Align = alLeft
       Caption = 'Test'
       OnClick = btnTestClick
+      ParentFont = False
       TabOrder = 4
     end
     object cbReadingList: TComboBox
-      Left = 123
-      Height = 23
+      Left = 244
+      Height = 40
       Top = 2
-      Width = 416
+      Width = 838
       Align = alClient
-      ItemHeight = 15
+      ItemHeight = 32
+      ParentFont = False
       Style = csDropDownList
       TabOrder = 5
     end
   end
   object pnlbtns: TPanel
-    Left = 10
-    Height = 667
-    Top = 46
-    Width = 30
+    Left = 20
+    Height = 1336
+    Top = 92
+    Width = 60
     Align = alLeft
-    BorderSpacing.Around = 10
+    BorderSpacing.Around = 20
+    ParentFont = False
     TabOrder = 3
   end
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu1Popup
-    left = 265
-    top = 145
+    left = 530
+    top = 290
     object mnuReadStatus: TMenuItem
       Action = ActionReadStatus
     end
@@ -260,8 +274,8 @@ object CbzLibrary: TCbzLibrary
     end
   end
   object ActionList1: TActionList
-    left = 144
-    top = 112
+    left = 288
+    top = 224
     object ActionReadStatus: TAction
       Caption = 'Read Status'
       OnExecute = ActionReadStatusExecute

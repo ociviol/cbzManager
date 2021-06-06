@@ -1,39 +1,43 @@
 object CbzViewerFrame: TCbzViewerFrame
   Left = 0
-  Height = 704
+  Height = 1408
   Top = 0
-  Width = 783
+  Width = 1566
   Align = alClient
-  ClientHeight = 704
-  ClientWidth = 783
+  ClientHeight = 1408
+  ClientWidth = 1566
+  DesignTimePPI = 192
+  ParentFont = False
   TabOrder = 0
-  DesignLeft = 829
-  DesignTop = 200
+  DesignLeft = 1117
+  DesignTop = 254
   object Panel1: TPanel
     Left = 0
-    Height = 704
+    Height = 1408
     Top = 0
-    Width = 783
+    Width = 1566
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 704
-    ClientWidth = 783
+    ClientHeight = 1408
+    ClientWidth = 1566
+    ParentFont = False
     TabOrder = 0
     object DrawGrid1: TDrawGrid
-      Left = 633
-      Height = 532
-      Top = 53
-      Width = 150
+      Left = 1266
+      Height = 1064
+      Top = 106
+      Width = 300
       Align = alRight
       ColCount = 1
-      DefaultColWidth = 120
+      DefaultColWidth = 240
       DefaultDrawing = False
-      DefaultRowHeight = 160
+      DefaultRowHeight = 320
       DragMode = dmAutomatic
       ExtendedSelect = False
       FixedCols = 0
       FixedRows = 0
       Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goThumbTracking, goSmoothScroll, goDontScrollPartCell]
+      ParentFont = False
       PopupMenu = pmgrid
       RowCount = 1
       TabOrder = 0
@@ -47,9 +51,9 @@ object CbzViewerFrame: TCbzViewerFrame
     end
     object Image1: TImage
       Left = 0
-      Height = 532
-      Top = 53
-      Width = 633
+      Height = 1064
+      Top = 106
+      Width = 1266
       AntialiasingMode = amOn
       Align = alClient
       Center = True
@@ -59,83 +63,91 @@ object CbzViewerFrame: TCbzViewerFrame
     end
     object Panel3: TPanel
       Left = 0
-      Height = 27
+      Height = 54
       Top = 0
-      Width = 783
+      Width = 1566
       Align = alTop
       BevelOuter = bvNone
-      ClientHeight = 27
-      ClientWidth = 783
+      ClientHeight = 54
+      ClientWidth = 1566
+      ParentFont = False
       TabOrder = 1
       object btnLast: TButton
-        Left = 733
-        Height = 27
+        Left = 1466
+        Height = 54
         Top = 0
-        Width = 50
+        Width = 100
         Action = ActionLast
         Align = alRight
+        ParentFont = False
         TabOrder = 0
       end
       object btnFirst: TButton
-        Left = 683
-        Height = 27
+        Left = 1366
+        Height = 54
         Top = 0
-        Width = 50
+        Width = 100
         Action = ActionFirst
         Align = alRight
+        ParentFont = False
         TabOrder = 1
       end
       object btnHorizFlip: TButton
-        Left = 523
-        Height = 27
+        Left = 1046
+        Height = 54
         Top = 0
-        Width = 80
+        Width = 160
         Action = ActionHorizFlip
         Align = alRight
+        ParentFont = False
         TabOrder = 2
       end
       object btnVertFlip: TButton
-        Left = 603
-        Height = 27
+        Left = 1206
+        Height = 54
         Top = 0
-        Width = 80
+        Width = 160
         Action = ActionVertFlip
         Align = alRight
+        ParentFont = False
         TabOrder = 3
       end
       object btnRotateRight: TButton
-        Left = 443
-        Height = 27
+        Left = 886
+        Height = 54
         Top = 0
-        Width = 80
+        Width = 160
         Action = ActionRot90
         Align = alRight
+        ParentFont = False
         TabOrder = 4
       end
       object btnRotateLeft: TButton
-        Left = 363
-        Height = 27
+        Left = 726
+        Height = 54
         Top = 0
-        Width = 80
+        Width = 160
         Action = ActionRotm90
         Align = alRight
+        ParentFont = False
         TabOrder = 5
       end
       object pnlimgName: TPanel
         Left = 0
-        Height = 27
+        Height = 54
         Top = 0
-        Width = 363
+        Width = 726
         Align = alClient
         BevelOuter = bvNone
+        ParentFont = False
         TabOrder = 6
       end
     end
     object Shape1: TShape
-      Left = 10
-      Height = 184
+      Left = 20
+      Height = 368
       Top = 0
-      Width = 1
+      Width = 2
       Brush.Style = bsClear
       Pen.Mode = pmNot
       Pen.Style = psDashDot
@@ -143,128 +155,140 @@ object CbzViewerFrame: TCbzViewerFrame
     end
     object PanelCrop: TPanel
       Left = 0
-      Height = 26
-      Top = 27
-      Width = 783
+      Height = 52
+      Top = 54
+      Width = 1566
       Align = alTop
-      ClientHeight = 26
-      ClientWidth = 783
+      ClientHeight = 52
+      ClientWidth = 1566
+      ParentFont = False
       TabOrder = 2
       Visible = False
       object Label1: TLabel
         Left = 1
-        Height = 21
-        Top = 4
-        Width = 29
+        Height = 44
+        Top = 7
+        Width = 59
         Align = alLeft
-        BorderSpacing.Top = 3
+        BorderSpacing.Top = 6
         Caption = 'Left : '
         ParentColor = False
+        ParentFont = False
       end
       object speLeft: TSpinEdit
-        Left = 30
-        Height = 24
+        Left = 60
+        Height = 50
         Top = 1
-        Width = 62
+        Width = 124
         Align = alLeft
         OnChange = speLeftChange
+        ParentFont = False
         TabOrder = 0
       end
       object Label2: TLabel
-        Left = 285
-        Height = 21
-        Top = 4
-        Width = 45
+        Left = 573
+        Height = 44
+        Top = 7
+        Width = 91
         Align = alLeft
-        BorderSpacing.Top = 3
+        BorderSpacing.Top = 6
         Caption = 'Height : '
         ParentColor = False
+        ParentFont = False
       end
       object speBottom: TSpinEdit
-        Left = 330
-        Height = 24
+        Left = 664
+        Height = 50
         Top = 1
-        Width = 62
+        Width = 124
         Align = alLeft
         OnChange = speBottomChange
+        ParentFont = False
         TabOrder = 1
       end
       object Label3: TLabel
-        Left = 182
-        Height = 21
-        Top = 4
-        Width = 41
+        Left = 366
+        Height = 44
+        Top = 7
+        Width = 83
         Align = alLeft
-        BorderSpacing.Top = 3
+        BorderSpacing.Top = 6
         Caption = 'Width : '
         ParentColor = False
+        ParentFont = False
       end
       object speRight: TSpinEdit
-        Left = 223
-        Height = 24
+        Left = 449
+        Height = 50
         Top = 1
-        Width = 62
+        Width = 124
         Align = alLeft
         OnChange = speRightChange
+        ParentFont = False
         TabOrder = 2
       end
       object Label4: TLabel
-        Left = 92
-        Height = 21
-        Top = 4
-        Width = 28
+        Left = 184
+        Height = 44
+        Top = 7
+        Width = 58
         Align = alLeft
-        BorderSpacing.Top = 3
+        BorderSpacing.Top = 6
         Caption = 'Top : '
         ParentColor = False
+        ParentFont = False
       end
       object speTop: TSpinEdit
-        Left = 120
-        Height = 24
+        Left = 242
+        Height = 50
         Top = 1
-        Width = 62
+        Width = 124
         Align = alLeft
         OnChange = speTopChange
+        ParentFont = False
         TabOrder = 3
       end
       object btnCrop: TButton
-        Left = 632
-        Height = 24
+        Left = 1265
+        Height = 50
         Top = 1
-        Width = 75
+        Width = 150
         Align = alRight
         Caption = 'Crop'
         OnClick = btnCropClick
+        ParentFont = False
         TabOrder = 4
       end
       object btnCancel: TButton
-        Left = 707
-        Height = 24
+        Left = 1415
+        Height = 50
         Top = 1
-        Width = 75
+        Width = 150
         Align = alRight
         Caption = 'Cancel'
         OnClick = btnCancelClick
+        ParentFont = False
         TabOrder = 5
       end
     end
     object memoLog: TMemo
       Left = 0
-      Height = 119
-      Top = 585
-      Width = 783
+      Height = 238
+      Top = 1170
+      Width = 1566
       Align = alBottom
       Lines.Strings = (
         ''
       )
+      ParentFont = False
       ScrollBars = ssAutoBoth
       TabOrder = 3
       Visible = False
     end
   end
   object alViewerFrame: TActionList
-    left = 236
-    top = 124
+    left = 472
+    top = 248
     object ActionLast: TAction
       Caption = 'Last'
       Enabled = False
@@ -351,8 +375,8 @@ object CbzViewerFrame: TCbzViewerFrame
   end
   object pmgrid: TPopupMenu
     OnPopup = pmgridPopup
-    left = 688
-    top = 248
+    left = 1376
+    top = 496
     object MenuItem3: TMenuItem
       Action = ActionDelete
     end
@@ -440,8 +464,8 @@ object CbzViewerFrame: TCbzViewerFrame
   end
   object pmImage: TPopupMenu
     OnPopup = pmImagePopup
-    left = 536
-    top = 343
+    left = 1072
+    top = 686
     object MenuItem30: TMenuItem
       Action = ActionCropTool
     end

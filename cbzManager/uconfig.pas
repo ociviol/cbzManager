@@ -148,7 +148,7 @@ begin
                 StrToIntDef(Values[Format('%sTop', [aOwner.Name])], 0),
                 StrToIntDef(Values[Format('%sWidth', [aOwner.Name])], 0),
                 StrToIntDef(Values[Format('%sHeight', [aOwner.Name])], 0));
-{$elseif Defined(MsWindows)}
+{$if Defined(MsWindows)}
       fixrect;
 {$endif}
       aOwner.SetBounds(r.left, r.top, r.Width, r.Height);

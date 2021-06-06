@@ -27,8 +27,8 @@ const
   SZipSign : array[0..1] of Byte = (byte('7'), byte('z'));
   PdfSign : array[0..3] of AnsiChar = ('%', 'P', 'D', 'F');
 
-  AllowedMasks : array[0..5] of string = ('*.jpg', '*.jpeg', '*.png', '*.webp', '*.jp2', '*.gif');
-  AllowedExts  : array[0..5] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif');
+  AllowedMasks : array[0..6] of string = ('*.jpg', '*.jpeg', '*.png', '*.webp', '*.jp2', '*.gif', '*.xml');
+  AllowedExts  : array[0..6] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif', '.xml');
   AllowedImgs  : array[0..5] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif');
 
 {$if defined(Darwin) or defined(Linux)}

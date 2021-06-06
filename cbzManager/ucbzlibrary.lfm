@@ -207,6 +207,16 @@ object CbzLibrary: TCbzLibrary
       OnClick = btnTestClick
       TabOrder = 4
     end
+    object cbReadingList: TComboBox
+      Left = 123
+      Height = 23
+      Top = 2
+      Width = 416
+      Align = alClient
+      ItemHeight = 15
+      Style = csDropDownList
+      TabOrder = 5
+    end
   end
   object pnlbtns: TPanel
     Left = 10

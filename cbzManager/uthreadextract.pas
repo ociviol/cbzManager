@@ -272,6 +272,7 @@ procedure TThreadExtract.Execute;
 var
   i : integer;
   ar : TIntArray;
+  tm : TMemoryStream;
 begin
   SetLength(ar, 0);
   FNbFiles := 0;
@@ -287,13 +288,21 @@ begin
           begin
             if Terminated then
             begin
-              FPoolData.ClearLists;
+              FPoolData.Clear;
               Exit;
             end;
 
             if Tcbz.AllowedFile(FFiles[i]) then
             begin
-              FPoolData.AddItem(nil, FNbFiles, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
+              if (lowercase(ExtractFileExt(FFiles[i])) = '.xml') then
+              begin
+                tm := TMemoryStream.Create;
+                tm.LoadFromFile(FFiles[i]);
+                FPoolData.AddItem(tm, FNbFiles, ar, FOperations, dtMeta, FIF_UNKNOWN, ExtractFileName(FFiles[i]));
+              end
+              else
+                FPoolData.AddItem(nil, FNbFiles, ar, FOperations, dtImage, FIF_UNKNOWN, FFiles[i]);
+
               FCur := i;
               FMsg := '(' + ExtractFileName(FFilename) + ') Loading images ...';
               Synchronize(@DoProgress);
@@ -382,6 +391,8 @@ end;
 procedure TThreadExtract.GetFileNames(FileNames:TStringList);
 var
   t : TNaturalSortStringList;
+  i : integer;
+  meta : string;
 begin
   GetFiles(FTmpDir, AllowedMasks, FileNames);
 
@@ -389,6 +400,17 @@ begin
   try
     t.Assign(Filenames);
     t.Sort;
+    meta := '';
+    for i := t.count - 1 downto 0 do
+      if lowercase(ExtractFileExt(t[i])) = '.xml' then
+      begin
+        meta := t[i];
+        t.Delete(i);
+      end;
+
+    if (meta <> '') then
+      t.add(meta);
+
     Filenames.Assign(t);
   finally
     t.Free;

@@ -74,7 +74,7 @@ type
   public
     constructor Create(aLog : ILog);
     Destructor Destroy; override;
-    procedure ClearLists;
+    procedure Clear;
     {
     procedure AddItem2(Value : TMemoryStream;
                       Indexes : TIntArray;
@@ -138,13 +138,13 @@ end;
 
 destructor TThreadDataItem.Destroy;
 begin
-  ClearLists;
+  Clear;
   FLog := nil;
   //FIndexList.Free;
   inherited;
 end;
 
-procedure TThreadDataItem.ClearLists;
+procedure TThreadDataItem.Clear;
 var
   i : integer;
 begin
@@ -156,7 +156,7 @@ begin
         TDataRec(Items[i]).Free;
     except
     end;
-    Clear;
+    inherited Clear;
 
     //FNextIndex := 0;
     FWorking := 0;

@@ -126,6 +126,16 @@ end;
 procedure TConfig.RestoreForm(aOwner: TForm);
 var
   s : string;
+  r : TRect;
+
+  procedure fixrect;
+  begin
+    if (r.Left < 0) then r.left := 0;
+    if (r.Top < 0) then r.Top := 0;
+    if ((r.left + r.width) > screen.Width) then r.width := screen.width - r.left;
+    if ((r.Top + r.height) > screen.height) then r.width := screen.height - r.Top;
+  end;
+
 begin
   with FWindowStates do
   begin
@@ -134,14 +144,12 @@ begin
 
     if aOwner.WindowState <> wsMaximized then
     begin
-      s := Values[Format('%sLeft', [aOwner.Name])];
-      if s <> '' then aOwner.Left := StrToInt(s);
-      s := Values[Format('%sTop', [aOwner.Name])];
-      if s <> '' then aOwner.Top := StrToInt(s);
-      s := Values[Format('%sWidth', [aOwner.Name])];
-      if s <> '' then aOwner.Width := StrToInt(s);
-      s := Values[Format('%sHeight', [aOwner.Name])];
-      if s <> '' then aOwner.Height := StrToInt(s);
+      r := Rect(StrToIntDef(Values[Format('%sLeft', [aOwner.Name])], 0),
+                StrToIntDef(Values[Format('%sTop', [aOwner.Name])], 0),
+                StrToIntDef(Values[Format('%sWidth', [aOwner.Name])], 0),
+                StrToIntDef(Values[Format('%sHeight', [aOwner.Name])], 0));
+      fixrect;
+      aOwner.SetBounds(r.left, r.top, r.Width, r.Height);
     end;
   end;
 end;

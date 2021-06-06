@@ -89,7 +89,11 @@ begin
                   end;
 
                 dtPdf: ; // StOut := PdfToStream(Rec.Index, Rec.Filename);
-                dtMeta : StOut := CopyBlock(Rec.Stream);
+                dtMeta :
+                  begin
+                    StOut := Rec.Stream;
+                    Rec.Stream := nil;
+                  end;
               end;
             finally
               if Assigned(Rec.Stream) then

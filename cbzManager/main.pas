@@ -202,7 +202,7 @@ uses
 {$if defined(Darwin) or defined(Linux)}
   unix,
 {$endif}
-  Utils.Vcl,
+  Utils.Vcl, Math,
   Utils.SoftwareVersion, uDataTypes,
   Utils.ZipFile, Utils.Files,
   Utils.NaturalSortStringList,
@@ -343,7 +343,7 @@ begin
 {$endif}
   FConfig.RestoreForm(Self);
   if FConfig.MngrTreeViewWidth <> 0 then
-    Panel2.Width := FConfig.MngrTreeViewWidth;
+    Panel2.Width := ifthen(FConfig.MngrTreeViewWidth > (ClientWidth div 2), ClientWidth div 3, FConfig.MngrTreeViewWidth);
 
   FLibDocked := False;
   pnlStats.Visible := FConfig.ShowStats;

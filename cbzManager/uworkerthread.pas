@@ -327,7 +327,7 @@ begin
   FOnBadFile := OnBadFile;
   FPoolData := PoolData;
   FPoolData.OnPutData := @OnPutData;
-  FPoolData.ClearLists;
+  FPoolData.Clear;
   FProgress := Progress;
   FreeOnTerminate := False;
   FProgressID := 0;
@@ -414,7 +414,7 @@ begin
 
   try
     FFilename := aFilename;
-    FPoolData.ClearLists;
+    FPoolData.Clear;
     ThreadExtract := nil;
     try
       case arcType of
@@ -488,28 +488,26 @@ begin
             if Terminated or FCanceled then
               Exit;
 
-            //if Rec.DataType = dtMeta then
-            //  MetaData.Add(Rec.Filename, CopyStream(Rec.Stream))
-            //else
+            if Rec.DataType = dtMeta then
+              FCbz.AppendStream(Rec.Stream, Rec.Filename, Now, zstream.clmax)
+            else
             begin
               s := FCbz.GetNextFilename;
-              // Format(FilenameFormat + '.webp', [FCbz.FileCount + 1]);
-              //FCbz.Add(Rec.Stream, s, zcStored);
-              FCbz.AppendStream(Rec.Stream, s, Now, zstream.clNone);
+              FCbz.AppendStream(Rec.Stream, s, Now, zstream.clnone);
+            end;
 
-              inc(i);
-              Sleep(100);
-              FMax := FFilesToProcess - 1;
-              if Assigned(FProgress) then
-              begin
-                FCur := i;
-                FMsg := 'Writing ' + ExtractFilename(newf) + ' : Adding :' + s +
-                        ' (' + GetETA(FStartDate, i, FFilesToProcess) + ')';
-                Synchronize(@DoProgress);
-              end;
+            inc(i);
+            Sleep(100);
+            FMax := FFilesToProcess - 1;
+            if Assigned(FProgress) then
+            begin
+              FCur := i;
+              FMsg := 'Writing ' + ExtractFilename(newf) + ' : Adding :' + s +
+                      ' (' + GetETA(FStartDate, i, FFilesToProcess) + ')';
+              Synchronize(@DoProgress);
             end;
           finally
-            //Rec.Stream.Free;
+            FreeAndNil(Rec.Stream);
             Rec.Free;
           end
           else
@@ -613,14 +611,14 @@ begin
         on e: Exception do
           Flog.Log('TCbzWorkerThread Error : Terminating ThreadExtract  ' + e.Message);
       end;
-      FPoolData.ClearLists;
+      FPoolData.Clear;
     end;
   except
     on e: Exception do
     begin
       result := '';
       s := e.Message;
-      FPoolData.ClearLists;
+      FPoolData.Clear;
       Flog.Log('TCbzWorkerThread Error :  ' + e.Message);
       FResults.Add(s);
       Synchronize(@DoOnBadFile);

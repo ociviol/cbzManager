@@ -140,13 +140,14 @@ begin
 
     if aOwner.WindowState <> wsMaximized then
     begin
-      r.left := StrToIntDef(Values[Format('%sLeft', [aOwner.Name])], 0);
-      r.top := StrToIntDef(Values[Format('%sTop', [aOwner.Name])], 0);
-      r.width := StrToIntDef(Values[Format('%sWidth', [aOwner.Name])], 0);
-      r.height := StrToIntDef(Values[Format('%sHeight', [aOwner.Name])], 0);
-
-      if (r.Width > 0) and (r.Height > 0) then
-        aOwner.SetBounds(r.left, r.top, r.Width, r.Height);
+      if Values[Format('%sLeft', [aOwner.Name])] <> '' then
+        aOwner.left := StrToIntDef(Values[Format('%sLeft', [aOwner.Name])], 0);
+      if Values[Format('%sTop', [aOwner.Name])] <> '' then
+        aOwner.top := StrToIntDef(Values[Format('%sTop', [aOwner.Name])], 0);
+      if Values[Format('%sWidth', [aOwner.Name])] <> '' then
+        aOwner.width := StrToIntDef(Values[Format('%sWidth', [aOwner.Name])], 0);
+      if Values[Format('%sHeight', [aOwner.Name])] <> '' then
+        aOwner.height := StrToIntDef(Values[Format('%sHeight', [aOwner.Name])], 0);
     end;
   end;
 end;

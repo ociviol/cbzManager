@@ -52,7 +52,7 @@ type
     procedure SaveForm(aOwner : TForm);
     procedure RestoreForm(aOwner : TForm);
   published
-    property WindowState : String read FWindowState write FWindowState;
+    property WindowStateStr : String read FWindowState write FWindowState;
     property MainLeft : integer read FMainLeft write FMainLeft;
     property MainTop : integer read FMainTop write FMainTop;
     property MainWidth : integer read FMainWidth write FMainWidth;
@@ -119,10 +119,13 @@ begin
   with aOwner do
   begin
     FWindowState := WindowStateToStr(aOwner.WindowState);
-    FMainLeft := aOwner.Left;
-    FMainTop := aOwner.Top;
-    FMainWidth := aOwner.Width;
-    FMainHeight := aOwner.Height;
+    if WindowState = wsNormal then
+    begin
+      FMainLeft := aOwner.Left;
+      FMainTop := aOwner.Top;
+      FMainWidth := aOwner.Width;
+      FMainHeight := aOwner.Height;
+    end;
   end;
 end;
 
@@ -135,16 +138,18 @@ var
 begin
   with aOwner do
   begin
+    left := ifthen(FMainLeft > 0, FMainLeft, Left);
+    top := ifthen(FMainTop > 0, FMainTop, Top);
+{$if defined(Darwin)}
+    width := ifthen(FMainWidth > 0, FMainWidth*2, Width);
+    height := ifthen(FMainHeight > 0, FMainHeight*2, Height);
+{$else}
+    width := ifthen(FMainWidth > 0, FMainWidth, Width);
+    height := ifthen(FMainHeight > 0, FMainHeight, Height);
+{$endif}
+
     if FWindowState <> '' then
       WindowState := StrToWindowState(FWindowState);
-
-    if WindowState <> wsMaximized then
-    begin
-      left := ifthen(FMainLeft > 0, FMainLeft, Left);
-      top := ifthen(FMainTop > 0, FMainTop, Top);
-      width := ifthen(FMainWidth > 0, FMainWidth, Width);
-      height := ifthen(FMainHeight > 0, FMainHeight, Height);
-  end;
   end;
 end;
 

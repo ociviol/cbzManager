@@ -333,8 +333,13 @@ begin
   // load config
   FConfig := TConfig.Load(FConfigFile);
   FConfig.RestoreForm(Self);
+
   if FConfig.MngrTreeViewWidth <> 0 then
+{$if defined(Darwin) or defined(Linux)}
+    Panel2.Width := ClientWidth div 4; //ifthen(FConfig.MngrTreeViewWidth > (ClientWidth div 2), ClientWidth div 3, FConfig.MngrTreeViewWidth);
+{$else}
     Panel2.Width := ifthen(FConfig.MngrTreeViewWidth > (ClientWidth div 2), ClientWidth div 3, FConfig.MngrTreeViewWidth);
+{$endif}
   FLibDocked := False;
   pnlStats.Visible := FConfig.ShowStats;
   MenuItem35.Checked := FConfig.ShowStats;

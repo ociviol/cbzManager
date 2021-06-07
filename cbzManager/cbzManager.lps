@@ -21,7 +21,6 @@
         <IsVisibleTab Value="True"/>
         <TopLine Value="324"/>
         <CursorPos X="39" Y="337"/>
-        <ComponentState Value="2"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="2">
           <Item0 Y="953" ID="1"/>
@@ -393,7 +392,7 @@
         <Loaded Value="True"/>
       </Unit40>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="627" Column="80" TopLine="604"/>
@@ -510,10 +509,6 @@
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="764" Column="35" TopLine="750"/>
       </Position29>
-      <Position30>
-        <Filename Value="main.pas"/>
-        <Caret Line="202" Column="39" TopLine="451"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

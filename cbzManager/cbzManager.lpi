@@ -6,9 +6,7 @@
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
       <Title Value="cbzManager"/>
-      <Scaled Value="True"/>
       <ResourceType Value="res"/>
-      <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True"/>
       </XPManifest>
@@ -19,7 +17,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="32"/>
+      <BuildNr Value="33"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>

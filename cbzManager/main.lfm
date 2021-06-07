@@ -1,35 +1,34 @@
 object MainFrm: TMainFrm
-  Left = 72
-  Height = 2176
-  Top = 27
-  Width = 3952
+  Left = 173
+  Height = 1002
+  Top = 65
+  Width = 1467
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 2137
-  ClientWidth = 3952
-  DesignTimePPI = 192
+  ClientHeight = 1002
+  ClientWidth = 1467
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.1.0.0'
   object Panel1: TPanel
-    Left = 548
-    Height = 2037
+    Left = 405
+    Height = 952
     Top = 0
-    Width = 3404
+    Width = 1062
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 2037
-    ClientWidth = 3404
+    ClientHeight = 952
+    ClientWidth = 1062
     ParentFont = False
     TabOrder = 0
     object memoLog: TMemo
       Left = 0
-      Height = 238
-      Top = 1799
-      Width = 3404
+      Height = 119
+      Top = 833
+      Width = 1062
       Align = alBottom
       Lines.Strings = (
         ''
@@ -42,36 +41,36 @@ object MainFrm: TMainFrm
   end
   object pnlProgress: TPanel
     Left = 0
-    Height = 100
-    Top = 2037
-    Width = 3952
+    Height = 50
+    Top = 952
+    Width = 1467
     Align = alBottom
     BevelOuter = bvNone
     ParentFont = False
     TabOrder = 1
   end
   object Splitter1: TSplitter
-    Left = 538
-    Height = 2037
+    Left = 400
+    Height = 952
     Top = 0
-    Width = 10
+    Width = 5
   end
   object Panel2: TPanel
     Left = 0
-    Height = 2037
+    Height = 952
     Top = 0
-    Width = 538
+    Width = 400
     Align = alLeft
     Caption = 'Panel2'
-    ClientHeight = 2037
-    ClientWidth = 538
+    ClientHeight = 952
+    ClientWidth = 400
     ParentFont = False
     TabOrder = 3
     object TreeView1: TTreeView
       Left = 1
-      Height = 1677
+      Height = 771
       Top = 1
-      Width = 536
+      Width = 398
       Align = alClient
       DragMode = dmAutomatic
       HideSelection = False
@@ -93,63 +92,61 @@ object MainFrm: TMainFrm
     end
     object pnlStats: TPanel
       Left = 1
-      Height = 358
-      Top = 1678
-      Width = 536
+      Height = 179
+      Top = 772
+      Width = 398
       Align = alBottom
       BevelInner = bvLowered
-      ClientHeight = 358
-      ClientWidth = 536
+      ClientHeight = 179
+      ClientWidth = 398
       ParentFont = False
       TabOrder = 1
       Visible = False
       object lblFilesInQueue: TLabel
-        Left = 16
+        Left = 8
         Height = 1
-        Top = 16
+        Top = 8
         Width = 1
         ParentColor = False
         ParentFont = False
       end
       object Label5: TLabel
-        Left = 16
-        Height = 32
-        Top = 58
-        Width = 402
+        Left = 8
+        Height = 16
+        Top = 29
+        Width = 227
         Caption = 'Files in queue (right click to remove) :'
         ParentColor = False
         ParentFont = False
       end
       object lbConvThreads: TListBox
         Left = 2
-        Height = 110
-        Top = 246
-        Width = 532
+        Height = 55
+        Top = 122
+        Width = 394
         Align = alBottom
         ItemHeight = 0
         ParentFont = False
-        ScrollWidth = 261
         TabOrder = 0
       end
       object lbQueue: TListBox
         Left = 2
-        Height = 148
-        Top = 98
-        Width = 532
+        Height = 74
+        Top = 48
+        Width = 394
         Align = alBottom
         ItemHeight = 0
         ParentShowHint = False
         ParentFont = False
         PopupMenu = PopupMenuQueue
-        ScrollWidth = 261
         ShowHint = True
         TabOrder = 1
       end
     end
   end
   object MainMenu1: TMainMenu
-    left = 178
-    top = 102
+    Left = 89
+    Top = 51
     object mnuFile: TMenuItem
       Caption = 'File'
       object mnuChooseFolder: TMenuItem
@@ -232,12 +229,12 @@ object MainFrm: TMainFrm
     end
   end
   object SelectDirectoryDialog1: TSelectDirectoryDialog
-    left = 192
-    top = 240
+    Left = 96
+    Top = 120
   end
   object ActionList1: TActionList
-    left = 368
-    top = 160
+    Left = 184
+    Top = 80
     object ActionChooseFolder: TAction
       Caption = 'Choose Folder'
       OnExecute = ActionChooseFolderExecute
@@ -285,8 +282,8 @@ object MainFrm: TMainFrm
   end
   object pmTreeView: TPopupMenu
     OnPopup = pmTreeViewPopup
-    left = 200
-    top = 384
+    Left = 100
+    Top = 192
     object MenuItem32: TMenuItem
       Action = ActionRefresh
     end
@@ -311,13 +308,13 @@ object MainFrm: TMainFrm
   end
   object Timerstats: TTimer
     OnTimer = TimerstatsTimer
-    left = 340
-    top = 408
+    Left = 170
+    Top = 204
   end
   object PopupMenuQueue: TPopupMenu
     OnPopup = PopupMenuQueuePopup
-    left = 304
-    top = 752
+    Left = 152
+    Top = 376
     object Removefromlist1: TMenuItem
       Caption = 'Remove from list'
       OnClick = Removefromlist1Click

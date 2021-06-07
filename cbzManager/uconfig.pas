@@ -139,10 +139,10 @@ begin
   with aOwner do
   begin
 {$if defined(Darwin) or defined(Linux)}
-    left := 100; // ifthen(FMainLeft > 0, FMainLeft, Left);
-    top := 100; // ifthen(FMainTop > 0, FMainTop, Top);
-    width := Screen.width - 300; // ifthen(FMainWidth > 0, FMainWidth, Width);
-    height := Screen.Height - 300; // ifthen(FMainHeight > 0, FMainHeight, Height);
+//    left := 100; // ifthen(FMainLeft > 0, FMainLeft, Left);
+//    top := 100; // ifthen(FMainTop > 0, FMainTop, Top);
+//    width := Screen.width - 300; // ifthen(FMainWidth > 0, FMainWidth, Width);
+//    height := Screen.Height - 300; // ifthen(FMainHeight > 0, FMainHeight, Height);
 {$else}
     left := ifthen(FMainLeft > 0, FMainLeft, Left);
     top := ifthen(FMainTop > 0, FMainTop, Top);

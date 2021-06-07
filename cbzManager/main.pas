@@ -336,7 +336,7 @@ begin
 
   if FConfig.MngrTreeViewWidth <> 0 then
 {$if defined(Darwin) or defined(Linux)}
-    Panel2.Width := ClientWidth div 4; //ifthen(FConfig.MngrTreeViewWidth > (ClientWidth div 2), ClientWidth div 3, FConfig.MngrTreeViewWidth);
+  //  Panel2.Width := ClientWidth div 4; //ifthen(FConfig.MngrTreeViewWidth > (ClientWidth div 2), ClientWidth div 3, FConfig.MngrTreeViewWidth);
 {$else}
     Panel2.Width := ifthen(FConfig.MngrTreeViewWidth > (ClientWidth div 2), ClientWidth div 3, FConfig.MngrTreeViewWidth);
 {$endif}

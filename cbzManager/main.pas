@@ -334,7 +334,7 @@ begin
   FConfig := TConfig.Load(FConfigFile);
   FConfig.RestoreForm(Self);
   if FConfig.MngrTreeViewWidth <> 0 then
-{$if defined(Darwin)}
+{$if defined(Darwin) or defined(Linux)}
     Panel2.Width := ifthen(FConfig.MngrTreeViewWidth*2 > (ClientWidth div 2), ClientWidth div 3, FConfig.MngrTreeViewWidth*2);
 {$else}
     Panel2.Width := ifthen(FConfig.MngrTreeViewWidth > (ClientWidth div 2), ClientWidth div 3, FConfig.MngrTreeViewWidth);

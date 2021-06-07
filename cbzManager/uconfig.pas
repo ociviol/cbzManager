@@ -116,43 +116,25 @@ end;
 
 procedure TConfig.SaveForm(aOwner: TForm);
 begin
-  with aOwner do
+  FWindowState := WindowStateToStr(aOwner.WindowState);
+  if aOwner.WindowState = wsNormal then
   begin
-    FWindowState := WindowStateToStr(aOwner.WindowState);
-    if WindowState = wsNormal then
-    begin
-      FMainLeft := aOwner.Left;
-      FMainTop := aOwner.Top;
-      FMainWidth := aOwner.Width;
-      FMainHeight := aOwner.Height;
-    end;
+    FMainLeft := aOwner.Left;
+    FMainTop := aOwner.Top;
+    FMainWidth := Round(aOwner.Width * (1 / aOwner.GetCanvasScaleFactor));
+    FMainHeight := Round(aOwner.Height * (1 / aOwner.GetCanvasScaleFactor));
   end;
 end;
 
 procedure TConfig.RestoreForm(aOwner: TForm);
-var
-  s : string;
-  r : TRect;
-  i : integer;
-
 begin
-  with aOwner do
-  begin
-{$if defined(Darwin) or defined(Linux)}
-//    left := 100; // ifthen(FMainLeft > 0, FMainLeft, Left);
-//    top := 100; // ifthen(FMainTop > 0, FMainTop, Top);
-//    width := Screen.width - 300; // ifthen(FMainWidth > 0, FMainWidth, Width);
-//    height := Screen.Height - 300; // ifthen(FMainHeight > 0, FMainHeight, Height);
-{$else}
-    left := ifthen(FMainLeft > 0, FMainLeft, Left);
-    top := ifthen(FMainTop > 0, FMainTop, Top);
-    width := ifthen(FMainWidth > 0, FMainWidth, Width);
-    height := ifthen(FMainHeight > 0, FMainHeight, Height);
-{$endif}
+  aOwner.left := ifthen(FMainLeft > 0, FMainLeft, aOwner.Left);
+  aOwner.top := ifthen(FMainTop > 0, FMainTop, aOwner.Top);
+  aOwner.width := ifthen(FMainWidth > 0, Round(FMainWidth * aOwner.GetCanvasScaleFactor), aOwner.Width);
+  aOwner.height := ifthen(FMainHeight > 0, Round(FMainHeight * aOwner.GetCanvasScaleFactor), aOwner.Height);
 
-    if FWindowState <> '' then
-      WindowState := StrToWindowState(FWindowState);
-  end;
+  if FWindowState <> '' then
+    aOwner.WindowState := StrToWindowState(FWindowState);
 end;
 
 

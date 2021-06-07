@@ -448,12 +448,12 @@ end;
 
 function TCbzViewerFrame.GetStampHeight: Integer;
 begin
-  result := DrawGrid1.DefaultRowHeight;
+  result := Round(DrawGrid1.DefaultRowHeight * GetCanvasScaleFactor);
 end;
 
 function TCbzViewerFrame.GetStampWidth: Integer;
 begin
-  result := DrawGrid1.DefaultColWidth;
+  result := Round(DrawGrid1.DefaultColWidth * GetCanvasScaleFactor);
 end;
 
 function TCbzViewerFrame.GetState: TZipMode;

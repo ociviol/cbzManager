@@ -9,7 +9,7 @@ cd "..\precompiled binairies\Windows"
 rem pause
 
 del cbzManagerWin.zip
-copy cbzManager.exe C:\Users\Ollivier\Documents\cbzManager\
+copy cbzManager.exe C:\Users\Ollivier\OneDrive\Documents\cbzManager\
 7z a -tzip -sdel cbzManagerWin.zip *.exe *.dll
 
 del *.exe *.dll

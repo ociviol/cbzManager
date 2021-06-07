@@ -328,19 +328,10 @@ begin
   ForceDirectories(FConfigFile);
   FConfigFile := FConfigFile + CS_CONFIG_JSON;
 {$else}
-  FConfigFile := ChangeFileExt(Application.ExeName, '.json');
-  if not FileExists(FConfigFile) then
-    FConfigFile := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'config.json';
+  FConfigFile := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'config.json';
 {$endif}
   // load config
   FConfig := TConfig.Load(FConfigFile);
-{$if Defined(MsWindows)}
-  if FConfigFile = ChangeFileExt(Application.ExeName, '.json') then
-  begin
-    DeleteFile(FConfigFile);
-    FConfigFile := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'config.json';
-  end;
-{$endif}
   FConfig.RestoreForm(Self);
   if FConfig.MngrTreeViewWidth <> 0 then
     Panel2.Width := ifthen(FConfig.MngrTreeViewWidth > (ClientWidth div 2), ClientWidth div 3, FConfig.MngrTreeViewWidth);

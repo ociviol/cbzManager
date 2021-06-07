@@ -71,6 +71,9 @@ type
 
 implementation
 
+uses
+  Math;
+
 { TConfig }
 
 constructor TConfig.Create;
@@ -127,6 +130,7 @@ procedure TConfig.RestoreForm(aOwner: TForm);
 var
   s : string;
   r : TRect;
+  i : integer;
 
   procedure fixrect;
   begin
@@ -144,14 +148,22 @@ begin
 
     if aOwner.WindowState <> wsMaximized then
     begin
-      r := Rect(StrToIntDef(Values[Format('%sLeft', [aOwner.Name])], 0),
-                StrToIntDef(Values[Format('%sTop', [aOwner.Name])], 0),
-                StrToIntDef(Values[Format('%sWidth', [aOwner.Name])], 0),
-                StrToIntDef(Values[Format('%sHeight', [aOwner.Name])], 0));
-{$if Defined(MsWindows)}
-      fixrect;
-{$endif}
-      aOwner.SetBounds(r.left, r.top, r.Width, r.Height);
+      i := StrToIntDef(Values[Format('%sLeft', [aOwner.Name])], 0);
+      r.left := ifthen((i <> 0), i, 0);
+      i:= StrToIntDef(Values[Format('%sTop', [aOwner.Name])], 0);
+      r.top := ifthen((i <> 0), i, 0);
+      i:= StrToIntDef(Values[Format('%sWidth', [aOwner.Name])], 0);
+      r.width := ifthen((i <> 0), i, 0);
+      i:= StrToIntDef(Values[Format('%sHeight', [aOwner.Name])], 0);
+      r.height := ifthen((i <> 0), i, 0);
+
+      if (r.Width > 0) and (r.Height > 0) then
+        begin
+  {$if Defined(MsWindows)}
+        fixrect;
+  {$endif}
+        aOwner.SetBounds(r.left, r.top, r.Width, r.Height);
+      end;
     end;
   end;
 end;

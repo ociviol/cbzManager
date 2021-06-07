@@ -507,7 +507,6 @@ begin
               Synchronize(@DoProgress);
             end;
           finally
-            FreeAndNil(Rec.Stream);
             Rec.Free;
           end
           else

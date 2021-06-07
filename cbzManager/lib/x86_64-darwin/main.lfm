@@ -1,34 +1,35 @@
 object MainFrm: TMainFrm
-  Left = 173
-  Height = 1002
-  Top = 65
-  Width = 1467
+  Left = 482
+  Height = 554
+  Top = 232
+  Width = 995
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 1002
-  ClientWidth = 1467
+  ClientHeight = 554
+  ClientWidth = 995
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnResize = FormResize
   OnShow = FormShow
   LCLVersion = '2.1.0.0'
   object Panel1: TPanel
     Left = 405
-    Height = 952
+    Height = 504
     Top = 0
-    Width = 1062
+    Width = 590
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 952
-    ClientWidth = 1062
+    ClientHeight = 504
+    ClientWidth = 590
     ParentFont = False
     TabOrder = 0
     object memoLog: TMemo
       Left = 0
       Height = 119
-      Top = 833
-      Width = 1062
+      Top = 385
+      Width = 590
       Align = alBottom
       Lines.Strings = (
         ''
@@ -42,8 +43,8 @@ object MainFrm: TMainFrm
   object pnlProgress: TPanel
     Left = 0
     Height = 50
-    Top = 952
-    Width = 1467
+    Top = 504
+    Width = 995
     Align = alBottom
     BevelOuter = bvNone
     ParentFont = False
@@ -51,24 +52,25 @@ object MainFrm: TMainFrm
   end
   object Splitter1: TSplitter
     Left = 400
-    Height = 952
+    Height = 504
     Top = 0
     Width = 5
   end
   object Panel2: TPanel
     Left = 0
-    Height = 952
+    Height = 504
     Top = 0
     Width = 400
     Align = alLeft
     Caption = 'Panel2'
-    ClientHeight = 952
+    ClientHeight = 504
     ClientWidth = 400
     ParentFont = False
     TabOrder = 3
+    OnResize = Panel2Resize
     object TreeView1: TTreeView
       Left = 1
-      Height = 771
+      Height = 323
       Top = 1
       Width = 398
       Align = alClient
@@ -93,7 +95,7 @@ object MainFrm: TMainFrm
     object pnlStats: TPanel
       Left = 1
       Height = 179
-      Top = 772
+      Top = 324
       Width = 398
       Align = alBottom
       BevelInner = bvLowered

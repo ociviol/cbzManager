@@ -245,8 +245,8 @@ begin
       b := zf.Stamp[aRow];
       if Assigned(b) then
       begin
-        X := (DrawGrid1.DefaultColWidth - b.Width) div 2;
-        Y := (DrawGrid1.DefaultRowHeight - b.Height) div 2;
+        X := (aRect.Width - b.Width) div 2;
+        Y := (aRect.Height - b.Height) div 2;
         Draw(aRect.Left + X, aRect.Top + Y, b);
       end;
 
@@ -448,12 +448,12 @@ end;
 
 function TCbzViewerFrame.GetStampHeight: Integer;
 begin
-  result := Round(DrawGrid1.DefaultRowHeight * GetCanvasScaleFactor);
+  result := DrawGrid1.DefaultRowHeight;
 end;
 
 function TCbzViewerFrame.GetStampWidth: Integer;
 begin
-  result := Round(DrawGrid1.DefaultColWidth * GetCanvasScaleFactor);
+  result := DrawGrid1.DefaultColWidth;
 end;
 
 function TCbzViewerFrame.GetState: TZipMode;

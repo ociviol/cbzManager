@@ -8,9 +8,7 @@
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <Title Value="cbzManagerOsx"/>
-      <Scaled Value="True"/>
       <ResourceType Value="res"/>
-      <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True"/>
         <TextName Value="Ollivier Civiol"/>
@@ -26,7 +24,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="19"/>
+      <BuildNr Value="23"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="cbzManager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManagerOsX" ProductName="cbzManager"/>
     </VersionInfo>
@@ -94,7 +92,7 @@
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Optimizations>
-              <OptimizationLevel Value="2"/>
+              <OptimizationLevel Value="3"/>
             </Optimizations>
           </CodeGeneration>
           <Linking>
@@ -221,7 +219,10 @@
       <Unit16>
         <Filename Value="ucbzviewerframe.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="CbzViewerFrame"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="uCbzViewerFrame"/>
       </Unit16>
       <Unit17>
         <Filename Value="ulibraryclasses.pas"/>

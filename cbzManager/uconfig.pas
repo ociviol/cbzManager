@@ -121,8 +121,8 @@ begin
   begin
     FMainLeft := aOwner.Left;
     FMainTop := aOwner.Top;
-    FMainWidth := Round(aOwner.Width * (1 / aOwner.GetCanvasScaleFactor));
-    FMainHeight := Round(aOwner.Height * (1 / aOwner.GetCanvasScaleFactor));
+    FMainWidth := aOwner.Width;
+    FMainHeight := aOwner.Height;
   end;
 end;
 
@@ -130,8 +130,8 @@ procedure TConfig.RestoreForm(aOwner: TForm);
 begin
   aOwner.left := ifthen(FMainLeft > 0, FMainLeft, aOwner.Left);
   aOwner.top := ifthen(FMainTop > 0, FMainTop, aOwner.Top);
-  aOwner.width := ifthen(FMainWidth > 0, Round(FMainWidth * aOwner.GetCanvasScaleFactor), aOwner.Width);
-  aOwner.height := ifthen(FMainHeight > 0, Round(FMainHeight * aOwner.GetCanvasScaleFactor), aOwner.Height);
+  aOwner.width := ifthen(FMainWidth > 0, FMainWidth, aOwner.Width);
+  aOwner.height := ifthen(FMainHeight > 0, FMainHeight, aOwner.Height);
 
   if FWindowState <> '' then
     aOwner.WindowState := StrToWindowState(FWindowState);

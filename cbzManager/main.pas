@@ -108,11 +108,13 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure mnuAboutClick(Sender: TObject);
     procedure mnuConfigClick(Sender: TObject);
     procedure mnuExitClick(Sender: TObject);
     procedure mnuSetDefaultPathClick(Sender: TObject);
+    procedure Panel2Resize(Sender: TObject);
     procedure pmTreeViewPopup(Sender: TObject);
     procedure PopupMenuQueuePopup(Sender: TObject);
     procedure Removefromlist1Click(Sender: TObject);
@@ -335,8 +337,8 @@ begin
   FConfig.RestoreForm(Self);
 
   if FConfig.MngrTreeViewWidth <> 0 then
-    Panel2.Width := ifthen(FConfig.MngrTreeViewWidth * GetCanvasScaleFactor > (ClientWidth div 2),
-                           ClientWidth div 3, Round(FConfig.MngrTreeViewWidth * GetCanvasScaleFactor));
+    Panel2.Width := ifthen(FConfig.MngrTreeViewWidth > (ClientWidth div 2),
+                           ClientWidth div 3, FConfig.MngrTreeViewWidth);
 
   FLibDocked := False;
   pnlStats.Visible := FConfig.ShowStats;
@@ -444,6 +446,11 @@ begin
   Flog.Log('cbzManager destroyed.');
   // destroy logger
   Flog := nil;
+end;
+
+procedure TMainFrm.FormResize(Sender: TObject);
+begin
+  FConfig.SaveForm(Self);
 end;
 
 procedure TMainFrm.FormShow(Sender: TObject);
@@ -591,11 +598,8 @@ begin
   end;
 end;
 
-
 procedure TMainFrm.SaveConfig;
 begin
-  FConfig.MngrTreeViewWidth := Round(Panel2.Width * (1 / GetCanvasScaleFactor));
-  FConfig.SaveForm(Self);
   FConfig.Save(FConfigFile);
   Flog.Log('Config saved.');
 end;
@@ -673,6 +677,11 @@ end;
 procedure TMainFrm.mnuSetDefaultPathClick(Sender: TObject);
 begin
   SaveConfig;
+end;
+
+procedure TMainFrm.Panel2Resize(Sender: TObject);
+begin
+  FConfig.MngrTreeViewWidth := Panel2.Width;
 end;
 
 procedure TMainFrm.pmTreeViewPopup(Sender: TObject);

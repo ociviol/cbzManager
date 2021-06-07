@@ -28,9 +28,9 @@ type
     FShowStats,
     FLHideRead,
     FOpenLibrary: Boolean;
-    FLibCurPath: String;
 
-    FWindowStates: TStringlist;
+    FWindowState,
+    FLibCurPath,
     FLibPath,
     Fcwebp,
     Funrar,
@@ -41,15 +41,22 @@ type
     FQueueSize,
     FNbThreads,
     FWebpQuality,
+    FMainLeft,
+    FMainTop,
+    FMainWidth,
+    FMainHeight,
     FTreeViewWidth :Integer;
   public
     constructor Create;
-    destructor Destroy; override;
     class function Load(const aFileName : String):TConfig;
     procedure SaveForm(aOwner : TForm);
     procedure RestoreForm(aOwner : TForm);
   published
-    property WindowStates : TStringlist read FWindowStates write FWindowStates;
+    property WindowState : String read FWindowState write FWindowState;
+    property MainLeft : integer read FMainLeft write FMainLeft;
+    property MainTop : integer read FMainTop write FMainTop;
+    property MainWidth : integer read FMainWidth write FMainWidth;
+    property MainHeight : integer read FMainHeight write FMainHeight;
     property MngrTreeViewWidth : Integer read FTreeViewWidth write FTreeViewWidth;
     property LibraryHideRead : Boolean read FLHideRead write FLHideRead;
     property DoLog : Boolean read FBlog write FBlog;
@@ -92,7 +99,6 @@ begin
   Fp7zip := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'7z.exe';
   Funrar := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'unrar.exe';
 {$endif}
-  FWindowStates := TStringlist.Create;
   FQueueSize:=2;
   FNbThreads := 8;
   FWebpQuality := 75;
@@ -103,12 +109,6 @@ begin
   FSyncPath := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\';
 end;
 
-destructor TConfig.Destroy;
-begin
-  FWindowStates.Free;
-  inherited Destroy;
-end;
-
 class function TConfig.Load(const aFileName: String): TConfig;
 begin
   result := TConfig(TJsonObject.Load(aFilename, TConfig.Create));
@@ -116,13 +116,13 @@ end;
 
 procedure TConfig.SaveForm(aOwner: TForm);
 begin
-  with FWindowStates do
+  with aOwner do
   begin
-    Values[Format('%sState', [aOwner.Name])] := WindowStateToStr(aOwner.WindowState);
-    Values[Format('%sLeft', [aOwner.Name])] := IntToStr(aOwner.Left);
-    Values[Format('%sTop', [aOwner.Name])] := IntToStr(aOwner.Top);
-    Values[Format('%sWidth', [aOwner.Name])] := IntToStr(aOwner.Width);
-    Values[Format('%sHeight', [aOwner.Name])] := IntToStr(aOwner.Height);
+    FWindowState := WindowStateToStr(aOwner.WindowState);
+    FMainLeft := aOwner.Left;
+    FMainTop := aOwner.Top;
+    FMainWidth := aOwner.Width;
+    FMainHeight := aOwner.Height;
   end;
 end;
 
@@ -133,22 +133,18 @@ var
   i : integer;
 
 begin
-  with FWindowStates do
+  with aOwner do
   begin
-    s := Values[Format('%sState', [aOwner.Name])];
-    if s <> '' then aOwner.WindowState:=StrToWindowState(s);
+    if FWindowState <> '' then
+      WindowState := StrToWindowState(FWindowState);
 
-    if aOwner.WindowState <> wsMaximized then
+    if WindowState <> wsMaximized then
     begin
-      if Values[Format('%sLeft', [aOwner.Name])] <> '' then
-        aOwner.left := StrToIntDef(Values[Format('%sLeft', [aOwner.Name])], 0);
-      if Values[Format('%sTop', [aOwner.Name])] <> '' then
-        aOwner.top := StrToIntDef(Values[Format('%sTop', [aOwner.Name])], 0);
-      if Values[Format('%sWidth', [aOwner.Name])] <> '' then
-        aOwner.width := StrToIntDef(Values[Format('%sWidth', [aOwner.Name])], 0);
-      if Values[Format('%sHeight', [aOwner.Name])] <> '' then
-        aOwner.height := StrToIntDef(Values[Format('%sHeight', [aOwner.Name])], 0);
-    end;
+      left := ifthen(FMainLeft > 0, FMainLeft, Left);
+      top := ifthen(FMainTop > 0, FMainTop, Top);
+      width := ifthen(FMainWidth > 0, FMainWidth, Width);
+      height := ifthen(FMainHeight > 0, FMainHeight, Height);
+  end;
   end;
 end;
 

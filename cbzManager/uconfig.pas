@@ -132,14 +132,6 @@ var
   r : TRect;
   i : integer;
 
-  procedure fixrect;
-  begin
-    if (r.Left < 0) then r.left := 0;
-    if (r.Top < 0) then r.Top := 0;
-    if ((r.left + r.width) > screen.Width) then r.width := screen.width - r.left;
-    if ((r.Top + r.height) > screen.height) then r.width := screen.height - r.Top;
-  end;
-
 begin
   with FWindowStates do
   begin
@@ -148,22 +140,13 @@ begin
 
     if aOwner.WindowState <> wsMaximized then
     begin
-      i := StrToIntDef(Values[Format('%sLeft', [aOwner.Name])], 0);
-      r.left := ifthen((i <> 0), i, 0);
-      i:= StrToIntDef(Values[Format('%sTop', [aOwner.Name])], 0);
-      r.top := ifthen((i <> 0), i, 0);
-      i:= StrToIntDef(Values[Format('%sWidth', [aOwner.Name])], 0);
-      r.width := ifthen((i <> 0), i, 0);
-      i:= StrToIntDef(Values[Format('%sHeight', [aOwner.Name])], 0);
-      r.height := ifthen((i <> 0), i, 0);
+      r.left := StrToIntDef(Values[Format('%sLeft', [aOwner.Name])], 0);
+      r.top := StrToIntDef(Values[Format('%sTop', [aOwner.Name])], 0);
+      r.width := StrToIntDef(Values[Format('%sWidth', [aOwner.Name])], 0);
+      r.height := StrToIntDef(Values[Format('%sHeight', [aOwner.Name])], 0);
 
       if (r.Width > 0) and (r.Height > 0) then
-        begin
-  {$if Defined(MsWindows)}
-        fixrect;
-  {$endif}
         aOwner.SetBounds(r.left, r.top, r.Width, r.Height);
-      end;
     end;
   end;
 end;

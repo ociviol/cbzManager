@@ -20,6 +20,7 @@
         <ResourceBaseClass Value="Form"/>
         <TopLine Value="184"/>
         <CursorPos X="17" Y="208"/>
+        <ComponentState Value="2"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="2">
           <Item0 Y="953" ID="1"/>

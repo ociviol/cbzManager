@@ -140,13 +140,8 @@ begin
   begin
     left := ifthen(FMainLeft > 0, FMainLeft, Left);
     top := ifthen(FMainTop > 0, FMainTop, Top);
-{$if defined(Darwin)}
-    width := ifthen(FMainWidth > 0, FMainWidth*2, Width);
-    height := ifthen(FMainHeight > 0, FMainHeight*2, Height);
-{$else}
     width := ifthen(FMainWidth > 0, FMainWidth, Width);
     height := ifthen(FMainHeight > 0, FMainHeight, Height);
-{$endif}
 
     if FWindowState <> '' then
       WindowState := StrToWindowState(FWindowState);

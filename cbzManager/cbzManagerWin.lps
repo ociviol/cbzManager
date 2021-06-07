@@ -17,13 +17,12 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="319"/>
-        <CursorPos X="55" Y="338"/>
+        <CursorPos Y="338"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
-          <Item0 X="4" Y="864" ID="3"/>
+          <Item0 X="4" Y="860" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -132,9 +131,10 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="118"/>
-        <CursorPos Y="149"/>
+        <CursorPos Y="145"/>
         <UsageCount Value="229"/>
         <Loaded Value="True"/>
       </Unit12>

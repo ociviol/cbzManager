@@ -10,7 +10,7 @@ uses
   {$if defined(Linux) or defined(Darwin)}
     cthreads,
   {$endif}
-  Utils.Logger, Utils.Searchfiles, Utils.treeview;
+  Utils.Logger, Utils.Searchfiles;
 
 type
 
@@ -41,7 +41,7 @@ type
     procedure Progress(Sender: TObject; const ProgressID: QWord;
                        const aPos, aMax: Integer; const Msg: String = '');
   public
-    constructor Create(AOwner : TComponent; aLog : ILog);
+    constructor Create(AOwner : TComponent; aLog : ILog); reintroduce;
     destructor Destroy; override;
   end;
 

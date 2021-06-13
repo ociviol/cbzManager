@@ -600,7 +600,7 @@ begin
         if UserFunction(i, UserData, ms, outz) = roSkip then
         begin
           if Assigned(UserData.Progress) then
-            UserData.Progress(Self, UserData.ProgressID, Outz.FileCount, cnt,
+            UserData.Progress(Self, UserData.ProgressID, Outz.FileCount, i,
                               'Rewriting file :' + FFilename);
           Continue;
         end;

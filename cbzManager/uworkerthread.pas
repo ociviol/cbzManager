@@ -397,13 +397,13 @@ var
   s, fname, newf : string;
   i : integer;
   ThreadExtract : TThreadExtract;
-  BeginDate : TDateTime;
+  //BeginDate : TDateTime;
   Rec : TDataRec;
   LastAskedID : Integer;
   LastAskedDate : TDateTime;
 
 begin
-  BeginDate := now;
+  //BeginDate := now;
   if Assigned(FProgress) then
   begin
     FCur := 0;

@@ -163,8 +163,8 @@ type
     function GetCacheFileName: String;
     procedure SetCurrentPath(AValue: String);
     procedure UpdateNbItems;
-    procedure SetGridPos(aCol, aRow : Integer); inline;
-    procedure SetGridTopPos(aCol, aRow : Integer); inline;
+    procedure SetGridPos(aCol, aRow : Integer);
+    procedure SetGridTopPos(aCol, aRow : Integer);
     procedure MoveIntoFolder;
     procedure SwitchPath(const aLibPath : String);
     procedure CheckModified;
@@ -404,7 +404,7 @@ end;
 
 procedure TThreadFill.Execute;
 var
-  i, lvl : integer;
+  i : integer;
   s : string;
   fi : TFileItem;
 begin
@@ -798,6 +798,7 @@ var
 begin
   if Button = mbRight then
   begin
+    ACol := 0; aRow := 0; // disable hint
     with dgLibrary do
     begin
       MouseToCell(x,y, aCol, aRow);
@@ -967,10 +968,8 @@ begin
 end;
 
 procedure TcbzLibrary.btnTestClick(Sender: TObject);
-var
-  c : integer;
 begin
-  c := FFileList.StampCount;
+  ;
 end;
 
 procedure TcbzLibrary.ActionReadStatusExecute(Sender: TObject);

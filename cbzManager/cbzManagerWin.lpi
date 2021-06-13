@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="105"/>
+      <BuildNr Value="114"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable LegalCopyright="Ollivier Civiol 2019" ProductName="cbzManager" InternalName="cbzManager" Comments="Comic books manager" FileDescription="Comic books manager" OriginalFilename="cbzManager" CompanyName="Ollivier Civiol"/>
     </VersionInfo>
@@ -71,7 +71,7 @@
               <ShowAll Value="True"/>
             </Verbosity>
             <CompilerMessages>
-              <IgnoredMessages idx5076="True" idx5044="True" idx4066="True" idx4056="True" idx4055="True"/>
+              <IgnoredMessages idx5076="True" idx5044="True" idx5024="True" idx4066="True" idx4056="True" idx4055="True"/>
             </CompilerMessages>
             <CustomOptions Value="-dUseCThreads -dDEBUG"/>
           </Other>

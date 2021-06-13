@@ -128,14 +128,14 @@ type
 implementation
 
 uses
-  Utils.ZipFile, uWorkerThread, FileUtil,
+  uWorkerThread, FileUtil,
 {$if defined(Darwin) or defined(Linux)}
   unix,
 {$else}
   Forms,
 {$endif}
   Process,
-  Utils.Arrays, Utils.SearchFiles, Utils.Files, Math;
+  Utils.Arrays, Utils.SearchFiles, Utils.Files;
 
 
 //const

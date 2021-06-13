@@ -28,7 +28,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure lbKeywordsClick(Sender: TObject);
   private
-    FLngFile : String;
+    //FLngFile : String;
   public
   end;
 

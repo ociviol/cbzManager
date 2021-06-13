@@ -129,8 +129,7 @@ type
     FLog: ILog;
     FInFill,
     FLibDocked: Boolean;
-    FConfigFile,
-    FFileToMove : String;
+    FConfigFile : String;
     FConfig : TConfig;
     FThreadSearchFiles : TThread;
     FTreeViewPaths : TStringlist;
@@ -198,8 +197,8 @@ implementation
 {$R *.lfm}
 
 uses
-  Config, LclIntf, strutils, LazUTF8,
-  Utils.Strings, frmwait,
+  Config, LclIntf, LazUTF8,
+  frmwait,
   fpHttpClient, uLogReader,
 {$if defined(Darwin) or defined(Linux)}
   unix,

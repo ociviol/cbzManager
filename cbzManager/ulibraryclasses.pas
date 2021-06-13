@@ -152,7 +152,7 @@ type
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile, strutils, LazUTF8, DateUtils
+  Forms, uCbz, Utils.Zipfile, LazUTF8, DateUtils
   //, utils.epub
   ;
 
@@ -639,78 +639,9 @@ begin
   end;
 end;
 
-function Fix(AnUTF8String: string):string;
-var
-  p: PChar;
-  CPLen: integer;
-  FirstByte, SecondByte, ThirdByte, FourthByte: Char;
+function makefilename(const aFilename : String):String; inline;
 begin
-  result := '';
-  p:=PChar(AnUTF8String);
-  repeat
-    CPLen := UTF8CodepointSize(p);
-
-    if CPLen = 1 then
-      result := result + String(p[0])
-    else
-    // Here you have a pointer to the char and its length
-    // You can access the bytes of the UTF-8 Char like this:
-    if CPLen >= 1 then FirstByte := P[0];
-    if CPLen >= 2 then SecondByte := P[1];
-    if CPLen >= 3 then ThirdByte := P[2];
-    if CPLen = 4 then FourthByte := P[3];
-
-    inc(p,CPLen);
-  until (CPLen=0) or (p^ = #0);
-end;
-
-//const
-//  accented : String =   'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
-//  arracc : array[0..52] of string =
-//      ('À','Á','Â','Ã','Ä','Å','à','á','â','ã','ä','å',
-//       'Ò','Ó','Ô','Õ','Ö','Ø','ò','ó','ô','õ','ö','ø',
-//       'È','É','Ê','Ë','è','é','ê','ë',
-//       'Ç','ç',
-//       'Ì','Í','Î','Ï','ì','í','î','ï',
-//       'Ù','Ú','Û','Ü','ù','ú','û','ü','ÿ',
-//       'Ñ','ñ'
-//      );
-//  unaccented : ansistring = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
-//
-function makefilename(const aFilename : String):String;
-//var
-//  p: PChar;
-//  CPLen: integer;
-//  s : string;
-  //FirstByte, SecondByte, ThirdByte, FourthByte: Char;
-begin
-  //if s <> accented then
-  //  convert(s);
-
   result := aFilename;
-  (*
-  p:=PChar(aFilename);
-  repeat
-    CPLen := UTF8CodepointSize(p);
-
-    if CPLen = 1 then
-      result := result + String(p[0]);
-    //else
-    //if p[0] < #128  then
-    //  result := result + String(p[0])
-    //else
-    //  result := result + '.';
-    {
-    // Here you have a pointer to the char and its length
-    // You can access the bytes of the UTF-8 Char like this:
-    if CPLen >= 1 then FirstByte := P[0];
-    if CPLen >= 2 then SecondByte := P[1];
-    if CPLen >= 3 then ThirdByte := P[2];
-    if CPLen = 4 then FourthByte := P[3];
-    }
-    inc(p,CPLen);
-  until (CPLen=0) or (p^ = #0);
-  *)
 end;
 
 

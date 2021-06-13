@@ -179,7 +179,7 @@ implementation
 {$R *.lfm}
 
 uses
-  dialogs, utils.vcl;
+  dialogs;
 
 { TCbzViewerFrame }
 
@@ -738,6 +738,7 @@ procedure TCbzViewerFrame.DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integ
 var
   aRow, ACol: Integer;
 begin
+  ACol := 0; aRow := 0; // disable hint
   DrawGrid1.MouseToCell(X, Y, ACol, aRow);
   zf.Invert(DrawGrid1.Position, aRow, @Progress);
   DrawGrid1.Invalidate;
@@ -749,6 +750,7 @@ procedure TCbzViewerFrame.DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integ
 var
   aRow, ACol: Integer;
 begin
+  ACol := 0; aRow := 0; // disable hint
   DrawGrid1.MouseToCell(X, Y, ACol, aRow);
   Accept := (Sender = Source) and (aRow <> DrawGrid1.Position) and
     (State <> dsDragEnter); // and (GetKeyState(VK_LBUTTON) and $8000 <> 0);

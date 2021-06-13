@@ -75,7 +75,7 @@ type
     function GetText: String;
     procedure SetDateAdded(AValue: TDAteTime);
     procedure SetDateSetReadState(AValue: TDateTime);
-    procedure SetSyncFileDAte(AValue: TDateTime);
+    procedure SetSyncFileDAte({%H-}AValue: TDateTime);
     procedure SetDeleted(AValue: Boolean);
     procedure SetReadState(AValue: Boolean);
     procedure SetStampGenerated(AValue: Boolean);

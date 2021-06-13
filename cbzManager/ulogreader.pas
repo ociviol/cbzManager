@@ -32,14 +32,14 @@ type
     FLog : ILog;
     FThreadSearchFiles : TThread;
 
-    procedure AfterShow(data : int64);
+    procedure AfterShow({%H-}data : int64);
     procedure Search;
     procedure SearchEnded(Sender: TObject);
     procedure LoadMemo(Node: TTreeNode);
     function FoundFile(const aFileName: string;
-                       IsNew: Boolean = False): TTreeNode;
-    procedure Progress(Sender: TObject; const ProgressID: QWord;
-                       const aPos, aMax: Integer; const Msg: String = '');
+                       {%H-}IsNew: Boolean = False): TTreeNode;
+    procedure Progress(Sender: TObject; const {%H-}ProgressID: QWord;
+                       const {%H-}aPos, {%H-}aMax: Integer; const {%H-}Msg: String = '');
   public
     constructor Create(AOwner : TComponent; aLog : ILog); reintroduce;
     destructor Destroy; override;

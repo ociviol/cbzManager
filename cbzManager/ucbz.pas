@@ -99,34 +99,34 @@ type
     procedure StopStampThread;
     procedure ClearCache;
     function DoRotateFunct(Index : Integer; UserData : TUserData; var  Stream : TMemoryStream;
-                           const outz : Tcbz):TRewriteOperation;
+                           const {%H-}outz : Tcbz):TRewriteOperation;
     function CreateUserData(aIndexes : TIntArray;
                             bSaveStamps : Boolean; aSaveStampsOp : TSaveStampOp;
                             aData : TIntArray; aProgress : TCbzProgressEvent):TUserData;
     function SaveCachedStamps(Ignores : TIntArray; bOp : TSaveStampOp = soNone):TStringList;
     function FinishRewrite(const aName, fname : string):Boolean;
     procedure DoSetImage(Indexes: TIntArray; const Values: TStreamArray;
-                         CallBack : TCbzProgressEvent = nil);
+                         {%H-}CallBack : TCbzProgressEvent = nil);
     function DoSetImageFunct(Index : Integer; UserData : TUserData;
                               var Stream : TMemoryStream;
-                              const outz : Tcbz):TRewriteOperation;
+                              const {%H-}outz : Tcbz):TRewriteOperation;
     procedure DoAdd(Streams : TStreamArray; CallBack : TCbzProgressEvent = nil);
     function DoOperation(UserFunction : TRewriteFunction; UserData : TUserData;
                           Operation : TOperation):String;
     function DoDeleteFunct(Index : Integer; UserData : TUserData;
                             var  Stream : TMemoryStream;
-                            const outz : Tcbz):TRewriteOperation;
+                            const {%H-}outz : Tcbz):TRewriteOperation;
     function DoInsertFunct(Index : Integer; UserData : TUserData; var  Stream : TMemoryStream;
                             const outz : Tcbz):TRewriteOperation;
     procedure DoFlip(Indexes : TIntArray; Orientation : TFlipDir; CallBack : TCbzProgressEvent = nil);
     function DoInvertFunct(Index : Integer; UserData : TUserData;
                             var  Stream : TMemoryStream;
-                            const outz : Tcbz):TRewriteOperation;
+                            const {%H-}outz : Tcbz):TRewriteOperation;
 
     class function ConvertBitmapToStream(const fimg : TBitmap; aFLog : ILog; aWebpQuality : Integer):TMemoryStream;
     function DoFlipFunct(Index : Integer; UserData : TUserData;
                           var  Stream : TMemoryStream;
-                          const outz : Tcbz):TRewriteOperation;
+                          const {%H-}outz : Tcbz):TRewriteOperation;
   public
     constructor Create(Log : ILog; const aStampWidth : Integer = -1; const aStampHeight : Integer = -1;
                        const WebpQualityFactor : Integer = 75;
@@ -151,7 +151,7 @@ type
     procedure ClearUndo;
     function CanUndo:Boolean;
     procedure Add(Streams : TStreamArray; CallBack : TCbzProgressEvent = nil);
-    procedure Insert(Streams : TStreamArray; AboveIndex : Integer; CallBack : TCbzProgressEvent = nil);
+    procedure Insert(Streams : TStreamArray; AboveIndex : Integer; {%H-}CallBack : TCbzProgressEvent = nil);
     procedure Rotate(Indexes : TIntArray; Angle:Integer; CallBack : TCbzProgressEvent = nil);
     procedure VerticalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
     procedure HorizontalFlip(Indexes : TIntArray; CallBack : TCbzProgressEvent = nil);
@@ -160,7 +160,7 @@ type
     function GetNextFileName:String;
     procedure Undo(CallBack : TCbzProgressEvent);
     function RewriteManga(CallBack : TCbzProgressEvent = nil):String;
-    procedure Invert(Index1, Index2 : Integer; CallBack : TCbzProgressEvent = nil);
+    procedure Invert(Index1, Index2 : Integer; {%H-}CallBack : TCbzProgressEvent = nil);
     function GenerateStamp(Index : Integer):Tbitmap; overload;
     function GenerateStamp(Index, aStampWidth, aStampHeight : Integer):Tbitmap; overload;
 
@@ -1880,7 +1880,7 @@ begin
   begin
     Terminate;
     if Suspended then
-      Resume;
+      Resume{%H-};
     //while not Terminated do
     //  Sleep(250);
     //WaitFor;
@@ -1954,7 +1954,7 @@ begin
       end
       else
         if not Terminated then
-          Suspend;
+          Suspend{%H-};
     end;
 
     if Assigned(FNotify) then

@@ -121,10 +121,10 @@ type
     procedure TimerstatsTimer(Sender: TObject);
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
     procedure TreeView1CustomDrawItem(Sender: TCustomTreeView; Node: TTreeNode;
-      State: TCustomDrawState; var DefaultDraw: Boolean);
-    procedure TreeView1DragDrop(Sender, Source: TObject; X, Y: Integer);
-    procedure TreeView1DragOver(Sender, Source: TObject; X, Y: Integer;
-      State: TDragState; var Accept: Boolean);
+      {%H-}State: TCustomDrawState; var {%H-}DefaultDraw: Boolean);
+    procedure TreeView1DragDrop(Sender, {%H-}Source: TObject; X, Y: Integer);
+    procedure TreeView1DragOver(Sender, {%H-}Source: TObject; X, Y: Integer;
+      {%H-}State: TDragState; var Accept: Boolean);
   private
     FLog: ILog;
     FInFill,

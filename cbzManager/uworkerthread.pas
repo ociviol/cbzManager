@@ -348,14 +348,14 @@ end;
 procedure TCbzWorkerThread.Terminate;
 begin
   if Suspended then
-    Resume;
+    Resume{%H-};
   inherited;
 end;
 
 procedure TCbzWorkerThread.OnPutData;
 begin
   if Suspended then
-    Resume;
+    Resume{%H-};
 end;
 
 function TCbzWorkerThread.GetElapsed(aNow, aThen : TDatetime):String;

@@ -115,17 +115,17 @@ type
     procedure ActionVertFlipExecute(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure btnCropClick(Sender: TObject);
-    procedure DrawGrid1DragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure DrawGrid1DragDrop(Sender, {%H-}Source: TObject; X, Y: Integer);
     procedure DrawGrid1DragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
-    procedure DrawGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
-      aRect: TRect; aState: TGridDrawState);
-    procedure DrawGrid1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState
+    procedure DrawGrid1DrawCell(Sender: TObject; {%H-}aCol, aRow: Integer;
+      aRect: TRect; {%H-}aState: TGridDrawState);
+    procedure DrawGrid1KeyUp(Sender: TObject; var Key: Word; {%H-}Shift: TShiftState
       );
     procedure DrawGrid1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure DrawGrid1MouseEnter(Sender: TObject);
-    procedure DrawGrid1SelectCell(Sender: TObject; aCol, aRow: Integer;
+    procedure DrawGrid1SelectCell(Sender: TObject; {%H-}aCol, aRow: Integer;
       var CanSelect: Boolean);
     procedure pmgridPopup(Sender: TObject);
     procedure pmImagePopup(Sender: TObject);
@@ -151,7 +151,7 @@ type
     procedure StampReady(ProgressID: QWord; Index: Integer);
     procedure Progress(Sender: TObject; const ProgressID: QWord;
                        const aPos, aMax: Integer; const Msg: String = '');
-    procedure AfterCellSelect(data : int64);
+    procedure AfterCellSelect({%H-}data : int64);
     procedure EnableActions;
     procedure SetMainImage(Index: Integer);
     procedure HideCropTool;

@@ -42,3 +42,22 @@ cbzManager/cbzManagerOsx
 cbzManager/lib/x86_64-darwin/cbzManagerOsx.compiled
 precompiled binairies/Mac OsX/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx
 cbzManager/mkbinwin.bat
+*.or
+*.or
+*.res
+cbzManager/lib/x86_64-darwin/cbzManagerOsx.or
+cbzManager/lib/x86_64-darwin/cbzManagerOsx.or
+cbzManager/lib/x86_64-darwin/cbzManagerOsx.res
+cbzManager/lib/x86_64-darwin/cbzManagerOsx.s
+cbzManager/lib/x86_64-darwin/main.lfm
+cbzManager/lib/x86_64-darwin/main.s
+cbzManager/lib/x86_64-darwin/ucbz.s
+cbzManager/lib/x86_64-darwin/ucbzlibrary.lfm
+cbzManager/lib/x86_64-darwin/ucbzlibrary.s
+cbzManager/lib/x86_64-darwin/ucbzviewerframe.s
+cbzManager/lib/x86_64-darwin/ufilecleaner.s
+cbzManager/lib/x86_64-darwin/ulibraryclasses.s
+cbzManager/lib/x86_64-darwin/ulogreader.s
+cbzManager/lib/x86_64-darwin/uthreadextract.s
+cbzManager/lib/x86_64-darwin/uworkerthread.s
+cbzManager/lib/x86_64-darwin/cbzManagerOsx.or

@@ -4,7 +4,7 @@ Comicbook converter/manager/Library
 This software is in development phase, current version is VERY BETA. Use at your own risks...
 Current versions are stable and can be used but this software is still under development so there could be bugs.
 
-New feature : Library Manager (menu File/Library)
+You will also need my repository of utils to be able to compile it.
 
 Precompiled binaries available for Linux (x64) and Mac OsX.
 

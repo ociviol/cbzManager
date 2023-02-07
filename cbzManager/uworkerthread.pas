@@ -472,7 +472,7 @@ begin
             if not ThreadExtract.Working and (ThreadExtract.NbFiles = 0) then
               break;
 
-            if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 30) then
+            if (i = LastAskedID) and (SecondsBetween(now, LastAskedDate) > 120) then // 2mn timeout
             begin
               FLog.Log('TCbzWorkerThread.Convert : Timeout on item : ' + IntTostr(i));
               FResults.Add('Conversion of file "' + ExtractFileName(aFilename) + '" timed out, job will be run again');

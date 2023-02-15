@@ -108,7 +108,6 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure mnuAboutClick(Sender: TObject);
     procedure mnuConfigClick(Sender: TObject);
@@ -447,11 +446,6 @@ begin
   Flog := nil;
 end;
 
-procedure TMainFrm.FormResize(Sender: TObject);
-begin
-  FConfig.SaveForm(Self);
-end;
-
 procedure TMainFrm.FormShow(Sender: TObject);
 begin
   if not Application.Terminated then
@@ -524,6 +518,8 @@ begin
   f.Text := 'Closing Application ...';
   FThreadDataPool.Free;
   FJobpool.Free;
+
+  FConfig.SaveForm(Self);
   SaveConfig;
   CloseAction:=caFree;;
 end;

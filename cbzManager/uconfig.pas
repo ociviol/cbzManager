@@ -29,7 +29,7 @@ type
     FLHideRead,
     FOpenLibrary: Boolean;
 
-    FWindowState,
+    FWindowStateStr,
     FLibCurPath,
     FLibPath,
     Fcwebp,
@@ -52,7 +52,7 @@ type
     procedure SaveForm(aOwner : TForm);
     procedure RestoreForm(aOwner : TForm);
   published
-    property WindowStateStr : String read FWindowState write FWindowState;
+    property WindowStateStr : String read FWindowStateStr write FWindowStateStr;
     property MainLeft : integer read FMainLeft write FMainLeft;
     property MainTop : integer read FMainTop write FMainTop;
     property MainWidth : integer read FMainWidth write FMainWidth;
@@ -80,6 +80,7 @@ implementation
 
 uses
   Math;
+
 
 { TConfig }
 
@@ -116,7 +117,7 @@ end;
 
 procedure TConfig.SaveForm(aOwner: TForm);
 begin
-  FWindowState := WindowStateToStr(aOwner.WindowState);
+  FWindowStateStr := WindowStateToStr(aOwner.WindowState);
   if aOwner.WindowState = wsNormal then
   begin
     FMainLeft := aOwner.Left;
@@ -133,8 +134,8 @@ begin
   aOwner.width := ifthen(FMainWidth > 0, FMainWidth, aOwner.Width);
   aOwner.height := ifthen(FMainHeight > 0, FMainHeight, aOwner.Height);
 
-  if FWindowState <> '' then
-    aOwner.WindowState := StrToWindowState(FWindowState);
+  if FWindowStateStr <> '' then
+    aOwner.WindowState := StrToWindowState(FWindowStateStr);
 end;
 
 

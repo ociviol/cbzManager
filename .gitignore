@@ -62,3 +62,4 @@ cbzManager/lib/x86_64-darwin/uthreadextract.s
 cbzManager/lib/x86_64-darwin/uworkerthread.s
 cbzManager/lib/x86_64-darwin/cbzManagerOsx.or
 cbzManager/cbzManagerWin.res
+cbzManager/lib/*

@@ -15,8 +15,11 @@ requirements :
 
 In order to Build the project you will also need to clone the Utils repository
 
+Windows
+FPC 3.3.1 and Lazarus >= 2.2.4
+
 Linux (only tested under Ubutu 18.4 LTS AMD64) :
-Lazarus >= 2.0.4
+FPC 3.3.1 and Lazarus >= 2.2.4
 
 	unzip : 	sudo apt install unzip
 	unrar: 		sudo apt install unrar
@@ -25,7 +28,7 @@ Lazarus >= 2.0.4
 	libwebp : 	sudo apt install libwebp-dev
 
 Max OsX (use HomeBrew : https://brew.sh/):
-Lazarus trunk >= 2.1.0
+FPC 3.3.1 and Lazarus >= 2.2.4
 
 	unzip : 	brew install unzip
 	unrar: 		brew install unrar
@@ -36,4 +39,4 @@ Lazarus trunk >= 2.1.0
 
 If you want to collaborate, do not hesitate to contact me.
 
-Windows version available at  : https://ollivierciviolsoftware.wordpress.com/
+Delphi Windows version available at  : https://ollivierciviolsoftware.wordpress.com/

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <BuildModes Active="Debug"/>
     <Units Count="91">
       <Unit0>
@@ -134,7 +134,7 @@
         <UnitName Value="uConfig"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="100"/>
+        <TopLine Value="99"/>
         <CursorPos Y="120"/>
         <UsageCount Value="229"/>
         <Loaded Value="True"/>
@@ -892,40 +892,40 @@
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode="default"/>
+      <Modes ActiveMode="default"/>
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="2">
-      <Item1>
+    <BreakPoints>
+      <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="uconfig.pas"/>
         <Line Value="120"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="uconfig.pas"/>
         <Line Value="132"/>
-      </Item2>
+      </Item>
     </BreakPoints>
-    <Watches Count="4">
-      <Item1>
+    <Watches>
+      <Item>
         <Expression Value="aOwner.width"/>
         <DisplayStyle Value="wdfString"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <Expression Value="aOwner"/>
-      </Item2>
-      <Item3>
+      </Item>
+      <Item>
         <Expression Value="o.next"/>
-      </Item3>
-      <Item4>
+      </Item>
+      <Item>
         <Expression Value="FCodelist.Next"/>
-      </Item4>
+      </Item>
     </Watches>
   </Debugging>
 </CONFIG>

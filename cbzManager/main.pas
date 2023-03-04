@@ -1126,6 +1126,11 @@ begin
         CreateConversionQueues;
       end;
 
+      CbzViewerFrame.FullClear;
+      CbzViewerFrame.Free;
+      CbzViewerFrame := TCbzViewerFrame.Create(self, FConfig, FLog, @Progress);
+      CbzViewerFrame.Parent := self;
+
       SetAppCaption;
     end;
   finally

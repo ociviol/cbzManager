@@ -11,7 +11,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons,
-  Spin, uConfig;
+  Spin, ExtCtrls, uConfig;
 
 type
 
@@ -20,15 +20,17 @@ type
   TConfigFrm = class(TForm)
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
-    cblogging: TCheckBox;
-    cbDeleteFile: TCheckBox;
     cbAlbumArt: TCheckBox;
+    cbDeleteFile: TCheckBox;
+    cblogging: TCheckBox;
     edtcwebp: TEdit;
     edtSyncPath: TEdit;
     edtLibPath: TEdit;
     edtunrar: TEdit;
     edtp7zip: TEdit;
     Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
@@ -37,12 +39,15 @@ type
     Label8: TLabel;
     Label9: TLabel;
     OpenDialog1: TOpenDialog;
+    Panel1: TPanel;
     sbSyncPath: TSpeedButton;
     sbCwebp: TSpeedButton;
     sbLibPath: TSpeedButton;
     sbUnrar: TSpeedButton;
     sb7zip: TSpeedButton;
     speNbThreads: TSpinEdit;
+    speStampWidth: TSpinEdit;
+    speStampHeight: TSpinEdit;
     speWebpQuality: TSpinEdit;
     speQueues: TSpinEdit;
     procedure BitBtn1Click(Sender: TObject);
@@ -124,6 +129,8 @@ begin
   cbDeleteFile.Checked := Config.DeleteFile;
   cbAlbumArt.Checked := Config.DoAlbumart;
   edtSyncPath.Text:=Config.SyncPath;
+  speStampWidth.Value:= Config.DefaultColWidth;
+  speStampHeight.Value:=Config.DefaultRowHeight;
 
   if Assigned(FindForm(TCbzLibrary)) then
   begin
@@ -147,6 +154,8 @@ begin
   Config.DeleteFile := cbDeleteFile.Checked;
   Config.DoAlbumart := cbAlbumArt.Checked;
   Config.SyncPath := edtSyncPath.Text;
+  Config.DefaultColWidth := speStampWidth.Value;
+  Config.DefaultRowHeight := speStampHeight.Value;
 end;
 
 procedure TConfigFrm.sbUnrarClick(Sender: TObject);

@@ -190,6 +190,9 @@ begin
   FLog := aLog;
   Fconfig := aConfig;
   FProgress := aProgress;
+  DrawGrid1.DefaultColWidth := aConfig.DefaultColWidth;
+  DrawGrid1.DefaultRowHeight := aConfig.DefaultRowHeight;
+  DrawGrid1.Width := DrawGrid1.DefaultColWidth + 20;
   zf := TCbz.Create(FLog, DrawGrid1.DefaultColWidth - 5,
                       DrawGrid1.DefaultRowHeight - 5,
                       75, @StampReady);

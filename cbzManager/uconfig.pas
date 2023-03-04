@@ -45,6 +45,8 @@ type
     FMainTop,
     FMainWidth,
     FMainHeight,
+    FDefaultColWidth,
+    FDefaultRowHeight,
     FTreeViewWidth :Integer;
   public
     constructor Create;
@@ -57,6 +59,8 @@ type
     property MainTop : integer read FMainTop write FMainTop;
     property MainWidth : integer read FMainWidth write FMainWidth;
     property MainHeight : integer read FMainHeight write FMainHeight;
+    property DefaultColWidth : integer read FDefaultColWidth write FDefaultColWidth;
+    property DefaultRowHeight : integer read FDefaultRowHeight write FDefaultRowHeight;
     property MngrTreeViewWidth : Integer read FTreeViewWidth write FTreeViewWidth;
     property LibraryHideRead : Boolean read FLHideRead write FLHideRead;
     property DoLog : Boolean read FBlog write FBlog;
@@ -107,6 +111,8 @@ begin
   FAlbumart := False;
   FShowStats := False;
   FOpenLibrary := False;
+  FDefaultColWidth := 120;
+  FDefaultRowHeight := 160;
   FSyncPath := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\';
 end;
 

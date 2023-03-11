@@ -34,6 +34,7 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="12"/>
         <TopLine Value="13"/>
         <CursorPos X="10" Y="13"/>
@@ -392,7 +393,6 @@
       </Unit40>
       <Unit41>
         <Filename Value="../../XmlReader/XmlDoc/OEncoding.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="309"/>
         <CursorPos X="49" Y="327"/>

@@ -1,11 +1,11 @@
 object ConfigFrm: TConfigFrm
   Left = 1060
-  Height = 324
+  Height = 308
   Top = 338
   Width = 464
   BorderStyle = bsDialog
   Caption = 'Config'
-  ClientHeight = 324
+  ClientHeight = 308
   ClientWidth = 464
   OnShow = FormShow
   Position = poMainFormCenter
@@ -193,7 +193,7 @@ object ConfigFrm: TConfigFrm
   object Panel1: TPanel
     Left = 0
     Height = 106
-    Top = 218
+    Top = 202
     Width = 464
     Align = alBottom
     BevelOuter = bvNone

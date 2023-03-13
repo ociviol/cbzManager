@@ -111,8 +111,8 @@ begin
   FAlbumart := False;
   FShowStats := False;
   FOpenLibrary := False;
-  FDefaultColWidth := 120;
-  FDefaultRowHeight := 160;
+  FDefaultColWidth := 140;
+  FDefaultRowHeight := 180;
   FSyncPath := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\';
 end;
 

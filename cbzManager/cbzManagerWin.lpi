@@ -1,20 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="12"/>
+    <Version Value="11"/>
     <General>
-      <Flags>
-        <CompatibilityMode Value="True"/>
-      </Flags>
       <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
       <Title Value="cbzManagerWin"/>
       <Scaled Value="True"/>
-      <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
-        <LongPathAware Value="True"/>
-        <AnsiUTF8 Value="True"/>
+        <DpiAware Value="True"/>
       </XPManifest>
       <Icon Value="0"/>
     </General>
@@ -23,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="125"/>
+      <BuildNr Value="117"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable LegalCopyright="Ollivier Civiol 2019" ProductName="cbzManager" InternalName="cbzManager" Comments="Comic books manager" FileDescription="Comic books manager" OriginalFilename="cbzManager" CompanyName="Ollivier Civiol"/>
     </VersionInfo>
@@ -85,7 +81,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="cbzManager"/>
+            <Filename Value="cbzManagerWin"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -135,13 +131,16 @@
         </Mode0>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="TurboPowerIPro"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="TurboPowerIPro"/>
       </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
     </RequiredPackages>
     <Units Count="25">
       <Unit0>

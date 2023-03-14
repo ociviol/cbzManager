@@ -563,9 +563,6 @@ begin
   FVisibleList.OnChanging := @VisibleListChanged;
   //FVisibleList.Sorted:=True;
 
-  dgLibrary.DefaultColWidth:=Fconfig.DefaultColWidth;
-  dgLibrary.DefaultRowHeight:=Fconfig.DefaultRowHeight;
-
   s := IncludeTrailingPathDelimiter(FConfig.SyncPath) + 'cbzReadingList.json';
   if FileExists(s) then
   begin

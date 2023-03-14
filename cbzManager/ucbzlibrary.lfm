@@ -21,9 +21,9 @@ object CbzLibrary: TCbzLibrary
     Align = alClient
     BorderSpacing.Around = 10
     ColCount = 9
-    DefaultColWidth = 200
+    DefaultColWidth = 120
     DefaultDrawing = False
-    DefaultRowHeight = 300
+    DefaultRowHeight = 220
     ExtendedSelect = False
     FixedCols = 0
     FixedRows = 0

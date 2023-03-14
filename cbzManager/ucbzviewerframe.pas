@@ -265,6 +265,10 @@ begin
   if (zf.Mode <> zmClosed) then
     with DrawGrid1 do
       case Key of
+        46: // delete
+            if ActionDelete.Enabled then
+              ActionDelete.Execute;
+
         40, // down
         37: // left
           if Position >= 0 then

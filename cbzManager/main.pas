@@ -199,6 +199,7 @@ uses
   Config, LclIntf, LazUTF8,
   frmwait,
   fpHttpClient, uLogReader,
+  opensslsockets,
 {$if defined(Darwin) or defined(Linux)}
   unix,
 {$endif}
@@ -230,39 +231,49 @@ procedure TThreadCheckVersion.Execute;
 var
   t : TStringList;
   i : integer;
+  s : string;
 begin
   try
     with TFPHTTPClient.Create(nil) do
     try
       t := TStringList.Create;
       try
-        SimpleGet('https://filedn.com/ld6vdapF8EELCrRa1IVpQwu/version.txt', t);
+        SimpleGet('https://ollivierciviolsoftware.wordpress.com/version/', t);
+        s := '';
+        FUpdateVersion := '';
 
         for i:=0 to t.Count - 1 do
-  {$if defined(Darwin)}
-          if t[i].StartsWith('osx:') then
+          if t[i].Contains('content="win:x64=') then
           begin
-            FUpdateVersion := copy(t[i], 5, length(t[i]));
+            s := copy(t[i], pos('content="win:x64=', t[i]) + 9, length(t[i]));
+            s := copy(s, 1, pos('"', s)-1);
             break;
           end;
-  {$ELSEif Defined(Linux)}
-          if t[i].StartsWith('linux:') then
-          begin
-            FUpdateVersion := copy(t[i], 7, length(t[i]));
-            break;
-          end;
-  {$ELSEif Defined(MsWindows)}
-          if t[i].StartsWith('winos:') then
-          begin
-            FUpdateVersion := copy(t[i], 7, length(t[i]));
-            break;
-          end;
-  {$ENDIF}
-          if FUpdateVersion <> '' then
-            FNeedUpdate := CompareVersion(GetFileVersion, FUpdateVersion) > 0;
+          // s = win:x64=1.0.1.14 win:x86=1.0.1.14 linux:1.0.1.38 osx:1.0.1.35 winos:1.0.1.141
       finally
         t.Free;
       end;
+
+      if s <> '' then
+      begin
+      {$if defined(Darwin)}
+        FUpdateVersion := copy(s, pos('osx:', s)+4, length(s));
+        if pos(' ', FUpdateVersion) > 0 then
+          FUpdateVersion := copy(FUpdateVersion, 1, pos(' ', FUpdateVersion)-1);
+      {$ELSEif Defined(Linux)}
+        FUpdateVersion := copy(s, pos('linux:', s)+6, length(s));
+        if pos(' ', FUpdateVersion) > 0 then
+          FUpdateVersion := copy(FUpdateVersion, 1, pos(' ', FUpdateVersion)-1);
+      {$ELSEif Defined(MsWindows)}
+        FUpdateVersion := copy(s, pos('winos:', s)+6, length(s));
+        if pos(' ', FUpdateVersion) > 0 then
+          FUpdateVersion := copy(FUpdateVersion, 1, pos(' ', FUpdateVersion)-1);
+      {$ENDIF}
+      end;
+
+      if FUpdateVersion <> '' then
+        FNeedUpdate := CompareVersion(GetFileVersion, FUpdateVersion) > 0;
+
     finally
       Free;
     end;
@@ -390,11 +401,11 @@ begin
                   mtConfirmation, MbYesNo, 0) = MrYes then
     begin
 {$if defined(Darwin)}
-      OpenUrl('https://filedn.com/ld6vdapF8EELCrRa1IVpQwu/cbzManager/OpenSource/cbzmanagerOsX.zip');
+      OpenUrl('https://github.com/ociviol/cbzManager/tree/master/precompiled%20binairies/Mac%20OsX');
 {$elseif defined(Linux)}
-      OpenUrl('https://filedn.com/ld6vdapF8EELCrRa1IVpQwu/cbzManager/OpenSource/cbzmanagerLinux.zip');
+      OpenUrl('https://github.com/ociviol/cbzManager/tree/master/precompiled%20binairies/Linux');
 {$else}
-      OpenUrl('https://filedn.com/ld6vdapF8EELCrRa1IVpQwu/cbzManager/OpenSource/cbzmanagerWin.zip');
+      OpenUrl('https://github.com/ociviol/cbzManager/tree/master/precompiled%20binairies/Windows');
 {$endif}
     end;
 end;

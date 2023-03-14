@@ -154,7 +154,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="540"/>
-        <CursorPos Y="565"/>
+        <CursorPos X="26" Y="566"/>
         <UsageCount Value="113"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -188,8 +188,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="323"/>
-        <CursorPos X="34" Y="143"/>
+        <TopLine Value="132"/>
+        <CursorPos X="16" Y="160"/>
         <UsageCount Value="111"/>
         <Loaded Value="True"/>
       </Unit17>

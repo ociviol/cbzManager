@@ -288,6 +288,19 @@ begin
             Selected[Position] := true;
             SetMainImage(Position);
           end;
+
+         // 74 : j
+         74: if ActionJoin.Enabled then
+                ActionJoin.Execute;
+         // 83 : S
+         83: if ActionSplitImage.Enabled then
+               ActionSplitImage.Execute;
+
+         // 35 : end
+         35: ActionLast.Execute;
+
+         // 36: Home
+         36: ActionFirst.Execute;
       end;
 end;
 

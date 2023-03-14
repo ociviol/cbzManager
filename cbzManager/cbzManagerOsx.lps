@@ -40,12 +40,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="1109"/>
-        <CursorPos X="27" Y="1132"/>
+        <TopLine Value="381"/>
+        <CursorPos Y="401"/>
         <UsageCount Value="252"/>
         <Bookmarks Count="2">
-          <Item0 X="13" Y="453" ID="3"/>
-          <Item1 X="7" Y="1133" ID="1"/>
+          <Item0 X="13" Y="455" ID="3"/>
+          <Item1 X="7" Y="1135" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -65,11 +65,11 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="113"/>
         <CursorPos X="97" Y="153"/>
         <UsageCount Value="252"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="frmwait.pas"/>
@@ -151,11 +151,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="156"/>
         <CursorPos X="30" Y="172"/>
         <UsageCount Value="113"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit14>
       <Unit15>
         <Filename Value="ucbzviewer.pas"/>
@@ -276,79 +278,130 @@
         <UsageCount Value="11"/>
       </Unit27>
     </Units>
-    <JumpHistory Count="18" HistoryIndex="17">
+    <Debugger>
+      <Backend Value="{29EFC2CC-1BE8-461C-0E62-D597E20B78F9}"/>
+    </Debugger>
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="main.pas"/>
-        <Caret Line="127" Column="12" TopLine="110"/>
+        <Caret Line="126" Column="46" TopLine="109"/>
       </Position1>
       <Position2>
         <Filename Value="main.pas"/>
-        <Caret Line="126" Column="46" TopLine="109"/>
+        <Caret Line="124" Column="12" TopLine="107"/>
       </Position2>
       <Position3>
-        <Filename Value="main.pas"/>
-        <Caret Line="124" Column="12" TopLine="107"/>
-      </Position3>
-      <Position4>
         <Filename Value="ulibraryclasses.pas"/>
         <Caret Line="78" Column="36" TopLine="62"/>
+      </Position3>
+      <Position4>
+        <Filename Value="ucbzviewerframe.pas"/>
+        <Caret Line="118" Column="46" TopLine="102"/>
       </Position4>
       <Position5>
         <Filename Value="ucbzviewerframe.pas"/>
-        <Caret Line="118" Column="46" TopLine="102"/>
+        <Caret Line="115" Column="60" TopLine="101"/>
       </Position5>
       <Position6>
         <Filename Value="ucbzviewerframe.pas"/>
-        <Caret Line="115" Column="60" TopLine="101"/>
+        <Caret Line="118" Column="24" TopLine="101"/>
       </Position6>
       <Position7>
         <Filename Value="ucbzviewerframe.pas"/>
-        <Caret Line="118" Column="24" TopLine="101"/>
+        <Caret Line="119" Column="24" TopLine="101"/>
       </Position7>
       <Position8>
         <Filename Value="ucbzviewerframe.pas"/>
-        <Caret Line="119" Column="24" TopLine="101"/>
+        <Caret Line="121" Column="24" TopLine="101"/>
       </Position8>
       <Position9>
         <Filename Value="ucbzviewerframe.pas"/>
-        <Caret Line="121" Column="24" TopLine="101"/>
+        <Caret Line="123" Column="24" TopLine="101"/>
       </Position9>
       <Position10>
         <Filename Value="ucbzviewerframe.pas"/>
-        <Caret Line="123" Column="24" TopLine="101"/>
+        <Caret Line="125" Column="24" TopLine="101"/>
       </Position10>
       <Position11>
         <Filename Value="ucbzviewerframe.pas"/>
-        <Caret Line="125" Column="24" TopLine="101"/>
+        <Caret Line="127" Column="24" TopLine="101"/>
       </Position11>
       <Position12>
         <Filename Value="ucbzviewerframe.pas"/>
-        <Caret Line="127" Column="24" TopLine="101"/>
+        <Caret Line="128" Column="24" TopLine="101"/>
       </Position12>
       <Position13>
-        <Filename Value="ucbzviewerframe.pas"/>
-        <Caret Line="128" Column="24" TopLine="101"/>
-      </Position13>
-      <Position14>
         <Filename Value="uconfig.pas"/>
         <Caret Line="18" Column="22"/>
-      </Position14>
-      <Position15>
+      </Position13>
+      <Position14>
         <Filename Value="config.pas"/>
         <Caret Line="8" Column="75"/>
-      </Position15>
-      <Position16>
+      </Position14>
+      <Position15>
         <Filename Value="main.pas"/>
         <Caret Line="358" Column="33" TopLine="43"/>
-      </Position16>
-      <Position17>
+      </Position15>
+      <Position16>
         <Filename Value="ucbzviewerframe.pas"/>
         <Caret Line="217" Column="27" TopLine="182"/>
-      </Position17>
-      <Position18>
+      </Position16>
+      <Position17>
         <Filename Value="main.pas"/>
         <Caret Line="358" Column="33" TopLine="330"/>
+      </Position17>
+      <Position18>
+        <Filename Value="config.pas"/>
+        <Caret Line="153" Column="97" TopLine="113"/>
       </Position18>
+      <Position19>
+        <Filename Value="main.pas"/>
+        <Caret Line="217" Column="32" TopLine="206"/>
+      </Position19>
+      <Position20>
+        <Filename Value="main.pas"/>
+        <Caret Line="226" Column="31" TopLine="206"/>
+      </Position20>
+      <Position21>
+        <Filename Value="main.pas"/>
+        <Caret Line="232" Column="30" TopLine="206"/>
+      </Position21>
+      <Position22>
+        <Filename Value="main.pas"/>
+        <Caret Line="284" Column="36" TopLine="252"/>
+      </Position22>
+      <Position23>
+        <Filename Value="main.pas"/>
+        <Caret Line="401" TopLine="363"/>
+      </Position23>
+      <Position24>
+        <Filename Value="main.pas"/>
+        <Caret Line="396" TopLine="364"/>
+      </Position24>
+      <Position25>
+        <Filename Value="main.pas"/>
+        <Caret Line="241" TopLine="220"/>
+      </Position25>
+      <Position26>
+        <Filename Value="main.pas"/>
+        <Caret Line="242" TopLine="220"/>
+      </Position26>
+      <Position27>
+        <Filename Value="main.pas"/>
+        <Caret Line="243" TopLine="220"/>
+      </Position27>
+      <Position28>
+        <Filename Value="main.pas"/>
+        <Caret Line="401" TopLine="381"/>
+      </Position28>
+      <Position29>
+        <Filename Value="ucbzviewerframe.pas"/>
+        <Caret Line="167" Column="25" TopLine="151"/>
+      </Position29>
+      <Position30>
+        <Filename Value="main.pas"/>
+        <Caret Line="259" TopLine="232"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -371,14 +424,28 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="831"/>
+        <Line Value="833"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="983"/>
+        <Line Value="985"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="252"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="main.pas"/>
+        <Line Value="259"/>
       </Item>
     </BreakPoints>
     <Watches>

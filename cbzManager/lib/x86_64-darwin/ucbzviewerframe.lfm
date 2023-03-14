@@ -1,29 +1,29 @@
 object CbzViewerFrame: TCbzViewerFrame
   Left = 0
-  Height = 704
+  Height = 695
   Top = 0
-  Width = 783
+  Width = 786
   Align = alClient
-  ClientHeight = 704
-  ClientWidth = 783
+  ClientHeight = 695
+  ClientWidth = 786
   ParentFont = False
   TabOrder = 0
-  DesignLeft = 746
-  DesignTop = 256
+  DesignLeft = 686
+  DesignTop = 226
   object Panel1: TPanel
     Left = 0
-    Height = 704
+    Height = 695
     Top = 0
-    Width = 783
+    Width = 786
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 704
-    ClientWidth = 783
+    ClientHeight = 695
+    ClientWidth = 786
     ParentFont = False
     TabOrder = 0
     object DrawGrid1: TDrawGrid
-      Left = 633
-      Height = 532
+      Left = 636
+      Height = 523
       Top = 53
       Width = 150
       Align = alRight
@@ -50,9 +50,9 @@ object CbzViewerFrame: TCbzViewerFrame
     end
     object Image1: TImage
       Left = 0
-      Height = 532
+      Height = 523
       Top = 53
-      Width = 633
+      Width = 636
       AntialiasingMode = amOn
       Align = alClient
       Center = True
@@ -64,15 +64,15 @@ object CbzViewerFrame: TCbzViewerFrame
       Left = 0
       Height = 27
       Top = 0
-      Width = 783
+      Width = 786
       Align = alTop
       BevelOuter = bvNone
       ClientHeight = 27
-      ClientWidth = 783
+      ClientWidth = 786
       ParentFont = False
       TabOrder = 1
       object btnLast: TButton
-        Left = 733
+        Left = 736
         Height = 27
         Top = 0
         Width = 50
@@ -82,7 +82,7 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 0
       end
       object btnFirst: TButton
-        Left = 683
+        Left = 686
         Height = 27
         Top = 0
         Width = 50
@@ -92,7 +92,7 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 1
       end
       object btnHorizFlip: TButton
-        Left = 523
+        Left = 526
         Height = 27
         Top = 0
         Width = 80
@@ -102,7 +102,7 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 2
       end
       object btnVertFlip: TButton
-        Left = 603
+        Left = 606
         Height = 27
         Top = 0
         Width = 80
@@ -112,7 +112,7 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 3
       end
       object btnRotateRight: TButton
-        Left = 443
+        Left = 446
         Height = 27
         Top = 0
         Width = 80
@@ -122,7 +122,7 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 4
       end
       object btnRotateLeft: TButton
-        Left = 363
+        Left = 366
         Height = 27
         Top = 0
         Width = 80
@@ -135,7 +135,7 @@ object CbzViewerFrame: TCbzViewerFrame
         Left = 0
         Height = 27
         Top = 0
-        Width = 363
+        Width = 366
         Align = alClient
         BevelOuter = bvNone
         ParentFont = False
@@ -156,10 +156,10 @@ object CbzViewerFrame: TCbzViewerFrame
       Left = 0
       Height = 26
       Top = 27
-      Width = 783
+      Width = 786
       Align = alTop
       ClientHeight = 26
-      ClientWidth = 783
+      ClientWidth = 786
       ParentFont = False
       TabOrder = 2
       Visible = False
@@ -248,7 +248,7 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 3
       end
       object btnCrop: TButton
-        Left = 632
+        Left = 635
         Height = 24
         Top = 1
         Width = 75
@@ -259,7 +259,7 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 4
       end
       object btnCancel: TButton
-        Left = 707
+        Left = 710
         Height = 24
         Top = 1
         Width = 75
@@ -273,8 +273,8 @@ object CbzViewerFrame: TCbzViewerFrame
     object memoLog: TMemo
       Left = 0
       Height = 119
-      Top = 585
-      Width = 783
+      Top = 576
+      Width = 786
       Align = alBottom
       Lines.Strings = (
         ''

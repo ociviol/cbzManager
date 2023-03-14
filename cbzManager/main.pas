@@ -199,7 +199,9 @@ uses
   Config, LclIntf, LazUTF8,
   frmwait,
   fpHttpClient, uLogReader,
+{$if Defined(MsWindows)}
   opensslsockets,
+{$endif}
 {$if defined(Darwin) or defined(Linux)}
   unix,
 {$endif}

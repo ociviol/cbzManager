@@ -1,11 +1,12 @@
 object CbzLibrary: TCbzLibrary
-  Left = 332
-  Height = 806
-  Top = 164
-  Width = 1480
+  Left = 487
+  Height = 1612
+  Top = 229
+  Width = 2960
   Caption = 'Library'
-  ClientHeight = 806
-  ClientWidth = 1480
+  ClientHeight = 1612
+  ClientWidth = 2960
+  DesignTimePPI = 192
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -14,23 +15,23 @@ object CbzLibrary: TCbzLibrary
   Position = poDefault
   LCLVersion = '2.2.4.0'
   object dgLibrary: TDrawGrid
-    Left = 50
-    Height = 731
-    Top = 46
-    Width = 1420
+    Left = 100
+    Height = 1456
+    Top = 92
+    Width = 2840
     Align = alClient
-    BorderSpacing.Around = 10
+    BorderSpacing.Around = 20
     ColCount = 9
-    DefaultColWidth = 140
+    DefaultColWidth = 200
     DefaultDrawing = False
-    DefaultRowHeight = 200
+    DefaultRowHeight = 300
     ExtendedSelect = False
     FixedCols = 0
     FixedRows = 0
     Flat = True
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
-    Font.Height = -12
+    Font.Height = -24
     Font.Name = 'Comic Sans MS'
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
@@ -46,40 +47,40 @@ object CbzLibrary: TCbzLibrary
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 19
-    Top = 787
-    Width = 1480
+    Height = 44
+    Top = 1568
+    Width = 2960
     Panels = <    
       item
-        Width = 150
+        Width = 300
       end    
       item
         Alignment = taCenter
-        Width = 400
+        Width = 800
       end    
       item
-        Width = 600
+        Width = 1200
       end>
     ParentFont = False
     SimplePanel = False
   end
   object pnlPath: TPanel
-    Left = 10
-    Height = 26
-    Top = 10
-    Width = 1460
+    Left = 20
+    Height = 52
+    Top = 20
+    Width = 2920
     Align = alTop
-    BorderSpacing.Around = 10
+    BorderSpacing.Around = 20
     BevelInner = bvLowered
-    ClientHeight = 26
-    ClientWidth = 1460
+    ClientHeight = 52
+    ClientWidth = 2920
     ParentFont = False
     TabOrder = 2
     object btnRefresh: TButton
-      Left = 1383
-      Height = 22
+      Left = 2768
+      Height = 48
       Top = 2
-      Width = 75
+      Width = 150
       Align = alRight
       Caption = 'Refresh'
       OnClick = btnRefreshClick
@@ -88,9 +89,9 @@ object CbzLibrary: TCbzLibrary
     end
     object btnReturn: TSpeedButton
       Left = 2
-      Height = 22
+      Height = 48
       Top = 2
-      Width = 23
+      Width = 46
       Align = alLeft
       Glyph.Data = {
         76010000424D7801000000000000760000002800000020000000100000000100
@@ -111,28 +112,28 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object Panel2: TPanel
-      Left = 1013
-      Height = 22
+      Left = 2070
+      Height = 48
       Top = 2
-      Width = 274
+      Width = 548
       Align = alRight
       BevelOuter = bvLowered
-      ClientHeight = 22
-      ClientWidth = 274
+      ClientHeight = 48
+      ClientWidth = 548
       ParentFont = False
       TabOrder = 1
       object cbSearch: TComboBox
         Left = 1
-        Height = 20
+        Height = 40
         Top = 1
-        Width = 272
+        Width = 546
         Align = alClient
         AutoComplete = True
         AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
         AutoDropDown = True
         DropDownCount = 20
         Enabled = False
-        ItemHeight = 0
+        ItemHeight = 32
         OnChange = cbSearchChange
         OnCloseUp = cbSearchCloseUp
         ParentFont = False
@@ -141,24 +142,24 @@ object CbzLibrary: TCbzLibrary
       end
     end
     object Panel3: TPanel
-      Left = 843
-      Height = 22
+      Left = 1730
+      Height = 48
       Top = 2
-      Width = 170
+      Width = 340
       Align = alRight
       BevelOuter = bvLowered
-      ClientHeight = 22
-      ClientWidth = 170
+      ClientHeight = 48
+      ClientWidth = 340
       ParentFont = False
       TabOrder = 2
       object cbVisibleDates: TComboBox
         Left = 1
-        Height = 20
+        Height = 40
         Top = 1
-        Width = 168
+        Width = 338
         Align = alClient
         Enabled = False
-        ItemHeight = 0
+        ItemHeight = 32
         OnChange = cbVisibleDatesChange
         ParentFont = False
         Style = csDropDownList
@@ -166,10 +167,10 @@ object CbzLibrary: TCbzLibrary
       end
     end
     object btnTopPath: TSpeedButton
-      Left = 25
-      Height = 22
+      Left = 48
+      Height = 48
       Top = 2
-      Width = 23
+      Width = 46
       Align = alLeft
       Glyph.Data = {
         76010000424D7801000000000000760000002800000020000000100000000100
@@ -190,22 +191,22 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object cbHideRead: TCheckBox
-      Left = 1287
-      Height = 22
+      Left = 2618
+      Height = 48
       Top = 2
-      Width = 91
+      Width = 140
       Align = alRight
-      BorderSpacing.Right = 5
+      BorderSpacing.Right = 10
       Caption = 'Hide read'
       OnClick = cbHideReadClick
       ParentFont = False
       TabOrder = 3
     end
     object btnTest: TButton
-      Left = 48
-      Height = 22
+      Left = 94
+      Height = 48
       Top = 2
-      Width = 75
+      Width = 150
       Align = alLeft
       Caption = 'Test'
       OnClick = btnTestClick
@@ -213,31 +214,31 @@ object CbzLibrary: TCbzLibrary
       TabOrder = 4
     end
     object cbReadingList: TComboBox
-      Left = 123
-      Height = 22
+      Left = 244
+      Height = 40
       Top = 2
-      Width = 720
+      Width = 1486
       Align = alClient
-      ItemHeight = 0
+      ItemHeight = 32
       ParentFont = False
       Style = csDropDownList
       TabOrder = 5
     end
   end
   object pnlbtns: TPanel
-    Left = 10
-    Height = 731
-    Top = 46
-    Width = 30
+    Left = 20
+    Height = 1456
+    Top = 92
+    Width = 60
     Align = alLeft
-    BorderSpacing.Around = 10
+    BorderSpacing.Around = 20
     ParentFont = False
     TabOrder = 3
   end
   object PopupMenu1: TPopupMenu
     OnPopup = PopupMenu1Popup
-    Left = 265
-    Top = 145
+    Left = 530
+    Top = 290
     object mnuReadStatus: TMenuItem
       Action = ActionReadStatus
     end
@@ -267,8 +268,8 @@ object CbzLibrary: TCbzLibrary
     end
   end
   object ActionList1: TActionList
-    Left = 144
-    Top = 112
+    Left = 288
+    Top = 224
     object ActionReadStatus: TAction
       Caption = 'Read Status'
       OnExecute = ActionReadStatusExecute

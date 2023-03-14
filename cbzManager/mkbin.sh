@@ -1,5 +1,5 @@
 cd ~/Dev/cbzManager/cbzManager 
-~/fpcupdeluxe/fpc/bin/x86_64-darwin/fpc.sh -B -MObjFPC -Scghi -CX -O3 -XX -k-framework -kCocoa -l -vewnhibq -Fi./lib/x86_64-darwin -Fu../../Utils -Fu~/fpcupdeluxe/lazarus/lcl/units/x86_64-darwin/cocoa -Fu~/fpcupdeluxe/lazarus/lcl/units/x86_64-darwin -Fu~/fpcupdeluxe/lazarus/components/lazutils/lib/x86_64-darwin -Fu~/fpcupdeluxe/lazarus/packager/units/x86_64-darwin -Fu./ -FU./lib/x86_64-darwin/ -FE./ -o./cbzManagerOsx -dLCL -dLCLcocoa -dUseCThreads cbzManagerOsx.lpr
+/Users/ollivierciviol/fpcupdeluxe/fpc/bin/x86_64-darwin/fpc.sh -B -MObjFPC -Scghi -CX -O3 -XX -k-framework -kCocoa -l -vewnhibq -Filib/x86_64-darwin -Fu../../Utils -Fu../../XmlReader/XmlDoc -Fu../../../fpcupdeluxe/lazarus/lcl/units/x86_64-darwin/cocoa -Fu../../../fpcupdeluxe/lazarus/lcl/units/x86_64-darwin -Fu../../../fpcupdeluxe/lazarus/components/freetype/lib/x86_64-darwin -Fu../../../fpcupdeluxe/lazarus/components/lazutils/lib/x86_64-darwin -Fu../../../fpcupdeluxe/lazarus/packager/units/x86_64-darwin -Fu. -FUlib/x86_64-darwin -FE. -ocbzManagerOsx -dLCL -dLCLcocoa -dUseCThreads cbzManagerOsx.lpr
 status=$?
 if test $status -eq 0 
 then

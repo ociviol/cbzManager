@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units Count="28">
       <Unit0>
         <Filename Value="cbzManagerOsx.lpr"/>
@@ -70,7 +70,6 @@
         <CursorPos X="97" Y="153"/>
         <UsageCount Value="252"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit5>
       <Unit6>
         <Filename Value="frmwait.pas"/>
@@ -155,7 +154,7 @@
         <EditorIndex Value="5"/>
         <TopLine Value="156"/>
         <CursorPos X="30" Y="172"/>
-        <UsageCount Value="111"/>
+        <UsageCount Value="113"/>
         <Loaded Value="True"/>
       </Unit14>
       <Unit15>
@@ -166,7 +165,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="111"/>
+        <UsageCount Value="113"/>
       </Unit15>
       <Unit16>
         <Filename Value="ucbzviewerframe.pas"/>
@@ -178,7 +177,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="151"/>
         <CursorPos X="25" Y="167"/>
-        <UsageCount Value="111"/>
+        <UsageCount Value="113"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit16>
@@ -189,7 +188,7 @@
         <EditorIndex Value="6"/>
         <TopLine Value="62"/>
         <CursorPos X="36" Y="78"/>
-        <UsageCount Value="109"/>
+        <UsageCount Value="111"/>
         <Loaded Value="True"/>
       </Unit17>
       <Unit18>
@@ -234,7 +233,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="84"/>
         <CursorPos X="5" Y="103"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="55"/>
         <Loaded Value="True"/>
       </Unit22>
       <Unit23>
@@ -258,7 +257,7 @@
         <EditorIndex Value="9"/>
         <TopLine Value="9"/>
         <CursorPos X="58" Y="26"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit25>
       <Unit26>

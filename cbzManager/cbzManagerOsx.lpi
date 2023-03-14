@@ -8,7 +8,9 @@
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <Title Value="cbzManagerOsx"/>
+      <Scaled Value="True"/>
       <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True"/>
         <TextName Value="Ollivier Civiol"/>
@@ -24,7 +26,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="29"/>
+      <BuildNr Value="35"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="cbzManager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManagerOsX" ProductName="cbzManager"/>
     </VersionInfo>

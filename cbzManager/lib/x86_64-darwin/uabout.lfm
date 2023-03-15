@@ -1,20 +1,20 @@
 object frmAbout: TfrmAbout
-  Left = 465
+  Left = 646
   Height = 149
-  Top = 312
-  Width = 433
+  Top = 530
+  Width = 432
   Caption = 'About'
   ClientHeight = 149
-  ClientWidth = 433
+  ClientWidth = 432
   OnCreate = FormCreate
   Position = poMainFormCenter
-  LCLVersion = '2.0.4.0'
+  LCLVersion = '2.2.4.0'
   object Label1: TLabel
     Cursor = crHandPoint
     Left = 0
     Height = 15
     Top = 10
-    Width = 433
+    Width = 432
     Align = alTop
     Alignment = taCenter
     BorderSpacing.Top = 10
@@ -27,7 +27,7 @@ object frmAbout: TfrmAbout
     Left = 0
     Height = 114
     Top = 35
-    Width = 433
+    Width = 432
     Align = alClient
     ItemHeight = 0
     TabOrder = 0

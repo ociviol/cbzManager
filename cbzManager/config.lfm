@@ -1,210 +1,211 @@
 object ConfigFrm: TConfigFrm
   Left = 939
-  Height = 323
+  Height = 643
   Top = 317
-  Width = 518
+  Width = 1031
   BorderStyle = bsDialog
   Caption = 'Config'
-  ClientHeight = 323
-  ClientWidth = 518
+  ClientHeight = 643
+  ClientWidth = 1031
+  DesignTimePPI = 192
   OnShow = FormShow
   Position = poMainFormCenter
   ShowHint = True
   LCLVersion = '2.2.4.0'
   object Label1: TLabel
-    Left = 13
-    Height = 16
-    Top = 13
-    Width = 47
+    Left = 26
+    Height = 32
+    Top = 26
+    Width = 81
     Caption = 'cwebp :'
     ParentColor = False
   end
   object edtcwebp: TEdit
-    Left = 69
-    Height = 22
-    Top = 8
-    Width = 400
+    Left = 138
+    Height = 40
+    Top = 16
+    Width = 800
     ReadOnly = True
     TabOrder = 0
   end
   object edtunrar: TEdit
-    Left = 69
-    Height = 22
-    Top = 40
-    Width = 400
+    Left = 138
+    Height = 40
+    Top = 80
+    Width = 800
     ReadOnly = True
     TabOrder = 1
     Text = 'edtunrar'
   end
   object Label3: TLabel
-    Left = 13
-    Height = 16
-    Top = 45
-    Width = 39
+    Left = 26
+    Height = 32
+    Top = 90
+    Width = 68
     Caption = 'unrar :'
     ParentColor = False
   end
   object edtp7zip: TEdit
-    Left = 69
-    Height = 22
-    Top = 72
-    Width = 400
+    Left = 138
+    Height = 40
+    Top = 144
+    Width = 800
     ReadOnly = True
     TabOrder = 2
     Text = 'edtp7zip'
   end
   object Label4: TLabel
-    Left = 13
-    Height = 16
-    Top = 77
-    Width = 40
+    Left = 26
+    Height = 32
+    Top = 154
+    Width = 70
     Caption = 'p7zip :'
     ParentColor = False
   end
   object Label5: TLabel
-    Left = 144
-    Height = 16
-    Top = 168
-    Width = 113
+    Left = 288
+    Height = 32
+    Top = 336
+    Width = 197
     Caption = 'Encoding threads :'
     ParentColor = False
   end
   object speNbThreads: TSpinEdit
-    Left = 272
-    Height = 22
-    Top = 160
-    Width = 60
+    Left = 544
+    Height = 40
+    Top = 320
+    Width = 120
     MaxValue = 32
     MinValue = 1
     TabOrder = 3
     Value = 4
   end
   object Label6: TLabel
-    Left = 13
-    Height = 16
-    Top = 168
-    Width = 54
+    Left = 26
+    Height = 32
+    Top = 336
+    Width = 94
     Caption = 'Queues :'
     ParentColor = False
   end
   object speQueues: TSpinEdit
-    Left = 72
-    Height = 22
-    Top = 160
-    Width = 60
+    Left = 144
+    Height = 40
+    Top = 320
+    Width = 120
     MaxValue = 6
     MinValue = 1
     TabOrder = 4
     Value = 2
   end
   object sbCwebp: TSpeedButton
-    Left = 472
-    Height = 22
-    Top = 13
-    Width = 23
+    Left = 944
+    Height = 44
+    Top = 26
+    Width = 46
     Caption = '...'
     OnClick = sbCwebpClick
   end
   object sbUnrar: TSpeedButton
-    Left = 472
-    Height = 22
-    Top = 44
-    Width = 23
+    Left = 944
+    Height = 44
+    Top = 88
+    Width = 46
     Caption = '...'
     OnClick = sbUnrarClick
   end
   object sb7zip: TSpeedButton
-    Left = 472
-    Height = 22
-    Top = 76
-    Width = 23
+    Left = 944
+    Height = 44
+    Top = 152
+    Width = 46
     Caption = '...'
     OnClick = sb7zipClick
   end
   object Label7: TLabel
-    Left = 336
-    Height = 16
-    Top = 168
-    Width = 81
+    Left = 672
+    Height = 32
+    Top = 336
+    Width = 145
     Caption = 'Webp Quality'
     ParentColor = False
   end
   object speWebpQuality: TSpinEdit
-    Left = 432
-    Height = 22
-    Top = 160
-    Width = 60
+    Left = 864
+    Height = 40
+    Top = 320
+    Width = 120
     MinValue = 10
     TabOrder = 5
     Value = 10
   end
   object edtSyncPath: TEdit
-    Left = 69
-    Height = 22
+    Left = 138
+    Height = 40
     Hint = 'Path where read statuses and images will be stored (syncable with dropbox)'
-    Top = 100
-    Width = 400
+    Top = 200
+    Width = 800
     ReadOnly = True
     TabOrder = 6
     Text = 'edtSyncPath'
   end
   object Label8: TLabel
-    Left = 13
-    Height = 16
-    Top = 105
-    Width = 65
+    Left = 26
+    Height = 32
+    Top = 210
+    Width = 107
     Caption = 'Sync Path:'
     ParentColor = False
   end
   object sbSyncPath: TSpeedButton
-    Left = 472
-    Height = 22
-    Top = 105
-    Width = 23
+    Left = 944
+    Height = 44
+    Top = 210
+    Width = 46
     Caption = '...'
     OnClick = sbSyncPathClick
   end
   object Label9: TLabel
-    Left = 13
-    Height = 16
-    Top = 133
-    Width = 53
+    Left = 26
+    Height = 32
+    Top = 266
+    Width = 89
     Caption = 'Lib Path:'
     ParentColor = False
   end
   object edtLibPath: TEdit
-    Left = 69
-    Height = 22
+    Left = 138
+    Height = 40
     Hint = 'Path to the Comics'
-    Top = 128
-    Width = 400
+    Top = 256
+    Width = 800
     ReadOnly = True
     TabOrder = 7
     Text = 'edtLibPath'
   end
   object sbLibPath: TSpeedButton
-    Left = 472
-    Height = 22
-    Top = 133
-    Width = 23
+    Left = 944
+    Height = 44
+    Top = 266
+    Width = 46
     Caption = '...'
     OnClick = sbLibPathClick
   end
   object Panel1: TPanel
     Left = 0
-    Height = 106
-    Top = 217
-    Width = 518
+    Height = 212
+    Top = 431
+    Width = 1031
     Align = alBottom
     BevelOuter = bvNone
-    ClientHeight = 106
-    ClientWidth = 518
+    ClientHeight = 212
+    ClientWidth = 1031
     TabOrder = 8
     object BitBtn1: TBitBtn
-      Left = 344
-      Height = 30
-      Top = 68
-      Width = 75
+      Left = 688
+      Height = 60
+      Top = 136
+      Width = 150
       Caption = 'Ok'
       Default = True
       ModalResult = 1
@@ -212,53 +213,53 @@ object ConfigFrm: TConfigFrm
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 424
-      Height = 30
-      Top = 68
-      Width = 75
+      Left = 848
+      Height = 60
+      Top = 136
+      Width = 150
       Cancel = True
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
     end
     object cblogging: TCheckBox
-      Left = 16
-      Height = 18
-      Top = 80
-      Width = 71
+      Left = 32
+      Height = 36
+      Top = 160
+      Width = 123
       Caption = 'Logging'
       TabOrder = 2
     end
     object cbDeleteFile: TCheckBox
-      Left = 16
-      Height = 18
-      Top = 32
-      Width = 165
+      Left = 32
+      Height = 36
+      Top = 64
+      Width = 289
       Caption = 'Delete file after convert'
       TabOrder = 3
     end
     object cbAlbumArt: TCheckBox
-      Left = 16
-      Height = 18
-      Top = 56
-      Width = 205
+      Left = 32
+      Height = 36
+      Top = 112
+      Width = 355
       Caption = 'Generate album art (.jpeg file)'
       TabOrder = 4
     end
   end
   object Label10: TLabel
-    Left = 13
-    Height = 16
-    Top = 197
-    Width = 82
+    Left = 26
+    Height = 32
+    Top = 394
+    Width = 143
     Caption = 'Stamp Width:'
     ParentColor = False
   end
   object speStampWidth: TSpinEdit
-    Left = 104
-    Height = 22
-    Top = 192
-    Width = 60
+    Left = 208
+    Height = 40
+    Top = 384
+    Width = 120
     Increment = 10
     MaxValue = 1200
     MinValue = 120
@@ -266,18 +267,18 @@ object ConfigFrm: TConfigFrm
     Value = 120
   end
   object Label11: TLabel
-    Left = 176
-    Height = 16
-    Top = 197
-    Width = 44
+    Left = 352
+    Height = 32
+    Top = 394
+    Width = 77
     Caption = 'Height:'
     ParentColor = False
   end
   object speStampHeight: TSpinEdit
-    Left = 232
-    Height = 22
-    Top = 192
-    Width = 60
+    Left = 464
+    Height = 40
+    Top = 384
+    Width = 120
     Increment = 10
     MaxValue = 1600
     MinValue = 160
@@ -288,7 +289,7 @@ object ConfigFrm: TConfigFrm
     DefaultExt = '.exe'
     Filter = 'Exe files|*.exe'
     Options = [ofPathMustExist, ofFileMustExist, ofNoTestFileCreate, ofEnableSizing, ofViewDetail]
-    Left = 268
-    Top = 236
+    Left = 536
+    Top = 472
   end
 end

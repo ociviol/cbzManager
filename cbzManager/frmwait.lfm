@@ -1,20 +1,19 @@
 object FormWait: TFormWait
   Left = 633
-  Height = 80
+  Height = 40
   Top = 405
-  Width = 1002
+  Width = 502
   BorderStyle = bsNone
-  ClientHeight = 80
-  ClientWidth = 1002
-  DesignTimePPI = 192
+  ClientHeight = 40
+  ClientWidth = 502
   FormStyle = fsStayOnTop
   Position = poMainFormCenter
   LCLVersion = '2.2.4.0'
   object Panel1: TPanel
     Left = 0
-    Height = 80
+    Height = 40
     Top = 0
-    Width = 1002
+    Width = 502
     Align = alClient
     BevelInner = bvLowered
     Caption = 'Stopping worker threads ...'

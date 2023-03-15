@@ -1,10 +1,9 @@
 object FrmCbzViewer: TFrmCbzViewer
   Left = 702
-  Height = 1479
+  Height = 566
   Top = 237
-  Width = 1551
+  Width = 778
   Caption = 'FrmCbzViewer'
-  DesignTimePPI = 192
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow

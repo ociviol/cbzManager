@@ -175,6 +175,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uFileCleaner"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="11"/>
         <TopLine Value="13"/>
         <CursorPos X="7" Y="31"/>
@@ -206,10 +207,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="10"/>
         <TopLine Value="954"/>
-        <CursorPos X="4" Y="972"/>
+        <CursorPos X="37" Y="964"/>
         <UsageCount Value="201"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="1474"/>
@@ -424,7 +424,7 @@
         <EditorIndex Value="18"/>
         <TopLine Value="57"/>
         <CursorPos Y="80"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
       </Unit42>
       <Unit43>
@@ -532,7 +532,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="81"/>
         <CursorPos X="8" Y="99"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="37"/>
         <Loaded Value="True"/>
       </Unit56>
       <Unit57>

@@ -1,11 +1,11 @@
 object CbzLibrary: TCbzLibrary
-  Left = 408
-  Height = 569
-  Top = 254
-  Width = 1026
+  Left = 502
+  Height = 566
+  Top = 252
+  Width = 1022
   Caption = 'Library'
-  ClientHeight = 569
-  ClientWidth = 1026
+  ClientHeight = 566
+  ClientWidth = 1022
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -15,9 +15,9 @@ object CbzLibrary: TCbzLibrary
   LCLVersion = '2.2.4.0'
   object dgLibrary: TDrawGrid
     Left = 50
-    Height = 495
+    Height = 492
     Top = 46
-    Width = 966
+    Width = 962
     Align = alClient
     BorderSpacing.Around = 10
     ColCount = 9
@@ -47,8 +47,8 @@ object CbzLibrary: TCbzLibrary
   object StatusBar1: TStatusBar
     Left = 0
     Height = 18
-    Top = 551
-    Width = 1026
+    Top = 548
+    Width = 1022
     Panels = <    
       item
         Width = 150
@@ -67,16 +67,16 @@ object CbzLibrary: TCbzLibrary
     Left = 10
     Height = 26
     Top = 10
-    Width = 1006
+    Width = 1002
     Align = alTop
     BorderSpacing.Around = 10
     BevelInner = bvLowered
     ClientHeight = 26
-    ClientWidth = 1006
+    ClientWidth = 1002
     ParentFont = False
     TabOrder = 2
     object btnRefresh: TButton
-      Left = 929
+      Left = 925
       Height = 22
       Top = 2
       Width = 75
@@ -111,7 +111,7 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object Panel2: TPanel
-      Left = 573
+      Left = 569
       Height = 22
       Top = 2
       Width = 274
@@ -141,7 +141,7 @@ object CbzLibrary: TCbzLibrary
       end
     end
     object Panel3: TPanel
-      Left = 403
+      Left = 399
       Height = 22
       Top = 2
       Width = 170
@@ -191,7 +191,7 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object cbHideRead: TCheckBox
-      Left = 847
+      Left = 843
       Height = 22
       Top = 2
       Width = 77
@@ -217,7 +217,7 @@ object CbzLibrary: TCbzLibrary
       Left = 123
       Height = 20
       Top = 2
-      Width = 280
+      Width = 276
       Align = alClient
       ItemHeight = 26
       ParentFont = False
@@ -228,7 +228,7 @@ object CbzLibrary: TCbzLibrary
   end
   object pnlbtns: TPanel
     Left = 10
-    Height = 495
+    Height = 492
     Top = 46
     Width = 30
     Align = alLeft

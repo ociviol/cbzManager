@@ -696,12 +696,12 @@ begin
 
 
     result :=
-    //{$if defined(Darwin) or defined(Linux)}
-    //  expandfilename('~/') + CS_CONFIG_PATH + '/Library/cache/' +
-    //{$else}
-    //  IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\cache\' +
-    //{$endif}
-      IncludeTrailingPathDelimiter(Parent.FSyncPath) +
+    {$if defined(Darwin) or defined(Linux)}
+      expandfilename('~/') + CS_CONFIG_PATH + '/Library/cache/' +
+    {$else}
+      IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\cache\' +
+    {$endif}
+    //  IncludeTrailingPathDelimiter(Parent.FSyncPath) +
       SyncPathName(FFilename);
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.jpg');

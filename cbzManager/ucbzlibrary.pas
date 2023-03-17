@@ -345,7 +345,7 @@ begin
           Synchronize(@DoProgress);
           //yield;
 
-        Sleep(50);
+        Sleep(10);
         if Terminated then
             Exit;
 

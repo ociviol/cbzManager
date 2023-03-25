@@ -1,0 +1,328 @@
+object MainFrm: TMainFrm
+  Left = 599
+  Height = 561
+  Top = 266
+  Width = 990
+  Align = alBottom
+  Caption = 'cbzManager'
+  ClientHeight = 541
+  ClientWidth = 990
+  Menu = MainMenu1
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  LCLVersion = '2.2.4.0'
+  object Panel1: TPanel
+    Left = 405
+    Height = 491
+    Top = 0
+    Width = 585
+    Align = alClient
+    BevelOuter = bvNone
+    ClientHeight = 491
+    ClientWidth = 585
+    ParentFont = False
+    TabOrder = 0
+    object memoLog: TMemo
+      Left = 0
+      Height = 119
+      Top = 372
+      Width = 585
+      Align = alBottom
+      Lines.Strings = (
+        ''
+      )
+      ParentFont = False
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+      Visible = False
+    end
+  end
+  object pnlProgress: TPanel
+    Left = 0
+    Height = 50
+    Top = 491
+    Width = 990
+    Align = alBottom
+    BevelOuter = bvNone
+    ParentFont = False
+    TabOrder = 1
+  end
+  object Splitter1: TSplitter
+    Left = 400
+    Height = 491
+    Top = 0
+    Width = 5
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 491
+    Top = 0
+    Width = 400
+    Align = alLeft
+    Caption = 'Panel2'
+    ClientHeight = 491
+    ClientWidth = 400
+    ParentFont = False
+    TabOrder = 3
+    OnResize = Panel2Resize
+    object TreeView1: TTreeView
+      Left = 1
+      Height = 310
+      Top = 1
+      Width = 398
+      Align = alClient
+      DragMode = dmAutomatic
+      HideSelection = False
+      HotTrack = True
+      MultiSelect = True
+      ParentFont = False
+      PopupMenu = pmTreeView
+      ReadOnly = True
+      RightClickSelect = True
+      SelectionFontColor = 14868449
+      ShowRoot = False
+      TabOrder = 0
+      OnChange = TreeView1Change
+      OnCustomDrawItem = TreeView1CustomDrawItem
+      OnDragDrop = TreeView1DragDrop
+      OnDragOver = TreeView1DragOver
+      Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHotTrack, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
+      TreeLinePenStyle = psDashDot
+    end
+    object pnlStats: TPanel
+      Left = 1
+      Height = 179
+      Top = 311
+      Width = 398
+      Align = alBottom
+      BevelInner = bvLowered
+      ClientHeight = 179
+      ClientWidth = 398
+      ParentFont = False
+      TabOrder = 1
+      Visible = False
+      object lblFilesInQueue: TLabel
+        Left = 8
+        Height = 1
+        Top = 8
+        Width = 1
+        ParentColor = False
+        ParentFont = False
+      end
+      object Label5: TLabel
+        Left = 8
+        Height = 15
+        Top = 29
+        Width = 198
+        Caption = 'Files in queue (right click to remove) :'
+        ParentColor = False
+        ParentFont = False
+      end
+      object lbConvThreads: TListBox
+        Left = 2
+        Height = 55
+        Top = 122
+        Width = 394
+        Align = alBottom
+        ItemHeight = 0
+        ParentFont = False
+        TabOrder = 0
+      end
+      object lbQueue: TListBox
+        Left = 2
+        Height = 74
+        Top = 48
+        Width = 394
+        Align = alBottom
+        ItemHeight = 0
+        ParentShowHint = False
+        ParentFont = False
+        PopupMenu = PopupMenuQueue
+        ShowHint = True
+        TabOrder = 1
+      end
+    end
+  end
+  object MainMenu1: TMainMenu
+    Left = 89
+    Top = 51
+    object mnuFile: TMenuItem
+      Caption = 'File'
+      object mnuChooseFolder: TMenuItem
+        Action = ActionChooseFolder
+      end
+      object MenuItem10: TMenuItem
+        Action = ActionRefresh
+      end
+      object N12: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem37: TMenuItem
+        Action = ActionLibrary
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object mnuSetDefaultPath: TMenuItem
+        Caption = 'Set as default path'
+        OnClick = mnuSetDefaultPathClick
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object mnuExit: TMenuItem
+        Caption = 'Exit'
+        OnClick = mnuExitClick
+      end
+    end
+    object MenuItem1: TMenuItem
+      Caption = 'Edit'
+      object mnuConfig: TMenuItem
+        Caption = 'Config'
+        OnClick = mnuConfigClick
+      end
+      object MenuItem35: TMenuItem
+        Action = ActionShowStats
+        AutoCheck = True
+      end
+      object N9: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem25: TMenuItem
+        Caption = 'Move'
+        object MenuItem26: TMenuItem
+          Caption = 'Move To Top'
+        end
+        object MenuItem27: TMenuItem
+          Caption = 'Move Up'
+        end
+        object MenuItem28: TMenuItem
+          Caption = 'Move Down'
+        end
+        object MenuItem29: TMenuItem
+          Caption = 'Move To Bottom'
+        end
+      end
+      object N10: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem24: TMenuItem
+        Caption = 'Rewrite Manga'
+      end
+      object MenuItem36: TMenuItem
+        Action = ActionFileCleaner
+      end
+    end
+    object MenuItem2: TMenuItem
+      Caption = '?'
+      object mnuAbout: TMenuItem
+        Caption = 'About'
+        OnClick = mnuAboutClick
+      end
+      object N13: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem38: TMenuItem
+        Action = ActionReadLog
+      end
+    end
+  end
+  object SelectDirectoryDialog1: TSelectDirectoryDialog
+    Left = 96
+    Top = 120
+  end
+  object ActionList1: TActionList
+    Left = 184
+    Top = 80
+    object ActionChooseFolder: TAction
+      Caption = 'Choose Folder'
+      OnExecute = ActionChooseFolderExecute
+    end
+    object ActionRefresh: TAction
+      Caption = 'Refresh'
+      OnExecute = ActionRefreshExecute
+    end
+    object ActionJoin: TAction
+      Caption = 'Join Images'
+    end
+    object ActionRename: TAction
+      Caption = 'Rename'
+      OnExecute = ActionRenameExecute
+    end
+    object ActionShowStats: TAction
+      Caption = 'Show Stats'
+      OnExecute = ActionShowStatsExecute
+    end
+    object ActionFileCleaner: TAction
+      Caption = 'Filename Cleaner'
+      OnExecute = ActionFileCleanerExecute
+    end
+    object ActionLibrary: TAction
+      Caption = 'Library'
+      OnExecute = ActionLibraryExecute
+    end
+    object ActionReadLog: TAction
+      Caption = 'Log Reader'
+      OnExecute = ActionReadLogExecute
+    end
+    object ActionCopyToLib: TAction
+      Caption = 'Copy To Library'
+      OnExecute = ActionCopyToLibExecute
+    end
+    object ActionDelete: TAction
+      Caption = 'Delete'
+      Enabled = False
+      OnExecute = ActionDeleteExecute
+    end
+    object ActionNewFolder: TAction
+      Caption = 'New Folder'
+      OnExecute = ActionNewFolderExecute
+    end
+  end
+  object pmTreeView: TPopupMenu
+    OnPopup = pmTreeViewPopup
+    Left = 100
+    Top = 192
+    object MenuItem32: TMenuItem
+      Action = ActionRefresh
+    end
+    object N11: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem33: TMenuItem
+      Action = ActionRename
+    end
+    object MenuItem3: TMenuItem
+      Action = ActionNewFolder
+    end
+    object N14: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem39: TMenuItem
+      Action = ActionCopyToLib
+    end
+    object MenuItem40: TMenuItem
+      Action = ActionDelete
+    end
+  end
+  object Timerstats: TTimer
+    OnTimer = TimerstatsTimer
+    Left = 170
+    Top = 204
+  end
+  object PopupMenuQueue: TPopupMenu
+    OnPopup = PopupMenuQueuePopup
+    Left = 152
+    Top = 376
+    object Removefromlist1: TMenuItem
+      Caption = 'Remove from list'
+      OnClick = Removefromlist1Click
+    end
+    object Addtoqueue1: TMenuItem
+      Caption = 'Add to queue'
+      OnClick = Addtoqueue1Click
+    end
+  end
+end

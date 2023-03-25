@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/home/mat/fpcupdeluxe/fpc/bin/x86_64-linux/fpc.sh" Date="1677943198"/>
+  <Params Value=" -MObjFPC -Scaghi -Cg -CirotR -O1 -gw3 -gl -gh -Xg -gt -l -vewnhibq -Fi/home/mat/Dev/cbzManager/cbzManager/Library/lib/x86_64-linux -Fu/home/mat/Dev/cbzManager/cbzManager -Fu/home/mat/Dev/Utils -Fu/home/mat/Dev/XmlReader/XmlDoc -Fu/home/mat/fpcupdeluxe/lazarus/lcl/units/x86_64-linux/gtk2 -Fu/home/mat/fpcupdeluxe/lazarus/lcl/units/x86_64-linux -Fu/home/mat/fpcupdeluxe/lazarus/components/freetype/lib/x86_64-linux -Fu/home/mat/fpcupdeluxe/lazarus/components/lazutils/lib/x86_64-linux -Fu/home/mat/fpcupdeluxe/lazarus/packager/units/x86_64-linux -Fu/home/mat/Dev/cbzManager/cbzManager/Library/ -FU/home/mat/Dev/cbzManager/cbzManager/Library/lib/x86_64-linux/ -FE/home/mat/Dev/cbzManager/cbzManager/Library/ -o/home/mat/Dev/cbzManager/cbzManager/Library/cbzLibrary -dLCL -dLCLgtk2 cbzLibraryLinux.lpr"/>
+</CONFIG>

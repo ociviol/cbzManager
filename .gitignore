@@ -63,5 +63,5 @@ cbzManager/lib/x86_64-darwin/cbzManagerOsx.or
 cbzManager/cbzManagerWin.res
 cbzManager/lib/*
 cbzManager/Library/backup/cbzLibraryOsx.lps.bak
-cbzManager/lib/x86_64-darwin/cbzManagerOsx.or
-cbzManager/lib/x86_64-darwin/cbzManagerOsx.or
+cbzManager/lib/x86_64-darwin/*
+cbzManager/Library/cbzLibraryOsx.dSYM/Contents/Resources/DWARF/cbzLibraryOsx

@@ -7,7 +7,7 @@
       <Unit>
         <Filename Value="cbzLibraryOsx.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="5"/>
         <CursorPos X="43" Y="9"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
@@ -18,7 +18,8 @@
         <ComponentName Value="CbzLibrary"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <CursorPos X="36" Y="15"/>
+        <TopLine Value="53"/>
+        <CursorPos X="31" Y="73"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit>
@@ -43,14 +44,41 @@
       <Unit>
         <Filename Value="ulibraryclasses.pas"/>
         <UnitName Value="uLibraryClasses"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <CursorPos X="17" Y="12"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="25" Y="24"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="../../../Utils/utils.masks.pas"/>
+        <UnitName Value="Utils.Masks"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="79"/>
+        <CursorPos X="8" Y="99"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../../Utils/utils.naturalsortstringlist.pas"/>
+        <UnitName Value="Utils.NaturalSortStringList"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="9"/>
+        <CursorPos X="3" Y="29"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../../Utils/utils.searchfiles.pas"/>
+        <UnitName Value="Utils.Searchfiles"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="16"/>
+        <CursorPos X="22" Y="36"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="1">
+    <JumpHistory HistoryIndex="6">
       <Position>
         <Filename Value="cbzLibraryOsx.lpr"/>
         <Caret Line="9" Column="43"/>
@@ -58,6 +86,26 @@
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="15" Column="36"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="24" Column="25"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="73" Column="31" TopLine="53"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../Utils/utils.masks.pas"/>
+        <Caret Line="99" Column="8" TopLine="79"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="39" Column="19" TopLine="19"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../Utils/utils.naturalsortstringlist.pas"/>
+        <Caret Line="29" Column="3" TopLine="9"/>
       </Position>
     </JumpHistory>
     <RunParams>

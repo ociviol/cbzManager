@@ -65,3 +65,15 @@ cbzManager/lib/*
 cbzManager/Library/backup/cbzLibraryOsx.lps.bak
 cbzManager/lib/x86_64-darwin/*
 cbzManager/Library/cbzLibraryOsx.dSYM/Contents/Resources/DWARF/cbzLibraryOsx
+cbzManager/Library/lib/x86_64-win64/cbzLibraryWin.compiled
+cbzManager/Library/lib/x86_64-win64/config.lfm
+cbzManager/Library/lib/x86_64-win64/frmwait.lfm
+cbzManager/Library/lib/x86_64-win64/main.lfm
+cbzManager/Library/lib/x86_64-win64/uabout.lfm
+cbzManager/Library/lib/x86_64-win64/ucbzlibrary.lfm
+cbzManager/Library/lib/x86_64-win64/ucbzviewer.lfm
+cbzManager/Library/lib/x86_64-win64/ucbzviewerframe.lfm
+cbzManager/Library/lib/x86_64-win64/ufilecleaner.lfm
+cbzManager/Library/lib/x86_64-win64/uloadreport.lfm
+cbzManager/Library/lib/x86_64-win64/ulogreader.lfm
+cbzManager/Library/lib/x86_64-win64/utils.zipfile.rsj

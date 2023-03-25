@@ -24,7 +24,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="155"/>
+      <BuildNr Value="156"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>
@@ -145,7 +145,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="25">
+    <Units Count="23">
       <Unit0>
         <Filename Value="cbzManagerWin.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -248,50 +248,37 @@
         <IsPartOfProject Value="True"/>
       </Unit17>
       <Unit18>
-        <Filename Value="ucbzlibrary.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="CbzLibrary"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="uCbzLibrary"/>
-      </Unit18>
-      <Unit19>
         <Filename Value="ucbzviewerframe.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="CbzViewerFrame"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-      </Unit19>
-      <Unit20>
+      </Unit18>
+      <Unit19>
         <Filename Value="ucbzviewer.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmCbzViewer"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
-      </Unit20>
-      <Unit21>
-        <Filename Value="ulibraryclasses.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="uLibraryClasses"/>
-      </Unit21>
-      <Unit22>
+      </Unit19>
+      <Unit20>
         <Filename Value="ulogreader.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmLogReader"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uLogReader"/>
-      </Unit22>
-      <Unit23>
+      </Unit20>
+      <Unit21>
         <Filename Value="../../Utils/utils.treeview.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit23>
-      <Unit24>
+      </Unit21>
+      <Unit22>
         <Filename Value="../../Utils/utils.vcl.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit24>
+      </Unit22>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

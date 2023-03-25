@@ -5,7 +5,7 @@ object MainFrm: TMainFrm
   Width = 990
   Align = alBottom
   Caption = 'cbzManager'
-  ClientHeight = 561
+  ClientHeight = 541
   ClientWidth = 990
   Menu = MainMenu1
   OnClose = FormClose
@@ -15,19 +15,19 @@ object MainFrm: TMainFrm
   LCLVersion = '2.2.4.0'
   object Panel1: TPanel
     Left = 405
-    Height = 511
+    Height = 491
     Top = 0
     Width = 585
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 511
+    ClientHeight = 491
     ClientWidth = 585
     ParentFont = False
     TabOrder = 0
     object memoLog: TMemo
       Left = 0
       Height = 119
-      Top = 392
+      Top = 372
       Width = 585
       Align = alBottom
       Lines.Strings = (
@@ -42,7 +42,7 @@ object MainFrm: TMainFrm
   object pnlProgress: TPanel
     Left = 0
     Height = 50
-    Top = 511
+    Top = 491
     Width = 990
     Align = alBottom
     BevelOuter = bvNone
@@ -51,25 +51,25 @@ object MainFrm: TMainFrm
   end
   object Splitter1: TSplitter
     Left = 400
-    Height = 511
+    Height = 491
     Top = 0
     Width = 5
   end
   object Panel2: TPanel
     Left = 0
-    Height = 511
+    Height = 491
     Top = 0
     Width = 400
     Align = alLeft
     Caption = 'Panel2'
-    ClientHeight = 511
+    ClientHeight = 491
     ClientWidth = 400
     ParentFont = False
     TabOrder = 3
     OnResize = Panel2Resize
     object TreeView1: TTreeView
       Left = 1
-      Height = 330
+      Height = 310
       Top = 1
       Width = 398
       Align = alClient
@@ -94,7 +94,7 @@ object MainFrm: TMainFrm
     object pnlStats: TPanel
       Left = 1
       Height = 179
-      Top = 331
+      Top = 311
       Width = 398
       Align = alBottom
       BevelInner = bvLowered
@@ -113,9 +113,9 @@ object MainFrm: TMainFrm
       end
       object Label5: TLabel
         Left = 8
-        Height = 16
+        Height = 15
         Top = 29
-        Width = 227
+        Width = 198
         Caption = 'Files in queue (right click to remove) :'
         ParentColor = False
         ParentFont = False

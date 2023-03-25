@@ -24,8 +24,6 @@ type
     cbDeleteFile: TCheckBox;
     cblogging: TCheckBox;
     edtcwebp: TEdit;
-    edtSyncPath: TEdit;
-    edtLibPath: TEdit;
     edtunrar: TEdit;
     edtp7zip: TEdit;
     Label1: TLabel;
@@ -36,13 +34,9 @@ type
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
     OpenDialog1: TOpenDialog;
     Panel1: TPanel;
-    sbSyncPath: TSpeedButton;
     sbCwebp: TSpeedButton;
-    sbLibPath: TSpeedButton;
     sbUnrar: TSpeedButton;
     sb7zip: TSpeedButton;
     speNbThreads: TSpinEdit;
@@ -54,8 +48,6 @@ type
     procedure FormShow(Sender: TObject);
     procedure sb7zipClick(Sender: TObject);
     procedure sbCwebpClick(Sender: TObject);
-    procedure sbLibPathClick(Sender: TObject);
-    procedure sbSyncPathClick(Sender: TObject);
     procedure sbUnrarClick(Sender: TObject);
   private
   public
@@ -68,7 +60,7 @@ implementation
 {$R *.lfm}
 
 uses
-  utils.vcl, uCbzLibrary;
+  utils.vcl;
 
 { TConfigFrm }
 
@@ -79,30 +71,6 @@ begin
     Title := 'select cwebp location';
     if Execute then
       edtcwebp.Text:=Filename;
-  end;
-end;
-
-procedure TConfigFrm.sbLibPathClick(Sender: TObject);
-begin
-  with TSelectDirectoryDialog.Create(Application) do
-  try
-    Title := 'select Library location';
-    if Execute then
-      edtLibPath.Text:=Filename;
-  finally
-    Free;
-  end;
-end;
-
-procedure TConfigFrm.sbSyncPathClick(Sender: TObject);
-begin
-  with TSelectDirectoryDialog.Create(Application) do
-  try
-    Title := 'select sync location';
-    if Execute then
-      edtSyncPath.Text:=Filename;
-  finally
-    Free;
   end;
 end;
 
@@ -118,7 +86,6 @@ end;
 
 procedure TConfigFrm.FormShow(Sender: TObject);
 begin
-  edtLibPath.Text:=Config.LibPath;
   edtcwebp.Text:=Config.cwebp;
   edtunrar.Text:=Config.unrar;
   edtp7zip.Text:=Config.p7zip;
@@ -128,22 +95,12 @@ begin
   speWebpQuality.Value:=Config.WebpQuality;
   cbDeleteFile.Checked := Config.DeleteFile;
   cbAlbumArt.Checked := Config.DoAlbumart;
-  edtSyncPath.Text:=Config.SyncPath;
   speStampWidth.Value:= Config.DefaultColWidth;
   speStampHeight.Value:=Config.DefaultRowHeight;
-
-  if Assigned(FindForm(TCbzLibrary)) then
-  begin
-    edtSyncPath.Enabled:=false;
-    sbSyncPath.Enabled:=false;
-    edtLibPath.Enabled:=false;
-    sbLibPath.Enabled:=false;
-  end;
 end;
 
 procedure TConfigFrm.BitBtn1Click(Sender: TObject);
 begin
-  Config.LibPath:=edtLibPath.Text;
   Config.cwebp := edtcwebp.Text;
   Config.unrar := edtunrar.Text;
   Config.p7zip := edtp7zip.Text;
@@ -153,7 +110,6 @@ begin
   Config.WebpQuality := speWebpQuality.Value;
   Config.DeleteFile := cbDeleteFile.Checked;
   Config.DoAlbumart := cbAlbumArt.Checked;
-  Config.SyncPath := edtSyncPath.Text;
   Config.DefaultColWidth := speStampWidth.Value;
   Config.DefaultRowHeight := speStampHeight.Value;
 end;

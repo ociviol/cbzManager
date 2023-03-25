@@ -20,7 +20,7 @@ uses
   cthreads,
 {$endif}
   Utils.Arrays, uCbzViewerFrame,
-  uDataPool, uWorkerThread, uConfig, uCbzLibrary;
+  uDataPool, uWorkerThread, uConfig;
 
 type
   TProgressRec = class
@@ -433,7 +433,7 @@ begin
         SelectionValid;
 
     ActionCopyToLib.Enabled := (Treeview1.SelectionCount > 0) and
-                               Assigned(FindForm(TCbzLibrary)) and
+                          //     Assigned(FindForm(TCbzLibrary)) and
                                SelectionValid;
 
     ActionChooseFolder.Enabled := not FInFill;
@@ -463,8 +463,6 @@ procedure TMainFrm.FormShow(Sender: TObject);
 begin
   if not Application.Terminated then
     EnableActions;
-  if FConfig.OpenLibrary then
-    ActionLibrary.Execute;
 end;
 
 procedure TMainFrm.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -501,13 +499,6 @@ begin
   f.Text := 'Stopping Search files thread ...';
   if Assigned(FThreadSearchFiles) then
     FThreadSearchFiles.Terminate;
-
-  FConfig.OpenLibrary:=Assigned(FindForm(TCbzLibrary));
-  if Assigned(FindForm(TCbzLibrary)) then
-  begin
-    f.Text := 'Closing Library ...';
-    FindForm(TCbzLibrary).Close;
-  end;
 
   f.Text := 'Stopping Data Pools ...';
   FThreadDataPool.Stop;
@@ -851,8 +842,8 @@ begin
   end
   else
   if Sender is TDrawGrid then
-    Accept := TDrawGrid(Sender).Owner = FindForm(TcbzLibrary)
-  else
+  //  Accept := TDrawGrid(Sender).Owner = FindForm(TcbzLibrary)
+  //else
     Accept := false;
 end;
 
@@ -938,31 +929,14 @@ begin
 end;
 
 procedure TMainFrm.ActionLibraryExecute(Sender: TObject);
+var
+  s : string;
 begin
-  if ((FConfig.LibPath = '') or (not DirectoryExists(FConfig.LibPath))) or
-     ((FConfig.SyncPath = '') or (not DirectoryExists(FConfig.SyncPath))) then
-     ShowMessage('Lib Path and Sync Path must be set in config before opening the Library')
+  s := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'cbzLibrary.exe';
+  if FileExists(s) then
+    ExecuteProcess(s, [''])
   else
-
-  if Assigned(FindForm(TCbzLibrary)) then
-  begin
-    with FindForm(TCbzLibrary) do
-    begin
-      Show;
-      BringToFront
-    end;
-  end
-  else
-  with TCbzLibrary.Create(nil, FConfig) do
-  begin
-    if FLibDocked then
-    begin
-      Align := alRight;
-      Parent := Self;
-    end;
-    Show;
-    BringToFront;
-  end;
+    ShowMessage('File not found : ' + s);
 end;
 
 procedure TMainFrm.ActionCopyToLibExecute(Sender: TObject);
@@ -972,6 +946,7 @@ var
   s,p : string;
   i : integer;
 begin
+  (*
   if Assigned(FindForm(TCbzLibrary)) and Assigned(TreeView1.Selected) then
 
   Screen.Cursor:=crHourglass;
@@ -1014,6 +989,7 @@ begin
     Sel.Free;
     Screen.Cursor:=crDefault;
   end;
+  *)
 end;
 
 procedure TMainFrm.ActionNewFolderExecute(Sender: TObject);

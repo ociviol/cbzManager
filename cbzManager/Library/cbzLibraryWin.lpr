@@ -10,8 +10,8 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, frmwait, uConfig, uLibraryClasses, uCbzLibrary, config, uThreadScrub,
-uThreadFill;
+  Forms, frmwait, uLibraryClasses, uCbzLibrary, config, uThreadScrub,
+uThreadFill, uConfig;
 
 {$R *.res}
 var

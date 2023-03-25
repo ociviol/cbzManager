@@ -25,16 +25,11 @@ type
     FAlbumArt,
     FBlog,
     FDeleteFile,
-    FShowStats,
-    FLHideRead,
-    FOpenLibrary: Boolean;
+    FShowStats: Boolean;
 
-    FLibCurPath,
-    FLibPath,
     Fcwebp,
     Funrar,
     FBdPathPath,
-    FSyncPath,
     Fp7zip,
     FConfigPath: String;
 
@@ -53,7 +48,6 @@ type
     property DefaultColWidth : integer read FDefaultColWidth write FDefaultColWidth;
     property DefaultRowHeight : integer read FDefaultRowHeight write FDefaultRowHeight;
     property MngrTreeViewWidth : Integer read FTreeViewWidth write FTreeViewWidth;
-    property LibraryHideRead : Boolean read FLHideRead write FLHideRead;
     property DoLog : Boolean read FBlog write FBlog;
     property BdPathPath: String read FBdPathPath write FBdPathPath;
     property cwebp: String read Fcwebp write Fcwebp;
@@ -65,10 +59,6 @@ type
     property DeleteFile : Boolean read FDeleteFile write FDeleteFile;
     property DoAlbumart : Boolean read FAlbumArt write FAlbumart;
     property ShowStats : Boolean read FShowStats write FShowStats;
-    property LibPath : String read FLibPath write FLibPath;
-    property SyncPath : String read FSyncPath write FSyncPath;
-    property OpenLibrary : Boolean read FOpenLibrary write FOpenLibrary;
-    property LibCurPath : String read FLibCurPath write FLibCurPath;
   end;
 
 implementation
@@ -103,10 +93,8 @@ begin
   FDeleteFile := False;
   FAlbumart := False;
   FShowStats := False;
-  FOpenLibrary := False;
   FDefaultColWidth := 140;
   FDefaultRowHeight := 180;
-  FSyncPath := IncludeTrailingPathDelimiter(GetAppConfigDir(False)) + 'Library\';
 end;
 
 class function TConfig.Load(const aFileName: String): TConfig;

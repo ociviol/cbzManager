@@ -20,7 +20,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="4"/>
+      <BuildNr Value="5"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="Comic books libray" InternalName="cbzLibrary" LegalCopyright="Ollivier Civiol" OriginalFilename="cbzLibrary" ProductName="cbzLibrary"/>
     </VersionInfo>
     <BuildModes>
@@ -155,7 +155,7 @@
         <UnitName Value="uThreadFill"/>
       </Unit>
       <Unit>
-        <Filename Value="..\uconfig.pas"/>
+        <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
       </Unit>

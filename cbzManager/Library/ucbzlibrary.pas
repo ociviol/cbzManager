@@ -57,8 +57,6 @@ type
     pnlPath: TPanel;
     PopupMenu1: TPopupMenu;
     StatusBar1: TStatusBar;
-    procedure ActionCopyToMngrExecute(Sender: TObject);
-    procedure ActionCreateFolderExecute(Sender: TObject);
     procedure ActionCutExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionPasteExecute(Sender: TObject);
@@ -73,9 +71,6 @@ type
     procedure cbSearchCloseUp(Sender: TObject);
     procedure cbVisibleDatesChange(Sender: TObject);
     procedure dgLibraryDblClick(Sender: TObject);
-    procedure dgLibraryDragDrop(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer);
-    procedure dgLibraryDragOver(Sender, Source: TObject; {%H-}X, {%H-}Y: Integer;
-      {%H-}State: TDragState; var Accept: Boolean);
     procedure dgLibraryDrawCell(Sender: TObject; aCol, aRow: Integer;
       aRect: TRect; aState: TGridDrawState);
     procedure dgLibraryMouseDown(Sender: TObject; Button: TMouseButton;
@@ -160,11 +155,16 @@ uses
   LazUTF8,
   Math, StrUtils, DateUtils,
   utils.files, uCbzViewer,
-  main, Utils.Vcl, Config, frmWait,
+  Utils.Vcl, Config, frmWait,
   Utils.SoftwareVersion;
 
 
 {$R *.lfm}
+
+{$if defined(Darwin) or defined(Linux)}
+const
+  CS_CONFIG_LIB_JSON = '/configlib.json';
+{$endif}
 
 
 function GetLevel(const Path : String):Integer; //inline;
@@ -249,9 +249,9 @@ begin
   {$if defined(Darwin) or defined(Linux)}
     FConfigFile := expandfilename('~/') + CS_CONFIG_PATH;
     ForceDirectories(FConfigFile);
-    FConfigFile := FConfigFile + CS_CONFIG_JSON;
+    FConfigFile := FConfigFile + CS_CONFIG_LIB_JSON;
   {$else}
-    FConfigFile := ConfigPath + 'config.json';
+    FConfigFile := ConfigPath + 'configlib.json';
   {$endif}
     // load config
     FConfig := TConfig.Load(FConfigFile);
@@ -278,7 +278,7 @@ begin
   Flog.Log('cbzLibrary started.');
   FInQueue := 0;
   FDisplayFilters := [dfAll];
-  cbHideRead.Checked := Fconfig.LibraryHideRead;
+  cbHideRead.Checked := Fconfig.HideRead;
   FFileList := TItemList.Create(Flog);
   FFileList.RootPath:=Fconfig.LibPath;
   FFileList.SyncPath:=Fconfig.SyncPath;
@@ -635,22 +635,10 @@ begin
   ;
 end;
 
-procedure TcbzLibrary.dgLibraryDragDrop(Sender, Source: TObject; X, Y: Integer);
-begin
-  if Source is TTreeView then
-    if Assigned(FindForm(TMainFrm)) then
-      TMainFrm(FindForm(TMainFrm)).ActionCopyToLibExecute(Self);
-end;
-
-procedure TcbzLibrary.dgLibraryDragOver(Sender, Source: TObject; X, Y: Integer;
-  State: TDragState; var Accept: Boolean);
-begin
-  Accept := Source is TTreeView;
-end;
-
 procedure TcbzLibrary.cbHideReadClick(Sender: TObject);
 begin
-  Fconfig.LibraryHideRead:=cbHideRead.Checked;
+  Fconfig.HideRead:=cbHideRead.Checked;
+  FConfig.Save(FConfigFile);
   if cbHideRead.Checked then
     FDisplayFilters := [dfUnread]
   else
@@ -807,41 +795,6 @@ begin
   end;
 end;
 
-procedure TcbzLibrary.ActionCopyToMngrExecute(Sender: TObject);
-var
-  dest, destp : string;
-  Files : TSTringlist;
-  s : string;
-begin
-  destp := IncludeTrailingPathDelimiter(Fconfig.BdPathPath) + 'Library' + PathDelim;
-  ForceDirectories(destp);
-
-  if FileExists(SelectedStr) then
-  begin
-    dest := destp + ExtractFileName(SelectedStr);
-    CopyFile(SelectedStr, dest);
-  end
-  else
-  if DirectoryExists(SelectedStr) then
-  begin
-     Files := TSTringlist.Create;
-     try
-       GetFiles(SelectedStr, ['*'], Files);
-       for s in files do
-       begin
-         dest := destp + s.Replace(FFileList.RootPath, '');
-         CopyFile(s, dest);
-       end;
-     finally
-       Free;
-     end;
-  end;
-end;
-
-procedure TcbzLibrary.ActionCreateFolderExecute(Sender: TObject);
-begin
-
-end;
 
 procedure TcbzLibrary.ActionCutExecute(Sender: TObject);
 begin

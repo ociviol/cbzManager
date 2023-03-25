@@ -38,8 +38,6 @@ object CbzLibrary: TCbzLibrary
     ParentFont = False
     TabOrder = 0
     OnDblClick = dgLibraryDblClick
-    OnDragDrop = dgLibraryDragDrop
-    OnDragOver = dgLibraryDragOver
     OnDrawCell = dgLibraryDrawCell
     OnMouseDown = dgLibraryMouseDown
     OnMouseUp = dgLibraryMouseUp
@@ -275,7 +273,6 @@ object CbzLibrary: TCbzLibrary
     end
     object ActionCopyToMngr: TAction
       Caption = 'Copy To CbzMngr'
-      OnExecute = ActionCopyToMngrExecute
     end
     object ActionDelete: TAction
       Caption = 'Delete'
@@ -283,7 +280,6 @@ object CbzLibrary: TCbzLibrary
     end
     object ActionCreateFolder: TAction
       Caption = 'CreateFolder'
-      OnExecute = ActionCreateFolderExecute
     end
     object ActionCut: TAction
       Caption = 'Cut'

@@ -42,7 +42,6 @@
         <EditorIndex Value="1"/>
         <TopLine Value="560"/>
         <CursorPos X="75" Y="600"/>
-        <FoldState Value=" T8kH26 TMuX22133 POsS2 T4kT05 T3ke0311218 pkIn30{8516]CJn80G]9iejR0T]Uj2lG0A016]B1jW033]Tcj60k4]IDkQ052 PCF0 T1kf024[{258nA0{0517]C9nJ04[+46je028[W4lQoN0C[:47k4064 PiHid].L;50r T6lW01K Pc*D]L0mW2B9]jPlQ85[?42ig63B piamF23C]9bnV4E7]9dmB6G6 PiLiTCA"/>
         <UsageCount Value="24"/>
         <Bookmarks Count="2">
           <Item0 X="2" Y="260" ID="1"/>
@@ -208,7 +207,7 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="307" Column="38" TopLine="291"/>
@@ -288,10 +287,6 @@
       <Position>
         <Filename Value="ulibraryclasses.pas"/>
         <Caret Line="552" Column="36" TopLine="524"/>
-      </Position>
-      <Position>
-        <Filename Value="uthreadscrub.pas"/>
-        <Caret Line="120" Column="7" TopLine="126"/>
       </Position>
       <Position>
         <Filename Value="uthreadscrub.pas"/>

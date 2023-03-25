@@ -22,7 +22,7 @@ then
 
 	cd ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/
 	rm cbzManagerOsx.zip
-	zip -r cbzManagerOsx.zip cp -r ~/Dev/cbzManager/cbzManager/cbzManagerOsx.app cp -r ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx.app
+	zip -r cbzManagerOsx.zip cp -r cbzManagerOsx.app cbzLibraryOsx.app
  
 else
 	echo 'Compile failed'

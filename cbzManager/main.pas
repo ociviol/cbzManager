@@ -1028,8 +1028,8 @@ begin
   until (new = '') or not DirectoryExists(new);
   if (new <> '') then
   begin
-    TreeView1.Items.AddChild(TreeView1.Selected, ExtractFileName(new));
     CreateDir(new);
+    FTreeViewPaths.AddObject(new, TreeView1.Items.AddChild(TreeView1.Selected, ExtractFileName(new)));
   end;
 end;
 

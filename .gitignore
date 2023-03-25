@@ -1,3 +1,4 @@
+*.bak
 /cbzManager/backup/cbzManager.lps.bak
 /cbzManager/backup/*
 /cbzManager/cbzManager

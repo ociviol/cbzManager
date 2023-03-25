@@ -110,6 +110,7 @@ type
     FOwnConfig : Boolean;
     FConfigFile : string;
 
+    procedure SetCaption;
     procedure StartThreads;
     procedure StopThreads;
     procedure EnableActions;
@@ -309,7 +310,7 @@ begin
       onclick := @btnletterclick;
     end;
 
-  Caption := GetFileVersionInternalName + ' (' + GetFileVersion + ')';
+  SetCaption;
 
   if CheckPaths then
     StartThreads;
@@ -402,7 +403,7 @@ begin
   try
     FFileList.LoadFromFile(CacheFileName);
     CurrentPAth := FFileList.RootPath;
-    //cbzLibrary.Caption:=CurrentPath;
+
     UpdateVisibleDates;
     if Fconfig.LibCurPath <> '' then
     begin
@@ -592,6 +593,11 @@ begin
   //mnuDelete.Enabled:= not Assigned(FThreadSearchFiles);
   //mnuCut.Enabled := not FileExists(SelectedStr);
   //mnuPaste.Enabled:= Assigned(FFileToCopy);
+end;
+
+procedure TcbzLibrary.SetCaption;
+begin
+  Caption := GetFileVersionInternalName + ' (' + GetFileVersion + ') Lib: ' + FCurrentPath;
 end;
 
 procedure TcbzLibrary.EnableActions;
@@ -1005,7 +1011,7 @@ procedure TcbzLibrary.SetCurrentPath(AValue: String);
 begin
   if FCurrentPath=AValue then Exit;
   FCurrentPath:=AValue;
-  Caption := 'Library (' + FCurrentPath + ')';
+  SetCaption;
 end;
 
 procedure TcbzLibrary.UpdateNbItems;

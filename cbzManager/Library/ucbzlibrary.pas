@@ -113,6 +113,8 @@ type
     procedure SetCaption;
     procedure StartThreads;
     procedure StopThreads;
+    procedure PauseScrub;
+    procedure ResumeScrub;
     procedure EnableActions;
     function GetCacheFileName: String;
     procedure SetCurrentPath(AValue: String);
@@ -352,6 +354,18 @@ procedure TcbzLibrary.StartThreads;
 begin
   if not Assigned(FThreadScrub) then
     FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
+end;
+
+procedure TcbzLibrary.PauseScrub;
+begin
+  if Assigned(FThreadScrub) and not FThreadScrub.Suspended then
+    FThreadScrub.Suspend;
+end;
+
+procedure TcbzLibrary.ResumeScrub;
+begin
+  if Assigned(FThreadScrub) and FThreadScrub.Suspended then
+    FThreadScrub.Resume;
 end;
 
 procedure TcbzLibrary.FormDestroy(Sender: TObject);
@@ -732,6 +746,7 @@ begin
     FFileList.ResetStampState;
     //FFileList.Clear;
     FLog.Log('TCbzLibrary.btnRefreshClick : Refresh started.');
+    PauseScrub;
     FThreadSearchFiles := ThreadedSearchFiles(FCurrentPath, ['*.cbz'], @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
@@ -1159,11 +1174,13 @@ begin
     if ItemIndex > 0 then
       fs.FDate:= TDateTime(Items.Objects[ItemIndex]);
 
+  PauseScrub;
   FFillThread := TThreadFill.Create(Flog, fs,@ThreadFillTerminate, @Progress);
 end;
 
 procedure TcbzLibrary.SearchEnded(Sender: TObject);
 begin
+  ResumeScrub;
   FThreadSearchFiles := nil;
   StatusBar1.Panels[2].Text := 'Ready.';
 
@@ -1309,6 +1326,7 @@ var
   oldtoprow, oldrow, i : Integer;
   s : string;
 begin
+  ResumeScrub;
   Progress(Self, 0, 0, 0, 'Sorting...');
   FFillThread := nil;
   btnRefresh.Enabled:=True;

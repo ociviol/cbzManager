@@ -26,10 +26,9 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="542"/>
-        <CursorPos X="51" Y="570"/>
+        <TopLine Value="531"/>
+        <CursorPos X="18" Y="540"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit>
@@ -41,7 +40,7 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="575"/>
+        <TopLine Value="560"/>
         <CursorPos X="75" Y="600"/>
         <FoldState Value=" T8kH26 TMuX22133 POsS2 T4kT05 T3ke0311218 pkIn30{8516]CJn80G]9iejR0T]Uj2lG0A016]B1jW033]Tcj60k4]IDkQ052 PCF0 T1kf024[{258nA0{0517]C9nJ04[+46je028[W4lQoN0C[:47k4064 PiHid].L;50r T6lW01K Pc*D]L0mW2B9]jPlQ85[?42ig63B piamF23C]9bnV4E7]9dmB6G6 PiLiTCA"/>
         <UsageCount Value="24"/>
@@ -68,9 +67,10 @@
         <Filename Value="uthreadscrub.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="136"/>
-        <CursorPos X="27" Y="160"/>
+        <TopLine Value="131"/>
+        <CursorPos Y="139"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit>
@@ -208,43 +208,7 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="28">
-      <Position>
-        <Filename Value="..\uconfig.pas"/>
-        <Caret Line="123" TopLine="103"/>
-      </Position>
-      <Position>
-        <Filename Value="..\uconfig.pas"/>
-        <Caret Line="124" TopLine="103"/>
-      </Position>
-      <Position>
-        <Filename Value="..\uconfig.pas"/>
-        <Caret Line="126" TopLine="103"/>
-      </Position>
-      <Position>
-        <Filename Value="..\uconfig.pas"/>
-        <Caret Line="127" TopLine="103"/>
-      </Position>
-      <Position>
-        <Filename Value="..\uconfig.pas"/>
-        <Caret Line="128" TopLine="103"/>
-      </Position>
-      <Position>
-        <Filename Value="..\uconfig.pas"/>
-        <Caret Line="129" TopLine="103"/>
-      </Position>
-      <Position>
-        <Filename Value="..\uconfig.pas"/>
-        <Caret Line="122" TopLine="103"/>
-      </Position>
-      <Position>
-        <Filename Value="..\uconfig.pas"/>
-        <Caret Line="132" TopLine="103"/>
-      </Position>
-      <Position>
-        <Filename Value="..\uconfig.pas"/>
-        <Caret Line="141" TopLine="123"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="307" Column="38" TopLine="291"/>
@@ -324,6 +288,46 @@
       <Position>
         <Filename Value="ulibraryclasses.pas"/>
         <Caret Line="552" Column="36" TopLine="524"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="120" Column="7" TopLine="126"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="147" Column="17" TopLine="131"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="97" Column="14" TopLine="80"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="520" TopLine="512"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="139" TopLine="131"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="141" TopLine="131"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="142" TopLine="131"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="145" TopLine="131"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="139" TopLine="131"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="97" Column="14" TopLine="81"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -1,82 +1,15 @@
-*.bak
-/cbzManager/backup/cbzManager.lps.bak
-/cbzManager/backup/*
-/cbzManager/cbzManager
-/cbzManager/cbzManager.dbg
-/cbzManager/cbzManager.res
-/cbzManager/cbzManagerOsx.res
-/cbzManager/cbzManager_0.9.0.0_amd64.deb
-/cbzManager/cbzManager_0.9.0.0_amd64.lintian
-/cbzManager/lib/x86_64-linux/*
-/precompiled binairies/Linux/cbzManager_0.9.0.0_amd64.lintian
-/Utils/backup/*
-/precompiled binairies/Linux/cbzManager
-/precompiled binairies/Linux/cbzManager.desktop
-/precompiled binairies/Linux/README
-/precompiled binairies/Linux/cbzManager.png
-/precompiled binairies/Linux/installlinux.sh
+*.dbg
+*.res
+*.deb
+*.lintian
 *.dbg
 *.o
 *.obj
 *.ppu
-cbzManager/Library/lib/x86_64-darwin/*
-cbzManager/cbzManagerWin.exe
-cbzManager/cbzManagerWin.json
-cbzManager/cbzManagerWin.res
-cbzManager/cbzManagerWin.res
-precompiled binairies/Windows/cbzManager.exe
-/cbzManager/cbzManager.json
 *.a
-cbzManager/lib/x86_64-win64/libimputils.naturalsortstringlist.a
-/precompiled binairies/Linux/Files/cbzManager.zip
-/precompiled binairies/Linux/Files/cbzManager
-cbzManager/lib/x86_64-darwin/main.lfm
 .DS_Store
 *.part
-cbzManager/Logs/*
-
-*.res
-precompiled binairies/Windows/UnRAR.exe
-cbzManager/Bin-Win/cbzManager.exe
-cbzManager/cbzManagerOsx
-cbzManager/lib/x86_64-darwin/cbzManagerOsx.compiled
-precompiled binairies/Mac OsX/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx
-cbzManager/mkbinwin.bat
 *.or
 *.or
-*.res
-cbzManager/lib/x86_64-darwin/cbzManagerOsx.or
-cbzManager/lib/x86_64-darwin/cbzManagerOsx.or
-cbzManager/lib/x86_64-darwin/cbzManagerOsx.res
-cbzManager/lib/x86_64-darwin/cbzManagerOsx.s
-cbzManager/lib/x86_64-darwin/main.lfm
-cbzManager/lib/x86_64-darwin/main.s
-cbzManager/lib/x86_64-darwin/ucbz.s
-cbzManager/lib/x86_64-darwin/ucbzlibrary.lfm
-cbzManager/lib/x86_64-darwin/ucbzlibrary.s
-cbzManager/lib/x86_64-darwin/ucbzviewerframe.s
-cbzManager/lib/x86_64-darwin/ufilecleaner.s
-cbzManager/lib/x86_64-darwin/ulibraryclasses.s
-cbzManager/lib/x86_64-darwin/ulogreader.s
-cbzManager/lib/x86_64-darwin/uthreadextract.s
-cbzManager/lib/x86_64-darwin/uworkerthread.s
-cbzManager/lib/x86_64-darwin/cbzManagerOsx.or
-cbzManager/cbzManagerWin.res
-cbzManager/lib/*
-cbzManager/Library/backup/cbzLibraryOsx.lps.bak
-cbzManager/lib/x86_64-darwin/*
-cbzManager/Library/cbzLibraryOsx.dSYM/Contents/Resources/DWARF/cbzLibraryOsx
-cbzManager/Library/lib/x86_64-win64/cbzLibraryWin.compiled
-cbzManager/Library/lib/x86_64-win64/config.lfm
-cbzManager/Library/lib/x86_64-win64/frmwait.lfm
-cbzManager/Library/lib/x86_64-win64/main.lfm
-cbzManager/Library/lib/x86_64-win64/uabout.lfm
-cbzManager/Library/lib/x86_64-win64/ucbzlibrary.lfm
-cbzManager/Library/lib/x86_64-win64/ucbzviewer.lfm
-cbzManager/Library/lib/x86_64-win64/ucbzviewerframe.lfm
-cbzManager/Library/lib/x86_64-win64/ufilecleaner.lfm
-cbzManager/Library/lib/x86_64-win64/uloadreport.lfm
-cbzManager/Library/lib/x86_64-win64/ulogreader.lfm
-cbzManager/Library/lib/x86_64-win64/utils.zipfile.rsj
-cbzManager/Library/backup/cbzLibraryOsx.lpr
-cbzManager/cbzManagerOsx.dSYM/Contents/Resources/DWARF/cbzManagerOsx
+cbzManager/lib/x86_64-win64/*
+cbzManager/Library/lib/x86_64-win64/*

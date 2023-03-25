@@ -527,6 +527,7 @@ begin
       begin
         o := TSyncObject(TJsonObject.Load(SyncJsonFilename, TSyncObject.Create));
         try
+          // pull
           if FDateSetReadState < _IsoDateToDateTime(o.DateSetReadState) then
           begin
             FDateSetReadState := _IsoDateToDateTime(o.DateSetReadState);
@@ -536,6 +537,7 @@ begin
             result := 1;
           end
           else
+          // push
           if FDateSetReadState > _IsoDateToDateTime(o.DateSetReadState) then
           begin
             o.DateSetReadState := FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +

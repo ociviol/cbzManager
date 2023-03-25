@@ -18,7 +18,7 @@
 *.o
 *.obj
 *.ppu
-cbzManager/lib/x86_64-win64/*.*
+cbzManager/Library/lib/x86_64-darwin/*
 cbzManager/cbzManagerWin.exe
 cbzManager/cbzManagerWin.json
 cbzManager/cbzManagerWin.res
@@ -33,7 +33,6 @@ cbzManager/lib/x86_64-darwin/main.lfm
 .DS_Store
 *.part
 cbzManager/Logs/*
-cbzManager/Library/*
 
 *.res
 precompiled binairies/Windows/UnRAR.exe

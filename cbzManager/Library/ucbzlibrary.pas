@@ -630,7 +630,7 @@ begin
     if Assigned(FindForm(ExtractFileName(s))) then
       FindForm(ExtractFileName(s)).BringToFront
     else
-      ShowComics(FLog, s, FConfig)
+      ShowComics(FLog, TFileItem(SelectedObj), FConfig)
   else
   ;
 end;

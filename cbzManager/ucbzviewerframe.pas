@@ -165,7 +165,7 @@ type
     procedure Clear;
     procedure ClearUndo;
     procedure FullClear;
-
+    procedure SelectImage(const Index : integer);
     property Filename : String read FFilename write SetFilename;
     property State : TZipMode read GetState;
     //property Mode : TViewMode read FViewMode write SetViewMode;
@@ -518,6 +518,18 @@ procedure TCbzViewerFrame.FullClear;
 begin
   Clear;
   ClearUndo;
+end;
+
+procedure TCbzViewerFrame.SelectImage(const Index: integer);
+begin
+  with DrawGrid1 do
+  begin
+    ClearSelection;
+    Selected[Index] := True;
+    DrawGrid1.Position := Index;
+    Application.QueueAsyncCall(@AfterCellSelect, 0);
+    Invalidate;
+  end;
 end;
 
 procedure TCbzViewerFrame.StampReady(ProgressID: QWord; Index: Integer);

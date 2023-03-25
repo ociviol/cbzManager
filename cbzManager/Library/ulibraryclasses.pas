@@ -57,7 +57,9 @@ type
     FCacheFilename,
     FSyncPathFilename : String;
 
+    function GetCurPage: Integer;
     function GetSyncFileDAte: TDateTime;
+    procedure SetCurPage(AValue: Integer);
     procedure SetFilename(AValue: String);
     procedure SetFSyncFileDAte(AValue: TDateTime);
     function SyncPathName(const aFilename : string):String;
@@ -105,6 +107,7 @@ type
     property DateSetReadState : TDateTime read GetDateSetReadState write SetDateSetReadState;
     property Deleted : Boolean read GetDeleted write SetDeleted;
     property SyncFileDAte : TDateTime read GetSyncFileDAte write SetFSyncFileDAte;
+    property CurPage : Integer read GetCurPage write SetCurPage;
   end;
 
   { TItemList }
@@ -621,6 +624,30 @@ begin
   FLock.LockList;
   try
     Result := FSyncFileDAte;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+function TFileItem.GetCurPage: Integer;
+begin
+  FLock.LockList;
+  try
+    Result := FCurPage;
+  finally
+    FLock.UnlockList;
+  end;
+end;
+
+procedure TFileItem.SetCurPage(AValue: Integer);
+begin
+  FLock.LockList;
+  try
+    FCurPage:=aValue;
+    FDateSetReadState:=now;
+    FModified := True;
+    FSyncFileDate:=now;
+    CheckSync(True);
   finally
     FLock.UnlockList;
   end;

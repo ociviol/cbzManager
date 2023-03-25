@@ -9,7 +9,7 @@ uses
 {$if defined(Darwin) or defined(Linux)}
   cthreads,
 {$endif}
-  uCbzViewerFrame, utils.Logger, uConfig;
+  uCbzViewerFrame, uLibraryClasses, utils.Logger, uConfig;
 
 type
 
@@ -21,6 +21,7 @@ type
     procedure FormShow(Sender: TObject);
   private
     CbzViewerFrame : TCbzViewerFrame;
+    FItem : TFileItem;
   protected
     FConfig : TConfig;
   public
@@ -28,11 +29,11 @@ type
   end;
 
 
-procedure ShowComics(aLog : ILog; const aFilename : String; aConfig : TConfig);
+procedure ShowComics(aLog : ILog; aItem : TFileItem; aConfig : TConfig);
 
 implementation
 
-procedure ShowComics(aLog : ILog; const aFilename: String; aConfig : TConfig);
+procedure ShowComics(aLog : ILog; aItem : TFileItem; aConfig : TConfig);
 var
   f : TFrmCbzViewer;
 begin
@@ -40,11 +41,12 @@ begin
   with f do
   try
     FConfig := aConfig;
-    Caption := ExtractFilename(aFilename);
+    FItem := aItem;
+    Caption := ExtractFilename(aItem.Filename);
     CbzViewerFrame := TCbzViewerFrame.Create(f, aConfig, aLog);
     CbzViewerFrame.Parent := f;
     ActiveControl := CbzViewerFrame.DrawGrid1;
-    CbzViewerFrame.Filename:=aFilename;
+    CbzViewerFrame.Filename:=aItem.Filename;
     Show;
   except
     On E: Exception do
@@ -61,6 +63,7 @@ procedure TFrmCbzViewer.FormClose(Sender: TObject; var CloseAction: TCloseAction
 begin
   try
     FConfig.SaveForm(Self);
+    FItem.CurPage:=CbzViewerFrame.DrawGrid1.Position;
     CbzViewerFrame.Cbz.Close;
   finally
     CloseAction:=caFree;
@@ -76,6 +79,7 @@ end;
 procedure TFrmCbzViewer.FormShow(Sender: TObject);
 begin
   FConfig.RestoreForm(Self);
+  CbzViewerFrame.SelectImage(FItem.CurPage);
 end;
 
 end.

@@ -1,4 +1,0 @@
-{"version":1,"strings":[
-{"hash":46626131,"name":"utils.zipfile.rsfilenamesdoesnotexistins","sourcebytes":[70,105,108,101,110,97,109,101,32,37,115,32,100,111,101,115,32,110,111,116,32,101,120,105,115,116,32,105,110,32,37,115],"value":"Filename %s does not exist in %s"},
-{"hash":92480308,"name":"utils.zipfile.rszipfilesdoesnotexist","sourcebytes":[90,105,112,102,105,108,101,32,37,115,32,100,111,101,115,32,110,111,116,32,101,120,105,115,116],"value":"Zipfile %s does not exist"}
-]}

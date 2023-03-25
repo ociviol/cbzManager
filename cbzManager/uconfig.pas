@@ -29,22 +29,18 @@ type
     FLHideRead,
     FOpenLibrary: Boolean;
 
-    FWindowStateStr,
     FLibCurPath,
     FLibPath,
     Fcwebp,
     Funrar,
     FBdPathPath,
     FSyncPath,
-    Fp7zip: String;
+    Fp7zip,
+    FConfigPath: String;
 
     FQueueSize,
     FNbThreads,
     FWebpQuality,
-    FMainLeft,
-    FMainTop,
-    FMainWidth,
-    FMainHeight,
     FDefaultColWidth,
     FDefaultRowHeight,
     FTreeViewWidth :Integer;
@@ -54,11 +50,6 @@ type
     procedure SaveForm(aOwner : TForm);
     procedure RestoreForm(aOwner : TForm);
   published
-    property WindowStateStr : String read FWindowStateStr write FWindowStateStr;
-    property MainLeft : integer read FMainLeft write FMainLeft;
-    property MainTop : integer read FMainTop write FMainTop;
-    property MainWidth : integer read FMainWidth write FMainWidth;
-    property MainHeight : integer read FMainHeight write FMainHeight;
     property DefaultColWidth : integer read FDefaultColWidth write FDefaultColWidth;
     property DefaultRowHeight : integer read FDefaultRowHeight write FDefaultRowHeight;
     property MngrTreeViewWidth : Integer read FTreeViewWidth write FTreeViewWidth;
@@ -83,8 +74,10 @@ type
 implementation
 
 uses
-  Math;
+  Math, IniFiles;
 
+const
+  SZ_SIZE_INI = '.size.ini';
 
 { TConfig }
 
@@ -119,31 +112,49 @@ end;
 class function TConfig.Load(const aFileName: String): TConfig;
 begin
   result := TConfig(TJsonObject.Load(aFilename, TConfig.Create));
+  result.FConfigPath := ExtractFilePath(aFileName);
 end;
 
 procedure TConfig.SaveForm(aOwner: TForm);
+var
+  FWindowStateStr : string;
+  ini : TIniFile;
 begin
-  FWindowStateStr := WindowStateToStr(aOwner.WindowState);
-  if aOwner.WindowState = wsNormal then
-  begin
-    FMainLeft := aOwner.Left;
-    FMainTop := aOwner.Top;
-    FMainWidth := aOwner.Width;
-    FMainHeight := aOwner.Height;
+  ini := TIniFile.Create(IncludeTrailingPathDelimiter(FConfigPath) + aOwner.ClassName + SZ_SIZE_INI);
+  try
+    ini.WriteString('pos', 'state', WindowStateToStr(aOwner.WindowState));
+    if aOwner.WindowState = wsNormal then
+    begin
+      ini.WriteInteger('pos', 'left', aOwner.Left);
+      ini.WriteInteger('pos', 'top', aOwner.Top);
+      ini.WriteInteger('pos', 'width', aOwner.Width);
+      ini.WriteInteger('pos', 'height', aOwner.Height);
+    end;
+  finally
+    ini.free;
   end;
 end;
 
 procedure TConfig.RestoreForm(aOwner: TForm);
+var
+  FWindowStateStr : string;
+  ini : TIniFile;
 begin
-  aOwner.left := ifthen(FMainLeft > 0, FMainLeft, aOwner.Left);
-  aOwner.top := ifthen(FMainTop > 0, FMainTop, aOwner.Top);
-  aOwner.width := ifthen(FMainWidth > 0, FMainWidth, aOwner.Width);
-  aOwner.height := ifthen(FMainHeight > 0, FMainHeight, aOwner.Height);
+  ini := TIniFile.Create(IncludeTrailingPathDelimiter(FConfigPath) + aOwner.ClassName + SZ_SIZE_INI);
+  try
+    aOwner.left := ini.ReadInteger('pos', 'left', aOwner.Left);
+    aOwner.top := ini.ReadInteger('pos', 'top', aOwner.Left);
+    aOwner.width := ini.ReadInteger('pos', 'width', aOwner.Left);
+    aOwner.height := ini.ReadInteger('pos', 'height', aOwner.Left);
 
-  if FWindowStateStr <> '' then
-    aOwner.WindowState := StrToWindowState(FWindowStateStr);
+    FWindowStateStr := ini.ReadString('pos', 'state', '');
+    if FWindowStateStr <> '' then
+      aOwner.WindowState := StrToWindowState(FWindowStateStr);
+
+  finally
+    ini.free;
+  end;
 end;
-
 
 end.
 

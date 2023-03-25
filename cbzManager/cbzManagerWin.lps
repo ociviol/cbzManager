@@ -137,7 +137,8 @@
         <UnitName Value="uConfig"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="28" Y="108"/>
+        <TopLine Value="112"/>
+        <CursorPos X="100" Y="143"/>
         <UsageCount Value="229"/>
         <Loaded Value="True"/>
       </Unit12>

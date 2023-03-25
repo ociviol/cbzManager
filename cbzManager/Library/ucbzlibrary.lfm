@@ -12,7 +12,6 @@ object CbzLibrary: TCbzLibrary
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
-  Position = poDefault
   LCLVersion = '2.2.4.0'
   object dgLibrary: TDrawGrid
     Left = 50

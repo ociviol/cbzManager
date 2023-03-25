@@ -78,3 +78,5 @@ cbzManager/Library/lib/x86_64-win64/ufilecleaner.lfm
 cbzManager/Library/lib/x86_64-win64/uloadreport.lfm
 cbzManager/Library/lib/x86_64-win64/ulogreader.lfm
 cbzManager/Library/lib/x86_64-win64/utils.zipfile.rsj
+cbzManager/Library/backup/cbzLibraryOsx.lpr
+cbzManager/cbzManagerOsx.dSYM/Contents/Resources/DWARF/cbzManagerOsx

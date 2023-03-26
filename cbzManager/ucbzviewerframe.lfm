@@ -8,8 +8,8 @@ object CbzViewerFrame: TCbzViewerFrame
   ClientWidth = 783
   ParentFont = False
   TabOrder = 0
-  DesignLeft = 437
-  DesignTop = 191
+  DesignLeft = 853
+  DesignTop = 215
   object Panel1: TPanel
     Left = 0
     Height = 687
@@ -167,7 +167,7 @@ object CbzViewerFrame: TCbzViewerFrame
         Left = 1
         Height = 21
         Top = 4
-        Width = 29
+        Width = 35
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Left : '
@@ -175,7 +175,7 @@ object CbzViewerFrame: TCbzViewerFrame
         ParentFont = False
       end
       object speLeft: TSpinEdit
-        Left = 30
+        Left = 36
         Height = 24
         Top = 1
         Width = 62
@@ -185,10 +185,10 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 0
       end
       object Label2: TLabel
-        Left = 285
+        Left = 302
         Height = 21
         Top = 4
-        Width = 45
+        Width = 51
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Height : '
@@ -196,7 +196,7 @@ object CbzViewerFrame: TCbzViewerFrame
         ParentFont = False
       end
       object speBottom: TSpinEdit
-        Left = 330
+        Left = 353
         Height = 24
         Top = 1
         Width = 62
@@ -206,10 +206,10 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 1
       end
       object Label3: TLabel
-        Left = 182
+        Left = 193
         Height = 21
         Top = 4
-        Width = 41
+        Width = 47
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Width : '
@@ -217,7 +217,7 @@ object CbzViewerFrame: TCbzViewerFrame
         ParentFont = False
       end
       object speRight: TSpinEdit
-        Left = 223
+        Left = 240
         Height = 24
         Top = 1
         Width = 62
@@ -227,10 +227,10 @@ object CbzViewerFrame: TCbzViewerFrame
         TabOrder = 2
       end
       object Label4: TLabel
-        Left = 92
+        Left = 98
         Height = 21
         Top = 4
-        Width = 28
+        Width = 33
         Align = alLeft
         BorderSpacing.Top = 3
         Caption = 'Top : '
@@ -238,7 +238,7 @@ object CbzViewerFrame: TCbzViewerFrame
         ParentFont = False
       end
       object speTop: TSpinEdit
-        Left = 120
+        Left = 131
         Height = 24
         Top = 1
         Width = 62

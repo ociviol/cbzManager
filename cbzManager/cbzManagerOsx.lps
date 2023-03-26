@@ -147,7 +147,6 @@
       </Unit13>
       <Unit14>
         <Filename Value="ucbzlibrary.pas"/>
-        <IsPartOfProject Value="True"/>
         <ComponentName Value="CbzLibrary"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
@@ -159,7 +158,6 @@
       </Unit14>
       <Unit15>
         <Filename Value="ucbzviewer.pas"/>
-        <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="-1"/>
@@ -182,7 +180,6 @@
       </Unit16>
       <Unit17>
         <Filename Value="ulibraryclasses.pas"/>
-        <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="677"/>

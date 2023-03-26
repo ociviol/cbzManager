@@ -2,7 +2,8 @@ cd ~/Dev/cbzManager/cbzManager
 /Users/ollivierciviol/fpcupdeluxe/fpc/bin/x86_64-darwin/fpc.sh -B -MObjFPC -Scghi -CX -O3 -XX -k-framework -kCocoa -l -vewnhibq -Filib/x86_64-darwin -Fu../../Utils -Fu../../XmlReader/XmlDoc -Fu../../../fpcupdeluxe/lazarus/lcl/units/x86_64-darwin/cocoa -Fu../../../fpcupdeluxe/lazarus/lcl/units/x86_64-darwin -Fu../../../fpcupdeluxe/lazarus/components/freetype/lib/x86_64-darwin -Fu../../../fpcupdeluxe/lazarus/components/lazutils/lib/x86_64-darwin -Fu../../../fpcupdeluxe/lazarus/packager/units/x86_64-darwin -Fu. -FUlib/x86_64-darwin -FE. -ocbzManagerOsx -dLCL -dLCLcocoa -dUseCThreads cbzManagerOsx.lpr
 
 cd ~/Dev/cbzManager/cbzManager/Library 
-/Users/ollivierciviol/fpcupdeluxe/fpc/bin/x86_64-darwin/fpc.sh -B -MObjFPC -Scghi -CX -O3 -XX -k-framework -kCocoa -l -vewnhibq -Filib/x86_64-darwin -Fu.. -Fu../../../../fpcupdeluxe/lazarus/lcl/units/x86_64-darwin/cocoa -Fu../../../../fpcupdeluxe/lazarus/lcl/units/x86_64-darwin -Fu../../../../fpcupdeluxe/lazarus/components/freetype/lib/x86_64-darwin -Fu../../../../fpcupdeluxe/lazarus/components/lazutils/lib/x86_64-darwin -Fu../../../../fpcupdeluxe/lazarus/packager/units/x86_64-darwin -Fu. -FUlib/x86_64-darwin -FE. -ocbzLibraryOsx -dLCL -dLCLcocoa -dUseCThreads cbzLibraryOsx.lpr
+
+/Users/ollivierciviol/fpcupdeluxe/fpc/bin/x86_64-darwin/fpc.sh  -MObjFPC -Scghi -CX -O3 -XX -k-framework -kCocoa -l -vewnhibq -Filib/x86_64-darwin -Fu../../../Utils -Fu../../../XmlReader/XmlDoc -Fu.. -Fu../../../../fpcupdeluxe/lazarus/lcl/units/x86_64-darwin/cocoa -Fu../../../../fpcupdeluxe/lazarus/lcl/units/x86_64-darwin -Fu../../../../fpcupdeluxe/lazarus/components/freetype/lib/x86_64-darwin -Fu../../../../fpcupdeluxe/lazarus/components/lazutils/lib/x86_64-darwin -Fu../../../../fpcupdeluxe/lazarus/packager/units/x86_64-darwin -Fu. -FUlib/x86_64-darwin -FE. -ocbzLibraryOsx -dLCL -dLCLcocoa -dUseCThreads cbzLibraryOsx.lpr
 
 
 status=$?

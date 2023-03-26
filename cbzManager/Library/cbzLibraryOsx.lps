@@ -2,12 +2,12 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="cbzLibraryOsx.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="8"/>
         <CursorPos X="43" Y="9"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
@@ -16,16 +16,56 @@
         <Filename Value="ucbzlibrary.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="CbzLibrary"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <TopLine Value="53"/>
-        <CursorPos X="31" Y="73"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="380"/>
+        <CursorPos X="32" Y="381"/>
         <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ucbzviewer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmCbzViewer"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uCbzViewer"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="26"/>
+        <CursorPos X="82" Y="49"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uConfig"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="25"/>
+        <CursorPos X="26" Y="63"/>
+        <UsageCount Value="20"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="../uconfig.pas"/>
+        <Filename Value="../ucbzviewerframe.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="CbzViewerFrame"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="uCbzViewerFrame"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="184"/>
+        <CursorPos X="21" Y="191"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../uconfig.pas"/>
         <UnitName Value="uConfig"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="-1"/>
@@ -44,7 +84,7 @@
       <Unit>
         <Filename Value="ulibraryclasses.pas"/>
         <UnitName Value="uLibraryClasses"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="7"/>
         <CursorPos X="25" Y="24"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
@@ -52,7 +92,7 @@
       <Unit>
         <Filename Value="../../../Utils/utils.masks.pas"/>
         <UnitName Value="Utils.Masks"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="79"/>
         <CursorPos X="8" Y="99"/>
         <UsageCount Value="10"/>
@@ -61,7 +101,7 @@
       <Unit>
         <Filename Value="../../../Utils/utils.naturalsortstringlist.pas"/>
         <UnitName Value="Utils.NaturalSortStringList"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="9"/>
         <CursorPos X="3" Y="29"/>
         <UsageCount Value="10"/>
@@ -70,15 +110,14 @@
       <Unit>
         <Filename Value="../../../Utils/utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="16"/>
         <CursorPos X="22" Y="36"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="6">
+    <JumpHistory HistoryIndex="9">
       <Position>
         <Filename Value="cbzLibraryOsx.lpr"/>
         <Caret Line="9" Column="43"/>
@@ -106,6 +145,17 @@
       <Position>
         <Filename Value="../../../Utils/utils.naturalsortstringlist.pas"/>
         <Caret Line="29" Column="3" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzviewer.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="../ucbzviewerframe.pas"/>
+        <Caret Line="148" Column="19" TopLine="125"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="626" Column="48" TopLine="614"/>
       </Position>
     </JumpHistory>
     <RunParams>

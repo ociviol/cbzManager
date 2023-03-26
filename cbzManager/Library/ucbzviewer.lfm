@@ -1,7 +1,7 @@
 object FrmCbzViewer: TFrmCbzViewer
-  Left = 702
+  Left = 721
   Height = 566
-  Top = 237
+  Top = 482
   Width = 778
   Caption = 'FrmCbzViewer'
   OnClose = FormClose

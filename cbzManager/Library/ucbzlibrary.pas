@@ -376,6 +376,7 @@ begin
   end;
 
   FConfig.LibCurPath:=CurrentPath;
+  FConfig.Save(FConfigFile);
   FConfig.SaveForm(Self);
   CheckModified;
 

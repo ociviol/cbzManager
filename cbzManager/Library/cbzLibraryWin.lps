@@ -88,7 +88,6 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="11"/>
         <TopLine Value="54"/>
         <CursorPos Y="62"/>
@@ -203,12 +202,17 @@
       </Unit>
       <Unit>
         <Filename Value="..\ucbzviewer.pas"/>
+        <ComponentName Value="FrmCbzViewer"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="10"/>
-        <TopLine Value="51"/>
+        <TopLine Value="33"/>
         <CursorPos Y="82"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\ucbzviewerframe.pas"/>
@@ -219,9 +223,9 @@
         <EditorIndex Value="12"/>
         <TopLine Value="181"/>
         <CursorPos X="60" Y="193"/>
-        <FoldState Value=" T3mB0X1 Pi0Z0o"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\main.pas"/>

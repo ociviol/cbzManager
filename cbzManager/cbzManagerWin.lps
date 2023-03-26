@@ -54,7 +54,7 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="946"/>
         <CursorPos X="3" Y="1055"/>
         <UsageCount Value="204"/>
@@ -64,7 +64,7 @@
         <Filename Value="udatatypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataTypes"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="19"/>
         <CursorPos X="3" Y="25"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
@@ -75,7 +75,7 @@
         <ComponentName Value="FormWait"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="6"/>
         <CursorPos X="17" Y="44"/>
         <UsageCount Value="200"/>
@@ -96,7 +96,7 @@
         <Filename Value="udataitem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataItem"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="17"/>
         <TopLine Value="311"/>
         <CursorPos X="3" Y="315"/>
         <UsageCount Value="200"/>
@@ -106,7 +106,7 @@
         <Filename Value="uthreadconvert.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="18"/>
         <CursorPos X="50" Y="43"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -115,7 +115,7 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="20"/>
         <TopLine Value="460"/>
         <CursorPos X="5" Y="68"/>
         <UsageCount Value="200"/>
@@ -125,7 +125,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="21"/>
         <TopLine Value="182"/>
         <CursorPos X="9" Y="200"/>
         <UsageCount Value="200"/>
@@ -162,7 +162,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uAbout"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="19"/>
         <CursorPos X="11" Y="34"/>
         <UsageCount Value="200"/>
@@ -206,7 +206,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="276"/>
         <CursorPos X="12" Y="293"/>
         <UsageCount Value="200"/>
@@ -215,16 +215,14 @@
       </Unit18>
       <Unit19>
         <Filename Value="ucbzviewer.pas"/>
-        <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmCbzViewer"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="20"/>
         <CursorPos X="28" Y="66"/>
         <UsageCount Value="200"/>
-        <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit19>
       <Unit20>
@@ -414,7 +412,7 @@
       <Unit42>
         <Filename Value="../../Utils/utils.gridhelper.pas"/>
         <UnitName Value="Utils.Gridhelper"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="57"/>
         <CursorPos Y="80"/>
         <UsageCount Value="39"/>
@@ -423,7 +421,7 @@
       <Unit43>
         <Filename Value="../../Utils/utils.logger.pas"/>
         <UnitName Value="Utils.Logger"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="294"/>
         <CursorPos Y="314"/>
         <UsageCount Value="102"/>

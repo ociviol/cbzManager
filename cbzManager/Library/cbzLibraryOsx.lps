@@ -2,14 +2,14 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="cbzLibraryOsx.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="8"/>
         <CursorPos X="43" Y="9"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -19,10 +19,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="380"/>
         <CursorPos X="32" Y="381"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -33,10 +32,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="26"/>
-        <CursorPos X="82" Y="49"/>
-        <UsageCount Value="20"/>
+        <TopLine Value="35"/>
+        <CursorPos Y="68"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -47,7 +47,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="25"/>
         <CursorPos X="26" Y="63"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -60,7 +60,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="184"/>
         <CursorPos X="21" Y="191"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -85,8 +85,9 @@
         <Filename Value="ulibraryclasses.pas"/>
         <UnitName Value="uLibraryClasses"/>
         <EditorIndex Value="7"/>
+        <TopLine Value="80"/>
         <CursorPos X="25" Y="24"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -95,7 +96,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="79"/>
         <CursorPos X="8" Y="99"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -104,7 +105,7 @@
         <EditorIndex Value="5"/>
         <TopLine Value="9"/>
         <CursorPos X="3" Y="29"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -113,7 +114,7 @@
         <EditorIndex Value="6"/>
         <TopLine Value="16"/>
         <CursorPos X="22" Y="36"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
@@ -163,4 +164,15 @@
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ucbzviewer.pas"/>
+        <Line Value="68"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
 </CONFIG>

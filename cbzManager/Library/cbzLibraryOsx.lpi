@@ -19,7 +19,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="10"/>
+      <BuildNr Value="11"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="Comic books library" InternalName="cbzLibrary" LegalCopyright="Ollivier Civiol" LegalTrademarks="Ollivier Civiol" OriginalFilename="cbzLibrary" ProductName="cbzLibrary"/>
     </VersionInfo>
     <BuildModes>
@@ -51,7 +51,7 @@
           </CodeGeneration>
           <Linking>
             <Debugging>
-              <DebugInfoType Value="dsDwarf3"/>
+              <DebugInfoType Value="dsDwarf2Set"/>
               <UseHeaptrc Value="True"/>
               <TrashVariables Value="True"/>
               <UseExternalDbgSyms Value="True"/>

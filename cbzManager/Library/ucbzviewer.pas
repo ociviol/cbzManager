@@ -65,6 +65,8 @@ begin
   try
     FConfig.SaveForm(Self);
     FItem.CurPage:=CbzViewerFrame.DrawGrid1.Position;
+    if FItem.CurPage>=CbzViewerFrame.cbz.ImageCount-1 then
+      FItem.ReadState:=True;
     CbzViewerFrame.Cbz.Close;
   finally
     CloseAction:=caFree;

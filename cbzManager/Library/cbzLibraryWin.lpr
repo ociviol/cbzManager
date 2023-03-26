@@ -11,7 +11,7 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, frmwait, uLibraryClasses, uCbzLibrary, config, uThreadScrub,
-uThreadFill, uConfig;
+uThreadFill, uConfig, uCbzViewer;
 
 {$R *.res}
 var

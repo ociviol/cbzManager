@@ -146,26 +146,6 @@
         <UsageCount Value="217"/>
       </Unit13>
       <Unit14>
-        <Filename Value="ucbzlibrary.pas"/>
-        <ComponentName Value="CbzLibrary"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="uCbzLibrary"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="316"/>
-        <CursorPos X="16" Y="348"/>
-        <UsageCount Value="114"/>
-      </Unit14>
-      <Unit15>
-        <Filename Value="ucbzviewer.pas"/>
-        <HasResources Value="True"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="-1"/>
-        <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="114"/>
-      </Unit15>
-      <Unit16>
         <Filename Value="ucbzviewerframe.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="CbzViewerFrame"/>
@@ -177,6 +157,26 @@
         <CursorPos X="25" Y="167"/>
         <UsageCount Value="114"/>
         <Loaded Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="ucbzlibrary.pas"/>
+        <ComponentName Value="CbzLibrary"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uCbzLibrary"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="316"/>
+        <CursorPos X="16" Y="348"/>
+        <UsageCount Value="114"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="ucbzviewer.pas"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="114"/>
       </Unit16>
       <Unit17>
         <Filename Value="ulibraryclasses.pas"/>

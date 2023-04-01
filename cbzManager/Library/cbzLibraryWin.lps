@@ -59,7 +59,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="11"/>
-        <TopLine Value="52"/>
+        <TopLine Value="7"/>
         <CursorPos X="3" Y="14"/>
         <UsageCount Value="25"/>
         <Loaded Value="True"/>
@@ -88,11 +88,26 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="54"/>
+        <TopLine Value="19"/>
         <CursorPos Y="62"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ucbzviewer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmCbzViewer"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uCbzViewer"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="41"/>
+        <CursorPos Y="67"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\uconfig.pas"/>
@@ -210,7 +225,6 @@
         <TopLine Value="33"/>
         <CursorPos Y="82"/>
         <UsageCount Value="11"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\ucbzviewerframe.pas"/>
@@ -231,19 +245,6 @@
         <TopLine Value="333"/>
         <CursorPos X="14" Y="350"/>
         <UsageCount Value="10"/>
-      </Unit>
-      <Unit>
-        <Filename Value="ucbzviewer.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FrmCbzViewer"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="uCbzViewer"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="41"/>
-        <CursorPos Y="67"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\..\Utils\utils.gridhelper.pas"/>

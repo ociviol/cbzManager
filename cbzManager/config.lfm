@@ -64,7 +64,7 @@ object ConfigFrm: TConfigFrm
   object Label5: TLabel
     Left = 144
     Height = 15
-    Top = 114
+    Top = 109
     Width = 98
     Caption = 'Encoding threads :'
     ParentColor = False
@@ -82,7 +82,7 @@ object ConfigFrm: TConfigFrm
   object Label6: TLabel
     Left = 13
     Height = 15
-    Top = 114
+    Top = 109
     Width = 46
     Caption = 'Queues :'
     ParentColor = False
@@ -124,7 +124,7 @@ object ConfigFrm: TConfigFrm
   object Label7: TLabel
     Left = 336
     Height = 15
-    Top = 114
+    Top = 109
     Width = 72
     Caption = 'Webp Quality'
     ParentColor = False
@@ -134,9 +134,10 @@ object ConfigFrm: TConfigFrm
     Height = 23
     Top = 104
     Width = 60
-    MinValue = 10
+    MaxValue = 100
+    MinValue = 50
     TabOrder = 5
-    Value = 10
+    Value = 75
   end
   object Panel1: TPanel
     Left = 0

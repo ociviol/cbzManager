@@ -127,7 +127,7 @@ begin
           if (i mod 250) = 0 then
           begin
             Synchronize(@DoProgress);
-            Sleep(10);
+            //Sleep(10);
           end;
         end;
       end;

@@ -134,6 +134,7 @@ type
     property CacheFileName : String read GetCacheFileName;
     procedure VisibleListChanged(Sender : TObject);
     procedure ThreadFillTerminate(Sender : TObject);
+    procedure ThreadScrubTerminate(Sender : TObject);
     procedure ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);
     function SelectedStr : String;
     function SelectedObj : TFileItem;
@@ -337,7 +338,7 @@ begin
   begin
     FThreadScrub.Terminate;
     FThreadScrub.Waitfor;
-    FreeAndNil(FThreadScrub);
+    //FreeAndNil(FThreadScrub);
   end;
 
   if Assigned(FFillThread) then
@@ -350,8 +351,8 @@ end;
 
 procedure TcbzLibrary.StartThreads;
 begin
-  if not Assigned(FThreadScrub) then
-    FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
+  //if not Assigned(FThreadScrub) then
+  //  FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
 end;
 
 procedure TcbzLibrary.FormDestroy(Sender: TObject);
@@ -717,6 +718,7 @@ procedure TcbzLibrary.btnRefreshClick(Sender: TObject);
 begin
   if not Assigned(FThreadSearchFiles) then
   begin
+    StopThreads;
     btnRefresh.enabled := False;
     FFileList.ResetStampState;
     //FFileList.Clear;
@@ -1129,6 +1131,9 @@ begin
   Application.QueueAsyncCall(@DoFillGrid, 0);
 
   FLog.Log('TCbzLibrary.SearchEnded : Refresh ended.');
+
+  // start scrub
+  FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @ThreadScrubTerminate, @Progress);
 end;
 
 procedure TcbzLibrary.UpdateVisibleDates;
@@ -1256,6 +1261,11 @@ begin
     inc(FInQueue);
     Application.QueueAsyncCall(@DoSizegrid, 0);
   end;
+end;
+
+procedure TcbzLibrary.ThreadScrubTerminate(Sender : TObject);
+begin
+  FThreadScrub := nil;
 end;
 
 procedure TcbzLibrary.ThreadFillTerminate(Sender: TObject);

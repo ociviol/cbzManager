@@ -10,8 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, uCbzLibrary, uCbzViewer, uConfig, uCbzViewerFrame
-  { you can add units after this };
+  Forms, uCbzLibrary;
 
 {$R *.res}
 

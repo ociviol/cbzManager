@@ -32,6 +32,7 @@ type
   public
     constructor Create(aLog : ILog; aFileList : TItemList;
                        aNotify : TLibraryNotify;
+                       aTerminate : TNotifyEvent;
                        aProgress : TSearchFileProgressEvent = nil);
     destructor Destroy; override;
     procedure Execute; override;
@@ -46,14 +47,16 @@ uses
 
 constructor TThreadScrub.Create(aLog : ILog; aFileList: TItemList;
                                aNotify : TLibraryNotify;
+                               aTerminate : TNotifyEvent;
                                aProgress : TSearchFileProgressEvent = nil);
 begin
   Flog := aLog;
   FItem := nil;
   FFileList := aFileList;
   FNotifier:=aNotify;
-  FreeOnTerminate:=False;
+  FreeOnTerminate:=True;
   FPRogress := aProgress;
+  OnTerminate:= aTerminate;
   inherited Create(False);
   Priority:=tpLower;
 end;
@@ -110,7 +113,7 @@ var
   end;
 
 begin
-  Sleep(1000);
+  Sleep(2000);
   while not Terminated do
   try
     //if (FFileList.StampCount <> FFileList.Count) or
@@ -172,7 +175,7 @@ begin
           Synchronize(@DoProgress);
           //yield;
 
-        Sleep(10);
+        //Sleep(10);
         if Terminated then
             Exit;
 
@@ -181,12 +184,7 @@ begin
       Synchronize(@DoProgress);
       FLog.Log('TThreadScrub.Execute: Scrub done.');
       FFileList.Save;
-      for r := 0 to 14 do
-      begin
-        Sleep(1000);
-        if Terminated then
-          Exit;
-      end;
+      Terminate;
     end;
    // else
    //   Sleep(2000);

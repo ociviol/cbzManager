@@ -25,9 +25,13 @@ type
     FLog : ILog;
     FNotifier : TLibraryNotify;
     FItem : TFileItem;
+    FPaused : Boolean;
+    FPauseLock : TThreadList;
 
     procedure DoProgress;
     procedure DoNotify;
+    function GetPaused: Boolean;
+    procedure SetPaused(AValue: Boolean);
     procedure UpdateCount;
   public
     constructor Create(aLog : ILog; aFileList : TItemList;
@@ -36,6 +40,7 @@ type
                        aProgress : TSearchFileProgressEvent = nil);
     destructor Destroy; override;
     procedure Execute; override;
+    property Paused : Boolean read GetPaused write SetPaused;
   end;
 
 implementation
@@ -50,6 +55,7 @@ constructor TThreadScrub.Create(aLog : ILog; aFileList: TItemList;
                                aTerminate : TNotifyEvent;
                                aProgress : TSearchFileProgressEvent = nil);
 begin
+  FPaused := False;
   Flog := aLog;
   FItem := nil;
   FFileList := aFileList;
@@ -57,6 +63,7 @@ begin
   FreeOnTerminate:=True;
   FPRogress := aProgress;
   OnTerminate:= aTerminate;
+  FPauseLock := TThreadList.Create;
   inherited Create(False);
   Priority:=tpLower;
 end;
@@ -64,6 +71,7 @@ end;
 destructor TThreadScrub.Destroy;
 begin
   FLog := nil;
+  FPauseLock.Free;
   inherited Destroy;
 end;
 
@@ -85,6 +93,26 @@ end;
 procedure TThreadScrub.DoNotify;
 begin
   FNotifier(Self, laDelete, FItem);
+end;
+
+function TThreadScrub.GetPaused: Boolean;
+begin
+  with FPauseLock, LockList do
+  try
+    result := FPaused;
+  finally
+    UnlockList;
+  end;
+end;
+
+procedure TThreadScrub.SetPaused(AValue: Boolean);
+begin
+  with FPauseLock, LockList do
+  try
+    FPaused := AValue;
+  finally
+    UnlockList;
+  end;
 end;
 
 procedure TThreadScrub.UpdateCount;
@@ -132,6 +160,12 @@ begin
       begin
         if Terminated then
             Exit;
+
+        if Paused then
+        begin
+          yield;
+          continue;
+        end;
 
         // remove invalid entries
         FItem := TFileItem(FFileList.Objects[FVal]);

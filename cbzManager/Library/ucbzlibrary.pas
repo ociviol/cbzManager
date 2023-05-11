@@ -1115,6 +1115,8 @@ begin
     if ItemIndex > 0 then
       fs.FDate:= TDateTime(Items.Objects[ItemIndex]);
 
+  if Assigned(FThreadScrub) then
+    FThreadScrub.Paused := True;
   FFillThread := TThreadFill.Create(Flog, fs,@ThreadFillTerminate, @Progress);
 end;
 
@@ -1322,6 +1324,10 @@ begin
     end;
   UpdateNbItems;
   Progress(Self, 0, 0, 0, 'Ready.');
+
+  if Assigned(FThreadScrub) then
+    if FThreadScrub.Paused then
+      FThreadScrub.Paused := False
 end;
 
 procedure TcbzLibrary.ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);

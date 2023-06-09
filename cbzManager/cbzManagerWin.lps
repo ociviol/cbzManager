@@ -17,8 +17,9 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1090"/>
+        <TopLine Value="1006"/>
         <CursorPos Y="1103"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="3">
@@ -35,7 +36,6 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="73"/>
         <CursorPos X="18" Y="110"/>

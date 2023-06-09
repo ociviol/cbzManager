@@ -105,6 +105,8 @@ type
     FOwnConfig : Boolean;
     FConfigFile : string;
 
+    procedure CheckVersionTerminate(Sender : TObject);
+
     procedure SetCaption;
     procedure StartThreads;
     procedure StopThreads;
@@ -154,6 +156,8 @@ implementation
 
 uses
   LazUTF8,
+  lclintf,
+  uVersionThread,
   Math, StrUtils, DateUtils,
   utils.files, uCbzViewer,
   Utils.Vcl, Config, frmWait,
@@ -186,6 +190,24 @@ begin
   FFileToCopy := nil;
   FReadingList := TStringList.Create;
   inherited Create(aOwner);
+
+  TThreadCheckVersion.Create(pvCbzLibrary, FLog, @CheckVersionTerminate);
+end;
+
+procedure TcbzLibrary.CheckVersionTerminate(Sender : TObject);
+begin
+  if TThreadCheckVersion(Sender).NeedUpdate then
+    if MessageDlg('A new version is available, do you want to download the update ?',
+                  mtConfirmation, MbYesNo, 0) = MrYes then
+    begin
+{$if defined(Darwin)}
+      OpenUrl('https://github.com/ociviol/cbzManager/tree/master/precompiled%20binairies/Mac%20OsX');
+{$elseif defined(Linux)}
+      OpenUrl('https://github.com/ociviol/cbzManager/tree/master/precompiled%20binairies/Linux');
+{$else}
+      OpenUrl('https://github.com/ociviol/cbzManager/tree/master/precompiled%20binairies/Windows');
+{$endif}
+    end;
 end;
 
 constructor TcbzLibrary.Create(aOwner: TComponent; aConfig: TConfig);

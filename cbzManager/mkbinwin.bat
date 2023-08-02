@@ -12,8 +12,8 @@ cd "..\precompiled binairies\Windows"
 rem pause
 
 del cbzManagerWin.zip
-copy cbzManager.exe %USERPROFILE%\OneDrive\Documents\cbzManager\
-copy cbzLibrary.exe %USERPROFILE%\OneDrive\Documents\cbzManager\
+copy cbzManager.exe %USERPROFILE%\Documents\cbzManager\
+copy cbzLibrary.exe %USERPROFILE%\Documents\cbzManager\
 
 7z a -tzip -sdel cbzManagerWin.zip *.exe *.dll *.txt
 

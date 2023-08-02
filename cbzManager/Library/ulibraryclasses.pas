@@ -711,7 +711,7 @@ begin
     s := makefilename(ExtractFilename(FFilename));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
     ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.xml');
+    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.json');
     FSyncFilename := result;
   finally
     Flock.UnlockList;

@@ -198,7 +198,11 @@ begin
               if Assigned(b) then
                 b.Free;
             end;
-          end;
+          end
+        else
+        // delete sync file
+        if FFileList.SyncPath.Length > 0 then
+          TFileItem(FFileList.Objects[FVal]).SyncFileDelete;
 
         inc(FVal);
 

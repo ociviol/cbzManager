@@ -838,7 +838,7 @@ begin
       Sqlite3Dataset1.FileName:= Filename;
       with Sqlite3Dataset1 do
       try
-        Sql := 'select c."path", i."read", i.currentPage from comic c left join comic_info i on c.id = i.id ' +
+        Sql := 'select c."path", i."read", i.currentPage from comic c join comic_info i on c.id = i.id ' +
                'where i."read" = 1 or i.hasBeenOpened = 1';
         Open;
         cnt := 0;
@@ -855,9 +855,14 @@ begin
               if FileExists(FFileList[i]) then
                  with TFileItem(FFileList.Objects[i]) do
                  begin
-                   ReadState := FieldByName('read').AsBoolean;
-                   CurPage := FieldByName('currentPage').AsInteger;
-                   inc(cnt);
+                   if (ReadState <> FieldByName('read').AsBoolean) or
+                      (CurPage <> FieldByName('currentPage').AsInteger) then
+                     inc(cnt);
+
+                   if ReadState <> FieldByName('read').AsBoolean then
+                     ReadState := FieldByName('read').AsBoolean;
+                   if CurPage <> FieldByName('currentPage').AsInteger then
+                     CurPage := FieldByName('currentPage').AsInteger;
 
                    break;
                  end;
@@ -871,9 +876,9 @@ begin
       end;
 
     finally
-      Screen.Cursor:= crDefault;
       UpdateNbItems;
       MessageDlg('YACReader Read State Import', inttostr(cnt) + ' Read states imported.', mtInformation, [mbOK], '');
+      Screen.Cursor:= crDefault;
     end;
 end;
 

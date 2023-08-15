@@ -44,11 +44,11 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="841"/>
-        <CursorPos Y="858"/>
+        <TopLine Value="842"/>
+        <CursorPos X="33" Y="881"/>
         <UsageCount Value="28"/>
         <Bookmarks Count="1">
-          <Item0 X="20" Y="860" ID="1"/>
+          <Item0 X="70" Y="865" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -384,10 +384,6 @@
         <Caret Line="765" Column="11" TopLine="744"/>
       </Position>
       <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="36" Column="3" TopLine="90"/>
-      </Position>
-      <Position>
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="856" TopLine="840"/>
       </Position>
@@ -407,6 +403,10 @@
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="860" TopLine="841"/>
       </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="841" Column="70" TopLine="828"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -420,7 +420,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="ucbzlibrary.pas"/>
-        <Line Value="858"/>
+        <Line Value="879"/>
       </Item>
     </BreakPoints>
   </Debugging>

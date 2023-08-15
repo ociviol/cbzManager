@@ -413,4 +413,15 @@
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ucbzlibrary.pas"/>
+        <Line Value="860"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
 </CONFIG>

@@ -829,15 +829,17 @@ end;
 procedure TcbzLibrary.ActionSyncYacreaderExecute(Sender: TObject);
 var
   s : string;
-  i : integer;
+  i, cnt : integer;
 begin
   with OpenDialog1 do
     if Execute then
-    begin
+    try
+      Screen.Cursor:= crHourGlass;
       Sqlite3Dataset1.FileName:= Filename;
       with Sqlite3Dataset1 do
       try
         Open;
+        cnt := 0;
 
         while not eof do
         begin
@@ -863,6 +865,10 @@ begin
         if Active then
           Close;
       end;
+
+    finally
+      Screen.Cursor:= crDefault;
+      MessageDlg('YACReader Read State Import', inttostr(cnt) + ' Read states imported.', mtInformation, [mbOK], '');
     end;
 end;
 

@@ -44,10 +44,11 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <CursorPos X="16" Y="16"/>
+        <TopLine Value="817"/>
+        <CursorPos X="34" Y="837"/>
         <UsageCount Value="28"/>
         <Bookmarks Count="1">
-          <Item0 X="7" Y="844" ID="1"/>
+          <Item0 X="7" Y="846" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -288,14 +289,6 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="853" TopLine="825"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="849" TopLine="825"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="850" TopLine="825"/>
       </Position>
       <Position>
@@ -406,42 +399,18 @@
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="863" TopLine="834"/>
       </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="16" Column="16" TopLine="274"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="869" Column="116" TopLine="851"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="859"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="863"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="850"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="849"/>
-      </Item>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

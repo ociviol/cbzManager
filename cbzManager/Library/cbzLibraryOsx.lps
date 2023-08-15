@@ -19,6 +19,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="829"/>
         <CursorPos Y="849"/>
         <UsageCount Value="1030"/>
@@ -123,7 +124,6 @@
       <Unit>
         <Filename Value="../uversionthread.pas"/>
         <UnitName Value="uVersionThread"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="87"/>
         <CursorPos Y="119"/>

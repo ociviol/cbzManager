@@ -7,8 +7,8 @@
       <Unit>
         <Filename Value="cbzLibraryOsx.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="10"/>
-        <CursorPos X="21" Y="13"/>
+        <EditorIndex Value="11"/>
+        <CursorPos X="33" Y="13"/>
         <UsageCount Value="1030"/>
         <Loaded Value="True"/>
       </Unit>
@@ -19,8 +19,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <TopLine Value="1076"/>
-        <CursorPos X="32" Y="1119"/>
+        <TopLine Value="829"/>
+        <CursorPos Y="849"/>
         <UsageCount Value="1030"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="1138" ID="1"/>
@@ -35,7 +35,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="35"/>
         <CursorPos Y="68"/>
         <UsageCount Value="1029"/>
@@ -46,7 +46,7 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="25"/>
         <CursorPos X="26" Y="63"/>
         <UsageCount Value="1029"/>
@@ -59,7 +59,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="184"/>
         <CursorPos X="21" Y="191"/>
         <UsageCount Value="1029"/>
@@ -69,7 +69,7 @@
       <Unit>
         <Filename Value="ulibraryclasses.pas"/>
         <UnitName Value="uLibraryClasses"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="80"/>
         <CursorPos X="25" Y="24"/>
         <UsageCount Value="516"/>
@@ -78,7 +78,7 @@
       <Unit>
         <Filename Value="../../../Utils/utils.masks.pas"/>
         <UnitName Value="Utils.Masks"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="79"/>
         <CursorPos X="8" Y="99"/>
         <UsageCount Value="515"/>
@@ -87,7 +87,7 @@
       <Unit>
         <Filename Value="../../../Utils/utils.naturalsortstringlist.pas"/>
         <UnitName Value="Utils.NaturalSortStringList"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="9"/>
         <CursorPos X="3" Y="29"/>
         <UsageCount Value="515"/>
@@ -96,7 +96,7 @@
       <Unit>
         <Filename Value="../../../Utils/utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="36"/>
         <CursorPos X="49" Y="39"/>
         <UsageCount Value="515"/>
@@ -105,7 +105,7 @@
       <Unit>
         <Filename Value="uthreadfill.pas"/>
         <UnitName Value="uThreadFill"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="107"/>
         <CursorPos X="15" Y="130"/>
         <UsageCount Value="514"/>
@@ -114,35 +114,24 @@
       <Unit>
         <Filename Value="uthreadscrub.pas"/>
         <UnitName Value="uThreadScrub"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="88"/>
         <CursorPos X="17" Y="112"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="../uversionthread.pas"/>
+        <UnitName Value="uVersionThread"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="87"/>
+        <CursorPos Y="119"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="426" Column="93" TopLine="384"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="724" Column="94" TopLine="426"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="144" Column="117" TopLine="126"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="183" Column="15" TopLine="141"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="336" Column="27" TopLine="294"/>
-      </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="338" Column="17" TopLine="296"/>
@@ -243,10 +232,48 @@
         <Filename Value="uthreadscrub.pas"/>
         <Caret Line="167" Column="14" TopLine="145"/>
       </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="1119" Column="32" TopLine="1076"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="1120" Column="32" TopLine="1080"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="1119" Column="32" TopLine="1079"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="849" TopLine="829"/>
+      </Position>
+      <Position>
+        <Filename Value="../uversionthread.pas"/>
+        <Caret Line="120" Column="18" TopLine="83"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ucbzlibrary.pas"/>
+        <Line Value="845"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ucbzlibrary.pas"/>
+        <Line Value="849"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
 </CONFIG>

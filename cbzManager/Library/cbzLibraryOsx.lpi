@@ -19,7 +19,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="16"/>
+      <BuildNr Value="18"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="Comic books library" InternalName="cbzLibrary" LegalCopyright="Ollivier Civiol" LegalTrademarks="Ollivier Civiol" OriginalFilename="cbzLibrary" ProductName="cbzLibrary"/>
     </VersionInfo>
     <BuildModes>
@@ -106,6 +106,9 @@
       <FormatVersion Value="2"/>
     </RunParams>
     <RequiredPackages>
+      <Item>
+        <PackageName Value="sqlite3laz"/>
+      </Item>
       <Item>
         <PackageName Value="LCL"/>
       </Item>

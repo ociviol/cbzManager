@@ -19,8 +19,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1006"/>
-        <CursorPos Y="1103"/>
+        <TopLine Value="1000"/>
+        <CursorPos Y="1008"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="3">
           <Item0 X="4" Y="860" ID="3"/>
@@ -961,13 +961,6 @@
         <WatchKind Value="wpkWrite"/>
         <Source Value="ulibraryclasses.pas"/>
         <Line Value="392"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="1008"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>

@@ -12,14 +12,15 @@ uses
 {$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}
-  Utils.SearchFiles, utils.Logger, uConfig,
-  Utils.Strings, uLibraryClasses, ucbz, uThreadScrub, uThreadFill;
+  Utils.SearchFiles, utils.Logger, uConfig, Utils.Strings, mysql80conn, SQLDB,
+  DB, SQLite3DS, uLibraryClasses, ucbz, uThreadScrub, uThreadFill;
 
 
 type
   { TcbzLibrary }
 
   TcbzLibrary = class(TForm)
+    ActionSyncYacreader: TAction;
     ActionRename: TAction;
     ActionPaste: TAction;
     ActionCut: TAction;
@@ -42,6 +43,9 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    OpenDialog1: TOpenDialog;
+    Separator1: TMenuItem;
     mnuConfig: TMenuItem;
     mnuCreateFolder: TMenuItem;
     mnuCut: TMenuItem;
@@ -56,12 +60,14 @@ type
     pnlbtns: TPanel;
     pnlPath: TPanel;
     PopupMenu1: TPopupMenu;
+    Sqlite3Dataset1: TSqlite3Dataset;
     StatusBar1: TStatusBar;
     procedure ActionCutExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionPasteExecute(Sender: TObject);
     procedure ActionReadStatusExecute(Sender: TObject);
     procedure ActionRenameExecute(Sender: TObject);
+    procedure ActionSyncYacreaderExecute(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnTestClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
@@ -818,6 +824,46 @@ begin
       end;
 
   end;
+end;
+
+procedure TcbzLibrary.ActionSyncYacreaderExecute(Sender: TObject);
+var
+  s : string;
+  i : integer;
+begin
+  with OpenDialog1 do
+    if Execute then
+    begin
+      Sqlite3Dataset1.FileName:= Filename;
+      with Sqlite3Dataset1 do
+      try
+        Open;
+
+        while not eof do
+        begin
+          {$if defined(Darwin) or defined(Linux)}
+          s := FieldByName('path').AsString;
+          {$else}
+          s := FieldByName('path').AsString.Replace('/', '\');
+          {$endif}
+          for i := 0 to FFileList.Count - 1 do
+            if FFileList[i].EndsWith(s) then
+              if FileExists(FFileList[i]) then
+                 with TFileItem(FFileList.Objects[i]) do
+                 begin
+                   if not ReadState then
+                     ReadState := True;
+                   break;
+                 end;
+
+          Next;
+        end;
+
+      finally
+        if Active then
+          Close;
+      end;
+    end;
 end;
 
 

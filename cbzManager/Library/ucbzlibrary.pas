@@ -854,7 +854,10 @@ begin
                  with TFileItem(FFileList.Objects[i]) do
                  begin
                    if not ReadState then
+                   begin
                      ReadState := True;
+                     inc(cnt);
+                   end;
                    break;
                  end;
 
@@ -868,6 +871,7 @@ begin
 
     finally
       Screen.Cursor:= crDefault;
+      UpdateNbItems;
       MessageDlg('YACReader Read State Import', inttostr(cnt) + ' Read states imported.', mtInformation, [mbOK], '');
     end;
 end;

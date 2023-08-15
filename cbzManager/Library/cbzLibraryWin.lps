@@ -44,8 +44,8 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="817"/>
-        <CursorPos X="34" Y="837"/>
+        <TopLine Value="838"/>
+        <CursorPos X="31" Y="859"/>
         <UsageCount Value="28"/>
         <Bookmarks Count="1">
           <Item0 X="7" Y="846" ID="1"/>
@@ -401,11 +401,11 @@
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="16" Column="16" TopLine="274"/>
+        <Caret Line="869" Column="116" TopLine="851"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="869" Column="116" TopLine="851"/>
+        <Caret Line="837" Column="34" TopLine="829"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -9,7 +9,7 @@
         <Filename Value="cbzLibraryWin.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="71" Y="20"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -20,7 +20,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="12" Y="19"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="ulibraryclasses.pas"/>
@@ -29,7 +29,7 @@
         <EditorIndex Value="12"/>
         <TopLine Value="90"/>
         <CursorPos X="3" Y="36"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="29"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="634" ID="2"/>
         </Bookmarks>
@@ -44,9 +44,9 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="842"/>
-        <CursorPos X="33" Y="881"/>
-        <UsageCount Value="28"/>
+        <TopLine Value="834"/>
+        <CursorPos X="58" Y="842"/>
+        <UsageCount Value="29"/>
         <Bookmarks Count="1">
           <Item0 X="70" Y="865" ID="1"/>
         </Bookmarks>
@@ -62,7 +62,7 @@
         <EditorIndex Value="14"/>
         <TopLine Value="7"/>
         <CursorPos X="3" Y="14"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -72,7 +72,7 @@
         <EditorIndex Value="10"/>
         <TopLine Value="188"/>
         <CursorPos X="45" Y="198"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -82,7 +82,7 @@
         <EditorIndex Value="9"/>
         <TopLine Value="95"/>
         <CursorPos Y="109"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -92,7 +92,7 @@
         <EditorIndex Value="15"/>
         <TopLine Value="19"/>
         <CursorPos Y="62"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -105,7 +105,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="41"/>
         <CursorPos Y="67"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -289,10 +289,6 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="854" TopLine="825"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="849" TopLine="825"/>
       </Position>
       <Position>
@@ -407,21 +403,14 @@
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="841" Column="70" TopLine="828"/>
       </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="881" Column="33" TopLine="842"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="879"/>
-      </Item>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

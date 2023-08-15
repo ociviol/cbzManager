@@ -838,8 +838,10 @@ begin
       Sqlite3Dataset1.FileName:= Filename;
       with Sqlite3Dataset1 do
       try
-        Sql := 'select c."path", i."read", i.currentPage from comic c join comic_info i on c.id = i.id ' +
+        Sql := 'select c."path", i."read", i.currentPage from comic c ' +
+               'join comic_info i on c.comicInfoId = i.id ' +
                'where i."read" = 1 or i.hasBeenOpened = 1';
+
         Open;
         cnt := 0;
 

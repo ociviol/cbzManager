@@ -45,10 +45,10 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="834"/>
-        <CursorPos X="58" Y="842"/>
+        <CursorPos X="17" Y="843"/>
         <UsageCount Value="29"/>
         <Bookmarks Count="1">
-          <Item0 X="70" Y="865" ID="1"/>
+          <Item0 X="70" Y="867" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

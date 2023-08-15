@@ -857,13 +857,13 @@ begin
               if FileExists(FFileList[i]) then
                  with TFileItem(FFileList.Objects[i]) do
                  begin
-                   if (ReadState <> FieldByName('read').AsBoolean) or
-                      (CurPage <> FieldByName('currentPage').AsInteger) then
+                   if not ReadState and FieldByName('read').AsBoolean or
+                      (CurPage < FieldByName('currentPage').AsInteger) then
                      inc(cnt);
 
-                   if ReadState <> FieldByName('read').AsBoolean then
+                   if not ReadState and FieldByName('read').AsBoolean then
                      ReadState := FieldByName('read').AsBoolean;
-                   if CurPage <> FieldByName('currentPage').AsInteger then
+                   if CurPage < FieldByName('currentPage').AsInteger then
                      CurPage := FieldByName('currentPage').AsInteger;
 
                    break;

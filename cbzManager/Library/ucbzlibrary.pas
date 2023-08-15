@@ -838,6 +838,8 @@ begin
       Sqlite3Dataset1.FileName:= Filename;
       with Sqlite3Dataset1 do
       try
+        Sql := 'select c."path", i."read", i.currentPage from comic c left join comic_info i on c.id = i.id ' +
+               'where i."read" = 1 or i.hasBeenOpened = 1';
         Open;
         cnt := 0;
 
@@ -853,11 +855,10 @@ begin
               if FileExists(FFileList[i]) then
                  with TFileItem(FFileList.Objects[i]) do
                  begin
-                   if not ReadState then
-                   begin
-                     ReadState := True;
-                     inc(cnt);
-                   end;
+                   ReadState := FieldByName('read').AsBoolean;
+                   CurPage := FieldByName('currentPage').AsInteger;
+                   inc(cnt);
+
                    break;
                  end;
 

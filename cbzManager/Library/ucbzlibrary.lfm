@@ -329,7 +329,6 @@ object CbzLibrary: TCbzLibrary
     Top = 226
   end
   object Sqlite3Dataset1: TSqlite3Dataset
-    SQL = 'select c."path", i."read" from comic c left join comic_info i on c.id = i.id where i."read" = 1'
     Left = 328
     Top = 120
   end

@@ -27,6 +27,7 @@ const
   FIF_PNG     = 5;
   FIF_JP2     = 6;
   FIF_GIF     = 7;
+  FIF_TIFF    = 8;
 
 type
 

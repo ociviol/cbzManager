@@ -159,7 +159,7 @@ begin
 {$elseif Defined(Linux)}
   result := '/usr/bin/7z';
 {$else}
-  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif} '7z.exe';
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {{$ifdef DEBUG} 'Bin-Win\' + {$endif}} '7z.exe';
 {$endif}
 end;
 
@@ -195,16 +195,21 @@ constructor TThreadExtract.Create(aOwner : TObject; const Filename: String;
   var
     p : TProcess;
   begin
-    p:=TProcess.create(nil);
     try
-      p.CommandLine := cmdline;
-      p.ShowWindow:=swoHIDE;
-      p.Options:=[poWaitOnExit];
-      p.Execute;
-      if p.ExitCode <> 0 then
-        raise Exception.Create('Error while extracting file "' + ExtractFilename(FFilename) + '"');
-    finally
-      P.Free;
+      p:=TProcess.create(nil);
+      try
+        p.CommandLine := cmdline;
+        p.ShowWindow:=swoHIDE;
+        p.Options:=[poWaitOnExit];
+        p.Execute;
+        if p.ExitCode <> 0 then
+          raise Exception.Create('Error while extracting file "' + ExtractFilename(FFilename) + '"');
+      finally
+        P.Free;
+      end;
+    except
+      on E: Exception do
+        raise;
     end;
   end;
 {$endif}
@@ -245,7 +250,6 @@ begin
     if FFiles.Count = 0 then
       FHasError := True;
   Except
-    FFiles.Free;
     FHasError := True;
     if FTmpDir <> '' then
       DeleteDirectory(FTmpDir, False);

@@ -27,9 +27,9 @@ const
   SZipSign : array[0..1] of Byte = (byte('7'), byte('z'));
   PdfSign : array[0..3] of AnsiChar = ('%', 'P', 'D', 'F');
 
-  AllowedMasks : array[0..6] of string = ('*.jpg', '*.jpeg', '*.png', '*.webp', '*.jp2', '*.gif', '*.xml');
-  AllowedExts  : array[0..6] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif', '.xml');
-  AllowedImgs  : array[0..5] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif');
+  AllowedMasks : array[0..7] of string = ('*.jpg', '*.jpeg', '*.png', '*.webp', '*.jp2', '*.gif', '*.xml', '*.tif');
+  AllowedExts  : array[0..7] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif', '.xml', '.tif');
+  AllowedImgs  : array[0..6] of string = ('.jpg', '.jpeg', '.png', '.webp', '.jp2', '.gif', '.tif');
 
 {$if defined(Darwin) or defined(Linux)}
   CS_CONFIG_PATH = '.config/cbzManager';
@@ -1586,6 +1586,10 @@ begin
 
     if (p[0] = $42) and (p[1] = $4D) then
       Exit(FIF_BMP);
+
+    if ((p[0] = $49) and (p[1] = $49) or (p[0] = $4D) and (p[1] = $4D)) and
+       (p[2] = 42)  then
+      Exit(FIF_TIFF);
   end
   else
   begin
@@ -1603,6 +1607,8 @@ begin
       Exit(FIF_BMP);
     if s.ToLower = '.png' then
       Exit(FIF_PNG);
+    if s.ToLower = '.tif' then
+      Exit(FIF_TIFF);
   end;
   result := FIF_UNKNOWN;
 end;
@@ -1616,7 +1622,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 {$elseif defined(Linux)}
     result := '/usr/bin/cwebp';
 {$else}
-  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'cwebp.exe';
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {{$ifdef DEBUG} 'Bin-Win\' + {$endif}} 'cwebp.exe';
 {$endif}
   end;
 
@@ -1626,7 +1632,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
       FIF_BMP     : Result := ChangeFileExt(Filename, '.bmp');
       FIF_JPEG    : Result := ChangeFileExt(Filename, '.jpg');
       FIF_PNG     : Result := ChangeFileExt(Filename, '.png');
-      //FIF_TIFF    : Result := ChangeFileExt(Filename, '.tif');
+      FIF_TIFF    : Result := ChangeFileExt(Filename, '.tif');
       FIF_GIF     : Result := ChangeFileExt(Filename, '.gif');
       //FIF_J2K     : Result := ChangeFileExt(Filename, '.j2k');
       FIF_JP2     : Result := ChangeFileExt(Filename, '.jp2');
@@ -1775,7 +1781,7 @@ begin
 
       if not done then
       begin
-        if (imgtype <> FIF_PNG) and (imgtype <> FIF_JPEG) then
+        if (imgtype <> FIF_PNG) and (imgtype <> FIF_JPEG) and (imgtype <> FIF_TIFF) then
           ConvertToPng(aSrc);
 
         if SysUtils.FileExists(cwebp) then

@@ -16,8 +16,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="1933"/>
-        <CursorPos X="23" Y="1957"/>
+        <TopLine Value="1012"/>
+        <CursorPos X="82" Y="1032"/>
         <UsageCount Value="252"/>
         <Bookmarks Count="1">
           <Item0 X="10" Y="998"/>
@@ -65,7 +65,6 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="80"/>
         <CursorPos X="97" Y="129"/>
         <UsageCount Value="252"/>
@@ -131,10 +130,12 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="405"/>
-        <CursorPos X="64" Y="422"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="158"/>
+        <CursorPos X="81" Y="162"/>
         <UsageCount Value="252"/>
+        <Loaded Value="True"/>
       </Unit12>
       <Unit13>
         <Filename Value="../../XmlReader/XmlDoc/uxmldoc.pas"/>
@@ -152,7 +153,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="151"/>
         <CursorPos X="25" Y="167"/>
         <UsageCount Value="114"/>
@@ -249,7 +250,7 @@
       </Unit24>
       <Unit25>
         <Filename Value="../../Utils/utils.treeview.pas"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="9"/>
         <CursorPos X="58" Y="26"/>
         <UsageCount Value="12"/>
@@ -274,7 +275,7 @@
     <Debugger>
       <Backend Value="{29EFC2CC-1BE8-461C-0E62-D597E20B78F9}"/>
     </Debugger>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="8" HistoryIndex="7">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="243" TopLine="220"/>
@@ -291,6 +292,22 @@
         <Filename Value="main.pas"/>
         <Caret Line="259" TopLine="232"/>
       </Position4>
+      <Position5>
+        <Filename Value="config.pas"/>
+        <Caret Line="129" Column="97" TopLine="80"/>
+      </Position5>
+      <Position6>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1979" TopLine="1672"/>
+      </Position6>
+      <Position7>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1444" Column="94" TopLine="1424"/>
+      </Position7>
+      <Position8>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1032" Column="82" TopLine="1012"/>
+      </Position8>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -159,7 +159,7 @@ begin
 {$elseif Defined(Linux)}
   result := '/usr/bin/7z';
 {$else}
-  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {{$ifdef DEBUG} 'Bin-Win\' + {$endif}} '7z.exe';
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + '7z.exe';
 {$endif}
 end;
 

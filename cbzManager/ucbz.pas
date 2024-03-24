@@ -1029,7 +1029,7 @@ function TCbz.GetImage(Index: QWord): TBitmap;
       cmd := '/usr/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
       fpsystem(cmd);
 {$elseif Defined(MsWindows)}
-      cmd := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'dwebp.exe';
+      cmd := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'dwebp.exe';
       cmd := cmd + ' -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
       CustomRunCommand(cmd);
 {$endif}
@@ -1622,7 +1622,7 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
 {$elseif defined(Linux)}
     result := '/usr/bin/cwebp';
 {$else}
-  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {{$ifdef DEBUG} 'Bin-Win\' + {$endif}} 'cwebp.exe';
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'cwebp.exe';
 {$endif}
   end;
 

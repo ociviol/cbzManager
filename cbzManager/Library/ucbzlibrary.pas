@@ -63,7 +63,6 @@ type
     PopupMenu1: TPopupMenu;
     Sqlite3Dataset1: TSqlite3Dataset;
     StatusBar1: TStatusBar;
-    TimerWatchScrub: TTimer;
     procedure ActionCutExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionPasteExecute(Sender: TObject);
@@ -95,7 +94,6 @@ type
     procedure MenuItem3Click(Sender: TObject);
     procedure mnuConfigClick(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
-    procedure TimerWatchScrubTimer(Sender: TObject);
   private
     Flog : ILog;
     FFileList : TItemList;
@@ -118,7 +116,6 @@ type
     procedure CheckVersionTerminate(Sender : TObject);
 
     procedure SetCaption;
-    procedure StartThreads;
     procedure StopThreads;
     procedure EnableActions;
     function GetCacheFileName: String;
@@ -345,16 +342,14 @@ begin
 
   SetCaption;
 
-  if CheckPaths then
-    StartThreads;
+  if not CheckPaths then
+    ShowMessage('You must set the Library Path and the SyncPath before using the library.');
 end;
 
 function TcbzLibrary.CheckPaths:Boolean;
 begin
   result := DirectoryExists(FConfig.LibPath) and
             DirectoryExists(FConfig.SyncPath);
-  if not result then
-    ShowMessage('You must set the Library Path and the SyncPath before using the library.');
 end;
 
 procedure TcbzLibrary.StopThreads;
@@ -379,12 +374,6 @@ begin
     FFillThread.Waitfor;
     FreeAndNil(FFillThread);
   end;
-end;
-
-procedure TcbzLibrary.StartThreads;
-begin
-  //if not Assigned(FThreadScrub) then
-  //  FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @Progress);
 end;
 
 procedure TcbzLibrary.FormDestroy(Sender: TObject);
@@ -449,12 +438,14 @@ begin
       btnTopPath.Click;
   finally
     btnRefresh.Enabled:=True;
+    btnScrub.Enabled:=True;
   end
   else
   begin
     CurrentPath := FFileList.RootPath;
     FLvl := length(CurrentPath.Split([PathDelim]));
     btnRefresh.Enabled:=false;
+    btnScrub.Enabled:=False;
     Progress(Self, 0, 0, 0, 'Scanning...');
     FThreadSearchFiles := ThreadedSearchFiles(CurrentPath, ['*.cbz'], @FoundFile, @SearchEnded,
                                               @Progress, //str_scanning
@@ -627,27 +618,6 @@ begin
   //mnuDelete.Enabled:= not Assigned(FThreadSearchFiles);
   //mnuCut.Enabled := not FileExists(SelectedStr);
   //mnuPaste.Enabled:= Assigned(FFileToCopy);
-end;
-
-procedure TcbzLibrary.TimerWatchScrubTimer(Sender: TObject);
-var
-  hs : THeapStatus;
-  am : integer;
-begin
-  if Assigned(FThreadScrub) then
-  begin
-    hs := GetHeapStatus;
-    // if too much memory usage Stop/restart Scrub
-    am := hs.TotalAllocated div 1024;
-    if  am > (500 * 1024 * 1024) then
-    begin
-      FThreadScrub.Terminate;
-      FThreadScrub.Waitfor;
-      // restart scrub
-      // start scrub
-      FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @ThreadScrubTerminate, @Progress);
-    end;
-  end;
 end;
 
 procedure TcbzLibrary.SetCaption;
@@ -1063,8 +1033,6 @@ begin
       Flog.Log('Config saved.');
       // log
       FLog.SetActive(Fconfig.DoLog, Self);
-      // start threads
-      StartThreads;
     end;
   finally
     free;
@@ -1209,6 +1177,7 @@ begin
   end;
   Progress(Self, 0, 0, 0, 'Loading folder...');
   btnRefresh.Enabled:=False;
+  btnScrub.Enabled:=False;
 
   if Length(FPathPos) < FLvl then
     SetLength(FPathPos, FLvl);
@@ -1248,6 +1217,7 @@ begin
   FFileList.Sort;
   FFileList.SaveToFile(GetCacheFileName);
   btnRefresh.Enabled:=True;
+  btnSCrub.Enabled:=True;
   UpdateNbItems;
   UpdateVisibleDates;
   Application.QueueAsyncCall(@DoFillGrid, 0);

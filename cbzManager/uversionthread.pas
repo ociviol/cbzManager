@@ -118,7 +118,8 @@ begin
     end;
   except
     on e: Exception do
-      Flog.Log('TThreadCheckVersion.Execute : Error : ' + E.Message);
+      if Assigned(Flog) then
+        Flog.Log('TThreadCheckVersion.Execute : Error : ' + E.Message);
   end;
 
   Terminate;

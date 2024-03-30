@@ -441,6 +441,7 @@ begin
     btnScrub.Enabled:=True;
   end
   else
+  if DirectoryExists(FFileList.RootPath) then
   begin
     CurrentPath := FFileList.RootPath;
     FLvl := length(CurrentPath.Split([PathDelim]));

@@ -19,7 +19,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="66"/>
         <CursorPos X="48" Y="96"/>
         <UsageCount Value="1030"/>
@@ -114,9 +113,10 @@
       <Unit>
         <Filename Value="uthreadscrub.pas"/>
         <UnitName Value="uThreadScrub"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="42"/>
-        <CursorPos Y="58"/>
+        <TopLine Value="173"/>
+        <CursorPos X="35" Y="194"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
@@ -125,7 +125,7 @@
         <UnitName Value="uVersionThread"/>
         <EditorIndex Value="1"/>
         <TopLine Value="24"/>
-        <CursorPos Y="45"/>
+        <CursorPos X="25" Y="30"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>

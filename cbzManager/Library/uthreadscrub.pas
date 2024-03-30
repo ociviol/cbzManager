@@ -191,6 +191,7 @@ begin
             if Terminated then
               Exit;
 
+            {$if defined(MsWindows) or defined(Linux)}
             // make stamp if needed
             with TFileItem(FFileList.Objects[FVal]) do
             begin
@@ -198,6 +199,7 @@ begin
               if Assigned(b) then
                 b.Free;
             end;
+            {$endif}
           end
         else
         // delete sync file

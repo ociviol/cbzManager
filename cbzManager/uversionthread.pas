@@ -60,6 +60,14 @@ var
   t : TStringList;
   i : integer;
   s : string;
+
+  function GetProgramVersion:string;
+  begin
+    if FProgramVersion = pvCbzManager then
+      result := copy(FUpdateVersion, 1, pos(';', FUpdateVersion)-1)
+    else
+      result := copy(FUpdateVersion, pos(';', FUpdateVersion)+1, length(FUpdateVersion));
+  end;
 begin
   try
     with TFPHTTPClient.Create(nil) do
@@ -98,7 +106,12 @@ begin
       end;
 
       if FUpdateVersion <> '' then
+      begin
+        if pos(';', FUpdateVersion) > 0 then
+          FUpdateVersion := GetProgramVersion;
+
         FNeedUpdate := CompareVersion(GetFileVersion, FUpdateVersion) > 0;
+      end;
 
     finally
       Free;

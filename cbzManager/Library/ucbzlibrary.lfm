@@ -74,7 +74,7 @@ object CbzLibrary: TCbzLibrary
     ParentFont = False
     TabOrder = 2
     object btnRefresh: TButton
-      Left = 925
+      Left = 850
       Height = 22
       Top = 2
       Width = 75
@@ -109,7 +109,7 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object Panel2: TPanel
-      Left = 575
+      Left = 500
       Height = 22
       Top = 2
       Width = 274
@@ -139,7 +139,7 @@ object CbzLibrary: TCbzLibrary
       end
     end
     object Panel3: TPanel
-      Left = 405
+      Left = 330
       Height = 22
       Top = 2
       Width = 170
@@ -188,7 +188,7 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object cbHideRead: TCheckBox
-      Left = 849
+      Left = 774
       Height = 22
       Top = 2
       Width = 71
@@ -214,12 +214,23 @@ object CbzLibrary: TCbzLibrary
       Left = 123
       Height = 23
       Top = 2
-      Width = 282
+      Width = 207
       Align = alClient
       ItemHeight = 15
       ParentFont = False
       Style = csDropDownList
       TabOrder = 5
+    end
+    object btnScrub: TButton
+      Left = 925
+      Height = 22
+      Top = 2
+      Width = 75
+      Align = alRight
+      Caption = 'Sync'
+      OnClick = btnScrubClick
+      ParentFont = False
+      TabOrder = 6
     end
   end
   object pnlbtns: TPanel
@@ -331,5 +342,11 @@ object CbzLibrary: TCbzLibrary
   object Sqlite3Dataset1: TSqlite3Dataset
     Left = 328
     Top = 120
+  end
+  object TimerWatchScrub: TTimer
+    Interval = 5000
+    OnTimer = TimerWatchScrubTimer
+    Left = 152
+    Top = 264
   end
 end

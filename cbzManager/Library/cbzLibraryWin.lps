@@ -9,7 +9,7 @@
         <Filename Value="cbzLibraryWin.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="71" Y="20"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -20,16 +20,16 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="12" Y="19"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="31"/>
       </Unit>
       <Unit>
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="90"/>
         <CursorPos X="3" Y="36"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="31"/>
         <Bookmarks Count="1">
           <Item0 X="3" Y="634" ID="2"/>
         </Bookmarks>
@@ -44,11 +44,11 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="844"/>
-        <CursorPos Y="860"/>
-        <UsageCount Value="29"/>
+        <TopLine Value="624"/>
+        <CursorPos Y="648"/>
+        <UsageCount Value="31"/>
         <Bookmarks Count="1">
-          <Item0 X="70" Y="868" ID="1"/>
+          <Item0 X="3" Y="788" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -59,40 +59,40 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="7"/>
         <CursorPos X="3" Y="14"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="31"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uthreadscrub.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
-        <EditorIndex Value="10"/>
-        <TopLine Value="188"/>
-        <CursorPos X="45" Y="198"/>
-        <UsageCount Value="27"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="118"/>
+        <CursorPos X="15" Y="127"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uthreadfill.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadFill"/>
-        <EditorIndex Value="9"/>
-        <TopLine Value="95"/>
-        <CursorPos Y="109"/>
-        <UsageCount Value="27"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="76"/>
+        <CursorPos Y="98"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="15"/>
-        <TopLine Value="19"/>
-        <CursorPos Y="62"/>
-        <UsageCount Value="24"/>
+        <EditorIndex Value="16"/>
+        <TopLine Value="53"/>
+        <CursorPos Y="69"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -105,7 +105,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="41"/>
         <CursorPos Y="67"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -163,10 +163,10 @@
       <Unit>
         <Filename Value="..\ucbz.pas"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="20"/>
         <CursorPos X="15" Y="39"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -179,10 +179,10 @@
       <Unit>
         <Filename Value="..\..\..\Utils\utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="170"/>
         <CursorPos X="76" Y="200"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -196,9 +196,9 @@
       <Unit>
         <Filename Value="..\..\..\Utils\utils.files.pas"/>
         <UnitName Value="Utils.Files"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <CursorPos X="10" Y="22"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -209,10 +209,10 @@
       </Unit>
       <Unit>
         <Filename Value="..\..\..\Utils\utils.json.pas"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="56"/>
         <CursorPos Y="85"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -232,10 +232,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="17"/>
         <TopLine Value="181"/>
         <CursorPos X="60" Y="193"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -252,34 +252,43 @@
         <EditorIndex Value="2"/>
         <TopLine Value="57"/>
         <CursorPos Y="80"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\..\Utils\utils.strings.pas"/>
         <UnitName Value="Utils.Strings"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="127"/>
         <CursorPos Y="153"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="C:\fpcupdeluxe\lazarus\ide\mainbar.pas"/>
         <UnitName Value="MainBar"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="364"/>
         <CursorPos X="31" Y="381"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="C:\fpcupdeluxe\fpcsrc\packages\fcl-db\src\sqlite\sqlite3ds.pas"/>
         <UnitName Value="SQLite3DS"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="154"/>
         <CursorPos X="62" Y="184"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\uversionthread.pas"/>
+        <UnitName Value="uVersionThread"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="92"/>
+        <CursorPos Y="110"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
@@ -289,123 +298,123 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="862" TopLine="843"/>
+        <Caret Line="647" TopLine="617"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="864" TopLine="843"/>
+        <Caret Line="640" TopLine="617"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="866" TopLine="843"/>
+        <Caret Line="641" TopLine="618"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="867" TopLine="843"/>
+        <Caret Line="772" Column="3" TopLine="770"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="869" TopLine="843"/>
+        <Caret Line="787" Column="4" TopLine="758"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="860" TopLine="843"/>
+        <Caret Line="148" Column="23" TopLine="133"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="861" TopLine="843"/>
+        <Caret Line="149" Column="27" TopLine="141"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="862" TopLine="843"/>
+        <Caret Line="1387" Column="34" TopLine="1385"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="864" TopLine="843"/>
+        <Caret Line="16" Column="53"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="860" TopLine="843"/>
+        <Caret Line="113" Column="32" TopLine="84"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="861" TopLine="843"/>
+        <Caret Line="149" Column="26" TopLine="121"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="864" TopLine="843"/>
+        <Caret Line="150" Column="26" TopLine="122"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="866" TopLine="843"/>
+        <Caret Line="198" Column="15" TopLine="168"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="855" TopLine="843"/>
+        <Caret Line="369" Column="27" TopLine="339"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="860" TopLine="837"/>
+        <Caret Line="371" Column="17" TopLine="341"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="861" TopLine="837"/>
+        <Caret Line="372" Column="17" TopLine="342"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="862" TopLine="837"/>
+        <Caret Line="373" Column="30" TopLine="343"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="864" TopLine="837"/>
+        <Caret Line="386" Column="33" TopLine="356"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="866" TopLine="837"/>
+        <Caret Line="387" Column="72" TopLine="357"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="861" Column="90" TopLine="844"/>
+        <Caret Line="637" Column="27" TopLine="607"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="860" TopLine="844"/>
+        <Caret Line="644" Column="19" TopLine="614"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="861" TopLine="844"/>
+        <Caret Line="645" Column="19" TopLine="615"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="864" TopLine="844"/>
+        <Caret Line="648" Column="92" TopLine="618"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="867" TopLine="844"/>
+        <Caret Line="1102" Column="15" TopLine="1072"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="855" TopLine="844"/>
+        <Caret Line="1103" Column="15" TopLine="1073"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="860" TopLine="844"/>
+        <Caret Line="1237" Column="27" TopLine="1208"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="861" TopLine="844"/>
+        <Caret Line="1238" Column="17" TopLine="1209"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="864" TopLine="844"/>
+        <Caret Line="1258" TopLine="1227"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="867" TopLine="844"/>
+        <Caret Line="1257" Column="18" TopLine="1247"/>
       </Position>
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="855" TopLine="844"/>
+        <Caret Line="790" TopLine="783"/>
       </Position>
     </JumpHistory>
     <RunParams>
@@ -413,15 +422,4 @@
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="860"/>
-      </Item>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

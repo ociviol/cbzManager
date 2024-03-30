@@ -29,6 +29,7 @@ type
     ActionCopyToMngr: TAction;
     ActionReadStatus: TAction;
     ActionList1: TActionList;
+    btnScrub: TButton;
     btnReturn: TSpeedButton;
     btnTopPath: TSpeedButton;
     btnRefresh: TButton;
@@ -62,6 +63,7 @@ type
     PopupMenu1: TPopupMenu;
     Sqlite3Dataset1: TSqlite3Dataset;
     StatusBar1: TStatusBar;
+    TimerWatchScrub: TTimer;
     procedure ActionCutExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
     procedure ActionPasteExecute(Sender: TObject);
@@ -69,6 +71,7 @@ type
     procedure ActionRenameExecute(Sender: TObject);
     procedure ActionSyncYacreaderExecute(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
+    procedure btnScrubClick(Sender: TObject);
     procedure btnTestClick(Sender: TObject);
     procedure btnTopPathClick(Sender: TObject);
     //procedure Button1Click(Sender: TObject);
@@ -92,6 +95,7 @@ type
     procedure MenuItem3Click(Sender: TObject);
     procedure mnuConfigClick(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
+    procedure TimerWatchScrubTimer(Sender: TObject);
   private
     Flog : ILog;
     FFileList : TItemList;
@@ -625,6 +629,27 @@ begin
   //mnuPaste.Enabled:= Assigned(FFileToCopy);
 end;
 
+procedure TcbzLibrary.TimerWatchScrubTimer(Sender: TObject);
+var
+  hs : THeapStatus;
+  am : integer;
+begin
+  if Assigned(FThreadScrub) then
+  begin
+    hs := GetHeapStatus;
+    // if too much memory usage Stop/restart Scrub
+    am := hs.TotalAllocated div 1024;
+    if  am > (500 * 1024 * 1024) then
+    begin
+      FThreadScrub.Terminate;
+      FThreadScrub.Waitfor;
+      // restart scrub
+      // start scrub
+      FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @ThreadScrubTerminate, @Progress);
+    end;
+  end;
+end;
+
 procedure TcbzLibrary.SetCaption;
 begin
   Caption := GetFileVersionInternalName + ' (' + GetFileVersion + ') Lib: ' + FCurrentPath;
@@ -748,6 +773,7 @@ begin
   begin
     StopThreads;
     btnRefresh.enabled := False;
+    btnScrub.enabled := False;
     FFileList.ResetStampState;
     //FFileList.Clear;
     FLog.Log('TCbzLibrary.btnRefreshClick : Refresh started.');
@@ -755,6 +781,13 @@ begin
                                               @Progress, //str_scanning
                                               'scanning : ', [sfoRecurse]);
   end;
+end;
+
+procedure TcbzLibrary.btnScrubClick(Sender: TObject);
+begin
+  btnRefresh.enabled := False;
+  btnScrub.enabled := False;
+  FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @ThreadScrubTerminate, @Progress);
 end;
 
 procedure TcbzLibrary.btnTestClick(Sender: TObject);
@@ -1222,7 +1255,7 @@ begin
   FLog.Log('TCbzLibrary.SearchEnded : Refresh ended.');
 
   // start scrub
-  FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @ThreadScrubTerminate, @Progress);
+  btnScrub.Click;
 end;
 
 procedure TcbzLibrary.UpdateVisibleDates;
@@ -1355,6 +1388,8 @@ end;
 procedure TcbzLibrary.ThreadScrubTerminate(Sender : TObject);
 begin
   FThreadScrub := nil;
+  btnRefresh.Enabled:=True;
+  btnScrub.enabled := True;
 end;
 
 procedure TcbzLibrary.ThreadFillTerminate(Sender: TObject);
@@ -1365,6 +1400,7 @@ begin
   Progress(Self, 0, 0, 0, 'Sorting...');
   FFillThread := nil;
   btnRefresh.Enabled:=True;
+  btnScrub.enabled := True;
   FVisibleList.Sort;
 
   with cbSearch do

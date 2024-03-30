@@ -85,8 +85,9 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="88"/>
+        <TopLine Value="87"/>
         <CursorPos X="25" Y="114"/>
         <UsageCount Value="252"/>
         <Loaded Value="True"/>
@@ -130,7 +131,6 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <TopLine Value="158"/>
         <CursorPos X="81" Y="162"/>

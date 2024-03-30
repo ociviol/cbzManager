@@ -1032,8 +1032,8 @@ begin
     begin
       FConfig.Save(FConfigFile);
       Flog.Log('Config saved.');
-      // log
-      FLog.SetActive(Fconfig.DoLog, Self);
+      ShowMessage('cbzLibrary must be restarted.');
+      Self.Close;
     end;
   finally
     free;

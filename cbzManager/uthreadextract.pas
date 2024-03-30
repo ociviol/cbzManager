@@ -148,7 +148,7 @@ begin
 {$elseif Defined(Linux)}
   result := '/usr/bin/unrar';
 {$else}
-  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) +  {$ifdef DEBUG} 'Bin-Win\' + {$endif} 'unrar.exe';
+  result := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'unrar.exe';
 {$endif}
 end;
 

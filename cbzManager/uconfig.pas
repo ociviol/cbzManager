@@ -83,9 +83,9 @@ begin
   Fp7zip := '/usr/bin/7z';
   Funrar := '/usr/bin/unrar';
 {$else}
-  Fcwebp := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'cwebp.exe';
-  Fp7zip := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'7z.exe';
-  Funrar := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + {$ifdef DEBUG} 'Bin-Win\' + {$endif}'unrar.exe';
+  Fcwebp := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'cwebp.exe';
+  Fp7zip := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + '7z.exe';
+  Funrar := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName)) + 'unrar.exe';
 {$endif}
   FQueueSize:=2;
   FNbThreads := 8;

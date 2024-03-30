@@ -641,7 +641,7 @@ initialization
 {$ifdef Mswindows}
   cpath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName));
 {$endif}
-  HWebplib := LoadLibrary({$ifdef Mswindows} cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}{$endif} clibwebp);
+  HWebplib := LoadLibrary({$ifdef Mswindows} cpath + {$endif} clibwebp);
   if HWebplib <> 0 then
   begin
     InternaldWebpAvail := true;
@@ -664,7 +664,7 @@ initialization
   end;
 
 {$ifdef Mswindows}
-  HWebplibenc := LoadLibrary(cpath + {$ifdef DEBUG} 'Bin-Win\' + {$endif}clibwebpenc);
+  HWebplibenc := LoadLibrary(cpath + clibwebpenc);
   if HWebplibenc <> 0 then
   begin
     InternalcWebpAvail := true;

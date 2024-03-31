@@ -44,7 +44,7 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
-    MenuItem5: TMenuItem;
+    mnuImportYacReader: TMenuItem;
     OpenDialog1: TOpenDialog;
     Separator1: TMenuItem;
     mnuConfig: TMenuItem;
@@ -61,7 +61,6 @@ type
     pnlbtns: TPanel;
     pnlPath: TPanel;
     PopupMenu1: TPopupMenu;
-    Sqlite3Dataset1: TSqlite3Dataset;
     StatusBar1: TStatusBar;
     procedure ActionCutExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
@@ -112,9 +111,10 @@ type
     FFileToCopy : TFileItem;
     FOwnConfig : Boolean;
     FConfigFile : string;
-
+{$if defined(Darwin) or Defined(MsWindows)}
+    Sqlite3Dataset1: TSqlite3Dataset;
+{$endif}
     procedure CheckVersionTerminate(Sender : TObject);
-
     procedure SetCaption;
     procedure StopThreads;
     procedure EnableActions;
@@ -274,6 +274,12 @@ var
   c : char;
   s : string;
 begin
+  {$if defined(Darwin) or Defined(MsWindows)}
+  Sqlite3Dataset1 := TSqlite3Dataset.Create(Self);
+  Sqlite3Dataset1.Name := 'Sqlite3Dataset1';
+  mnuImportYacReader.Visible := True;
+  Separator1.Visible := True;
+  {$endif}
   if FOwnConfig and Not Assigned(FConfig) then
   begin
   {$if defined(Darwin) or defined(Linux)}
@@ -831,6 +837,7 @@ begin
 end;
 
 procedure TcbzLibrary.ActionSyncYacreaderExecute(Sender: TObject);
+{$if defined(Darwin) or Defined(MsWindows)}
 var
   s : string;
   i, cnt : integer;
@@ -887,6 +894,9 @@ begin
       MessageDlg('YACReader Read State Import', inttostr(cnt) + ' Read states imported.', mtInformation, [mbOK], '');
       Screen.Cursor:= crDefault;
     end;
+{$else}
+begin
+{$endif}
 end;
 
 

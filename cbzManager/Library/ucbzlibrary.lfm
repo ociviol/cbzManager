@@ -4,7 +4,7 @@ object CbzLibrary: TCbzLibrary
   Top = 148
   Width = 1022
   Caption = 'Library'
-  ClientHeight = 566
+  ClientHeight = 546
   ClientWidth = 1022
   Menu = MainMenu1
   OnClose = FormClose
@@ -12,10 +12,10 @@ object CbzLibrary: TCbzLibrary
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
-  LCLVersion = '2.2.7.0'
+  LCLVersion = '2.2.6.0'
   object dgLibrary: TDrawGrid
     Left = 50
-    Height = 492
+    Height = 467
     Top = 46
     Width = 962
     Align = alClient
@@ -44,8 +44,8 @@ object CbzLibrary: TCbzLibrary
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 18
-    Top = 548
+    Height = 23
+    Top = 523
     Width = 1022
     Panels = <    
       item
@@ -109,7 +109,7 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object Panel2: TPanel
-      Left = 494
+      Left = 500
       Height = 22
       Top = 2
       Width = 274
@@ -121,7 +121,7 @@ object CbzLibrary: TCbzLibrary
       TabOrder = 1
       object cbSearch: TComboBox
         Left = 1
-        Height = 20
+        Height = 23
         Top = 1
         Width = 272
         Align = alClient
@@ -130,7 +130,7 @@ object CbzLibrary: TCbzLibrary
         AutoDropDown = True
         DropDownCount = 20
         Enabled = False
-        ItemHeight = 19
+        ItemHeight = 15
         OnChange = cbSearchChange
         OnCloseUp = cbSearchCloseUp
         ParentFont = False
@@ -139,7 +139,7 @@ object CbzLibrary: TCbzLibrary
       end
     end
     object Panel3: TPanel
-      Left = 324
+      Left = 330
       Height = 22
       Top = 2
       Width = 170
@@ -151,17 +151,16 @@ object CbzLibrary: TCbzLibrary
       TabOrder = 2
       object cbVisibleDates: TComboBox
         Left = 1
-        Height = 20
+        Height = 23
         Top = 1
         Width = 168
         Align = alClient
         Enabled = False
-        ItemHeight = 26
+        ItemHeight = 15
         OnChange = cbVisibleDatesChange
         ParentFont = False
         Style = csDropDownList
         TabOrder = 0
-        Text = '0'
       end
     end
     object btnTopPath: TSpeedButton
@@ -189,10 +188,10 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object cbHideRead: TCheckBox
-      Left = 768
+      Left = 774
       Height = 22
       Top = 2
-      Width = 77
+      Width = 71
       Align = alRight
       BorderSpacing.Right = 5
       Caption = 'Hide read'
@@ -213,15 +212,14 @@ object CbzLibrary: TCbzLibrary
     end
     object cbReadingList: TComboBox
       Left = 123
-      Height = 20
+      Height = 23
       Top = 2
-      Width = 201
+      Width = 207
       Align = alClient
-      ItemHeight = 26
+      ItemHeight = 15
       ParentFont = False
       Style = csDropDownList
       TabOrder = 5
-      Text = '0'
     end
     object btnScrub: TButton
       Left = 925
@@ -237,7 +235,7 @@ object CbzLibrary: TCbzLibrary
   end
   object pnlbtns: TPanel
     Left = 10
-    Height = 492
+    Height = 467
     Top = 46
     Width = 30
     Align = alLeft
@@ -316,11 +314,13 @@ object CbzLibrary: TCbzLibrary
     Top = 192
     object MenuItem2: TMenuItem
       Caption = 'File'
-      object MenuItem5: TMenuItem
+      object mnuImportYacReader: TMenuItem
         Action = ActionSyncYacreader
+        Visible = False
       end
       object Separator1: TMenuItem
         Caption = '-'
+        Visible = False
       end
       object MenuItem3: TMenuItem
         Caption = 'Exit'
@@ -340,9 +340,5 @@ object CbzLibrary: TCbzLibrary
     Options = [ofFileMustExist, ofEnableSizing, ofForceShowHidden, ofViewDetail]
     Left = 262
     Top = 226
-  end
-  object Sqlite3Dataset1: TSqlite3Dataset
-    Left = 328
-    Top = 120
   end
 end

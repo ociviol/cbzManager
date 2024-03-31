@@ -12,8 +12,12 @@ uses
 {$if defined(Linux) or defined(Darwin)}
   cthreads,
 {$endif}
-  Utils.SearchFiles, utils.Logger, uConfig, Utils.Strings, mysql80conn, SQLDB,
-  DB, SQLite3DS, uLibraryClasses, ucbz, uThreadScrub, uThreadFill;
+  Utils.SearchFiles, utils.Logger, uConfig, Utils.Strings,
+{$if defined(Darwin) or Defined(MsWindows)}
+  mysql80conn, SQLDB,
+  DB, SQLite3DS,
+{$endif}
+  uLibraryClasses, ucbz, uThreadScrub, uThreadFill;
 
 
 type

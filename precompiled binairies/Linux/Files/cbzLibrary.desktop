@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=cbzLibrary
+Version=1.0
+Exec=cbzLibrary
+Comment=Comic books Library
+Icon=/usr/local/bin/cbzLibrary.png
+Type=Application
+Terminal=false
+StartupNotify=false
+Encoding=UTF-8
+Categories=2DGraphics;

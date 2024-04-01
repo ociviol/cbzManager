@@ -13,6 +13,7 @@ sudo cp ~/Dev/cbzManager/cbzManager/Library/cbzLibrary /usr/local/bin
 
 cd ~/Dev/cbzManager/precompiled\ binairies/Linux/Files/
 cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx.iconset/icon_128x128.png cbzManager.png
+cp ~/Dev/cbzManager/cbzManager/Library/cbzLibrary.png .
 rm ~/Dev/cbzManager/precompiled\ binairies/Linux/cbzManagerLinux.zip
 zip cbzManagerLinux.zip *
 cp cbzManagerLinux.zip ..

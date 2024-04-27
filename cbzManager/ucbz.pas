@@ -73,6 +73,7 @@ type
                               const outz : TCbz):TRewriteOperation of Object;
 
   TStampThread = Class;
+  // updated ancestor TZipFile in Utils.ZipFile to support files > 2gb
   TCbz = Class(TZipFile)
   private
     FCallBack :TCbzProgressEvent;

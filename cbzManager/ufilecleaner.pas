@@ -62,8 +62,8 @@ begin
     begin
       SetAttributeBool('RemoveDots', cbRmDots.Checked);
       SetAttributeBool('RemoveDashes', cbRmDashes.Checked);
-      SetAttributeBool('Value', cbRmUnderscores.Checked);
-      SetAttributeBool('Value', cbRmParenthesis.Checked);
+      SetAttributeBool('RemoveUndercores', cbRmUnderscores.Checked);
+      SetAttributeBool('RemoveParenthesis', cbRmParenthesis.Checked);
       Node := GetNode('Keywords');
       for i := 0 to lbKeywords.Items.Count - 1 do
         Node.AddChildNode('Keyword').Text := lbKeywords.Items[i];
@@ -101,8 +101,8 @@ begin
     begin
       cbRmDots.Checked := GetAttributeBool('RemoveDots', True);
       cbRmDashes.Checked := GetAttributeBool('RemoveDashes', True);
-      cbRmUnderscores.Checked := GetAttributeBool('Value', True);
-      cbRmParenthesis.Checked := GetAttributeBool('Value', True);
+      cbRmUnderscores.Checked := GetAttributeBool('RemoveUndercores', True);
+      cbRmParenthesis.Checked := GetAttributeBool('RemoveParenthesis', True);
       Node := GetNode('Keywords');
       for i := 0 to Node.NbElements - 1 do
         lbKeywords.Items.Add(Node.Elements[i].Text);

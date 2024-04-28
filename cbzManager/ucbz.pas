@@ -1149,6 +1149,14 @@ var
   var
     ss : string;
     i,j,z : integer;
+
+    function RemoveChar(const aStr, aChar : string):String;
+    begin
+      result := ReplaceStr(aStr, ' ' + aChar, ' ');
+      result := ReplaceStr(result, aChar + ' ', ' ');
+      result := ReplaceStr(result, aChar, ' ');
+    end;
+
   begin
     result := s;
     {
@@ -1160,18 +1168,11 @@ var
     end;
     }
     if clconfig.RemoveDots then
-      s := s.Replace('.', ' ');
+      s := RemoveChar(s, '.');
     if clconfig.RemoveDashes then
-      s := s.Replace('-', ' ');
+      s := RemoveChar(s, '-');
     if clconfig.RemoveUnderscores then
-      s := s.Replace('_', ' ');
-
-    begin
-      s := ReplaceStr(s, ' -', '');
-      s := ReplaceStr(s, '- ', '');
-      s := ReplaceStr(s, '-', '');
-    end;
-    s := ReplaceStr(s, '  ', ' ');
+      s := RemoveChar(s, '_');
 
     repeat
       ss := wordinlist(s, clconfig.WordList);
@@ -1217,7 +1218,9 @@ var
       end;
     end;
 
-    s := ReplaceStr(s, '  ', ' ');
+    // replace double spaces
+    while s.Contains('  ') do
+      s := ReplaceStr(s, '  ', ' ');
 
     if s.Length > 0 then
       result := s;

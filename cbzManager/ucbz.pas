@@ -1768,6 +1768,31 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
     aSrc.Position := 0;
   end;
 
+  function GetBitDepth(aSrc : TMemoryStream; imgtype : integer): TPixelFormat;
+  var
+    aPic:TRasterImage;
+  begin
+    case imgtype of
+      FIF_BMP     : aPic := TBitmap.Create;
+      FIF_JPEG    : aPic := TJPEGImage.Create;
+      FIF_PNG     : aPic := TPortableNetworkGraphic.Create;
+    else
+      begin
+        result := pf1bit;
+        exit;
+      end;
+    end;
+
+    if Assigned(aPic) then
+    try
+      aPic.LoadFromStream(aSrc);
+      result := aPic.PixelFormat;
+    finally
+      aPic.free;
+    end;
+    aSrc.Position := 0;
+  end;
+
 var
   imgtype : integer;
   done : Boolean;
@@ -1780,7 +1805,8 @@ begin
       result.CopyFrom(aSrc, aSrc.Size)
     else
     begin
-      if InternalcWebpAvail then
+      // internal convert can only handle 32bit images, else we use external convert
+      if InternalcWebpAvail and (GetBitDepth(aSrc, imgtype) = pf32bit) then
         done := InternalConvert(aSrc, Result);
 
       if not done then

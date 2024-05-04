@@ -55,11 +55,11 @@
         <UnitName Value="uCbz"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="1715"/>
-        <CursorPos Y="1733"/>
+        <TopLine Value="1769"/>
+        <CursorPos X="32" Y="1796"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="2">
-          <Item0 X="9" Y="1784" ID="1"/>
+          <Item0 X="11" Y="1785" ID="1"/>
           <Item1 X="8" Y="1572" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>

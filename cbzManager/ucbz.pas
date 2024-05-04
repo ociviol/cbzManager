@@ -1772,23 +1772,29 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   var
     aPic:TRasterImage;
   begin
-    case imgtype of
-      FIF_BMP     : aPic := TBitmap.Create;
-      FIF_JPEG    : aPic := TJPEGImage.Create;
-      FIF_PNG     : aPic := TPortableNetworkGraphic.Create;
-    else
-      begin
-        result := pf1bit;
-        exit;
-      end;
-    end;
-
-    if Assigned(aPic) then
     try
-      aPic.LoadFromStream(aSrc);
-      result := aPic.PixelFormat;
-    finally
-      aPic.free;
+      case imgtype of
+        FIF_BMP     : aPic := TBitmap.Create;
+        FIF_JPEG    : aPic := TJPEGImage.Create;
+        FIF_PNG     : aPic := TPortableNetworkGraphic.Create;
+      else
+        begin
+          result := pf1bit;
+          exit;
+        end;
+      end;
+
+      if Assigned(aPic) then
+      try
+        aPic.LoadFromStream(aSrc);
+        result := aPic.PixelFormat;
+      finally
+        aPic.free;
+      end;
+
+    except
+      // if anything goes wrong
+      result := pf1bit;
     end;
     aSrc.Position := 0;
   end;

@@ -16,11 +16,11 @@ requirements :
 In order to Build the project you will also need to clone the Utils repository
 
 Windows
-FPC 3.3.1 and Lazarus >= 2.2.4
+FPC 3.2.2 and Lazarus >= 3.2
 
 Linux (only tested under Ubutu 18.4 LTS AMD64) :
-FPC 3.3.1 and Lazarus >= 2.2.4
-
+FPC 3.2.2 and Lazarus >= 2.2.4
+Required libs:
 	unzip : 	sudo apt install unzip
 	unrar: 		sudo apt install unrar
 	7z : 		sudo apt install p7zip-full
@@ -28,8 +28,8 @@ FPC 3.3.1 and Lazarus >= 2.2.4
 	libwebp : 	sudo apt install libwebp-dev
 
 Max OsX (use HomeBrew : https://brew.sh/):
-FPC 3.3.1 and Lazarus >= 2.2.4
-
+FPC 3.2.2 and Lazarus >= 3.2
+Required libs:
 	unzip : 	brew install unzip
 	unrar: 		brew install unrar
 	7z : 		brew install p7zip

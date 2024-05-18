@@ -9,21 +9,21 @@ cd ~/Dev/cbzManager/cbzManager/Library
 status=$?
 if test $status -eq 0 
 then
-	cp -r ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx.app ~/Dev/cbzManager//precompiled\ binairies/Mac\ OsX/ 
-	cp -r ~/Dev/cbzManager/cbzManager/cbzManagerOsx.app ~/Dev/cbzManager//precompiled\ binairies/Mac\ OsX/ 
+	cp -r ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/x86/ 
+	cp -r ~/Dev/cbzManager/cbzManager/cbzManagerOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/x86/ 
 
-	rm ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx 
-	cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/cbzManagerOsx.app/Contents/MacOS/
+	rm ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/x86/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx 
+	cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/x86/cbzManagerOsx.app/Contents/MacOS/
 
-	rm ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/cbzLibraryOsx.app/Contents/MacOS/cbzLibraryOsx 
-	cp ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/cbzLibraryOsx.app/Contents/MacOS/
+	rm ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/x86/cbzLibraryOsx.app/Contents/MacOS/cbzLibraryOsx 
+	cp ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/x86/cbzLibraryOsx.app/Contents/MacOS/
 
-	cp -r ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/cbzManagerOsx.app /Applications/ 
-	cp -r ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/cbzLibraryOsx.app /Applications/
+	cp -r ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/x86/cbzManagerOsx.app /Applications/ 
+	cp -r ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/x86/cbzLibraryOsx.app /Applications/
 
-	cd ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/
-	rm cbzManagerOsx.zip
-	zip -r cbzManagerOsx.zip cp -r cbzManagerOsx.app cbzLibraryOsx.app
+	cd ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/x86/
+	rm cbzManagerOsx-x86.zip
+	zip -r cbzManagerOsx-x86.zip cp -r cbzManagerOsx.app cbzLibraryOsx.app
  
 else
 	echo 'Compile failed'

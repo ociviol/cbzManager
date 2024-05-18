@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="12"/>
     <BuildModes Active="Release"/>
-    <Units Count="31">
+    <Units Count="32">
       <Unit0>
         <Filename Value="cbzManagerOsXx64.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -15,7 +15,7 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="207"/>
         <CursorPos X="25" Y="228"/>
         <UsageCount Value="252"/>
@@ -130,7 +130,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="158"/>
         <CursorPos X="81" Y="162"/>
         <UsageCount Value="252"/>
@@ -152,7 +152,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="151"/>
         <CursorPos X="25" Y="167"/>
         <UsageCount Value="114"/>
@@ -249,7 +249,7 @@
       </Unit24>
       <Unit25>
         <Filename Value="../../Utils/utils.treeview.pas"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="9"/>
         <CursorPos X="58" Y="26"/>
         <UsageCount Value="12"/>
@@ -265,7 +265,7 @@
       </Unit26>
       <Unit27>
         <Filename Value="../../XmlReader/XmlDoc/OEncoding.pas"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="341"/>
         <CursorPos X="3" Y="352"/>
         <UsageCount Value="11"/>
@@ -274,7 +274,6 @@
       <Unit28>
         <Filename Value="../../Utils/utils.masks.pas"/>
         <UnitName Value="Utils.Masks"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="139"/>
         <CursorPos X="21" Y="159"/>
@@ -284,7 +283,7 @@
       <Unit29>
         <Filename Value="../../../fpcupdeluxe/lazarus/components/lazutils/lazutilsstrconsts.pas"/>
         <UnitName Value="LazUtilsStrConsts"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="18"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -292,12 +291,21 @@
       <Unit30>
         <Filename Value="../../../fpcupdeluxe/lazarus/components/lazutils/lazutf8.pas"/>
         <UnitName Value="LazUTF8"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="80"/>
         <CursorPos X="10" Y="101"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit30>
+      <Unit31>
+        <Filename Value="../../../fpcupdeluxe/lazarus/lcl/interfaces/carbon/carbonbars.pp"/>
+        <UnitName Value="CarbonBars"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
+        <CursorPos X="2" Y="16"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit31>
     </Units>
     <Debugger>
       <Backend Value="{29EFC2CC-1BE8-461C-0E62-D597E20B78F9}"/>
@@ -340,39 +348,39 @@
         <Caret Line="114" Column="25" TopLine="87"/>
       </Position9>
       <Position10>
-        <Filename Value="../../Utils/utils.masks.pas"/>
-        <Caret Line="90" TopLine="92"/>
-      </Position10>
-      <Position11>
         <Filename Value="ucbz.pas"/>
         <Caret Line="228" Column="25" TopLine="207"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../../Utils/utils.masks.pas"/>
+        <Caret Line="8" Column="88"/>
       </Position11>
       <Position12>
         <Filename Value="../../Utils/utils.masks.pas"/>
-        <Caret Line="8" Column="88"/>
+        <Caret Line="104" Column="35" TopLine="78"/>
       </Position12>
       <Position13>
         <Filename Value="../../Utils/utils.masks.pas"/>
-        <Caret Line="104" Column="35" TopLine="78"/>
+        <Caret Line="105" Column="24" TopLine="69"/>
       </Position13>
       <Position14>
         <Filename Value="../../Utils/utils.masks.pas"/>
-        <Caret Line="105" Column="24" TopLine="69"/>
+        <Caret Line="103" Column="19" TopLine="69"/>
       </Position14>
       <Position15>
         <Filename Value="../../Utils/utils.masks.pas"/>
-        <Caret Line="103" Column="19" TopLine="69"/>
+        <Caret Line="4" Column="33"/>
       </Position15>
       <Position16>
         <Filename Value="../../Utils/utils.masks.pas"/>
-        <Caret Line="4" Column="33"/>
+        <Caret Line="23" Column="56"/>
       </Position16>
       <Position17>
         <Filename Value="../../Utils/utils.masks.pas"/>
-        <Caret Line="23" Column="56"/>
       </Position17>
       <Position18>
         <Filename Value="../../Utils/utils.masks.pas"/>
+        <Caret Line="159" Column="21" TopLine="139"/>
       </Position18>
     </JumpHistory>
     <RunParams>

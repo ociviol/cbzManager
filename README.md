@@ -6,7 +6,7 @@ Current versions are stable and can be used but this software is still under dev
 
 You will also need my repository of utils to be able to compile it. https://github.com/ociviol/Utils
 
-Precompiled binaries available for Linux (x64) and Mac OsX.
+Precompiled binaries available for Windows, Linux (x64) and Mac OsX.
 
 	Mac : Just copy the Application in your application folder
 	Linux : read the README file (I hope all works well)
@@ -15,20 +15,21 @@ requirements :
 
 In order to Build the project you will also need to clone the Utils repository
 
-Windows
-FPC 3.2.2 and Lazarus >= 3.2
+Windows: FPC 3.2.2 and Lazarus >= 3.2
 
-Linux (only tested under Ubutu 18.4 LTS AMD64) and Up :
-FPC 3.2.2 and Lazarus >= 2.2.4
+Linux (only tested under Ubutu 18.4 LTS AMD64) and Up : FPC 3.2.2 and Lazarus >= 2.2.4
+
 Required libs:
+
 	unrar: 		sudo apt install unrar
 	7z : 		sudo apt install p7zip-full
 	cwebp : 	sudo apt install webp
 	libwebp : 	sudo apt install libwebp-dev
 
-Max OsX (use HomeBrew : https://brew.sh/):
-FPC 3.2.2 and Lazarus >= 3.2
+Max OsX (use HomeBrew : https://brew.sh/): FPC 3.2.2 and Lazarus >= 3.2
+
 Required libs (use HomeBrew):
+
 	unrar: 		brew install unrar
 	7z : 		brew install p7zip
 	cwebp,

@@ -20,8 +20,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="999"/>
-        <CursorPos X="15" Y="1028"/>
+        <TopLine Value="351"/>
+        <CursorPos X="39" Y="1011"/>
         <UsageCount Value="1030"/>
         <Bookmarks Count="1">
           <Item0 X="5" Y="425" ID="1"/>

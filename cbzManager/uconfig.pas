@@ -75,9 +75,15 @@ constructor TConfig.Create;
 begin
   inherited;
 {$if defined(Darwin)}
+  {$if defined(arm)}
+  Fcwebp := '/opt/homebrew/bin/cwebp';
+  Fp7zip := '/opt/homebrew/bin/7z';
+  Funrar := '/opt/homebrew/bin/unrar';
+  {$else}
   Fcwebp := '/usr/local/bin/cwebp';
   Fp7zip := '/usr/local/bin/7z';
   Funrar := '/usr/local/bin/unrar';
+  {$endif}
 {$elseif defined(Linux)}
   Fcwebp := '/usr/bin/cwebp';
   Fp7zip := '/usr/bin/7z';

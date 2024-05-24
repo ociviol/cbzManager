@@ -30,7 +30,7 @@ Max OsX (use HomeBrew : https://brew.sh/): FPC 3.2.2 and Lazarus >= 3.2
 
 Required libs (use HomeBrew):
 
-	unrar: 		brew install unrar
+	unrar: 		brew install carlocab/personal/unrar
 	7z : 		brew install p7zip
 	cwebp,
 	dwebp,

@@ -40,12 +40,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="381"/>
-        <CursorPos X="116" Y="401"/>
+        <TopLine Value="531"/>
+        <CursorPos X="54" Y="556"/>
         <UsageCount Value="252"/>
         <Bookmarks Count="2">
           <Item0 X="13" Y="455" ID="3"/>
-          <Item1 X="7" Y="1135" ID="1"/>
+          <Item1 X="7" Y="1136" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -53,9 +53,10 @@
       <Unit4>
         <Filename Value="webp.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="208"/>
-        <CursorPos X="2" Y="225"/>
+        <TopLine Value="196"/>
+        <CursorPos X="25" Y="232"/>
         <UsageCount Value="252"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -85,9 +86,8 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="87"/>
+        <TopLine Value="79"/>
         <CursorPos X="25" Y="114"/>
         <UsageCount Value="252"/>
         <Loaded Value="True"/>
@@ -275,7 +275,7 @@
     <Debugger>
       <Backend Value="{29EFC2CC-1BE8-461C-0E62-D597E20B78F9}"/>
     </Debugger>
-    <JumpHistory Count="8" HistoryIndex="7">
+    <JumpHistory Count="16" HistoryIndex="15">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="243" TopLine="220"/>
@@ -308,6 +308,38 @@
         <Filename Value="ucbz.pas"/>
         <Caret Line="1032" Column="82" TopLine="1012"/>
       </Position8>
+      <Position9>
+        <Filename Value="main.pas"/>
+        <Caret Line="148" Column="23" TopLine="124"/>
+      </Position9>
+      <Position10>
+        <Filename Value="webp.pas"/>
+        <Caret Line="228" Column="13" TopLine="209"/>
+      </Position10>
+      <Position11>
+        <Filename Value="webp.pas"/>
+        <Caret Line="220" Column="104" TopLine="209"/>
+      </Position11>
+      <Position12>
+        <Filename Value="webp.pas"/>
+        <Caret Line="228" Column="13" TopLine="209"/>
+      </Position12>
+      <Position13>
+        <Filename Value="webp.pas"/>
+        <Caret Line="231" Column="10" TopLine="209"/>
+      </Position13>
+      <Position14>
+        <Filename Value="webp.pas"/>
+        <Caret Line="233" Column="11" TopLine="209"/>
+      </Position14>
+      <Position15>
+        <Filename Value="webp.pas"/>
+        <Caret Line="234" Column="11" TopLine="209"/>
+      </Position15>
+      <Position16>
+        <Filename Value="webp.pas"/>
+        <Caret Line="644" Column="5" TopLine="623"/>
+      </Position16>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -330,28 +362,14 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="833"/>
+        <Line Value="834"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="main.pas"/>
-        <Line Value="985"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="252"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="main.pas"/>
-        <Line Value="259"/>
+        <Line Value="986"/>
       </Item>
     </BreakPoints>
     <Watches>

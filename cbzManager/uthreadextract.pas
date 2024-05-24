@@ -128,7 +128,11 @@ uses
 function Unrar:String;
 begin
 {$if defined(darwin)}
+{$if defined(arm)}
+ result := '/opt/homebrew/bin/unrar';
+{$else}
   result := '/usr/local/bin/unrar';
+{$endif}
 {$elseif Defined(Linux)}
   result := '/usr/bin/unrar';
 {$else}
@@ -139,7 +143,11 @@ end;
 function SevenZip:String;
 begin
 {$if defined(darwin)}
+{$if defined(arm)}
+ result := '/opt/homebrew/bin/7z';
+{$else}
   result := '/usr/local/bin/7z';
+{$endif}
 {$elseif Defined(Linux)}
   result := '/usr/bin/7z';
 {$else}

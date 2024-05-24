@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <General>
+      <Flags>
+        <CompatibilityMode Value="True"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="cbzmanagerosxarm"/>
+      <Scaled Value="True"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <XPManifest>
+        <DpiAware Value="True"/>
+        <TextName Value="Ollivier Civiol"/>
+        <TextDesc Value="Comic book Manager"/>
+      </XPManifest>
+      <Icon Value="0"/>
+      <Resources Count="1">
+        <Resource_0 FileName="cbzManagerOsx.ico" Type="ICON" ResourceName="CBZMANAGEROSX"/>
+      </Resources>
+    </General>
+    <VersionInfo>
+      <UseVersionInfo Value="True"/>
+      <AutoIncrementBuild Value="True"/>
+      <MajorVersionNr Value="1"/>
+      <RevisionNr Value="1"/>
+      <BuildNr Value="60"/>
+      <Attributes pvaPreRelease="True"/>
+      <StringTable CompanyName="Ollivier Civiol" FileDescription="cbzManager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManagerOsX" ProductName="cbzManager"/>
+    </VersionInfo>
+    <BuildModes Count="3">
+      <Item1 Name="Default" Default="True"/>
+      <Item2 Name="Debug">
+        <MacroValues Count="1">
+          <Macro1 Name="LCLWidgetType" Value="cocoa"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="cbzmanagerosxarm"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../../Utils;../../XmlReader/XmlDoc"/>
+            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+            </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
+            <Optimizations>
+              <OptimizationLevel Value="0"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf2"/>
+              <UseHeaptrc Value="True"/>
+              <TrashVariables Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+          </Linking>
+          <Other>
+            <Verbosity>
+              <ShowAll Value="True"/>
+            </Verbosity>
+            <CompilerMessages>
+              <IgnoredMessages idx5076="True" idx5044="True" idx4066="True" idx4056="True" idx4055="True"/>
+            </CompilerMessages>
+            <CustomOptions Value="-dUseCThreads
+-dDEBUG
+-darm"/>
+            <OtherDefines Count="3">
+              <Define0 Value="UseCThreads"/>
+              <Define1 Value="DEBUG"/>
+              <Define2 Value="arm"/>
+            </OtherDefines>
+          </Other>
+        </CompilerOptions>
+      </Item2>
+      <Item3 Name="Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="cbzmanagerosx"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../../Utils;../../XmlReader/XmlDoc"/>
+            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <DebugInfoType Value="dsDwarf3"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dUseCThreads
+-darm"/>
+            <OtherDefines Count="2">
+              <Define0 Value="UseCThreads"/>
+              <Define1 Value="arm"/>
+            </OtherDefines>
+          </Other>
+        </CompilerOptions>
+      </Item3>
+      <SharedMatrixOptions Count="2">
+        <Item1 ID="764563229284" Modes="Debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+        <Item2 ID="456989487882" Type="IDEMacro" MacroName="LCLWidgetType" Value="carbon"/>
+      </SharedMatrixOptions>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="LazUtils"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="15">
+      <Unit0>
+        <Filename Value="cbzmanagerosxarm.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ucbz.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uCbz"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="uworkerthread.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWorkerThread"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainFrm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="webp.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="config.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ConfigFrm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="frmwait.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="uconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uConfig"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="udataitem.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDataItem"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="udatapool.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uDataPool"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="udatatypes.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="uthreadconvert.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uThreadConvert"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="uthreadextract.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uThreadExtract"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="../../XmlReader/XmlDoc/uxmldoc.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="ucbzviewerframe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="CbzViewerFrame"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="uCbzViewerFrame"/>
+      </Unit14>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target>
+      <Filename Value="cbzmanagerosxarm"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../../Utils;../../XmlReader/XmlDoc"/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Linking>
+      <Debugging>
+        <DebugInfoType Value="dsDwarf3"/>
+      </Debugging>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CustomOptions Value="-dUseCThreads"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="7">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+      <Item4>
+        <Name Value="TCRCErrorException"/>
+      </Item4>
+      <Item5>
+        <Name Value="TCBzErrorFileException"/>
+      </Item5>
+      <Item6>
+        <Name Value="ESocketError"/>
+      </Item6>
+      <Item7>
+        <Name Value="EInOutError"/>
+      </Item7>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

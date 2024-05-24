@@ -552,7 +552,11 @@ begin
     Flog.Log('required binary missing : p7zip.');
   end;
 {$if defined(Darwin)}
-  if not FileExists('/usr/local/lib/libwebp.dylib') then
+{$if defined(arm)}
+  if not FileExists('/opt/homebrew/lib/libwebp.dylib') then
+{$else}
+  if not FileExists('/usr/local/lib/libwebp.dylib') and
+{$endif}
   begin
     msg := msg + 'libwebp not found, install using ''brew install libwebp-dev''' + #13;
     Flog.Log('required library missing : libwebp-dev.');

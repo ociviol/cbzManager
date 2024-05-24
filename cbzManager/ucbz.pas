@@ -1024,7 +1024,11 @@ function TCbz.GetImage(Index: QWord): TBitmap;
     begin
       result := ChangeFileExt(fimg, '.bmp');
 {$if Defined(Darwin)}
+{$if defined(arm)}
+      cmd := '/opt/homebrew/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
+{$else}
       cmd := '/usr/local/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
+{$endif}
       fpsystem(cmd);
 {$elseif Defined(Linux)}
       cmd := '/usr/bin/dwebp -mt -quiet -bmp "' + fimg + '" -o "' + result + '"';
@@ -1622,7 +1626,11 @@ class function TCbz.ConvertImageToStream(const aSrc : TMemoryStream; aFLog : ILo
   function cwebp:String;
   begin
 {$if defined(Darwin)}
+{$if defined(arm)}
+    result := '/opt/homebrew/bin/cwebp';
+{$else}
     result := '/usr/local/bin/cwebp';
+{$endif}
 {$elseif defined(Linux)}
     result := '/usr/bin/cwebp';
 {$else}

@@ -222,11 +222,13 @@ type
 
 const
 {$if defined(darwin)}
- cpath = '/usr/local/lib';
- clibwebp = 'libwebp.dylib';
+{$if defined(arm)}
+  clibwebp = '/opt/homebrew/lib/libwebp.dylib';
+{$else}
+  clibwebp = '/usr/local/lib/libwebp.dylib';
+{$endif}
 {$elseif defined(Linux)}
- cpath = '/usr/lib';
- clibwebp = 'libwebp.so';
+ clibwebp = '/usr/lib/libwebp.so';
 {$else}
   clibwebp = 'libwebpdecoder.dll';
   clibwebpenc = 'libwebp.dll';

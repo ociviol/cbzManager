@@ -18,3 +18,4 @@ cbzManager/Library/backup/*
 cbzManager/Library/lib/x86_64-darwin/*
 cbzManager/backup/*
 cbzManager/lib/x86_64-linux/*
+/cbzManager/cbzManagerOsx.dSYM

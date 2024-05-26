@@ -4,7 +4,7 @@ Comicbook converter/manager/Library
 This software is in development phase, current version is VERY BETA. Use at your own risks...
 Current versions are stable and can be used but this software is still under development so there could be bugs.
 
-You will also need my repository of utils to be able to compile it. https://github.com/ociviol/Utils
+You will also need to clone the utils and XmlReader reporsitories (shared code) to be able to compile it. https://github.com/ociviol/Utils
 
 Precompiled binaries available for Windows, Linux (x64) and Mac OsX.
 

@@ -7,6 +7,6 @@ object FrmCbzViewer: TFrmCbzViewer
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  Position = poDefault
-  LCLVersion = '2.2.4.0'
+  Position = poScreenCenter
+  LCLVersion = '3.2.0.0'
 end

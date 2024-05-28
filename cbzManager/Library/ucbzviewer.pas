@@ -81,7 +81,7 @@ end;
 
 procedure TFrmCbzViewer.FormShow(Sender: TObject);
 begin
-  FConfig.RestoreForm(Self);
+//  FConfig.RestoreForm(Self);
   CbzViewerFrame.SelectImage(FItem.CurPage);
 end;
 

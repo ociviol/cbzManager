@@ -9,7 +9,7 @@ object CbzViewerFrame: TCbzViewerFrame
   ParentFont = False
   TabOrder = 0
   DesignLeft = 853
-  DesignTop = 215
+  DesignTop = 214
   object Panel1: TPanel
     Left = 0
     Height = 687
@@ -23,8 +23,8 @@ object CbzViewerFrame: TCbzViewerFrame
     TabOrder = 0
     object DrawGrid1: TDrawGrid
       Left = 633
-      Height = 515
-      Top = 53
+      Height = 541
+      Top = 27
       Width = 150
       Align = alRight
       ColCount = 1
@@ -47,18 +47,6 @@ object CbzViewerFrame: TCbzViewerFrame
       OnMouseDown = DrawGrid1MouseDown
       OnMouseEnter = DrawGrid1MouseEnter
       OnSelectCell = DrawGrid1SelectCell
-    end
-    object Image1: TImage
-      Left = 0
-      Height = 515
-      Top = 53
-      Width = 633
-      AntialiasingMode = amOn
-      Align = alClient
-      Center = True
-      PopupMenu = pmImage
-      Proportional = True
-      Stretch = True
     end
     object Panel3: TPanel
       Left = 0
@@ -135,139 +123,46 @@ object CbzViewerFrame: TCbzViewerFrame
         Left = 0
         Height = 27
         Top = 0
-        Width = 363
+        Width = 213
         Align = alClient
         BevelOuter = bvNone
         ParentFont = False
         TabOrder = 6
       end
-    end
-    object Shape1: TShape
-      Left = 10
-      Height = 184
-      Top = 0
-      Width = 1
-      Brush.Style = bsClear
-      Pen.Mode = pmNot
-      Pen.Style = psDashDot
-      Visible = False
-    end
-    object PanelCrop: TPanel
-      Left = 0
-      Height = 26
-      Top = 27
-      Width = 783
-      Align = alTop
-      ClientHeight = 26
-      ClientWidth = 783
-      ParentFont = False
-      TabOrder = 2
-      Visible = False
-      object Label1: TLabel
-        Left = 1
-        Height = 21
-        Top = 4
-        Width = 35
-        Align = alLeft
-        BorderSpacing.Top = 3
-        Caption = 'Left : '
-        ParentColor = False
-        ParentFont = False
-      end
-      object speLeft: TSpinEdit
-        Left = 36
-        Height = 24
-        Top = 1
-        Width = 62
-        Align = alLeft
-        OnChange = speLeftChange
-        ParentFont = False
-        TabOrder = 0
-      end
-      object Label2: TLabel
-        Left = 302
-        Height = 21
-        Top = 4
-        Width = 51
-        Align = alLeft
-        BorderSpacing.Top = 3
-        Caption = 'Height : '
-        ParentColor = False
-        ParentFont = False
-      end
-      object speBottom: TSpinEdit
-        Left = 353
-        Height = 24
-        Top = 1
-        Width = 62
-        Align = alLeft
-        OnChange = speBottomChange
-        ParentFont = False
-        TabOrder = 1
-      end
-      object Label3: TLabel
-        Left = 193
-        Height = 21
-        Top = 4
-        Width = 47
-        Align = alLeft
-        BorderSpacing.Top = 3
-        Caption = 'Width : '
-        ParentColor = False
-        ParentFont = False
-      end
-      object speRight: TSpinEdit
-        Left = 240
-        Height = 24
-        Top = 1
-        Width = 62
-        Align = alLeft
-        OnChange = speRightChange
-        ParentFont = False
-        TabOrder = 2
-      end
-      object Label4: TLabel
-        Left = 98
-        Height = 21
-        Top = 4
-        Width = 33
-        Align = alLeft
-        BorderSpacing.Top = 3
-        Caption = 'Top : '
-        ParentColor = False
-        ParentFont = False
-      end
-      object speTop: TSpinEdit
-        Left = 131
-        Height = 24
-        Top = 1
-        Width = 62
-        Align = alLeft
-        OnChange = speTopChange
-        ParentFont = False
-        TabOrder = 3
-      end
-      object btnCrop: TButton
-        Left = 632
-        Height = 24
-        Top = 1
-        Width = 75
+      object PanelCrop: TPanel
+        Left = 213
+        Height = 27
+        Top = 0
+        Width = 150
         Align = alRight
-        Caption = 'Crop'
-        OnClick = btnCropClick
+        BevelOuter = bvNone
+        ClientHeight = 27
+        ClientWidth = 150
         ParentFont = False
-        TabOrder = 4
-      end
-      object btnCancel: TButton
-        Left = 707
-        Height = 24
-        Top = 1
-        Width = 75
-        Align = alRight
-        Caption = 'Cancel'
-        OnClick = btnCancelClick
-        ParentFont = False
-        TabOrder = 5
+        TabOrder = 7
+        Visible = False
+        object btnCrop: TButton
+          Left = 0
+          Height = 27
+          Top = 0
+          Width = 75
+          Align = alRight
+          Caption = 'Crop'
+          ParentFont = False
+          TabOrder = 0
+          OnClick = btnCropClick
+        end
+        object btnCancel: TButton
+          Left = 75
+          Height = 27
+          Top = 0
+          Width = 75
+          Align = alRight
+          Caption = 'Cancel'
+          ParentFont = False
+          TabOrder = 1
+          OnClick = btnCancelClick
+        end
       end
     end
     object memoLog: TMemo
@@ -281,8 +176,48 @@ object CbzViewerFrame: TCbzViewerFrame
       )
       ParentFont = False
       ScrollBars = ssAutoBoth
-      TabOrder = 3
+      TabOrder = 2
       Visible = False
+    end
+    object Panel2: TPanel
+      Left = 0
+      Height = 541
+      Top = 27
+      Width = 633
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 541
+      ClientWidth = 633
+      TabOrder = 3
+      object Image1: TImage
+        Left = 0
+        Height = 541
+        Top = 0
+        Width = 633
+        AntialiasingMode = amOn
+        Align = alClient
+        Center = True
+        PopupMenu = pmImage
+        Proportional = True
+        Stretch = True
+      end
+      object Shape1: TShape
+        Left = 16
+        Height = 184
+        Hint = 'Use bottom right corner to resize'
+        Top = 24
+        Width = 85
+        Brush.Style = bsClear
+        ParentShowHint = False
+        Pen.Color = clRed
+        Pen.Mode = pmNot
+        Pen.Style = psDashDot
+        OnMouseDown = Shape1MouseDown
+        OnMouseMove = Shape1MouseMove
+        OnMouseUp = Shape1MouseUp
+        ShowHint = True
+        Visible = False
+      end
     end
   end
   object alViewerFrame: TActionList

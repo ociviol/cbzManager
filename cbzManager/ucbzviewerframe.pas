@@ -79,6 +79,7 @@ type
     N7: TMenuItem;
     N8: TMenuItem;
     Panel1: TPanel;
+    Panel2: TPanel;
     Panel3: TPanel;
     PanelCrop: TPanel;
     pnlimgName: TPanel;
@@ -179,7 +180,7 @@ const
   GripSize=20; // sets the area size of the corner to drag
 
 type
-  TMousePositionMessage = class(TControl);// need to follow the mouse even when outside the control area
+  TControlEx = class(TControl);// need to follow the mouse even when outside the control area
 
 var
   xPositionMouseDown,
@@ -406,8 +407,9 @@ begin
   begin
     MouseIsDraggingCorner:=True;
   end;
-
-  TMousePositionMessage(Sender).MouseCapture := True;
+{$IFNDEF DEBUG}
+  TControlEx(Sender).MouseCapture := True;
+{$ENDIF}
 end;
 
 procedure TCbzViewerFrame.Shape1MouseMove(Sender: TObject; Shift: TShiftState;
@@ -426,8 +428,8 @@ begin
       ntop  := Y - yPositionMouseDown + Shape1.Top;
       // get image bounds
       Bounds := Image1.DestRect;
-      Bounds.Height := Bounds.Height + Panel3.Height;
-      Bounds.Top := Bounds.Top + Panel3.Height;
+      //Bounds.Height := Bounds.Height + Panel3.Height;
+      //Bounds.Top := Bounds.Top + Panel3.Height;
       // check top left bounds
       if nleft < Bounds.left then
         nleft := Bounds.left;
@@ -469,7 +471,9 @@ begin
   begin
     MouseIsDraggingCorner:=False;
     MouseIsDragging := False;
-    TMousePositionMessage(Sender).MouseCapture := False;
+{$IFNDEF DEBUG}
+    TControlEx(Sender).MouseCapture := False;
+{$ENDIF}
   end;
 end;
 
@@ -816,11 +820,27 @@ procedure TCbzViewerFrame.btnCropClick(Sender: TObject);
 var
   r : TRect;
   b : TBitmap;
+
+  function RealizeRec(r : TRect):TRect;
+  var
+    coefx,
+    coefy : double;
+  begin
+    coefx := image1.Picture.width / Image1.DestRect.Width;
+    coefy := image1.Picture.Height / Image1.DestRect.Height;
+    result.Left := Round(r.Left * coefx);
+    result.Top := Round(r.Top * coefy);
+    result.Width := Round(r.Width * coefx);
+    result.Height := Round(r.Height * coefy);
+  end;
 begin
   Screen.Cursor := crHourGlass;
   try
     b := zf.Image[DrawGrid1.Position];
-    r := Rect(shape1.Left, Shape1.Top, shape1.Left + Shape1.Width - 1, shape1.Top + Shape1.Height - 1);
+    r := Rect(shape1.Left - Image1.DestRect.Left, Shape1.Top - Image1.DestRect.Top,
+              (Shape1.Width + Image1.DestRect.Left) - 1,
+              (Shape1.Height + Image1.DestRect.Top) - 1);
+    r := RealizeRec(r);
     CropBitmap(b, r);
     zf.Image[DrawGrid1.Position] := b;
     SetMainImage(DrawGrid1.Position);
@@ -864,11 +884,6 @@ begin
   Shape1.top := Image1.Top + r.top + 10;
   Shape1.Width:= (r.Right - r.left) - 20;
   Shape1.Height := (r.Bottom - r.Top) - 20;
-  // shape
-  //Shape1.Left:= Image1.left + r.left + 10;
-  //Shape1.top := Image1.Top + r.top + 10;
-  //Shape1.Width:= Image1.Left + (r.Right - r.left) - 20;
-  //Shape1.Height := Image1.Top + (r.Bottom - r.Top) - 20;
   Shape1.Visible:=True;
 end;
 

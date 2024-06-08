@@ -48,18 +48,6 @@ object CbzViewerFrame: TCbzViewerFrame
       OnMouseEnter = DrawGrid1MouseEnter
       OnSelectCell = DrawGrid1SelectCell
     end
-    object Image1: TImage
-      Left = 0
-      Height = 541
-      Top = 27
-      Width = 633
-      AntialiasingMode = amOn
-      Align = alClient
-      Center = True
-      PopupMenu = pmImage
-      Proportional = True
-      Stretch = True
-    end
     object Panel3: TPanel
       Left = 0
       Height = 27
@@ -176,20 +164,6 @@ object CbzViewerFrame: TCbzViewerFrame
         end
       end
     end
-    object Shape1: TShape
-      Left = 10
-      Height = 184
-      Top = 0
-      Width = 1
-      Brush.Style = bsClear
-      Pen.Color = clRed
-      Pen.Mode = pmNot
-      Pen.Style = psDashDot
-      OnMouseDown = Shape1MouseDown
-      OnMouseMove = Shape1MouseMove
-      OnMouseUp = Shape1MouseUp
-      Visible = False
-    end
     object memoLog: TMemo
       Left = 0
       Height = 119
@@ -203,6 +177,43 @@ object CbzViewerFrame: TCbzViewerFrame
       ScrollBars = ssAutoBoth
       TabOrder = 2
       Visible = False
+    end
+    object Panel2: TPanel
+      Left = 0
+      Height = 541
+      Top = 27
+      Width = 633
+      Align = alClient
+      BevelOuter = bvNone
+      ClientHeight = 541
+      ClientWidth = 633
+      TabOrder = 3
+      object Image1: TImage
+        Left = 0
+        Height = 541
+        Top = 0
+        Width = 633
+        AntialiasingMode = amOn
+        Align = alClient
+        Center = True
+        PopupMenu = pmImage
+        Proportional = True
+        Stretch = True
+      end
+      object Shape1: TShape
+        Left = 10
+        Height = 184
+        Top = 0
+        Width = 1
+        Brush.Style = bsClear
+        Pen.Color = clRed
+        Pen.Mode = pmNot
+        Pen.Style = psDashDot
+        OnMouseDown = Shape1MouseDown
+        OnMouseMove = Shape1MouseMove
+        OnMouseUp = Shape1MouseUp
+        Visible = False
+      end
     end
   end
   object alViewerFrame: TActionList

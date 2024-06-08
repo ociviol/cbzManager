@@ -10,7 +10,7 @@ uses
   {$if defined(Linux) or defined(Darwin)}
     cthreads,
   {$endif}
-  utils.Logger, Utils.Gridhelper, utils.Arrays, Types, graphics,
+  utils.Logger, Utils.Gridhelper, utils.Arrays, Types, graphics, PairSplitter,
   Utils.Graphics, uconfig, utils.zipfile, uDataTypes;
 
 type
@@ -48,10 +48,6 @@ type
     btnVertFlip: TButton;
     DrawGrid1: TDrawGrid;
     Image1: TImage;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
     memoLog: TMemo;
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
@@ -89,10 +85,6 @@ type
     pmgrid: TPopupMenu;
     pmImage: TPopupMenu;
     Shape1: TShape;
-    speBottom: TSpinEdit;
-    speLeft: TSpinEdit;
-    speRight: TSpinEdit;
-    speTop: TSpinEdit;
 
     procedure ActionAppendFileExecute(Sender: TObject);
     procedure ActionCropToolExecute(Sender: TObject);
@@ -129,10 +121,12 @@ type
       var CanSelect: Boolean);
     procedure pmgridPopup(Sender: TObject);
     procedure pmImagePopup(Sender: TObject);
-    procedure speBottomChange(Sender: TObject);
-    procedure speLeftChange(Sender: TObject);
-    procedure speRightChange(Sender: TObject);
-    procedure speTopChange(Sender: TObject);
+    procedure Shape1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Shape1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer
+      );
+    procedure Shape1MouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     FConfig : TConfig;
     FLog : ILog;
@@ -180,6 +174,18 @@ implementation
 
 uses
   dialogs;
+
+const
+  GripSize=20; // sets the area size of the corner to drag
+
+type
+  TMousePositionMessage = class(TControl);// need to follow the mouse even when outside the control area
+
+var
+  xPositionMouseDown,
+  yPositionMouseDown : Integer;
+  MouseIsDragging,
+  MouseIsDraggingCorner : Boolean;
 
 { TCbzViewerFrame }
 
@@ -388,26 +394,83 @@ begin
   EnableActions;
 end;
 
-procedure TCbzViewerFrame.speBottomChange(Sender: TObject);
+procedure TCbzViewerFrame.Shape1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  Shape1.Height := speBottom.Value;
+  xPositionMouseDown := X;
+  yPositionMouseDown := Y;
+  MouseIsDragging := True;
+
+  //if mouse down position is within grip area of panel (south west corner)
+  if (y>Shape1.Height-GripSize) and (x>Shape1.Width-GripSize) then
+  begin
+    MouseIsDraggingCorner:=True;
+  end;
+
+  TMousePositionMessage(Sender).MouseCapture := True;
 end;
 
-procedure TCbzViewerFrame.speLeftChange(Sender: TObject);
+procedure TCbzViewerFrame.Shape1MouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
+var
+  nleft, ntop : integer;
+  Bounds : TRect;
 begin
-  Shape1.left := speLeft.Value;
-  speRight.MaxValue:=(Image1.left+(Image1.DestRect.Right - Image1.DestRect.left))-Shape1.left;
+  //Form1.Caption:=IntToStr(X)+'|'+IntToStr(Y);
+
+  if (MouseIsDragging) and not(MouseIsDraggingCorner) then
+  begin
+    with Sender as TControl do
+    begin
+      nleft := X - xPositionMouseDown + Shape1.Left;
+      ntop  := Y - yPositionMouseDown + Shape1.Top;
+      // get image bounds
+      Bounds := Image1.DestRect;
+      Bounds.Height := Bounds.Height + Panel3.Height;
+      Bounds.Top := Bounds.Top + Panel3.Height;
+      // check top left bounds
+      if nleft < Bounds.left then
+        nleft := Bounds.left;
+      if ntop < Bounds.Top then
+        ntop := Bounds.top;
+      // check bottom right bounds
+      if nleft + shape1.Width > Bounds.Right then
+        nleft := Bounds.right - Shape1.Width;
+      if ntop + Shape1.Height > Bounds.Height then
+        ntop := Bounds.Height - Shape1.Height;
+      Shape1.Left := nleft; //X - xPositionMouseDown + Shape1.Left;
+      Shape1.Top  := ntop; //Y - yPositionMouseDown + Shape1.Top;
+    end;
+  end;
+
+  if (Y>Panel1.Height-GripSize) and (X>Panel1.Width-GripSize) then
+  begin
+    Shape1.Cursor := crSizeSE;
+  end else
+  begin
+    Shape1.Cursor := crdefault;
+  end;
+
+  if MouseIsDraggingCorner then
+  begin
+    with Sender as TControl do
+    begin
+      Shape1.Height  := Y;
+      Shape1.Width  := X;
+    end;
+  end;
+
 end;
 
-procedure TCbzViewerFrame.speRightChange(Sender: TObject);
+procedure TCbzViewerFrame.Shape1MouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 begin
-  Shape1.width := speRight.Value;
-end;
-
-procedure TCbzViewerFrame.speTopChange(Sender: TObject);
-begin
-  Shape1.Top := speTop.Value;
-  speBottom.MaxValue:=(Image1.top+(Image1.DestRect.Bottom - Image1.DestRect.Top))-shape1.top;
+  if MouseIsDragging then
+  begin
+    MouseIsDraggingCorner:=False;
+    MouseIsDragging := False;
+    TMousePositionMessage(Sender).MouseCapture := False;
+  end;
 end;
 
 procedure TCbzViewerFrame.ActionFirstExecute(Sender: TObject);
@@ -801,22 +864,6 @@ begin
   Shape1.top := Image1.Top + r.top + 10;
   Shape1.Width:= (r.Right - r.left) - 20;
   Shape1.Height := (r.Bottom - r.Top) - 20;
-  // width
-  speRight.MinValue := (r.Right - r.left) div 2;
-  speRight.MaxValue := (r.Right - r.left);
-  speRight.Value:=(r.Right - r.left) - 20;
-  // height
-  speBottom.MinValue:= (r.Bottom - r.Top) div 2;
-  speBottom.MaxValue:= (r.Bottom - r.Top);
-  speBottom.Value:= (r.Bottom - r.Top) - 20;
-  //left
-  speLeft.MinValue := Image1.Left + r.left;
-  speLeft.MaxValue := Image1.Left + (r.Right - r.left) div 2;
-  speLeft.Value:= Image1.Left + r.left + 10;
-  // top
-  speTop.MinValue:=Image1.top + r.Top;
-  speTop.MaxValue:=Image1.Top + (r.Bottom - r.top) div 2;
-  speTop.Value:= Image1.Top + r.top + 10;
   // shape
   //Shape1.Left:= Image1.left + r.left + 10;
   //Shape1.top := Image1.Top + r.top + 10;

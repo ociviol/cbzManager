@@ -555,7 +555,7 @@ begin
 {$if defined(arm)}
   if not FileExists('/opt/homebrew/lib/libwebp.dylib') then
 {$else}
-  if not FileExists('/usr/local/lib/libwebp.dylib') and
+  if not FileExists('/usr/local/lib/libwebp.dylib') then
 {$endif}
   begin
     msg := msg + 'libwebp not found, install using ''brew install libwebp-dev''' + #13;

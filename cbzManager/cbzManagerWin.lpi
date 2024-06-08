@@ -24,7 +24,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="173"/>
+      <BuildNr Value="176"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>
@@ -126,13 +126,13 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <WorkingDirectory Value="C:/Dev/GitHub/cbzManager/cbzManager/Bin-Win"/>
+        <WorkingDirectory Value="C:/Dev/cbzManager/cbzManager/Bin-Win"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <WorkingDirectory Value="C:/Dev/GitHub/cbzManager/cbzManager/Bin-Win"/>
+            <WorkingDirectory Value="C:/Dev/cbzManager/cbzManager/Bin-Win"/>
           </local>
         </Mode0>
       </Modes>
@@ -311,7 +311,7 @@
     </Other>
   </CompilerOptions>
   <Debugging>
-    <Exceptions Count="7">
+    <Exceptions Count="9" IgnoreAll="True">
       <Item1>
         <Name Value="EAbort"/>
       </Item1>
@@ -333,6 +333,12 @@
       <Item7>
         <Name Value="Exception"/>
       </Item7>
+      <Item8>
+        <Name Value="RunError(219)"/>
+      </Item8>
+      <Item9>
+        <Name Value="EInvalidCast"/>
+      </Item9>
     </Exceptions>
   </Debugging>
 </CONFIG>

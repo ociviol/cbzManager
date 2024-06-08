@@ -201,17 +201,20 @@ object CbzViewerFrame: TCbzViewerFrame
         Stretch = True
       end
       object Shape1: TShape
-        Left = 10
+        Left = 16
         Height = 184
-        Top = 0
-        Width = 1
+        Hint = 'Use bottom right corner to resize'
+        Top = 24
+        Width = 85
         Brush.Style = bsClear
+        ParentShowHint = False
         Pen.Color = clRed
         Pen.Mode = pmNot
         Pen.Style = psDashDot
         OnMouseDown = Shape1MouseDown
         OnMouseMove = Shape1MouseMove
         OnMouseUp = Shape1MouseUp
+        ShowHint = True
         Visible = False
       end
     end

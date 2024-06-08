@@ -440,6 +440,7 @@ begin
         nleft := Bounds.right - Shape1.Width;
       if ntop + Shape1.Height > Bounds.Height then
         ntop := Bounds.Height - Shape1.Height;
+      // final check
       Shape1.Left := nleft; //X - xPositionMouseDown + Shape1.Left;
       Shape1.Top  := ntop; //Y - yPositionMouseDown + Shape1.Top;
     end;
@@ -828,18 +829,18 @@ var
   begin
     coefx := image1.Picture.width / Image1.DestRect.Width;
     coefy := image1.Picture.Height / Image1.DestRect.Height;
-    result.Left := Round(r.Left * coefx);
-    result.Top := Round(r.Top * coefy);
-    result.Width := Round(r.Width * coefx);
-    result.Height := Round(r.Height * coefy);
+    result.Left := Round(double(r.Left) * coefx);
+    result.Top := Round(double(r.Top) * coefy);
+    result.Width := Round(double(r.Width) * coefx);
+    result.Height := Round(double(r.Height) * coefy);
   end;
 begin
   Screen.Cursor := crHourGlass;
   try
     b := zf.Image[DrawGrid1.Position];
     r := Rect(shape1.Left - Image1.DestRect.Left, Shape1.Top - Image1.DestRect.Top,
-              (Shape1.Width + Image1.DestRect.Left) - 1,
-              (Shape1.Height + Image1.DestRect.Top) - 1);
+              (shape1.Left - Image1.DestRect.Left) + Shape1.Width,
+              (Shape1.Top - Image1.DestRect.Top) + Shape1.Height);
     r := RealizeRec(r);
     CropBitmap(b, r);
     zf.Image[DrawGrid1.Position] := b;
@@ -870,7 +871,6 @@ begin
   Accept := (Sender = Source) and (aRow <> DrawGrid1.Position) and
     (State <> dsDragEnter); // and (GetKeyState(VK_LBUTTON) and $8000 <> 0);
 end;
-
 
 procedure TCbzViewerFrame.ActionCropToolExecute(Sender: TObject);
 var

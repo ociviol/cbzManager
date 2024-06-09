@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="cbzlibraryosxarm.lpr"/>
@@ -156,8 +156,8 @@
     </Units>
     <OtherDefines Count="3">
       <Define0 Value="arm"/>
-      <Define1 Value="-dUseCThreads"/>
-      <Define2 Value="-dDEBUG"/>
+      <Define1 Value="UseCThreads"/>
+      <Define2 Value="Library"/>
     </OtherDefines>
     <JumpHistory HistoryIndex="29">
       <Position>

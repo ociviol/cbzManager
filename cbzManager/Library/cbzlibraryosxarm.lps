@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="cbzlibraryosxarm.lpr"/>
@@ -35,7 +35,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <TopLine Value="45"/>
         <CursorPos X="33" Y="79"/>
@@ -59,9 +58,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <TopLine Value="184"/>
-        <CursorPos X="21" Y="191"/>
+        <CursorPos X="20" Y="191"/>
         <UsageCount Value="1029"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -154,8 +154,10 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <OtherDefines Count="1">
+    <OtherDefines Count="3">
       <Define0 Value="arm"/>
+      <Define1 Value="-dUseCThreads"/>
+      <Define2 Value="-dDEBUG"/>
     </OtherDefines>
     <JumpHistory HistoryIndex="29">
       <Position>

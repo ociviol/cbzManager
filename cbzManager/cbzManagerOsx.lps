@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="12"/>
     <BuildModes Active="Debug"/>
-    <Units Count="28">
+    <Units Count="29">
       <Unit0>
         <Filename Value="cbzManagerOsx.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -15,9 +15,9 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="1012"/>
-        <CursorPos X="82" Y="1032"/>
+        <CursorPos X="21" Y="1032"/>
         <UsageCount Value="252"/>
         <Bookmarks Count="1">
           <Item0 X="10" Y="998"/>
@@ -40,8 +40,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="531"/>
-        <CursorPos X="54" Y="556"/>
+        <TopLine Value="540"/>
+        <CursorPos X="60" Y="546"/>
         <UsageCount Value="252"/>
         <Bookmarks Count="2">
           <Item0 X="13" Y="455" ID="3"/>
@@ -55,8 +55,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="196"/>
-        <CursorPos X="25" Y="232"/>
+        <TopLine Value="632"/>
+        <CursorPos Y="642"/>
         <UsageCount Value="252"/>
         <Loaded Value="True"/>
       </Unit4>
@@ -67,7 +67,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <TopLine Value="80"/>
-        <CursorPos X="97" Y="129"/>
+        <CursorPos Y="129"/>
         <UsageCount Value="252"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -86,7 +86,7 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="79"/>
         <CursorPos X="25" Y="114"/>
         <UsageCount Value="252"/>
@@ -131,9 +131,9 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="158"/>
-        <CursorPos X="81" Y="162"/>
+        <CursorPos X="21" Y="162"/>
         <UsageCount Value="252"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -153,7 +153,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="151"/>
         <CursorPos X="25" Y="167"/>
         <UsageCount Value="114"/>
@@ -250,7 +250,7 @@
       </Unit24>
       <Unit25>
         <Filename Value="../../Utils/utils.treeview.pas"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="9"/>
         <CursorPos X="58" Y="26"/>
         <UsageCount Value="12"/>
@@ -271,11 +271,20 @@
         <CursorPos X="49" Y="327"/>
         <UsageCount Value="11"/>
       </Unit27>
+      <Unit28>
+        <Filename Value="../../../fpcupdeluxe/lazarus/components/lazutils/laz2_xmlread.pas"/>
+        <UnitName Value="Laz2_XMLRead"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="1040"/>
+        <CursorPos X="15" Y="1062"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit28>
     </Units>
     <Debugger>
       <Backend Value="{29EFC2CC-1BE8-461C-0E62-D597E20B78F9}"/>
     </Debugger>
-    <JumpHistory Count="16" HistoryIndex="15">
+    <JumpHistory Count="22" HistoryIndex="21">
       <Position1>
         <Filename Value="main.pas"/>
         <Caret Line="243" TopLine="220"/>
@@ -340,6 +349,30 @@
         <Filename Value="webp.pas"/>
         <Caret Line="644" Column="5" TopLine="623"/>
       </Position16>
+      <Position17>
+        <Filename Value="webp.pas"/>
+        <Caret Line="232" Column="8" TopLine="196"/>
+      </Position17>
+      <Position18>
+        <Filename Value="main.pas"/>
+        <Caret Line="546" Column="60" TopLine="540"/>
+      </Position18>
+      <Position19>
+        <Filename Value="webp.pas"/>
+        <Caret Line="646" TopLine="632"/>
+      </Position19>
+      <Position20>
+        <Filename Value="webp.pas"/>
+        <Caret Line="642" TopLine="632"/>
+      </Position20>
+      <Position21>
+        <Filename Value="webp.pas"/>
+        <Caret Line="646" TopLine="632"/>
+      </Position21>
+      <Position22>
+        <Filename Value="webp.pas"/>
+        <Caret Line="647" TopLine="632"/>
+      </Position22>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

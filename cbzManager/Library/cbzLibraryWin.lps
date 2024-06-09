@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="cbzLibraryWin.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="71" Y="20"/>
+        <CursorPos X="6" Y="20"/>
         <UsageCount Value="33"/>
         <Loaded Value="True"/>
       </Unit>
@@ -42,7 +42,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="99"/>
-        <CursorPos X="43" Y="114"/>
+        <CursorPos X="33" Y="114"/>
         <UsageCount Value="32"/>
         <Bookmarks Count="3">
           <Item0 Y="277" ID="1"/>
@@ -164,7 +164,7 @@
         <UnitName Value="uCbz"/>
         <EditorIndex Value="7"/>
         <TopLine Value="20"/>
-        <CursorPos X="15" Y="39"/>
+        <CursorPos X="9" Y="39"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit>
@@ -277,7 +277,7 @@
         <UnitName Value="SQLite3DS"/>
         <EditorIndex Value="5"/>
         <TopLine Value="154"/>
-        <CursorPos X="62" Y="184"/>
+        <CursorPos X="11" Y="184"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
@@ -291,8 +291,9 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <OtherDefines Count="1">
+    <OtherDefines Count="2">
       <Define0 Value="Library"/>
+      <Define1 Value="dUseCThreads"/>
     </OtherDefines>
     <JumpHistory HistoryIndex="29">
       <Position>

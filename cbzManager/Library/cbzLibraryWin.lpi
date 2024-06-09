@@ -20,7 +20,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="24"/>
+      <BuildNr Value="25"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="Comic books libray" InternalName="cbzLibrary" LegalCopyright="Ollivier Civiol" OriginalFilename="cbzLibrary" ProductName="cbzLibrary"/>
     </VersionInfo>
     <BuildModes>
@@ -66,9 +66,11 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dLibrary"/>
-            <OtherDefines Count="1">
+            <CustomOptions Value="-dLibrary
+-ddUseCThreads"/>
+            <OtherDefines Count="2">
               <Define0 Value="Library"/>
+              <Define1 Value="dUseCThreads"/>
             </OtherDefines>
           </Other>
         </CompilerOptions>
@@ -103,6 +105,14 @@
               </Win32>
             </Options>
           </Linking>
+          <Other>
+            <CustomOptions Value="-ddUseCThreads
+-dLibrary"/>
+            <OtherDefines Count="2">
+              <Define0 Value="dUseCThreads"/>
+              <Define1 Value="Library"/>
+            </OtherDefines>
+          </Other>
         </CompilerOptions>
       </Item>
     </BuildModes>

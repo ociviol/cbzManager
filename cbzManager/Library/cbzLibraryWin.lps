@@ -291,9 +291,10 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <OtherDefines Count="2">
+    <OtherDefines Count="3">
       <Define0 Value="Library"/>
-      <Define1 Value="dUseCThreads"/>
+      <Define1 Value="UseCThreads"/>
+      <Define2 Value="DEBUG"/>
     </OtherDefines>
     <JumpHistory HistoryIndex="29">
       <Position>

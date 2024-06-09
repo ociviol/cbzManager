@@ -67,10 +67,12 @@
           </Linking>
           <Other>
             <CustomOptions Value="-dLibrary
--ddUseCThreads"/>
-            <OtherDefines Count="2">
+-dUseCThreads
+-dDEBUG"/>
+            <OtherDefines Count="3">
               <Define0 Value="Library"/>
-              <Define1 Value="dUseCThreads"/>
+              <Define1 Value="UseCThreads"/>
+              <Define2 Value="DEBUG"/>
             </OtherDefines>
           </Other>
         </CompilerOptions>
@@ -106,11 +108,11 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-ddUseCThreads
--dLibrary"/>
+            <CustomOptions Value="-dLibrary
+-dUseCThreads"/>
             <OtherDefines Count="2">
-              <Define0 Value="dUseCThreads"/>
-              <Define1 Value="Library"/>
+              <Define0 Value="Library"/>
+              <Define1 Value="UseCThreads"/>
             </OtherDefines>
           </Other>
         </CompilerOptions>

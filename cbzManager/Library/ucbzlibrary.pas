@@ -24,6 +24,7 @@ type
   { TcbzLibrary }
 
   TcbzLibrary = class(TForm)
+    ActionMarkAsUnread: TAction;
     ActionSyncYacreader: TAction;
     ActionRename: TAction;
     ActionPaste: TAction;
@@ -31,7 +32,7 @@ type
     ActionCreateFolder: TAction;
     ActionDelete: TAction;
     ActionCopyToMngr: TAction;
-    ActionReadStatus: TAction;
+    ActionMarkasRead: TAction;
     ActionList1: TActionList;
     btnScrub: TButton;
     btnReturn: TSpeedButton;
@@ -48,6 +49,7 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
+    mnuMarkasUnread: TMenuItem;
     mnuImportYacReader: TMenuItem;
     OpenDialog1: TOpenDialog;
     Separator1: TMenuItem;
@@ -58,7 +60,7 @@ type
     mnuDelete: TMenuItem;
     mnuMoveTocbzManager: TMenuItem;
     N1: TMenuItem;
-    mnuReadStatus: TMenuItem;
+    mnuMarkasRead: TMenuItem;
     N2: TMenuItem;
     Panel2: TPanel;
     Panel3: TPanel;
@@ -68,8 +70,9 @@ type
     StatusBar1: TStatusBar;
     procedure ActionCutExecute(Sender: TObject);
     procedure ActionDeleteExecute(Sender: TObject);
+    procedure ActionMarkAsUnreadExecute(Sender: TObject);
     procedure ActionPasteExecute(Sender: TObject);
-    procedure ActionReadStatusExecute(Sender: TObject);
+    procedure ActionMarkasReadExecute(Sender: TObject);
     procedure ActionRenameExecute(Sender: TObject);
     procedure ActionSyncYacreaderExecute(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
@@ -151,7 +154,7 @@ type
     procedure ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);
     function SelectedStr : String;
     function SelectedObj : TFileItem;
-
+    procedure ChangeReadState(aReadState : boolean);
     property CurrentPath : String read FCurrentPath write SetCurrentPath;
   public
     constructor Create(aOwner : TComponent); override;
@@ -613,14 +616,7 @@ procedure TcbzLibrary.dgLibraryMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   if Button = mbRight then
-  begin
-    if Assigned(SelectedObj) then
-      mnuReadStatus.Caption :=
-              ifThen(SelectedObj.ReadState,
-                     'Mark as Unread', 'Mark as Read');
-
     PopupMenu1.PopUp(dgLibrary.ClientOrigin.x + X, dgLibrary.ClientOrigin.y + Y);
-  end;
 end;
 
 procedure TcbzLibrary.PopupMenu1Popup(Sender: TObject);
@@ -643,7 +639,8 @@ begin
   ActionCut.enabled := FileExists(SelectedStr) and not Assigned(FFileToCopy);
   ActionDelete.enabled := FileExists(SelectedStr) or DirectoryExists(SelectedStr);
   ActionPaste.enabled := Assigned(FFileToCopy);
-  ActionReadStatus.enabled := Assigned(SelectedObj);
+  ActionMarkasRead.enabled := Assigned(SelectedObj);
+  ActionMarkasUnread.enabled := Assigned(SelectedObj);
   ActionRename.Enabled:= DirectoryExists(SelectedStr) or FileExists(SelectedStr);
 end;
 
@@ -776,19 +773,29 @@ begin
   ;
 end;
 
-procedure TcbzLibrary.ActionReadStatusExecute(Sender: TObject);
+procedure TcbzLibrary.ActionMarkAsUnreadExecute(Sender: TObject);
+begin
+  ChangeReadState(false);
+end;
+
+procedure TcbzLibrary.ActionMarkasReadExecute(Sender: TObject);
+begin
+  ChangeReadState(true);
+end;
+
+procedure TcbzLibrary.ChangeReadState(aReadState: boolean);
 var
   i : integer;
 begin
   if FileExists(SelectedStr) then
     with TFileItem(SelectedObj) do
-      ReadState := not ReadState
+      ReadState := aReadState
   else
   for i := 0 to FFileList.Count - 1 do
     if FFileList[i].StartsWith(SelectedStr) then
       if FileExists(FFileList[i]) then
          with TFileItem(FFileList.Objects[i]) do
-           ReadState := not ReadState;
+           ReadState := aReadState;
 
   if not cbHideRead.Checked then
   begin
@@ -797,6 +804,7 @@ begin
   end
   else
     FillGrid;
+
   FFileList.SaveToFile(GetCacheFileName);
 end;
 
@@ -1460,7 +1468,6 @@ begin
   p := (dgLibrary.ColCount * dgLibrary.row) + dgLibrary.col;
   result := TFileItem(FVisibleList.Objects[p]);
 end;
-
 
 end.
 

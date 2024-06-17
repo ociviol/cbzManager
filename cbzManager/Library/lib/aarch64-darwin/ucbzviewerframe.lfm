@@ -8,8 +8,8 @@ object CbzViewerFrame: TCbzViewerFrame
   ClientWidth = 783
   ParentFont = False
   TabOrder = 0
-  DesignLeft = 853
-  DesignTop = 214
+  DesignLeft = 819
+  DesignTop = 205
   object Panel1: TPanel
     Left = 0
     Height = 687

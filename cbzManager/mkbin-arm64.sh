@@ -7,15 +7,19 @@ cd ~/Dev/cbzManager/cbzManager/Library
 status=$?
 if test $status -eq 0 
 then
-	cp -r ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/ 
-	cp -r ~/Dev/cbzManager/cbzManager/cbzManagerOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/ 
+#	cp -r ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/ 
+#	cp -r ~/Dev/cbzManager/cbzManager/cbzManagerOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/ 
 
 	rm ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx 
 	cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzManagerOsx.app/Contents/MacOS/
+	rm /Applications/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx
+	cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx /Applications/cbzManagerOsx.app/Contents/MacOS/
 
 	rm ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzLibraryOsx.app/Contents/MacOS/cbzLibraryOsx 
 	cp ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzLibraryOsx.app/Contents/MacOS/
-
+	rm /Applications/cbzLibraryOsx.app/Contents/MacOS/cbzLibraryOsx
+    cp ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx /Applications/cbzLibraryOsx.app/Contents/MacOS/
+	
 	cd ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/
 	rm cbzManagerOsx-arm64.zip
 	zip -r cbzManagerOsx-arm64.zip cp -r cbzManagerOsx.app cbzLibraryOsx.app

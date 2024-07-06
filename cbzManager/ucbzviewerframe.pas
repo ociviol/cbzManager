@@ -415,10 +415,11 @@ end;
 procedure TCbzViewerFrame.Shape1MouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 var
-  nleft, ntop : integer;
+  nleft, ntop, nWidth, nHeight : integer;
   Bounds : TRect;
 begin
-  //Form1.Caption:=IntToStr(X)+'|'+IntToStr(Y);
+  // get image bounds
+  Bounds := Image1.DestRect;
 
   if (MouseIsDragging) and not(MouseIsDraggingCorner) then
   begin
@@ -426,8 +427,6 @@ begin
     begin
       nleft := X - xPositionMouseDown + Shape1.Left;
       ntop  := Y - yPositionMouseDown + Shape1.Top;
-      // get image bounds
-      Bounds := Image1.DestRect;
       //Bounds.Height := Bounds.Height + Panel3.Height;
       //Bounds.Top := Bounds.Top + Panel3.Height;
       // check top left bounds
@@ -458,8 +457,23 @@ begin
   begin
     with Sender as TControl do
     begin
-      Shape1.Height  := Y;
-      Shape1.Width  := X;
+      if X > Bounds.Right - Bounds.Left - (Shape1.Left - Bounds.left)  then
+        nWidth  := Bounds.Right - Bounds.Left - (Shape1.Left - Bounds.left)
+      else
+        nWidth  := X;
+
+      if Y > Bounds.Bottom - Bounds.Top - (Shape1.Top - Bounds.Top)  then
+        nHeight  := Bounds.Bottom - Bounds.Top - (Shape1.Top - Bounds.Top)
+      else
+        nHeight  := Y;
+
+      if nWidth < 10 then
+        nWidth := 10;
+      if nHeight < 10 then
+        nHeight := 10;
+
+      Shape1.Width := nWidth;
+      Shape1.Height := nHeight;
     end;
   end;
 

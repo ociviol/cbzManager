@@ -4,7 +4,7 @@ object CbzLibrary: TCbzLibrary
   Top = 148
   Width = 1022
   Caption = 'Library'
-  ClientHeight = 541
+  ClientHeight = 566
   ClientWidth = 1022
   Menu = MainMenu1
   OnClose = FormClose
@@ -12,10 +12,10 @@ object CbzLibrary: TCbzLibrary
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.2.0.0'
   object dgLibrary: TDrawGrid
     Left = 50
-    Height = 466
+    Height = 492
     Top = 46
     Width = 962
     Align = alClient
@@ -44,8 +44,8 @@ object CbzLibrary: TCbzLibrary
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 19
-    Top = 522
+    Height = 18
+    Top = 548
     Width = 1022
     Panels = <    
       item
@@ -80,9 +80,9 @@ object CbzLibrary: TCbzLibrary
       Width = 75
       Align = alRight
       Caption = 'Refresh'
-      OnClick = btnRefreshClick
       ParentFont = False
       TabOrder = 0
+      OnClick = btnRefreshClick
     end
     object btnReturn: TSpeedButton
       Left = 2
@@ -109,7 +109,7 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object Panel2: TPanel
-      Left = 480
+      Left = 490
       Height = 22
       Top = 2
       Width = 274
@@ -130,16 +130,16 @@ object CbzLibrary: TCbzLibrary
         AutoDropDown = True
         DropDownCount = 20
         Enabled = False
-        ItemHeight = 0
-        OnChange = cbSearchChange
-        OnCloseUp = cbSearchCloseUp
+        ItemHeight = 19
         ParentFont = False
         Sorted = True
         TabOrder = 0
+        OnChange = cbSearchChange
+        OnCloseUp = cbSearchCloseUp
       end
     end
     object Panel3: TPanel
-      Left = 310
+      Left = 320
       Height = 22
       Top = 2
       Width = 170
@@ -156,11 +156,11 @@ object CbzLibrary: TCbzLibrary
         Width = 168
         Align = alClient
         Enabled = False
-        ItemHeight = 0
-        OnChange = cbVisibleDatesChange
+        ItemHeight = 26
         ParentFont = False
         Style = csDropDownList
         TabOrder = 0
+        OnChange = cbVisibleDatesChange
       end
     end
     object btnTopPath: TSpeedButton
@@ -188,16 +188,16 @@ object CbzLibrary: TCbzLibrary
       ParentFont = False
     end
     object cbHideRead: TCheckBox
-      Left = 754
+      Left = 764
       Height = 22
       Top = 2
-      Width = 91
+      Width = 81
       Align = alRight
       BorderSpacing.Right = 5
       Caption = 'Hide read'
-      OnClick = cbHideReadClick
       ParentFont = False
       TabOrder = 3
+      OnClick = cbHideReadClick
     end
     object btnTest: TButton
       Left = 48
@@ -206,17 +206,17 @@ object CbzLibrary: TCbzLibrary
       Width = 75
       Align = alLeft
       Caption = 'Test'
-      OnClick = btnTestClick
       ParentFont = False
       TabOrder = 4
+      OnClick = btnTestClick
     end
     object cbReadingList: TComboBox
       Left = 123
-      Height = 22
+      Height = 20
       Top = 2
-      Width = 187
+      Width = 197
       Align = alClient
-      ItemHeight = 0
+      ItemHeight = 26
       ParentFont = False
       Style = csDropDownList
       TabOrder = 5
@@ -228,14 +228,14 @@ object CbzLibrary: TCbzLibrary
       Width = 75
       Align = alRight
       Caption = 'Sync'
-      OnClick = btnScrubClick
       ParentFont = False
       TabOrder = 6
+      OnClick = btnScrubClick
     end
   end
   object pnlbtns: TPanel
     Left = 10
-    Height = 466
+    Height = 492
     Top = 46
     Width = 30
     Align = alLeft
@@ -247,8 +247,11 @@ object CbzLibrary: TCbzLibrary
     OnPopup = PopupMenu1Popup
     Left = 265
     Top = 145
-    object mnuReadStatus: TMenuItem
-      Action = ActionReadStatus
+    object mnuMarkasRead: TMenuItem
+      Action = ActionMarkasRead
+    end
+    object mnuMarkasUnread: TMenuItem
+      Action = ActionMarkAsUnread
     end
     object N1: TMenuItem
       Caption = '-'
@@ -278,9 +281,9 @@ object CbzLibrary: TCbzLibrary
   object ActionList1: TActionList
     Left = 144
     Top = 112
-    object ActionReadStatus: TAction
-      Caption = 'Read Status'
-      OnExecute = ActionReadStatusExecute
+    object ActionMarkasRead: TAction
+      Caption = 'Mark as Read'
+      OnExecute = ActionMarkasReadExecute
     end
     object ActionCopyToMngr: TAction
       Caption = 'Copy To CbzMngr'
@@ -307,6 +310,10 @@ object CbzLibrary: TCbzLibrary
     object ActionSyncYacreader: TAction
       Caption = 'Get read state from YacreaderLibrary'
       OnExecute = ActionSyncYacreaderExecute
+    end
+    object ActionMarkAsUnread: TAction
+      Caption = 'Mark as Unread'
+      OnExecute = ActionMarkAsUnreadExecute
     end
   end
   object MainMenu1: TMainMenu

@@ -1442,8 +1442,12 @@ begin
   Progress(Self, 0, 0, 0, 'Ready.');
 
   if Assigned(FThreadScrub) then
+  begin
     if FThreadScrub.Paused then
-      FThreadScrub.Paused := False
+      FThreadScrub.Paused := False;
+  end
+  else
+    btnScrub.Click;
 end;
 
 procedure TcbzLibrary.ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);

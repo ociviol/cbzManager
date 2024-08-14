@@ -85,7 +85,7 @@ type
     FMode : TZipMode;
     FFileNameFormat : String;
     Flog : ILog;
-    FStampThread : Array[0..0] of TStampThread;
+    FStampThread : TStampThread;
     FInUndo : Boolean;
     FUndoList : TFPObjectList;
     FWebpQualityFactor : Integer;
@@ -393,7 +393,7 @@ begin
   if FFilename <> FileName then
     FUndoList.Clear;
 
-  if Assigned(FStampThread[0]) then
+  if Assigned(FStampThread) then
     StopStampThread;
 
   ClearCache;
@@ -1414,41 +1414,36 @@ end;
 
 procedure TCbz.StampThreadTerminate(Sender : TObject);
 begin
-  FStampThread[0] := nil;
+  FStampThread := nil;
 end;
 
 procedure TCbz.StartStampThread;
 var
   PID : Qword;
-  i : integer;
 begin
   PId := GetTickCount64;
-  for i := low(FStampThread) to High(FStampThread) do
+
+  if (FStampWidth > 0) and (FStampHeight > 0) then
   begin
-    if (FStampWidth > 0) and (FStampHeight > 0) then
-    begin
-      FStampThread[i] := TStampThread.Create(self, FStampSync, Pid, FNotify, @StampThreadTerminate);
-      FLog.Log(Format('%s Starting thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread[i].ThreadID))]));
-    end
-    else
-      FStampThread[i] := nil;
-  end;
+    FStampThread := TStampThread.Create(self, FStampSync, Pid, FNotify, @StampThreadTerminate);
+    FLog.Log(Format('%s Starting thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread.ThreadID))]));
+  end
+  else
+    FStampThread := nil;
 end;
 
 procedure TCbz.StopStampThread;
 var
   z : QWord;
-  i : integer;
 begin
-  for i := low(FStampThread) to High(FStampThread) do
-    if Assigned(FStampThread[i]) then
-    begin
-      FLog.Log(Format('%s Stopping thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread[i].ThreadID))]));
-      z := FStampThread[i].ProgressID;
-      FStampThread[i].StopThread;
-      if Assigned(FNotify) then
-        FNotify(z, -1);
-    end;
+  if Assigned(FStampThread) then
+  begin
+    FLog.Log(Format('%s Stopping thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread.ThreadID))]));
+    z := FStampThread.ProgressID;
+    FStampThread.StopThread;
+    if Assigned(FNotify) then
+      FNotify(z, -1);
+  end;
 end;
 
 function TCbz.GenerateStamp(Index: Integer): Tbitmap;
@@ -1931,14 +1926,7 @@ end;
 procedure TStampThread.StopThread;
 begin
   if not Terminated then
-  begin
     Terminate;
-    if Suspended then
-      Resume;
-    //while not Terminated do
-    //  Sleep(250);
-    //WaitFor;
-  end;
 end;
 
 procedure TStampThread.DoProgress;
@@ -2005,10 +1993,7 @@ begin
           if Terminated then
             break;
         end;
-      end
-      else
-        if not Terminated then
-          Suspend;
+      end;
     end;
 
     if Assigned(FNotify) then

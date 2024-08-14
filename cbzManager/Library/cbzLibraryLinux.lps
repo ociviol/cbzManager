@@ -46,28 +46,8 @@
         <CursorPos X="-1" Y="-1"/>
         <UsageCount Value="20"/>
       </Unit>
-      <Unit>
-        <Filename Value="unit1.pas"/>
-        <ComponentName Value="Form1"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Unit1"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="20"/>
-      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="2">
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="cbzLibraryLinux.lpr"/>
-        <Caret Line="17" Column="28"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-      </Position>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

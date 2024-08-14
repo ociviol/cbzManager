@@ -26,7 +26,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="61"/>
+      <BuildNr Value="62"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="cbzManager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManagerOsX" ProductName="cbzManager"/>
     </VersionInfo>
@@ -251,29 +251,4 @@
       <CustomOptions Value="-dUseCThreads"/>
     </Other>
   </CompilerOptions>
-  <Debugging>
-    <Exceptions Count="7">
-      <Item1>
-        <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
-        <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
-        <Name Value="EFOpenError"/>
-      </Item3>
-      <Item4>
-        <Name Value="TCRCErrorException"/>
-      </Item4>
-      <Item5>
-        <Name Value="TCBzErrorFileException"/>
-      </Item5>
-      <Item6>
-        <Name Value="ESocketError"/>
-      </Item6>
-      <Item7>
-        <Name Value="EInOutError"/>
-      </Item7>
-    </Exceptions>
-  </Debugging>
 </CONFIG>

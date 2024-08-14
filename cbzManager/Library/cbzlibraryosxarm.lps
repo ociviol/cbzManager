@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="cbzlibraryosxarm.lpr"/>
@@ -35,9 +35,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="45"/>
-        <CursorPos X="33" Y="79"/>
+        <TopLine Value="38"/>
+        <CursorPos Y="45"/>
         <UsageCount Value="1029"/>
         <Loaded Value="True"/>
       </Unit>
@@ -94,10 +95,9 @@
       <Unit>
         <Filename Value="../../../Utils/utils.searchfiles.pas"/>
         <UnitName Value="Utils.Searchfiles"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
         <TopLine Value="258"/>
-        <CursorPos X="35" Y="263"/>
+        <CursorPos X="6" Y="263"/>
         <UsageCount Value="515"/>
         <Loaded Value="True"/>
       </Unit>
@@ -152,12 +152,13 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <OtherDefines Count="3">
+    <OtherDefines Count="4">
       <Define0 Value="arm"/>
       <Define1 Value="UseCThreads"/>
-      <Define2 Value="Library"/>
+      <Define2 Value="DEBUG"/>
+      <Define3 Value="Library"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="669" Column="13" TopLine="649"/>
@@ -265,10 +266,6 @@
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="464" Column="32" TopLine="429"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../Utils/utils.searchfiles.pas"/>
-        <Caret Line="44" Column="39" TopLine="164"/>
       </Position>
       <Position>
         <Filename Value="../../../Utils/utils.searchfiles.pas"/>

@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units Count="29">
       <Unit0>
         <Filename Value="cbzmanagerosxarm.lpr"/>
@@ -285,10 +285,9 @@
     <Debugger>
       <Backend Value="{29EFC2CC-1BE8-461C-0E62-D597E20B78F9}"/>
     </Debugger>
-    <OtherDefines Count="3">
+    <OtherDefines Count="2">
       <Define0 Value="UseCThreads"/>
-      <Define1 Value="DEBUG"/>
-      <Define2 Value="arm"/>
+      <Define1 Value="arm"/>
     </OtherDefines>
     <JumpHistory Count="29" HistoryIndex="28">
       <Position1>

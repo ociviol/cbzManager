@@ -26,7 +26,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="59"/>
+      <BuildNr Value="60"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="cbzManager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManagerOsX" ProductName="cbzManager"/>
     </VersionInfo>
@@ -39,7 +39,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="cbzmanagerosxarm"/>
+            <Filename Value="cbzManagerOsx"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -91,7 +91,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="cbzmanagerosx"/>
+            <Filename Value="cbzManagerOsx"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>

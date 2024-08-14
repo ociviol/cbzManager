@@ -7,18 +7,23 @@ cd ~/Dev/cbzManager/cbzManager/Library
 status=$?
 if test $status -eq 0 
 then
-#	cp -r ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/ 
-#	cp -r ~/Dev/cbzManager/cbzManager/cbzManagerOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/ 
+	#remove local binary from app
+	rm -Rf ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx.app/Contents/MacOS/cbzLibraryOsx 
+	cp ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx.app/Contents/MacOS/
+	rm -Rf ~/Dev/cbzManager/cbzManager/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx 
+	cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx ~/Dev/cbzManager/cbzManager/cbzManagerOsx.app/Contents/MacOS/
+	
+	#replace dest apps	
+	rm -Rf ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzLibraryOsx.app
+	cp -r ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/ 
+	rm -Rf ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzManagerOsx.app
+	cp -r ~/Dev/cbzManager/cbzManager/cbzManagerOsx.app ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/ 
 
-	rm ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx 
-	cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzManagerOsx.app/Contents/MacOS/
-	rm /Applications/cbzManagerOsx.app/Contents/MacOS/cbzManagerOsx
-	cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx /Applications/cbzManagerOsx.app/Contents/MacOS/
-
-	rm ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzLibraryOsx.app/Contents/MacOS/cbzLibraryOsx 
-	cp ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzLibraryOsx.app/Contents/MacOS/
-	rm /Applications/cbzLibraryOsx.app/Contents/MacOS/cbzLibraryOsx
-    cp ~/Dev/cbzManager/cbzManager/Library/cbzLibraryOsx /Applications/cbzLibraryOsx.app/Contents/MacOS/
+    #replace local apps
+	rm -Rf /Applications/cbzManagerOsx.app 
+	rm -Rf /Applications/cbzLibraryOsx.app
+	cp -r ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzManagerOsx.app /Applications/ 
+	cp -r ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/cbzLibraryOsx.app /Applications/
 	
 	cd ~/Dev/cbzManager/precompiled\ binairies/Mac\ OsX/arm64/
 	rm cbzManagerOsx-arm64.zip

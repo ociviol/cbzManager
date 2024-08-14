@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="cbzlibraryOsXx64.lpr"/>
@@ -19,7 +19,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="430"/>
         <CursorPos X="32" Y="436"/>
         <UsageCount Value="1030"/>
@@ -33,11 +32,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="35"/>
-        <CursorPos Y="68"/>
+        <CursorPos X="5" Y="49"/>
         <UsageCount Value="1029"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uconfig.pas"/>
@@ -146,7 +147,7 @@
         <UnitName Value="Utils.Logger"/>
         <EditorIndex Value="1"/>
         <TopLine Value="468"/>
-        <CursorPos X="38" Y="478"/>
+        <CursorPos X="20" Y="478"/>
         <UsageCount Value="11"/>
         <Bookmarks Count="1">
           <Item0 X="23" Y="484" ID="1"/>

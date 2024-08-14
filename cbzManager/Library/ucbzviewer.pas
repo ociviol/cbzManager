@@ -44,8 +44,8 @@ begin
     FItem := aItem;
     Caption := ExtractFilename(aItem.Filename);
     CbzViewerFrame := TCbzViewerFrame.Create(f, aConfig, aLog);
-    CbzViewerFrame.Align:=alClient;
     CbzViewerFrame.Parent := f;
+    CbzViewerFrame.Align:=alClient;
     ActiveControl := CbzViewerFrame.DrawGrid1;
     CbzViewerFrame.Filename:=aItem.Filename;
     Show;

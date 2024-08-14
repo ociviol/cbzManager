@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="cbzlibraryosxarm.lpr"/>
@@ -41,6 +41,7 @@
         <CursorPos Y="45"/>
         <UsageCount Value="1029"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uconfig.pas"/>
@@ -152,11 +153,10 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <OtherDefines Count="4">
+    <OtherDefines Count="3">
       <Define0 Value="arm"/>
       <Define1 Value="UseCThreads"/>
-      <Define2 Value="DEBUG"/>
-      <Define3 Value="Library"/>
+      <Define2 Value="Library"/>
     </OtherDefines>
     <JumpHistory HistoryIndex="28">
       <Position>

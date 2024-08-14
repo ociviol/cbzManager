@@ -96,6 +96,7 @@ type
     function GetStamp(Index: Integer): TBitmap;
     function GetStampCount: Integer;
     procedure SetImage(Index: QWord; AValue: TBitmap);
+    procedure StampThreadTerminate(Sender : TObject);
     procedure StartStampThread;
     procedure StopStampThread;
     procedure ClearCache;
@@ -189,7 +190,7 @@ type
     function GetCount:Integer;
     procedure DoProgress;
   public
-    constructor Create(aCbz : TCBZ; aStampSync : TThreadList; aProgressID : QWord; aNotify : TStampReadyEvent); reintroduce;
+    constructor Create(aCbz : TCBZ; aStampSync : TThreadList; aProgressID : QWord; aNotify : TStampReadyEvent;aOnTerminate : TNotifyEvent); reintroduce;
     procedure StopThread;
     procedure Execute; override;
     property ProgressID : QWord read FProgressID;
@@ -1411,6 +1412,10 @@ begin
   end;
 end;
 
+procedure TCbz.StampThreadTerminate(Sender : TObject);
+begin
+  FStampThread[0] := nil;
+end;
 
 procedure TCbz.StartStampThread;
 var
@@ -1422,7 +1427,7 @@ begin
   begin
     if (FStampWidth > 0) and (FStampHeight > 0) then
     begin
-      FStampThread[i] := TStampThread.Create(self, FStampSync, Pid, FNotify);
+      FStampThread[i] := TStampThread.Create(self, FStampSync, Pid, FNotify, @StampThreadTerminate);
       FLog.Log(Format('%s Starting thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread[i].ThreadID))]));
     end
     else
@@ -1443,9 +1448,6 @@ begin
       FStampThread[i].StopThread;
       if Assigned(FNotify) then
         FNotify(z, -1);
-      //FreeANdNil(FStampThread[i]);
-      FStampThread[i].Free;
-      FStampThread[i] := nil;
     end;
 end;
 
@@ -1887,13 +1889,14 @@ end;
 
 constructor TStampThread.Create(aCbz: TCBZ; aStampSync: TThreadList;
                                 aProgressID : QWord;
-                                aNotify: TStampReadyEvent);
+                                aNotify: TStampReadyEvent;aOnTerminate : TNotifyEvent);
 begin
   FCbz := aCbz;
   FNotify := aNotify;
   FProgressID := aProgressID;
   FStampSync := aStampSync;
-//  FreeOnTerminate := True;
+  FreeOnTerminate := True;
+  OnTerminate := aOnTerminate;
   inherited Create(False);
 end;
 

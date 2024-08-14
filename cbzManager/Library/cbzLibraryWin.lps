@@ -162,11 +162,11 @@
         <UnitName Value="uCbz"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="1401"/>
-        <CursorPos Y="1417"/>
+        <TopLine Value="1980"/>
+        <CursorPos X="10" Y="1996"/>
         <UsageCount Value="14"/>
         <Bookmarks Count="1">
-          <Item0 Y="1448" ID="1"/>
+          <Item0 Y="1443" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -305,42 +305,6 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="..\ucbz.pas"/>
-        <Caret Line="1456" TopLine="1440"/>
-      </Position>
-      <Position>
-        <Filename Value="..\ucbz.pas"/>
-        <Caret Line="1457" TopLine="1440"/>
-      </Position>
-      <Position>
-        <Filename Value="..\ucbz.pas"/>
-        <Caret Line="1459" TopLine="1440"/>
-      </Position>
-      <Position>
-        <Filename Value="..\ucbz.pas"/>
-        <Caret Line="1450" TopLine="1440"/>
-      </Position>
-      <Position>
-        <Filename Value="..\ucbz.pas"/>
-        <Caret Line="1419" TopLine="1403"/>
-      </Position>
-      <Position>
-        <Filename Value="..\ucbz.pas"/>
-        <Caret Line="1420" TopLine="1403"/>
-      </Position>
-      <Position>
-        <Filename Value="..\ucbz.pas"/>
-        <Caret Line="1419" TopLine="1403"/>
-      </Position>
-      <Position>
-        <Filename Value="..\ucbz.pas"/>
-        <Caret Line="1425" TopLine="1403"/>
-      </Position>
-      <Position>
-        <Filename Value="..\ucbz.pas"/>
-        <Caret Line="1457" Column="24" TopLine="1433"/>
-      </Position>
-      <Position>
-        <Filename Value="..\ucbz.pas"/>
         <Caret Line="1437" TopLine="1432"/>
       </Position>
       <Position>
@@ -423,6 +387,42 @@
         <Filename Value="..\ucbz.pas"/>
         <Caret Line="1933" TopLine="1917"/>
       </Position>
+      <Position>
+        <Filename Value="..\ucbz.pas"/>
+        <Caret Line="1417" Column="12" TopLine="1401"/>
+      </Position>
+      <Position>
+        <Filename Value="..\ucbz.pas"/>
+        <Caret Line="88" Column="20" TopLine="72"/>
+      </Position>
+      <Position>
+        <Filename Value="..\ucbz.pas"/>
+        <Caret Line="396" Column="27" TopLine="380"/>
+      </Position>
+      <Position>
+        <Filename Value="..\ucbz.pas"/>
+        <Caret Line="1440" Column="27" TopLine="1429"/>
+      </Position>
+      <Position>
+        <Filename Value="..\ucbz.pas"/>
+        <Caret Line="1429" Column="98" TopLine="1412"/>
+      </Position>
+      <Position>
+        <Filename Value="..\ucbz.pas"/>
+        <Caret Line="1442" Column="98" TopLine="1418"/>
+      </Position>
+      <Position>
+        <Filename Value="..\ucbz.pas"/>
+        <Caret Line="1444" Column="17" TopLine="1418"/>
+      </Position>
+      <Position>
+        <Filename Value="..\ucbz.pas"/>
+        <Caret Line="1527" Column="37" TopLine="1517"/>
+      </Position>
+      <Position>
+        <Filename Value="..\ucbz.pas"/>
+        <Caret Line="1929" Column="13" TopLine="1912"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -450,14 +450,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="..\ucbz.pas"/>
-        <Line Value="1933"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="..\ucbz.pas"/>
-        <Line Value="2011"/>
+        <Line Value="1928"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
@@ -471,21 +464,14 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="..\ucbz.pas"/>
-        <Line Value="2021"/>
+        <Line Value="1428"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="..\ucbz.pas"/>
-        <Line Value="1430"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="..\ucbz.pas"/>
-        <Line Value="1446"/>
+        <Line Value="1441"/>
       </Item>
       <Item>
         <Kind Value="bpkSource"/>

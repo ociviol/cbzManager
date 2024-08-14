@@ -24,7 +24,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="179"/>
+      <BuildNr Value="180"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>
@@ -310,35 +310,4 @@
       <CustomOptions Value="-dUseCThreads -dDEBUG"/>
     </Other>
   </CompilerOptions>
-  <Debugging>
-    <Exceptions Count="9" IgnoreAll="True">
-      <Item1>
-        <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
-        <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
-        <Name Value="EFOpenError"/>
-      </Item3>
-      <Item4>
-        <Name Value="TCRCErrorException"/>
-      </Item4>
-      <Item5>
-        <Name Value="EProcess"/>
-      </Item5>
-      <Item6>
-        <Name Value="FPImageException"/>
-      </Item6>
-      <Item7>
-        <Name Value="Exception"/>
-      </Item7>
-      <Item8>
-        <Name Value="RunError(219)"/>
-      </Item8>
-      <Item9>
-        <Name Value="EInvalidCast"/>
-      </Item9>
-    </Exceptions>
-  </Debugging>
 </CONFIG>

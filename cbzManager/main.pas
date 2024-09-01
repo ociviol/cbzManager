@@ -1402,6 +1402,7 @@ begin
       r.Free;
       FProgress.Delete(index);
     end;
+    Refresh;
     Exit;
   end;
 

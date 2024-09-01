@@ -26,7 +26,7 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="66"/>
         <CursorPos X="31" Y="80"/>
         <UsageCount Value="36"/>
@@ -39,7 +39,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="636"/>
         <CursorPos Y="652"/>
         <UsageCount Value="36"/>
@@ -56,7 +56,7 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="7"/>
         <CursorPos X="3" Y="14"/>
         <UsageCount Value="36"/>
@@ -66,7 +66,7 @@
         <Filename Value="uthreadscrub.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="118"/>
         <CursorPos X="15" Y="127"/>
         <UsageCount Value="34"/>
@@ -76,7 +76,7 @@
         <Filename Value="uthreadfill.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadFill"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="29"/>
         <CursorPos Y="85"/>
         <UsageCount Value="34"/>
@@ -86,7 +86,8 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="14"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="53"/>
         <CursorPos Y="69"/>
         <UsageCount Value="31"/>
@@ -107,9 +108,10 @@
         <LoadedDesigner Value="True"/>
       </Unit>
     </Units>
-    <OtherDefines Count="2">
+    <OtherDefines Count="3">
       <Define0 Value="Library"/>
       <Define1 Value="UseCThreads"/>
+      <Define2 Value="DEBUG"/>
     </OtherDefines>
     <JumpHistory HistoryIndex="-1"/>
     <RunParams>

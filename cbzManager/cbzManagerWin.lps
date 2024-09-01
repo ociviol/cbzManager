@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units Count="22">
       <Unit0>
         <Filename Value="cbzManagerWin.lpr"/>
@@ -18,8 +18,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1284"/>
-        <CursorPos X="3" Y="1288"/>
+        <TopLine Value="1394"/>
+        <CursorPos Y="1400"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
           <Item0 X="4" Y="860" ID="3"/>
@@ -51,11 +51,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="239"/>
-        <CursorPos Y="255"/>
+        <TopLine Value="305"/>
+        <CursorPos Y="321"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
-          <Item0 X="8" Y="1572" ID="2"/>
+          <Item0 X="8" Y="1574" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit4>
@@ -63,7 +63,7 @@
         <Filename Value="udatatypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataTypes"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="6"/>
         <CursorPos X="3" Y="25"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
@@ -92,7 +92,7 @@
         <Filename Value="udataitem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataItem"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="197"/>
         <CursorPos Y="218"/>
         <UsageCount Value="200"/>
@@ -102,7 +102,7 @@
         <Filename Value="uthreadconvert.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="61"/>
         <CursorPos Y="85"/>
         <UsageCount Value="200"/>
@@ -112,7 +112,7 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="299"/>
         <CursorPos X="33" Y="440"/>
         <UsageCount Value="200"/>
@@ -122,7 +122,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="133"/>
         <CursorPos X="25" Y="151"/>
         <UsageCount Value="200"/>
@@ -196,9 +196,9 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="453"/>
-        <CursorPos Y="463"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="606"/>
+        <CursorPos X="37" Y="617"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="1">
           <Item0 Y="888" ID="1"/>

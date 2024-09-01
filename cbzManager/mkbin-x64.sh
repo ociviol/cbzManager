@@ -1,9 +1,9 @@
 
 cd ~/Dev/cbzManager/cbzManager 
-/Users/ollivierciviol/fpcupdeluxe/lazarus/lazbuild -B cbzManagerOsx.lpi
+/Users/ollivierciviol/fpcupdeluxe/lazarus/lazbuild -B --build-mode=Release cbzManagerOsx.lpi
 
 cd ~/Dev/cbzManager/cbzManager/Library 
-/Users/ollivierciviol/fpcupdeluxe/lazarus/lazbuild -B cbzLibraryOsx.lpi
+/Users/ollivierciviol/fpcupdeluxe/lazarus/lazbuild -B --build-mode=Release cbzLibraryOsx.lpi
 
 status=$?
 if test $status -eq 0 

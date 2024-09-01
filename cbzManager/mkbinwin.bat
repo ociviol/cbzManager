@@ -1,8 +1,8 @@
 cd C:\Dev\cbzManager\cbzManager
-C:\fpcupdeluxe\lazarus\Lazbuild -B cbzManagerWin.lpi 
+C:\fpcupdeluxe\lazarus\Lazbuild -B --build-mode=Release cbzManagerWin.lpi 
 
 cd C:\Dev\cbzManager\cbzManager\Library
-C:\fpcupdeluxe\lazarus\Lazbuild -B cbzLibraryWin.lpi
+C:\fpcupdeluxe\lazarus\Lazbuild -B --build-mode=Release cbzLibraryWin.lpi
 
 cd C:\Dev\cbzManager\cbzManager
 copy .\Bin-Win\*.* "..\precompiled binairies\Windows"

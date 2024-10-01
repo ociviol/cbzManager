@@ -79,6 +79,7 @@ type
     FSender : TObject;
     FNewFile : String;
     FAddFileBool : Boolean;
+    FRootFolder : string;
     function Convert(const aFilename : String; arcType : TArcType; Operations : TImgOperations):String;
     function GetElapsed(aNow, aThen : TDatetime):String;
     procedure OnPutData;
@@ -92,7 +93,8 @@ type
   public
     constructor Create(Jobpool : TJobPool; PoolData : TThreadDataItem;
                        Progress : TCbzProgressEvent; AddFile : TAddFileProc; Log : ILog;
-                       Results : TStrings; OnBadFile : TNotifyEvent); reintroduce;
+                       Results : TStrings; OnBadFile : TNotifyEvent;
+                       const RootFolder : string); reintroduce;
     destructor Destroy; override;
     procedure Execute; override;
     procedure Terminate; reintroduce;
@@ -321,7 +323,8 @@ end;
 
 constructor TCbzWorkerThread.Create(Jobpool : TJobPool; PoolData : TThreadDataItem;
                                     Progress : TCbzProgressEvent; AddFile : TAddFileProc; Log : ILog;
-                                    Results : TStrings; OnBadFile : TNotifyEvent);
+                                    Results : TStrings; OnBadFile : TNotifyEvent;
+                                    const RootFolder : string);
 begin
   FjobPool := JobPool;
   FOnBadFile := OnBadFile;
@@ -334,6 +337,7 @@ begin
   FAddFile := AddFile;
   FResults := Results;
   FLog := Log;
+  FRootFolder := RootFolder;
   inherited Create(False);
   Log.Log(ClassName + ' Worker thread ID : ' + IntToStr(QWord(ThreadID)) + ' created.');
 end;
@@ -552,7 +556,7 @@ begin
             FileToTrash(aFileName)
           else
           begin
-            s :=  IncludeTrailingPathDelimiter(ExtractFilePath(aFileName)) + 'Done';
+            s :=  IncludeTrailingPathDelimiter(FRootFolder) + 'Done';
             if not DirectoryExists(s) then
               ForceDirectories(s);
             s := IncludeTrailingPathDelimiter(s) + ExtractFileName(aFileName) + '.old';

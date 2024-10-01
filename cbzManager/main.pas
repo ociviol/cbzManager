@@ -444,7 +444,7 @@ begin
     FWorkerThreads[Length(FWorkerThreads) - 1] :=
       TCbzWorkerThread.Create(FJobpool,
       FThreadDataPool.Pool[Length(FWorkerThreads) - 1], @Progress,
-      @AddFileToTree, FLog, FConvertReport, @OnBadFile);
+      @AddFileToTree, FLog, FConvertReport, @OnBadFile, FConfig.BdPathPath);
   end;
 end;
 

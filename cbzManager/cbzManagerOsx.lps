@@ -15,7 +15,7 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="1012"/>
         <CursorPos X="21" Y="1032"/>
         <UsageCount Value="252"/>
@@ -28,10 +28,15 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="334"/>
-        <CursorPos X="16" Y="351"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="61"/>
+        <CursorPos X="36" Y="322"/>
         <UsageCount Value="252"/>
+        <Bookmarks Count="1">
+          <Item0 X="40" Y="555" ID="2"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="main.pas"/>
@@ -39,7 +44,7 @@
         <ComponentName Value="MainFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="540"/>
         <CursorPos X="60" Y="546"/>
         <UsageCount Value="252"/>
@@ -85,7 +90,7 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="79"/>
         <CursorPos X="25" Y="114"/>
         <UsageCount Value="252"/>
@@ -130,7 +135,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="158"/>
         <CursorPos X="21" Y="162"/>
         <UsageCount Value="252"/>
@@ -152,8 +157,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="151"/>
         <CursorPos X="25" Y="167"/>
         <UsageCount Value="114"/>

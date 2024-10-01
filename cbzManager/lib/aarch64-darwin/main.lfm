@@ -113,9 +113,9 @@ object MainFrm: TMainFrm
       end
       object Label5: TLabel
         Left = 8
-        Height = 16
+        Height = 15
         Top = 29
-        Width = 227
+        Width = 198
         Caption = 'Files in queue (right click to remove) :'
         ParentColor = False
         ParentFont = False

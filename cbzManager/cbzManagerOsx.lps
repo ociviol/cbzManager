@@ -17,7 +17,7 @@
         <UnitName Value="uCbz"/>
         <EditorIndex Value="4"/>
         <TopLine Value="1012"/>
-        <CursorPos X="21" Y="1032"/>
+        <CursorPos X="9" Y="1032"/>
         <UsageCount Value="252"/>
         <Bookmarks Count="1">
           <Item0 X="10" Y="998"/>
@@ -30,8 +30,8 @@
         <UnitName Value="uWorkerThread"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="61"/>
-        <CursorPos X="36" Y="322"/>
+        <TopLine Value="282"/>
+        <CursorPos X="21" Y="322"/>
         <UsageCount Value="252"/>
         <Bookmarks Count="1">
           <Item0 X="40" Y="555" ID="2"/>

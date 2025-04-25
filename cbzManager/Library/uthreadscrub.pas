@@ -165,6 +165,9 @@ var
       begin
         if Sqlite3Dataset1.Active then
           Sqlite3Dataset1.Close;
+        if not FileExists(Ylibs[j]) then
+          continue;
+
         Sqlite3Dataset1.FileName:= Ylibs[j];
         with Sqlite3Dataset1 do
         try
@@ -292,8 +295,11 @@ begin
         //
       end;
       // Get read states from yaclibs
-      GetReadStatesFromYAcLib;
-      UpdateCount;
+      try
+        GetReadStatesFromYAcLib;
+        UpdateCount;
+      except
+      end;
 
       Synchronize(@DoProgress);
       FLog.Log('TThreadScrub.Execute: Scrub done.');

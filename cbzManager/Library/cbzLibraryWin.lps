@@ -39,7 +39,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="259"/>
         <CursorPos Y="273"/>
@@ -71,9 +70,10 @@
         <Filename Value="uthreadscrub.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="188"/>
-        <CursorPos Y="207"/>
+        <TopLine Value="286"/>
+        <CursorPos X="13" Y="301"/>
         <UsageCount Value="38"/>
         <Loaded Value="True"/>
       </Unit>
@@ -117,7 +117,7 @@
       <Define1 Value="UseCThreads"/>
       <Define2 Value="DEBUG"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="uthreadscrub.pas"/>
         <Caret Line="192" TopLine="168"/>
@@ -233,10 +233,6 @@
       <Position>
         <Filename Value="ucbzlibrary.pas"/>
         <Caret Line="849" TopLine="831"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="112" Column="26" TopLine="208"/>
       </Position>
     </JumpHistory>
     <RunParams>

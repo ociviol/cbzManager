@@ -5,7 +5,7 @@ unit uThreadScrub;
 interface
 
 uses
-  Classes, SysUtils, uLibraryClasses, utils.Logger, Utils.Searchfiles;
+  Classes, SysUtils, uLibraryClasses, utils.Logger, Utils.Searchfiles, uConfig;
 
 type
   TLibrayAction = (laAdd, laDelete);
@@ -27,6 +27,7 @@ type
     FItem : TFileItem;
     FPaused : Boolean;
     FPauseLock : TThreadList;
+    FConfig : TConfig;
 
     procedure DoProgress;
     procedure DoNotify;
@@ -34,7 +35,7 @@ type
     procedure SetPaused(AValue: Boolean);
     procedure UpdateCount;
   public
-    constructor Create(aLog : ILog; aFileList : TItemList;
+    constructor Create(aLog : ILog; aFileList : TItemList; aConfig : TConfig;
                        aNotify : TLibraryNotify;
                        aTerminate : TNotifyEvent;
                        aProgress : TSearchFileProgressEvent = nil);
@@ -46,11 +47,15 @@ type
 implementation
 
 uses
+{$if defined(Darwin) or Defined(MsWindows)}
+  mysql80conn, SQLDB,
+  DB, SQLite3DS,
+{$endif}
   Graphics;
 
 { TThreadScrub }
 
-constructor TThreadScrub.Create(aLog : ILog; aFileList: TItemList;
+constructor TThreadScrub.Create(aLog : ILog; aFileList: TItemList; aConfig : TConfig;
                                aNotify : TLibraryNotify;
                                aTerminate : TNotifyEvent;
                                aProgress : TSearchFileProgressEvent = nil);
@@ -64,6 +69,7 @@ begin
   FPRogress := aProgress;
   OnTerminate:= aTerminate;
   FPauseLock := TThreadList.Create;
+  FConfig := aConfig;
   inherited Create(False);
   Priority:=tpLower;
 end;
@@ -125,6 +131,9 @@ procedure TThreadScrub.Execute;
 var
   r : integer;
   b : TBitmap;
+{$if defined(Darwin) or Defined(MsWindows)}
+    Sqlite3Dataset1: TSqlite3Dataset;
+{$endif}
 
   procedure _DeleteItem;
   begin
@@ -138,6 +147,67 @@ var
         inc(FDeleted);
         FLog.Log('TThreadScrub.Execute: Deleted:' + Filename);
       end;
+  end;
+
+  procedure GetReadStatesFromYAcLib;
+  var
+    Ylibs : TStringlist;
+    i,j : integer;
+    s : string;
+  begin
+{$if defined(Darwin) or Defined(MsWindows)}
+    Ylibs := TStringlist.Create;
+    Sqlite3Dataset1 := TSqlite3Dataset.Create(nil);
+    try
+      FConfig.GetYacLibs(Ylibs);
+      Sqlite3Dataset1.Name := 'Sqlite3Dataset1';
+      for j := 0 to Ylibs.Count - 1 do
+      begin
+        if Sqlite3Dataset1.Active then
+          Sqlite3Dataset1.Close;
+        Sqlite3Dataset1.FileName:= Ylibs[j];
+        with Sqlite3Dataset1 do
+        try
+          Sql := 'select c."path", i."read", i.currentPage from comic c ' +
+                 'join comic_info i on c.comicInfoId = i.id ' +
+                 'where i."read" = 1 or i.hasBeenOpened = 1';
+
+          Open;
+
+          while not eof do
+          begin
+            {$if defined(Darwin) or defined(Linux)}
+            s := FieldByName('path').AsString;
+            {$else}
+            s := FieldByName('path').AsString.Replace('/', '\');
+            {$endif}
+            for i := 0 to FFileList.Count - 1 do
+              if FFileList[i].EndsWith(s) then
+                if FileExists(FFileList[i]) then
+                   with TFileItem(FFileList.Objects[i]) do
+                   begin
+                     if not ReadState and FieldByName('read').AsBoolean then
+                       ReadState := FieldByName('read').AsBoolean;
+
+                     if not ReadState and (CurPage < FieldByName('currentPage').AsInteger) then
+                       CurPage := FieldByName('currentPage').AsInteger;
+
+                     break;
+                   end;
+
+            Next;
+          end;
+
+        finally
+          if Active then
+            Close;
+        end;
+      end;
+    finally
+      Sqlite3Dataset1.Free;
+      Ylibs.Free;
+    end;
+{$ENDIF}
   end;
 
 begin
@@ -221,6 +291,10 @@ begin
 
         //
       end;
+      // Get read states from yaclibs
+      GetReadStatesFromYAcLib;
+      UpdateCount;
+
       Synchronize(@DoProgress);
       FLog.Log('TThreadScrub.Execute: Scrub done.');
       FFileList.Save;

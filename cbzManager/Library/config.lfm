@@ -1,11 +1,11 @@
 object ConfigFrm: TConfigFrm
   Left = 939
-  Height = 251
+  Height = 289
   Top = 317
   Width = 509
   BorderStyle = bsDialog
   Caption = 'Config'
-  ClientHeight = 251
+  ClientHeight = 289
   ClientWidth = 509
   Position = poMainFormCenter
   ShowHint = True
@@ -62,21 +62,21 @@ object ConfigFrm: TConfigFrm
     Caption = '...'
     OnClick = sbLibPathClick
   end
-  object BitBtn1: TBitBtn
+  object btnOk: TBitBtn
     Left = 344
     Height = 30
-    Top = 68
+    Top = 248
     Width = 75
     Caption = 'Ok'
     Default = True
     ModalResult = 1
     TabOrder = 2
-    OnClick = BitBtn1Click
+    OnClick = btnOkClick
   end
   object BitBtn2: TBitBtn
     Left = 424
     Height = 30
-    Top = 68
+    Top = 248
     Width = 75
     Cancel = True
     Caption = 'Cancel'
@@ -98,8 +98,9 @@ object ConfigFrm: TConfigFrm
     Width = 234
     Caption = 'Auto import read states from Yaclibraries'
     TabOrder = 5
+    OnClick = cbAutoImportReadStatesClick
   end
-  object ListBox1: TListBox
+  object lbYacLibs: TListBox
     Left = 8
     Height = 112
     Top = 128
@@ -116,6 +117,7 @@ object ConfigFrm: TConfigFrm
     Caption = '-'
     Enabled = False
     TabOrder = 7
+    OnClick = btnRemovelibClick
   end
   object btnAddlib: TButton
     Left = 456
@@ -125,6 +127,7 @@ object ConfigFrm: TConfigFrm
     Caption = '+'
     Enabled = False
     TabOrder = 8
+    OnClick = btnAddlibClick
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.exe'

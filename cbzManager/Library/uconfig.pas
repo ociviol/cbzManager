@@ -38,6 +38,9 @@ type
     class function Load(const aFileName : String):TConfig;
     procedure SaveForm(aOwner : TForm);
     procedure RestoreForm(aOwner : TForm);
+    function GetConfigPath:string;
+    procedure SaveYacLibs(Items : TStrings);
+    procedure GetYacLibs(Items : TStrings);
   published
     property DefaultColWidth : integer read FDefaultColWidth write FDefaultColWidth;
     property DefaultRowHeight : integer read FDefaultRowHeight write FDefaultRowHeight;
@@ -108,6 +111,47 @@ begin
     if FWindowStateStr <> '' then
       aOwner.WindowState := StrToWindowState(FWindowStateStr);
 
+  finally
+    ini.free;
+  end;
+end;
+
+function TConfig.GetConfigPath: string;
+begin
+  result := FConfigPath;
+end;
+
+procedure TConfig.SaveYacLibs(Items: TStrings);
+var
+  ini : TIniFile;
+  cnt, i : integer;
+  s : string;
+begin
+  ini := TIniFile.Create(IncludeTrailingPathDelimiter(FConfigPath) + 'yaclibs.ini');
+  try
+    cnt := Items.Count;
+    ini.WriteInteger('libs', 'count', cnt);
+    for i := 0 to cnt - 1 do
+      ini.WriteString('libs', 'lib'+inttostr(i+1), Items[i]);
+  finally
+    ini.free;
+  end;
+end;
+
+procedure TConfig.GetYacLibs(Items: TStrings);
+var
+  ini : TIniFile;
+  cnt, i : integer;
+  s : string;
+begin
+  ini := TIniFile.Create(IncludeTrailingPathDelimiter(FConfigPath) + 'yaclibs.ini');
+  try
+    cnt := ini.ReadInteger('libs', 'count', 0);
+    for i := 0 to cnt - 1 do
+    begin
+      s := ini.ReadString('libs', 'lib'+inttostr(i+1), '');
+      Items.Add(s);
+    end;
   finally
     ini.free;
   end;

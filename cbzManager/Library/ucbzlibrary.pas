@@ -13,10 +13,6 @@ uses
   cthreads,
 {$endif}
   Utils.SearchFiles, utils.Logger, uConfig, Utils.Strings,
-{$if defined(Darwin) or Defined(MsWindows)}
-  mysql80conn, SQLDB,
-  DB, SQLite3DS,
-{$endif}
   uLibraryClasses, ucbz, uThreadScrub, uThreadFill;
 
 
@@ -25,7 +21,6 @@ type
 
   TcbzLibrary = class(TForm)
     ActionMarkAsUnread: TAction;
-    ActionSyncYacreader: TAction;
     ActionRename: TAction;
     ActionPaste: TAction;
     ActionCut: TAction;
@@ -50,9 +45,7 @@ type
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     mnuMarkasUnread: TMenuItem;
-    mnuImportYacReader: TMenuItem;
     OpenDialog1: TOpenDialog;
-    Separator1: TMenuItem;
     mnuConfig: TMenuItem;
     mnuCreateFolder: TMenuItem;
     mnuCut: TMenuItem;
@@ -74,7 +67,6 @@ type
     procedure ActionPasteExecute(Sender: TObject);
     procedure ActionMarkasReadExecute(Sender: TObject);
     procedure ActionRenameExecute(Sender: TObject);
-    procedure ActionSyncYacreaderExecute(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnScrubClick(Sender: TObject);
     procedure btnTestClick(Sender: TObject);
@@ -118,9 +110,6 @@ type
     FFileToCopy : TFileItem;
     FOwnConfig : Boolean;
     FConfigFile : string;
-{$if defined(Darwin) or Defined(MsWindows)}
-    Sqlite3Dataset1: TSqlite3Dataset;
-{$endif}
     procedure CheckVersionTerminate(Sender : TObject);
     procedure SetCaption;
     procedure StopThreads;
@@ -281,12 +270,6 @@ var
   c : char;
   s : string;
 begin
-  {$if defined(Darwin) or Defined(MsWindows)}
-  Sqlite3Dataset1 := TSqlite3Dataset.Create(Self);
-  Sqlite3Dataset1.Name := 'Sqlite3Dataset1';
-  mnuImportYacReader.Visible := True;
-  Separator1.Visible := True;
-  {$endif}
   if FOwnConfig and Not Assigned(FConfig) then
   begin
   {$if defined(Darwin) or defined(Linux)}
@@ -765,7 +748,7 @@ procedure TcbzLibrary.btnScrubClick(Sender: TObject);
 begin
   btnRefresh.enabled := False;
   btnScrub.enabled := False;
-  FThreadScrub := TThreadScrub.Create(FLog, FFileList, @ThreadScrubNotify, @ThreadScrubTerminate, @Progress);
+  FThreadScrub := TThreadScrub.Create(FLog, FFileList, FConfig, @ThreadScrubNotify, @ThreadScrubTerminate, @Progress);
 end;
 
 procedure TcbzLibrary.btnTestClick(Sender: TObject);
@@ -847,70 +830,6 @@ begin
 
   end;
 end;
-
-procedure TcbzLibrary.ActionSyncYacreaderExecute(Sender: TObject);
-{$if defined(Darwin) or Defined(MsWindows)}
-var
-  s : string;
-  i, cnt : integer;
-begin
-  with OpenDialog1 do
-    if Execute then
-    try
-      Screen.Cursor:= crHourGlass;
-      Sqlite3Dataset1.FileName:= Filename;
-      with Sqlite3Dataset1 do
-      try
-        Sql := 'select c."path", i."read", i.currentPage from comic c ' +
-               'join comic_info i on c.comicInfoId = i.id ' +
-               'where i."read" = 1 or i.hasBeenOpened = 1';
-
-        Open;
-        cnt := 0;
-
-        while not eof do
-        begin
-          {$if defined(Darwin) or defined(Linux)}
-          s := FieldByName('path').AsString;
-          {$else}
-          s := FieldByName('path').AsString.Replace('/', '\');
-          {$endif}
-          for i := 0 to FFileList.Count - 1 do
-            if FFileList[i].EndsWith(s) then
-              if FileExists(FFileList[i]) then
-                 with TFileItem(FFileList.Objects[i]) do
-                 begin
-                   if not ReadState and FieldByName('read').AsBoolean or
-                      (not ReadState and (CurPage < FieldByName('currentPage').AsInteger)) then
-                     inc(cnt);
-
-                   if not ReadState and FieldByName('read').AsBoolean then
-                     ReadState := FieldByName('read').AsBoolean;
-
-                   if not ReadState and (CurPage < FieldByName('currentPage').AsInteger) then
-                     CurPage := FieldByName('currentPage').AsInteger;
-
-                   break;
-                 end;
-
-          Next;
-        end;
-
-      finally
-        if Active then
-          Close;
-      end;
-
-    finally
-      UpdateNbItems;
-      MessageDlg('YACReader Read State Import', inttostr(cnt) + ' Read states imported.', mtInformation, [mbOK], '');
-      Screen.Cursor:= crDefault;
-    end;
-{$else}
-begin
-{$endif}
-end;
-
 
 procedure TcbzLibrary.ActionCutExecute(Sender: TObject);
 begin
@@ -1044,18 +963,25 @@ begin
 end;
 
 procedure TcbzLibrary.mnuConfigClick(Sender: TObject);
+var
+  s1, S2 : string;
 begin
   StopThreads;
 
   with TConfigFrm.Create(Application) do
   try
+    s1 := Fconfig.LibPath;
+    s2 := FConfig.SyncPath;
     Config := FConfig;
     if ShowModal = mrOk then
     begin
       FConfig.Save(FConfigFile);
       Flog.Log('Config saved.');
-      ShowMessage('cbzLibrary must be restarted.');
-      Self.Close;
+      if (s1 <> Fconfig.LibPath) or (s2 <> FConfig.SyncPath) then
+      begin
+        ShowMessage('cbzLibrary must be restarted.');
+        Self.Close;
+      end;
     end;
   finally
     free;

@@ -23,7 +23,8 @@ type
   TConfig = Class(TJsonObject)
   private
     FBlog,
-    FLHideRead: Boolean;
+    FLHideRead,
+    FAutoSyncYac: Boolean;
 
     FLibCurPath,
     FLibPath,
@@ -45,6 +46,7 @@ type
     property LibPath : String read FLibPath write FLibPath;
     property SyncPath : String read FSyncPath write FSyncPath;
     property LibCurPath : String read FLibCurPath write FLibCurPath;
+    property AutoSyncYac : boolean read FAutoSyncYac write FAutoSyncYac default false;
   end;
 
 implementation

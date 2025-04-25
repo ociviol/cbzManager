@@ -20,11 +20,15 @@ type
   TConfigFrm = class(TForm)
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
+    btnRemovelib: TButton;
+    btnAddlib: TButton;
     cblogging: TCheckBox;
+    cbAutoImportReadStates: TCheckBox;
     edtSyncPath: TEdit;
     edtLibPath: TEdit;
     Label8: TLabel;
     Label9: TLabel;
+    ListBox1: TListBox;
     OpenDialog1: TOpenDialog;
     sbSyncPath: TSpeedButton;
     sbLibPath: TSpeedButton;

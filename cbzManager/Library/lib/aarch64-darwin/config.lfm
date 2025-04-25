@@ -1,16 +1,15 @@
 object ConfigFrm: TConfigFrm
   Left = 939
-  Height = 114
+  Height = 289
   Top = 317
-  Width = 514
+  Width = 509
   BorderStyle = bsDialog
   Caption = 'Config'
-  ClientHeight = 114
-  ClientWidth = 514
-  OnShow = FormShow
+  ClientHeight = 289
+  ClientWidth = 509
   Position = poMainFormCenter
   ShowHint = True
-  LCLVersion = '2.2.4.0'
+  OnShow = FormShow
   object edtSyncPath: TEdit
     Left = 64
     Height = 23
@@ -63,21 +62,21 @@ object ConfigFrm: TConfigFrm
     Caption = '...'
     OnClick = sbLibPathClick
   end
-  object BitBtn1: TBitBtn
+  object btnOk: TBitBtn
     Left = 344
     Height = 30
-    Top = 68
+    Top = 248
     Width = 75
     Caption = 'Ok'
     Default = True
     ModalResult = 1
-    OnClick = BitBtn1Click
     TabOrder = 2
+    OnClick = btnOkClick
   end
   object BitBtn2: TBitBtn
     Left = 424
     Height = 30
-    Top = 68
+    Top = 248
     Width = 75
     Cancel = True
     Caption = 'Cancel'
@@ -88,9 +87,47 @@ object ConfigFrm: TConfigFrm
     Left = 8
     Height = 19
     Top = 80
-    Width = 64
+    Width = 62
     Caption = 'Logging'
     TabOrder = 4
+  end
+  object cbAutoImportReadStates: TCheckBox
+    Left = 8
+    Height = 19
+    Top = 104
+    Width = 234
+    Caption = 'Auto import read states from Yaclibraries'
+    TabOrder = 5
+    OnClick = cbAutoImportReadStatesClick
+  end
+  object lbYacLibs: TListBox
+    Left = 8
+    Height = 112
+    Top = 128
+    Width = 491
+    Enabled = False
+    ItemHeight = 0
+    TabOrder = 6
+  end
+  object btnRemovelib: TButton
+    Left = 479
+    Height = 20
+    Top = 104
+    Width = 20
+    Caption = '-'
+    Enabled = False
+    TabOrder = 7
+    OnClick = btnRemovelibClick
+  end
+  object btnAddlib: TButton
+    Left = 456
+    Height = 20
+    Top = 104
+    Width = 20
+    Caption = '+'
+    Enabled = False
+    TabOrder = 8
+    OnClick = btnAddlibClick
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = '.exe'

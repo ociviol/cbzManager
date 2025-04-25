@@ -12,7 +12,6 @@ object CbzLibrary: TCbzLibrary
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
-  LCLVersion = '3.2.0.0'
   object dgLibrary: TDrawGrid
     Left = 50
     Height = 487
@@ -105,8 +104,8 @@ object CbzLibrary: TCbzLibrary
         3333333333333333333333333333333333333333333333333333
       }
       NumGlyphs = 2
-      OnClick = btnReturnClick
       ParentFont = False
+      OnClick = btnReturnClick
     end
     object Panel2: TPanel
       Left = 502
@@ -184,8 +183,8 @@ object CbzLibrary: TCbzLibrary
         333333333337F333333333333330333333333333333733333333
       }
       NumGlyphs = 2
-      OnClick = btnTopPathClick
       ParentFont = False
+      OnClick = btnTopPathClick
     end
     object cbHideRead: TCheckBox
       Left = 776
@@ -307,10 +306,6 @@ object CbzLibrary: TCbzLibrary
       Caption = 'Rename'
       OnExecute = ActionRenameExecute
     end
-    object ActionSyncYacreader: TAction
-      Caption = 'Get read state from YacreaderLibrary'
-      OnExecute = ActionSyncYacreaderExecute
-    end
     object ActionMarkAsUnread: TAction
       Caption = 'Mark as Unread'
       OnExecute = ActionMarkAsUnreadExecute
@@ -321,14 +316,6 @@ object CbzLibrary: TCbzLibrary
     Top = 192
     object MenuItem2: TMenuItem
       Caption = 'File'
-      object mnuImportYacReader: TMenuItem
-        Action = ActionSyncYacreader
-        Visible = False
-      end
-      object Separator1: TMenuItem
-        Caption = '-'
-        Visible = False
-      end
       object MenuItem3: TMenuItem
         Caption = 'Exit'
         OnClick = MenuItem3Click

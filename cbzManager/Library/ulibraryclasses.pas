@@ -155,7 +155,7 @@ function ConfigPath: String;
 implementation
 
 uses
-  Forms, uCbz, Utils.Zipfile, LazUTF8, DateUtils
+  Forms, uCbz, Utils.Zipfile, LazUTF8, DateUtils, md5
   //, utils.epub
   ;
 
@@ -720,16 +720,25 @@ end;
 
 function TFileItem.GetCacheFilename: String;
 var
-  s : string;
+  p,s : string;
+  a : TStringArray;
 begin
   FLock.LockList;
   try
     if FCacheFilename <> '' then
       Exit(FCacheFilename);
 
-    s := makefilename(ExtractFilename(FFilename));
+    s := ExtractFilename(FFilename);
+    p := ExtractFilePath(FFilename);
+    a := p.Split(DirectorySeparator);
+    s := a[length(a)-2] + DirectorySeparator + s;
+    s := MD5Print(MD5String(s));
+    p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + '.covers';
+    ForceDirectories(p);
+    result := IncludeTrailingPathDelimiter(p) + s + '.jpg';
+    FCacheFilename := result;
 
-
+    (*
     result :=
     {$if defined(Darwin) or defined(Linux)}
       expandfilename('~/') + CS_CONFIG_PATH + '/Library/cache/' +
@@ -741,6 +750,7 @@ begin
     ForceDirectories(result);
     result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.jpg');
     FCacheFilename := result;
+    *)
   finally
     Flock.UnlockList;
   end;

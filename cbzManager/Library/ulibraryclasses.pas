@@ -52,7 +52,7 @@ type
     FStampGenerated : Boolean;
     FDeleted : Boolean;
     FParent : TItemList;
-    FSyncFilename,
+    //FSyncFilename,
     FSyncJsonFilename,
     FCacheFilename,
     FSyncPathFilename : String;
@@ -63,7 +63,7 @@ type
     procedure SetFilename(AValue: String);
     procedure SetFSyncFileDAte(AValue: TDateTime);
     function SyncPathName(const aFilename : string):String;
-    function SyncFilename : String;
+    //function SyncFilename : String;
     function SyncJsonFilename : String;
     function GetCacheFilename: String;
     function GetDateAdded: TDAteTime;
@@ -336,8 +336,8 @@ begin
     begin
       if FileExists(CacheFilename) then
         DeleteFile(CacheFilename);
-      If FileExists(SyncFilename) then
-        DeleteFile(SyncFilename);
+      If FileExists(SyncJsonFilename) then
+        DeleteFile(SyncJsonFilename);
     end;
     FModified:=True;
   finally
@@ -593,7 +593,7 @@ var
   s : string;
 begin
   try
-    s := SyncFilename;
+    s := SyncJsonFilename;
     if FileExists(s) then
         DeleteFile(s);
     // delete cache file
@@ -686,37 +686,42 @@ end;
 
 function TFileItem.SyncJsonFilename: String;
 var
-  s : string;
+  s, o, p : string;
+  a : TStringArray;
+  st : TMemoryStream;
 begin
   FLock.LockList;
   try
     if FSyncJsonFilename <> '' then
       Exit(FSyncJsonFilename);
 
+    // old file
     s := makefilename(ExtractFilename(FFilename));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
-    ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.json');
+    o := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.json');
+
+    // new file
+    s := ExtractFilename(FFilename);
+    p := ExtractFilePath(FFilename);
+    a := p.Split(DirectorySeparator);
+    s := a[length(a)-2] + DirectorySeparator + s;
+    s := MD5Print(MD5String(s));
+    p := IncludeTrailingPathDelimiter(Parent.FSyncPath);
+    ForceDirectories(p);
+    result := IncludeTrailingPathDelimiter(p) + s + '.json';
     FSyncJsonFilename := result;
-  finally
-    Flock.UnlockList;
-  end;
-end;
-
-function TFileItem.SyncFilename: String;
-var
-  s : string;
-begin
-  FLock.LockList;
-  try
-    if FSyncFilename <> '' then
-      Exit(FSyncFilename);
-
-    s := makefilename(ExtractFilename(FFilename));
-    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
-    ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.json');
-    FSyncFilename := result;
+    // convert
+    if FileExists(o) then
+    begin
+      st := TMemoryStream.Create;
+      try
+        st.LoadFromFile(o);
+        st.SaveToFile(result);
+        DeleteFile(o);
+      finally
+        st.Free;
+      end;
+    end;
   finally
     Flock.UnlockList;
   end;

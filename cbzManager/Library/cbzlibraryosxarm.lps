@@ -7,7 +7,8 @@
       <Unit>
         <Filename Value="cbzlibraryosxarm.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
         <CursorPos X="22" Y="13"/>
         <UsageCount Value="1030"/>
         <Loaded Value="True"/>
@@ -34,7 +35,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzViewer"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="38"/>
         <CursorPos Y="45"/>
         <UsageCount Value="1029"/>
@@ -45,7 +46,7 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <CursorPos X="26" Y="63"/>
         <UsageCount Value="1029"/>
         <Loaded Value="True"/>
@@ -57,7 +58,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="184"/>
         <CursorPos X="20" Y="191"/>
         <UsageCount Value="1029"/>

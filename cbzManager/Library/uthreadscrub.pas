@@ -190,7 +190,7 @@ var
                    with TFileItem(FFileList.Objects[i]) do
                    begin
                      if not ReadState and FieldByName('read').AsBoolean then
-                       ReadState := FieldByName('read').AsBoolean;
+                       ReadState := true;
 
                      if not ReadState and (CurPage < FieldByName('currentPage').AsInteger) then
                        CurPage := FieldByName('currentPage').AsInteger;

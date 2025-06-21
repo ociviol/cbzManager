@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="cbzLibraryWin.lpr"/>
@@ -26,7 +26,7 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="496"/>
         <CursorPos X="24" Y="12"/>
         <UsageCount Value="43"/>
@@ -46,8 +46,8 @@
         <UnitName Value="uCbzLibrary"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="408"/>
-        <CursorPos X="19" Y="411"/>
+        <TopLine Value="1351"/>
+        <CursorPos X="3" Y="1381"/>
         <UsageCount Value="43"/>
         <Bookmarks Count="1">
           <Item0 X="16" Y="1006" Left="1" Top="997" ID="4"/>
@@ -61,7 +61,7 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="121"/>
         <CursorPos Y="141"/>
         <UsageCount Value="43"/>
@@ -72,9 +72,9 @@
         <Filename Value="uthreadscrub.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="234"/>
-        <CursorPos X="53" Y="244"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="264"/>
+        <CursorPos X="26" Y="288"/>
         <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit>
@@ -82,7 +82,7 @@
         <Filename Value="uthreadfill.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadFill"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="29"/>
         <CursorPos Y="85"/>
         <UsageCount Value="41"/>
@@ -92,7 +92,7 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="131"/>
         <CursorPos Y="147"/>
         <UsageCount Value="38"/>
@@ -118,7 +118,44 @@
       <Define1 Value="UseCThreads"/>
       <Define2 Value="DEBUG"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory HistoryIndex="8">
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="411" Column="19" TopLine="408"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="759" Column="112" TopLine="735"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="140" Column="15" TopLine="127"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="168" TopLine="147"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="133" Column="26" TopLine="120"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="470" Column="3" TopLine="525"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="965" Column="11" TopLine="952"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="134" Column="15" TopLine="121"/>
+      </Position>
+      <Position>
+        <Filename Value="ucbzlibrary.pas"/>
+        <Caret Line="1195" Column="66" TopLine="1171"/>
+      </Position>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

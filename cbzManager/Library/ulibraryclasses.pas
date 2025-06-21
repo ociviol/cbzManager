@@ -596,6 +596,10 @@ begin
     s := SyncFilename;
     if FileExists(s) then
         DeleteFile(s);
+    // delete cache file
+    s := GetCacheFilename;
+    if FileExists(s) then
+        DeleteFile(s);
   except
     on e: exception do
       Flog.Log('TItemList.SyncFileDelete:Error:' + e.Message);

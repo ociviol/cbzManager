@@ -8,6 +8,7 @@ object CbzLibrary: TCbzLibrary
   ClientWidth = 1022
   Menu = MainMenu1
   OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
@@ -314,18 +315,22 @@ object CbzLibrary: TCbzLibrary
   object MainMenu1: TMainMenu
     Left = 128
     Top = 192
-    object MenuItem2: TMenuItem
+    object mnuFile: TMenuItem
       Caption = 'File'
-      object MenuItem3: TMenuItem
+      object mnuExit: TMenuItem
         Caption = 'Exit'
-        OnClick = MenuItem3Click
+        OnClick = mnuExitClick
       end
     end
-    object MenuItem4: TMenuItem
+    object mnuEdit: TMenuItem
       Caption = 'Edit'
       object mnuConfig: TMenuItem
         Caption = 'Config'
         OnClick = mnuConfigClick
+      end
+      object mnuStamps: TMenuItem
+        Caption = 'Generate covers'
+        OnClick = mnuStampsClick
       end
     end
   end

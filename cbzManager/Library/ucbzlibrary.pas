@@ -41,9 +41,10 @@ type
     dgLibrary: TDrawGrid;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
-    MenuItem2: TMenuItem;
-    MenuItem3: TMenuItem;
-    MenuItem4: TMenuItem;
+    mnuFile: TMenuItem;
+    mnuExit: TMenuItem;
+    mnuEdit: TMenuItem;
+    mnuStamps: TMenuItem;
     mnuMarkasUnread: TMenuItem;
     OpenDialog1: TOpenDialog;
     mnuConfig: TMenuItem;
@@ -84,13 +85,15 @@ type
     procedure dgLibraryMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnReturnClick(Sender: TObject);
-    procedure MenuItem3Click(Sender: TObject);
+    procedure mnuExitClick(Sender: TObject);
     procedure mnuConfigClick(Sender: TObject);
+    procedure mnuStampsClick(Sender: TObject);
     procedure PopupMenu1Popup(Sender: TObject);
   private
     Flog : ILog;
@@ -401,6 +404,11 @@ begin
   StopThreads;
 
   CloseAction := caFree;
+end;
+
+procedure TcbzLibrary.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  Canclose := not Assigned(FFillThread);
 end;
 
 procedure TcbzLibrary.FormResize(Sender: TObject);
@@ -957,7 +965,7 @@ begin
   FillGrid;
 end;
 
-procedure TcbzLibrary.MenuItem3Click(Sender: TObject);
+procedure TcbzLibrary.mnuExitClick(Sender: TObject);
 begin
   Close;
 end;
@@ -985,6 +993,31 @@ begin
     end;
   finally
     free;
+  end;
+end;
+
+procedure TcbzLibrary.mnuStampsClick(Sender: TObject);
+var
+  i : integer;
+  b : TBitmap;
+begin
+  mnuStamps.Enabled := false;
+  try
+    for i := 0 to FFileList.count - 1 do
+      // make stamp if needed
+      with TFileItem(FFileList.Objects[i]) do
+      begin
+        Progress(Self, 0, i, FFileList.count, Format('Creating covers %d on %d ...', [i+1, FFileList.count]));
+        b := GenerateStamp;
+        if Assigned(b) then
+          b.Free;
+
+        Application.processMessages;
+        if Application.Terminated then
+          exit;
+      end;
+  finally
+    mnuStamps.Enabled := true;
   end;
 end;
 
@@ -1155,6 +1188,10 @@ begin
 
   if Assigned(FThreadScrub) then
     FThreadScrub.Paused := True;
+
+  mnuFile.Enabled := false;
+  mnuEdit.Enabled := false;
+
   FFillThread := TThreadFill.Create(Flog, fs,@ThreadFillTerminate, @Progress);
 end;
 
@@ -1318,8 +1355,10 @@ var
 begin
   Progress(Self, 0, 0, 0, 'Sorting...');
   FFillThread := nil;
-  btnRefresh.Enabled:=True;
-  btnScrub.enabled := True;
+  btnRefresh.Enabled:=true;
+  btnScrub.enabled := true;
+  mnuFile.Enabled := true;
+  mnuEdit.Enabled := true;
   FVisibleList.Sort;
 
   with cbSearch do

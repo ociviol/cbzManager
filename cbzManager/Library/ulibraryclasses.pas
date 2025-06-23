@@ -495,7 +495,7 @@ begin
     // update
     if (FileExists(SyncJsonFilename) and (not bForce)) then
     begin
-      if (FileDateTodateTime(FileAge(SyncJsonFilename)) > FSyncFileDate) then
+      if (FileDateTodateTime(FileAge(SyncJsonFilename)) > FSyncFileDate) or Modified then
       begin
         o := TSyncObject(TJsonObject.Load(SyncJsonFilename, TSyncObject.Create));
         try
@@ -511,19 +511,13 @@ begin
           else
           begin
             // push
-            if o.logicalPath = '' then
-            begin
-              o.logicalPath := LogicalPath;
-              o.Save(SyncJsonFilename);
-              result := 2;
-            end;
-
             if FDateSetReadState > _IsoDateToDateTime(o.DateSetReadState) then
             begin
               o.DateSetReadState := FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
                                     FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState);
               o.ReadState := FReadState;
               o.Save(SyncJsonFilename);
+              FSyncFileDate := FileDateTodateTime(FileAge(SyncJsonFilename));
               result := 2;
             end;
 
@@ -534,6 +528,7 @@ begin
               begin
                 o.CurPage := FCurPage;
                 o.Save(SyncJsonFilename);
+                FSyncFileDate := FileDateTodateTime(FileAge(SyncJsonFilename));
                 result := 2;
               end;
           end;
@@ -541,7 +536,6 @@ begin
           o.free;
         end;
       end;
-      FSyncFileDate := FileDateTodateTime(FileAge(SyncJsonFilename));
     end
     else
     // create file

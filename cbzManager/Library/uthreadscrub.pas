@@ -255,7 +255,7 @@ begin
               if r < 0 then
                 _DeleteItem
               else
-              if r = 1 then
+              if r >= 1 then
                 inc(FSynced);
             end
     {$endif};

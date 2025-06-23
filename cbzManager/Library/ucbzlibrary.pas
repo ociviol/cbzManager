@@ -1001,6 +1001,8 @@ var
   i : integer;
 begin
   mnuStamps.Enabled := false;
+  if Assigned(FThreadScrub) then
+      FThreadScrub.Paused := True;
   try
     for i := 0 to FFileList.count - 1 do
       // make stamp if needed
@@ -1015,6 +1017,12 @@ begin
       end;
   finally
     mnuStamps.Enabled := true;
+    if Assigned(FThreadScrub) then
+    begin
+      if FThreadScrub.Paused then
+        FThreadScrub.Paused := False;
+    end;
+    Progress(Self, 0, 0, 0, 'Ready.');
   end;
 end;
 

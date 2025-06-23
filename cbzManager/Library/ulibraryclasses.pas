@@ -98,7 +98,7 @@ type
     constructor Create(aParent : TItemList; aLog : ILog; const aFilename : String);
     destructor Destroy; override;
 
-    function GenerateStamp:TBitmap;
+    procedure GenerateStamp;
     function CheckSync(bForce : Boolean = False):integer;
     procedure SyncFileDelete;
     property Image:TBitmap read GetImg;
@@ -242,10 +242,10 @@ begin
     if Assigned(FImg) then
       Exit(FImg);
 
-    if FileExists(CacheFilename) then
-      _Load
-    else
-      Img := GenerateStamp;
+    if not FileExists(CacheFilename) then
+      GenerateStamp;
+
+    _Load;
 
     result := FImg;
   finally
@@ -386,11 +386,12 @@ begin
   end;
 end;
 
-function TFileItem.GenerateStamp:TBitmap;
+procedure TFileItem.GenerateStamp;
 var
   p : Tpicture;
+  b : TBitmap;
 begin
-  result :=nil;
+  //result :=nil;
   if not FileExists(CacheFilename) then
   try
     if FileExists(FFilename) then
@@ -403,19 +404,21 @@ begin
             Open(Self.FFilename, zmRead);
             if FileCount <= 0 then
               Exit;
-            result := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
-            if Assigned(result) then
-            begin
+            b := GenerateStamp(0, CS_StampWidth, CS_StampHeight);
+            if Assigned(b) then
+            try
               p := TPicture.Create;
               with p do
               try
-                Bitmap.Assign(result);
+                Bitmap.Assign(b);
                 SaveToFile(CacheFilename, 'jpg');
               finally
                 p.Free;
               end;
               FStampGenerated:=True;
               FModified:=True;
+            finally
+              b.free;
             end;
           except
             on e: Exception do

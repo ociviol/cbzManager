@@ -130,7 +130,6 @@ end;
 procedure TThreadScrub.Execute;
 var
   r : integer;
-  b : TBitmap;
 {$if defined(Darwin) or Defined(MsWindows)}
     Sqlite3Dataset1: TSqlite3Dataset;
 {$endif}
@@ -267,11 +266,7 @@ begin
             {$if defined(MsWindows) or defined(Linux)}
             // make stamp if needed
             with TFileItem(FFileList.Objects[FVal]) do
-            begin
-              b := GenerateStamp;
-              if Assigned(b) then
-                b.Free;
-            end;
+              GenerateStamp;
             {$endif}
           end
         else

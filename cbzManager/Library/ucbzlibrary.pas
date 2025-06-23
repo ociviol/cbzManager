@@ -999,7 +999,6 @@ end;
 procedure TcbzLibrary.mnuStampsClick(Sender: TObject);
 var
   i : integer;
-  b : TBitmap;
 begin
   mnuStamps.Enabled := false;
   try
@@ -1008,9 +1007,7 @@ begin
       with TFileItem(FFileList.Objects[i]) do
       begin
         Progress(Self, 0, i, FFileList.count, Format('Creating covers %d on %d ...', [i+1, FFileList.count]));
-        b := GenerateStamp;
-        if Assigned(b) then
-          b.Free;
+        GenerateStamp;
 
         Application.processMessages;
         if Application.Terminated then

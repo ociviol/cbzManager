@@ -488,67 +488,60 @@ end;
 function TFileItem.CheckSync(bForce : Boolean = False):integer;
 var
   o : TSyncObject;
-  bSynced : boolean;
 begin
   result := 0;
   FLock.LockList;
   try
     // update
-    if FileExists(SyncJsonFilename) and (not bForce) then
-    try
-      o := TSyncObject(TJsonObject.Load(SyncJsonFilename, TSyncObject.Create));
-      try
-        // pull
-        if (FileDateTodateTime(FileAge(SyncJsonFilename)) > FSyncFileDAte) and
-           (FDateSetReadState < _IsoDateToDateTime(o.DateSetReadState)) then
-        begin
-          FDateSetReadState := _IsoDateToDateTime(o.DateSetReadState);
-          FReadState := o.ReadState;
-          FCurPage := o.CurPage;
-          FModified := True;
-          result := 1;
-        end
-        else
-        begin
-          // push
-          bSynced := false;
-          if o.logicalPath = '' then
+    if (FileExists(SyncJsonFilename) and (not bForce)) then
+    begin
+      if (FileDateTodateTime(FileAge(SyncJsonFilename)) > FSyncFileDate) then
+      begin
+        o := TSyncObject(TJsonObject.Load(SyncJsonFilename, TSyncObject.Create));
+        try
+          // pull
+          if (FDateSetReadState < _IsoDateToDateTime(o.DateSetReadState)) then
           begin
-            o.logicalPath := LogicalPath;
-            o.Save(SyncJsonFilename);
-            bSynced := true;
-            result := 2;
-          end;
-
-          if FDateSetReadState > _IsoDateToDateTime(o.DateSetReadState) then
+            FDateSetReadState := _IsoDateToDateTime(o.DateSetReadState);
+            FReadState := o.ReadState;
+            FCurPage := o.CurPage;
+            FModified := True;
+            result := 1;
+          end
+          else
           begin
-            o.DateSetReadState := FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
-                                  FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState);
-            o.ReadState := FReadState;
-            o.Save(SyncJsonFilename);
-            bSynced := true;
-            result := 2;
-          end;
-          if o.CurPage <> FCurPage then
-            if o.CurPage > FCurPage then
-              FCurPage := o.CurPage
-            else
+            // push
+            if o.logicalPath = '' then
             begin
-              o.CurPage := FCurPage;
+              o.logicalPath := LogicalPath;
               o.Save(SyncJsonFilename);
               result := 2;
-              bSynced := true;
             end;
 
-           if bSynced then
-             FSyncFileDAte := FileDateTodateTime(FileAge(SyncJsonFilename));
+            if FDateSetReadState > _IsoDateToDateTime(o.DateSetReadState) then
+            begin
+              o.DateSetReadState := FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
+                                    FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState);
+              o.ReadState := FReadState;
+              o.Save(SyncJsonFilename);
+              result := 2;
+            end;
+
+            if o.CurPage <> FCurPage then
+              if o.CurPage > FCurPage then
+                FCurPage := o.CurPage
+              else
+              begin
+                o.CurPage := FCurPage;
+                o.Save(SyncJsonFilename);
+                result := 2;
+              end;
+          end;
+        finally
+          o.free;
         end;
-      finally
-        o.free;
       end;
-  except
-      on E: Exception do
-        FLog.Log('TFileItem.CheckSync:'+E.Message);
+      FSyncFileDate := FileDateTodateTime(FileAge(SyncJsonFilename));
     end
     else
     // create file
@@ -566,6 +559,7 @@ begin
       on e: Exception do
         FLog.Log('TFileItem.CheckSync:Error:' + E.Message);
     end;
+
   finally
     FLock.UnlockList;
   end;
@@ -674,26 +668,26 @@ end;
 
 function TFileItem.SyncJsonFilename: String;
 begin
-  FLock.LockList;
-  try
+  //FLock.LockList;
+  //try
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + MD5Print(MD5String(LogicalPath)) + '.json';
-  finally
-    Flock.UnlockList;
-  end;
+  //finally
+  //  Flock.UnlockList;
+  //end;
 end;
 
 function TFileItem.GetCacheFilename: String;
 var
   p : string;
 begin
-  FLock.LockList;
-  try
+  //FLock.LockList;
+  //try
     p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + '.covers';
     ForceDirectories(p);
     result := IncludeTrailingPathDelimiter(p) +  MD5Print(MD5String(LogicalPath)) + '.jpg';
-  finally
-    Flock.UnlockList;
-  end;
+  //finally
+  //  Flock.UnlockList;
+  //end;
 end;
 
 function TFileItem.GetDateAdded: TDAteTime;

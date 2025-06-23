@@ -1215,7 +1215,7 @@ begin
   FLog.Log('TCbzLibrary.SearchEnded : Refresh ended.');
 
   // start scrub
-  btnScrub.Click;
+  btnScrubClick(nil);
 end;
 
 procedure TcbzLibrary.UpdateVisibleDates;
@@ -1416,7 +1416,7 @@ begin
       FThreadScrub.Paused := False;
   end
   else
-    btnScrub.Click;
+    btnScrubClick(nil);
 end;
 
 procedure TcbzLibrary.ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);

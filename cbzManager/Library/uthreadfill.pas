@@ -124,7 +124,7 @@ begin
                 AddObject(s, fi);
           end;
 
-          if (i mod 250) = 0 then
+          if (i mod 500) = 0 then
           begin
             Synchronize(@DoProgress);
             //Sleep(10);
@@ -133,8 +133,9 @@ begin
       end;
 
     FFillSettings.FVisibleList.Sort;
-    Terminate;
     Synchronize(@DoProgress);
+    if not Terminated then
+      Terminate;
   except
     on e: Exception do
     begin

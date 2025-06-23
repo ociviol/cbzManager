@@ -9,7 +9,7 @@
         <Filename Value="cbzLibraryWin.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="6" Y="20"/>
-        <UsageCount Value="44"/>
+        <UsageCount Value="89"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -20,20 +20,22 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="12" Y="19"/>
-        <UsageCount Value="43"/>
+        <UsageCount Value="88"/>
       </Unit>
       <Unit>
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="496"/>
-        <CursorPos X="24" Y="12"/>
-        <UsageCount Value="43"/>
-        <Bookmarks Count="3">
-          <Item0 X="5" Y="740" Left="1" Top="729" ID="1"/>
-          <Item1 X="3" Y="595" Left="1" Top="590" ID="2"/>
-          <Item2 Y="729" Left="1" Top="728" ID="3"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="750"/>
+        <CursorPos X="31" Y="771"/>
+        <UsageCount Value="88"/>
+        <Bookmarks Count="4">
+          <Item0 X="19" Y="559" Left="12" Top="539" ID="2"/>
+          <Item1 Y="668" Left="1" Top="664" ID="3"/>
+          <Item2 X="63" Y="738" Left="1" Top="723" ID="4"/>
+          <Item3 Y="776" Left="1" Top="764" ID="5"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -44,14 +46,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="1351"/>
-        <CursorPos X="3" Y="1381"/>
-        <UsageCount Value="43"/>
-        <Bookmarks Count="1">
-          <Item0 X="16" Y="1006" Left="1" Top="997" ID="4"/>
-        </Bookmarks>
+        <TopLine Value="782"/>
+        <CursorPos Y="1277"/>
+        <UsageCount Value="88"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -61,10 +59,10 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="121"/>
         <CursorPos Y="141"/>
-        <UsageCount Value="43"/>
+        <UsageCount Value="88"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -73,9 +71,12 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="264"/>
-        <CursorPos X="26" Y="288"/>
-        <UsageCount Value="41"/>
+        <TopLine Value="150"/>
+        <CursorPos Y="255"/>
+        <UsageCount Value="86"/>
+        <Bookmarks Count="1">
+          <Item0 X="19" Y="255" Left="1" Top="237" ID="1"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -85,17 +86,17 @@
         <EditorIndex Value="3"/>
         <TopLine Value="29"/>
         <CursorPos Y="85"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="86"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="131"/>
         <CursorPos Y="147"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="83"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -108,7 +109,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="53"/>
         <CursorPos Y="70"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="83"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>

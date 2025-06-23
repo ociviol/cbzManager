@@ -247,7 +247,7 @@ begin
           begin
             if not FileExists(FItem.Filename) then
               _DeleteItem
-              {$ifdef Library}
+    {$ifdef Library}
             else
             // sync needed
             if FFileList.SyncPath.Length > 0 then
@@ -259,7 +259,7 @@ begin
               if r = 1 then
                 inc(FSynced);
             end
-            {$endif};
+    {$endif};
 
             if Terminated then
               Exit;

@@ -119,64 +119,7 @@
       <Define1 Value="UseCThreads"/>
       <Define2 Value="DEBUG"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="13">
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="246" Column="14" TopLine="235"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="101" Column="15" TopLine="86"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="411" TopLine="405"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="445" Column="13" TopLine="421"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="453" Column="13" TopLine="430"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="745" Column="13" TopLine="721"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="759" Column="15" TopLine="740"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="1050" Column="15" TopLine="1026"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="1051" Column="15" TopLine="1027"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="1187" Column="35" TopLine="1171"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="1343" Column="15" TopLine="1319"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="1406" Column="27" TopLine="1385"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="1006" Column="7" TopLine="998"/>
-      </Position>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="1413" Column="8" TopLine="1395"/>
-      </Position>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

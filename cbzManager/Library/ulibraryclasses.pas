@@ -533,58 +533,58 @@ begin
   FLock.LockList;
   try
     // update
-    if FileExists(SyncJsonFilename) and (not bForce) then
-    try
-      o := TSyncObject(TJsonObject.Load(SyncJsonFilename, TSyncObject.Create));
+    if (FileDateTodateTime(FileAge(SyncJsonFilename)) > FSyncFileDAte) then
+      if FileExists(SyncJsonFilename) and (not bForce) then
       try
-        // pull
-        if (FileDateTodateTime(FileAge(SyncJsonFilename)) > FSyncFileDAte) and
-           (FDateSetReadState < _IsoDateToDateTime(o.DateSetReadState)) then
-        begin
-          FDateSetReadState := _IsoDateToDateTime(o.DateSetReadState);
-          FReadState := o.ReadState;
-          FCurPage := o.CurPage;
-          FModified := True;
-          result := 1;
-        end
-        else
-        begin
-          // push
-          bSynced := false;
-          if o.logicalPath = '' then
+        o := TSyncObject(TJsonObject.Load(SyncJsonFilename, TSyncObject.Create));
+        try
+          // pull
+          if (FDateSetReadState < _IsoDateToDateTime(o.DateSetReadState)) then
           begin
-            o.logicalPath := LogicalPath;
-            o.Save(SyncJsonFilename);
-            bSynced := true;
-            result := 2;
-          end;
-
-          if FDateSetReadState > _IsoDateToDateTime(o.DateSetReadState) then
+            FDateSetReadState := _IsoDateToDateTime(o.DateSetReadState);
+            FReadState := o.ReadState;
+            FCurPage := o.CurPage;
+            FModified := True;
+            result := 1;
+          end
+          else
           begin
-            o.DateSetReadState := FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
-                                  FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState);
-            o.ReadState := FReadState;
-            o.Save(SyncJsonFilename);
-            bSynced := true;
-            result := 2;
-          end;
-          if o.CurPage <> FCurPage then
-            if o.CurPage > FCurPage then
-              FCurPage := o.CurPage
-            else
+            // push
+            bSynced := false;
+            if o.logicalPath = '' then
             begin
-              o.CurPage := FCurPage;
+              o.logicalPath := LogicalPath;
               o.Save(SyncJsonFilename);
-              result := 2;
               bSynced := true;
+              result := 2;
             end;
 
-           if bSynced then
-             FSyncFileDAte := FileDateTodateTime(FileAge(SyncJsonFilename));
+            if FDateSetReadState > _IsoDateToDateTime(o.DateSetReadState) then
+            begin
+              o.DateSetReadState := FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
+                                    FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState);
+              o.ReadState := FReadState;
+              o.Save(SyncJsonFilename);
+              bSynced := true;
+              result := 2;
+            end;
+            if o.CurPage <> FCurPage then
+              if o.CurPage > FCurPage then
+                FCurPage := o.CurPage
+              else
+              begin
+                o.CurPage := FCurPage;
+                o.Save(SyncJsonFilename);
+                result := 2;
+                bSynced := true;
+              end;
+
+             if bSynced then
+               FSyncFileDAte := FileDateTodateTime(FileAge(SyncJsonFilename));
+          end;
+        finally
+          o.free;
         end;
-      finally
-        o.free;
-      end;
     except
       on E: Exception do
         FLog.Log('TFileItem.CheckSync:'+E.Message);

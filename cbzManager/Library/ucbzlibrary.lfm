@@ -7,7 +7,6 @@ object CbzLibrary: TCbzLibrary
   ClientHeight = 566
   ClientWidth = 1022
   Menu = MainMenu1
-  LCLVersion = '4.0.0.1'
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate

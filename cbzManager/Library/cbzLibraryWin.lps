@@ -119,12 +119,7 @@
       <Define1 Value="UseCThreads"/>
       <Define2 Value="DEBUG"/>
     </OtherDefines>
-    <JumpHistory>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="733" Column="107" TopLine="714"/>
-      </Position>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

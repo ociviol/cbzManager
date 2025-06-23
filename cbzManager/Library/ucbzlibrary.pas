@@ -756,8 +756,6 @@ begin
   btnRefresh.enabled := False;
   btnScrub.enabled := False;
   FThreadScrub := TThreadScrub.Create(FLog, FFileList, FConfig, @ThreadScrubNotify, @ThreadScrubTerminate, @Progress);
-  sleep(100);
-  close;
 end;
 
 procedure TcbzLibrary.btnTestClick(Sender: TObject);

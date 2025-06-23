@@ -103,8 +103,8 @@ begin
 
           fi := TFileItem(FFileList.Objects[i]);
 
-          if not FileExists(fi.Filename) then
-            fi.Deleted:=True;
+          //if not FileExists(fi.Filename) then
+          //  fi.Deleted:=True;
 
           if (dfUnread in FDisplayFilters) then
             if fi.ReadState then
@@ -124,7 +124,7 @@ begin
                 AddObject(s, fi);
           end;
 
-          if (i mod 500) = 0 then
+          if (i mod 50) = 0 then
           begin
             Synchronize(@DoProgress);
             //Sleep(10);

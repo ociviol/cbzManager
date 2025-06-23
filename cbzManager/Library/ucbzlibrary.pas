@@ -362,8 +362,10 @@ begin
 
   if Assigned(FThreadScrub) then
   begin
+    if FThreadScrub.Paused then
+      FThreadScrub.Paused := true;
     FThreadScrub.Terminate;
-//    FThreadScrub.Waitfor;
+    FThreadScrub.Waitfor;
     //FreeAndNil(FThreadScrub);
   end;
 
@@ -1161,6 +1163,7 @@ begin
     FFillThread.Terminate;
     FFillThread.Waitfor;
   end;
+
   Progress(Self, 0, 0, 0, 'Loading folder...');
   btnRefresh.Enabled:=False;
   btnScrub.Enabled:=False;
@@ -1191,7 +1194,10 @@ begin
       fs.FDate:= TDateTime(Items.Objects[ItemIndex]);
 
   if Assigned(FThreadScrub) then
-    FThreadScrub.Paused := True;
+  begin
+    FThreadScrub.Paused := true;
+//    FThreadScrub.WaitFor;
+  end;
 
   mnuFile.Enabled := false;
   mnuEdit.Enabled := false;

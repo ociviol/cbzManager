@@ -261,7 +261,6 @@ function TFileItem.GetReadState: Boolean;
 begin
   FLock.LockList;
   try
-    CheckSync;
     result := FReadState;
   finally
     FLock.UnlockList;
@@ -517,7 +516,6 @@ begin
                                     FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState);
               o.ReadState := FReadState;
               o.Save(SyncJsonFilename);
-              FSyncFileDate := FileDateTodateTime(FileAge(SyncJsonFilename));
               result := 2;
             end;
 
@@ -528,13 +526,13 @@ begin
               begin
                 o.CurPage := FCurPage;
                 o.Save(SyncJsonFilename);
-                FSyncFileDate := FileDateTodateTime(FileAge(SyncJsonFilename));
                 result := 2;
               end;
           end;
         finally
           o.free;
         end;
+        FSyncFileDate := FileDateTodateTime(FileAge(SyncJsonFilename));
       end;
     end
     else

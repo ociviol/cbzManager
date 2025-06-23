@@ -18,7 +18,6 @@ type
     FVal,
     FCnt,
     FDeleted,
-    FStampCount,
     Fsynced : Integer;
     FFileList: TItemList;
     FProgress : TSearchFileProgressEvent;
@@ -86,9 +85,9 @@ begin
   if Assigned(FProgress) then
   begin
     if (FVal < FCnt - 1) and (Fcnt > 0) then
-      FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Stamps:%d - Deleted:%d - Synced:%d',
+      FProgress(Self, 1, 0, 0, Format('Scrub:%s - Albums:%d - Deleted:%d - Synced:%d',
                                      [IntToStr((FVal * 100) div FCnt) + '%',
-                                      FCnt, FStampCount, FDeleted, FSynced]))
+                                      FCnt, FDeleted, FSynced]))
     //FProgress(Self, 1, 0, 0, 'Scrubing stamps : ' +
       //          IntToStr((FVal * 100) div FFileList.Count) + '%')
     else
@@ -124,7 +123,6 @@ end;
 procedure TThreadScrub.UpdateCount;
 begin
   FCnt := FFileList.Count;
-  FStampCount := FFileList.StampCount;
 end;
 
 procedure TThreadScrub.Execute;
@@ -279,7 +277,7 @@ begin
         UpdateCount;
         //Synchronize(@UpdateCount);
 
-        if (FVal mod 50) = 0 then
+        if (FVal = 1) or ((FVal mod 10) = 0) then
           Synchronize(@DoProgress);
           //yield;
 

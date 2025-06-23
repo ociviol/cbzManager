@@ -7,13 +7,13 @@ object CbzLibrary: TCbzLibrary
   ClientHeight = 566
   ClientWidth = 1022
   Menu = MainMenu1
+  LCLVersion = '4.0.0.1'
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
   OnShow = FormShow
-  LCLVersion = '3.2.0.0'
   object dgLibrary: TDrawGrid
     Left = 50
     Height = 492
@@ -106,8 +106,8 @@ object CbzLibrary: TCbzLibrary
         3333333333333333333333333333333333333333333333333333
       }
       NumGlyphs = 2
-      OnClick = btnReturnClick
       ParentFont = False
+      OnClick = btnReturnClick
     end
     object Panel2: TPanel
       Left = 490
@@ -185,8 +185,8 @@ object CbzLibrary: TCbzLibrary
         333333333337F333333333333330333333333333333733333333
       }
       NumGlyphs = 2
-      OnClick = btnTopPathClick
       ParentFont = False
+      OnClick = btnTopPathClick
     end
     object cbHideRead: TCheckBox
       Left = 764

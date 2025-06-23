@@ -8,7 +8,8 @@
       <Unit>
         <Filename Value="cbzLibraryWin.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="6" Y="20"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos Y="27"/>
         <UsageCount Value="94"/>
         <Loaded Value="True"/>
       </Unit>
@@ -26,15 +27,14 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="705"/>
-        <CursorPos X="45" Y="714"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="714"/>
+        <CursorPos X="107" Y="733"/>
         <UsageCount Value="93"/>
         <Bookmarks Count="3">
           <Item0 Y="620" Left="1" Top="616" ID="3"/>
           <Item1 Y="719" Left="6" Top="717" ID="4"/>
-          <Item2 X="110" Y="733" Left="1" Top="724" ID="5"/>
+          <Item2 X="109" Y="733" Left="1" Top="724" ID="5"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -62,7 +62,7 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="121"/>
         <CursorPos Y="141"/>
         <UsageCount Value="93"/>
@@ -93,7 +93,7 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="131"/>
         <CursorPos Y="147"/>
         <UsageCount Value="88"/>
@@ -119,7 +119,12 @@
       <Define1 Value="UseCThreads"/>
       <Define2 Value="DEBUG"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="733" Column="107" TopLine="714"/>
+      </Position>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

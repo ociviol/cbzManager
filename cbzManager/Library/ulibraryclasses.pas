@@ -730,7 +730,7 @@ begin
     p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + '.covers';
     ForceDirectories(p);
 
-    result := IncludeTrailingPathDelimiter(p) + MD5Print(MD5String(RemoveDiacritics(LogicalPath))) + '.json';
+    result := IncludeTrailingPathDelimiter(p) + MD5Print(MD5String(RemoveDiacritics(LogicalPath))) + '.jpg';
   finally
     Flock.UnlockList;
   end;

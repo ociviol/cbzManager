@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="cbzLibraryWin.lpr"/>
@@ -27,7 +27,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="484"/>
         <CursorPos Y="499"/>
         <UsageCount Value="90"/>
@@ -62,7 +62,7 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="121"/>
         <CursorPos Y="141"/>
         <UsageCount Value="90"/>
@@ -93,7 +93,7 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="131"/>
         <CursorPos Y="147"/>
         <UsageCount Value="85"/>

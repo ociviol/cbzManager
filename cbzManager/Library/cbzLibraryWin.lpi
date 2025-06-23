@@ -20,7 +20,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="70"/>
+      <BuildNr Value="75"/>
       <StringTable CompanyName="Ollivier Civiol" FileDescription="Comic books libray" InternalName="cbzLibrary" LegalCopyright="Ollivier Civiol" OriginalFilename="cbzLibrary" ProductName="cbzLibrary"/>
     </VersionInfo>
     <BuildModes>
@@ -34,7 +34,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\..\Utils;..\..\..\XmlReader\XmlDoc;..\..\..\Synapse\source\lib;.."/>
+            <OtherUnitFiles Value="..\..\..\Utils;..\..\..\Synapse\source\lib;..;..\..\..\lazarus\XmlReader\XmlDoc"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>

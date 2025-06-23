@@ -71,12 +71,7 @@
       <Define1 Value="UseCThreads"/>
       <Define2 Value="Library"/>
     </OtherDefines>
-    <JumpHistory>
-      <Position>
-        <Filename Value="ucbzlibrary.pas"/>
-        <Caret Line="16" Column="33" TopLine="6"/>
-      </Position>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

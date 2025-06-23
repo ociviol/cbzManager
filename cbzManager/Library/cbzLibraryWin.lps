@@ -3,13 +3,13 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="cbzLibraryWin.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="6" Y="20"/>
-        <UsageCount Value="90"/>
+        <UsageCount Value="91"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -20,21 +20,21 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="12" Y="19"/>
-        <UsageCount Value="89"/>
+        <UsageCount Value="90"/>
       </Unit>
       <Unit>
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="520"/>
-        <CursorPos Y="536"/>
-        <UsageCount Value="89"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="484"/>
+        <CursorPos Y="499"/>
+        <UsageCount Value="90"/>
         <Bookmarks Count="3">
-          <Item0 Y="671" Left="1" Top="667" ID="3"/>
-          <Item1 X="63" Y="741" Left="1" Top="726" ID="4"/>
-          <Item2 Y="779" Left="1" Top="767" ID="5"/>
+          <Item0 Y="632" Left="1" Top="628" ID="3"/>
+          <Item1 X="107" Y="679" Left="6" Top="678" ID="4"/>
+          <Item2 X="92" Y="693" Left="1" Top="685" ID="5"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -46,12 +46,12 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="999"/>
-        <CursorPos X="37" Y="1025"/>
-        <UsageCount Value="89"/>
+        <TopLine Value="731"/>
+        <CursorPos Y="746"/>
+        <UsageCount Value="90"/>
         <Bookmarks Count="2">
-          <Item0 X="27" Y="1414" Left="1" Top="1393" ID="1"/>
-          <Item1 X="10" Y="1006" Left="1" Top="998" ID="2"/>
+          <Item0 X="27" Y="1413" Left="1" Top="1392" ID="1"/>
+          <Item1 X="10" Y="1005" Left="1" Top="997" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -62,10 +62,10 @@
         <ComponentName Value="ConfigFrm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="121"/>
         <CursorPos Y="141"/>
-        <UsageCount Value="89"/>
+        <UsageCount Value="90"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -74,9 +74,9 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="232"/>
-        <CursorPos Y="254"/>
-        <UsageCount Value="87"/>
+        <TopLine Value="233"/>
+        <CursorPos X="59" Y="254"/>
+        <UsageCount Value="88"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -86,17 +86,17 @@
         <EditorIndex Value="3"/>
         <TopLine Value="29"/>
         <CursorPos Y="85"/>
-        <UsageCount Value="87"/>
+        <UsageCount Value="88"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="131"/>
         <CursorPos Y="147"/>
-        <UsageCount Value="84"/>
+        <UsageCount Value="85"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -109,9 +109,18 @@
         <EditorIndex Value="1"/>
         <TopLine Value="53"/>
         <CursorPos Y="70"/>
-        <UsageCount Value="84"/>
+        <UsageCount Value="85"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\..\Utils\utils.strings.pas"/>
+        <UnitName Value="Utils.Strings"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="55"/>
+        <CursorPos Y="70"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit>
     </Units>
     <OtherDefines Count="3">
@@ -119,7 +128,128 @@
       <Define1 Value="UseCThreads"/>
       <Define2 Value="DEBUG"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="571" TopLine="556"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="492" TopLine="476"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="572" TopLine="558"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="255" TopLine="237"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="258" TopLine="237"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="263" TopLine="239"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="268" TopLine="244"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="269" TopLine="245"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="366" TopLine="350"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="368" TopLine="350"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="366" TopLine="350"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="410" TopLine="396"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="277" TopLine="262"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="279" TopLine="262"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="282" TopLine="262"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="287" TopLine="263"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="231" TopLine="216"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="233" TopLine="216"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="236" TopLine="216"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="243" TopLine="219"/>
+      </Position>
+      <Position>
+        <Filename Value="uthreadscrub.pas"/>
+        <Caret Line="254" Column="59" TopLine="233"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="98" Column="14" TopLine="83"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="499" TopLine="481"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="500" TopLine="481"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="502" TopLine="481"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="514" TopLine="500"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="515" TopLine="500"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="523" TopLine="500"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="532" TopLine="517"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="543" TopLine="519"/>
+      </Position>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

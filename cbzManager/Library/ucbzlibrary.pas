@@ -743,7 +743,6 @@ begin
     StopThreads;
     btnRefresh.enabled := False;
     btnScrub.enabled := False;
-    FFileList.ResetStampState;
     //FFileList.Clear;
     FLog.Log('TCbzLibrary.btnRefreshClick : Refresh started.');
     FThreadSearchFiles := ThreadedSearchFiles(FCurrentPath, ['*.cbz'], @FoundFile, @SearchEnded,

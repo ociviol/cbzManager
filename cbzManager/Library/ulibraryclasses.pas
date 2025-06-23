@@ -51,7 +51,6 @@ type
     FDateAdded,
     FSyncFileDAte,
     FDateSetReadState: TDateTime;
-    FStampGenerated : Boolean;
     FDeleted : Boolean;
     FParent : TItemList;
     //FSyncFilename,
@@ -76,14 +75,12 @@ type
     function GetImg: TBitmap;
     function GetModified: Boolean;
     function GetReadState: Boolean;
-    function GetStampGenerated: Boolean;
     function GetText: String;
     procedure SetDateAdded(AValue: TDAteTime);
     procedure SetDateSetReadState(AValue: TDateTime);
     procedure SetSyncFileDAte(AValue: TDateTime);
     procedure SetDeleted(AValue: Boolean);
     procedure SetReadState(AValue: Boolean);
-    procedure SetStampGenerated(AValue: Boolean);
     procedure SetText(const AValue: String);
     property  Img : TBitmap write SetImg;
   protected
@@ -91,7 +88,6 @@ type
     procedure LoadFromXml(aNode : TXmlElement);
     property CacheFilename : String read GetCacheFilename;
     property Modified : Boolean read GetModified;
-    property StampGenerated : Boolean read GetStampGenerated write SetStampGenerated;
     property Parent : TItemList read FParent;
   public
     constructor Create;
@@ -142,7 +138,6 @@ type
     procedure LoadFromFile(const aFilename : String);
     procedure SaveToFile(const aFilename : String);
     procedure Save;
-    procedure ResetStampState;
     procedure Cleanup;
 
     property Modified : Boolean read GetModified;
@@ -199,7 +194,6 @@ begin
   FDateAdded := now;
   Fimg := nil;
   FLock := TThreadList.Create;
-  FStampGenerated:=False;
 end;
 
 constructor TFileItem.Create(aParent : TItemList; aLog : ILog; const aFilename: String);
@@ -269,16 +263,6 @@ begin
   try
     CheckSync;
     result := FReadState;
-  finally
-    FLock.UnlockList;
-  end;
-end;
-
-function TFileItem.GetStampGenerated: Boolean;
-begin
-  FLock.LockList;
-  try
-    result := FStampGenerated;
   finally
     FLock.UnlockList;
   end;
@@ -364,17 +348,6 @@ begin
   end;
 end;
 
-procedure TFileItem.SetStampGenerated(AValue: Boolean);
-begin
-  FLock.LockList;
-  try
-    FStampGenerated := AValue;
-    FModified:=True;
-  finally
-    FLock.UnlockList;
-  end;
-end;
-
 procedure TFileItem.SetText(const AValue: String);
 begin
   FLock.LockList;
@@ -415,7 +388,6 @@ begin
               finally
                 p.Free;
               end;
-              FStampGenerated:=True;
               FModified:=True;
             finally
               b.free;
@@ -434,17 +406,6 @@ begin
   except
     on e: Exception do
       Flog.Log('TFileItem.GenerateStamp:Error:' + E.Message);
-  end
-  else
-  if not StampGenerated then
-  begin
-    FLock.LockList;
-    try
-      FStampGenerated := True;
-      FModified := True;
-    finally
-      FLock.UnlockList;
-    end;
   end;
 end;
 
@@ -533,59 +494,59 @@ begin
   FLock.LockList;
   try
     // update
-    if (FileDateTodateTime(FileAge(SyncJsonFilename)) > FSyncFileDAte) then
-      if FileExists(SyncJsonFilename) and (not bForce) then
+    if FileExists(SyncJsonFilename) and (not bForce) then
+    try
+      o := TSyncObject(TJsonObject.Load(SyncJsonFilename, TSyncObject.Create));
       try
-        o := TSyncObject(TJsonObject.Load(SyncJsonFilename, TSyncObject.Create));
-        try
-          // pull
-          if (FDateSetReadState < _IsoDateToDateTime(o.DateSetReadState)) then
+        // pull
+        if (FileDateTodateTime(FileAge(SyncJsonFilename)) > FSyncFileDAte) and
+           (FDateSetReadState < _IsoDateToDateTime(o.DateSetReadState)) then
+        begin
+          FDateSetReadState := _IsoDateToDateTime(o.DateSetReadState);
+          FReadState := o.ReadState;
+          FCurPage := o.CurPage;
+          FModified := True;
+          result := 1;
+        end
+        else
+        begin
+          // push
+          bSynced := false;
+          if o.logicalPath = '' then
           begin
-            FDateSetReadState := _IsoDateToDateTime(o.DateSetReadState);
-            FReadState := o.ReadState;
-            FCurPage := o.CurPage;
-            FModified := True;
-            result := 1;
-          end
-          else
-          begin
-            // push
-            bSynced := false;
-            if o.logicalPath = '' then
-            begin
-              o.logicalPath := LogicalPath;
-              o.Save(SyncJsonFilename);
-              bSynced := true;
-              result := 2;
-            end;
-
-            if FDateSetReadState > _IsoDateToDateTime(o.DateSetReadState) then
-            begin
-              o.DateSetReadState := FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
-                                    FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState);
-              o.ReadState := FReadState;
-              o.Save(SyncJsonFilename);
-              bSynced := true;
-              result := 2;
-            end;
-            if o.CurPage <> FCurPage then
-              if o.CurPage > FCurPage then
-                FCurPage := o.CurPage
-              else
-              begin
-                o.CurPage := FCurPage;
-                o.Save(SyncJsonFilename);
-                result := 2;
-                bSynced := true;
-              end;
-
-             if bSynced then
-               FSyncFileDAte := FileDateTodateTime(FileAge(SyncJsonFilename));
+            o.logicalPath := LogicalPath;
+            o.Save(SyncJsonFilename);
+            bSynced := true;
+            result := 2;
           end;
-        finally
-          o.free;
+
+          if FDateSetReadState > _IsoDateToDateTime(o.DateSetReadState) then
+          begin
+            o.DateSetReadState := FormatDateTime('yyyy-mm-dd', FDateSetReadState) + 'T' +
+                                  FormatDateTime('hh":"nn":"ss.zzz', FDateSetReadState);
+            o.ReadState := FReadState;
+            o.Save(SyncJsonFilename);
+            bSynced := true;
+            result := 2;
+          end;
+          if o.CurPage <> FCurPage then
+            if o.CurPage > FCurPage then
+              FCurPage := o.CurPage
+            else
+            begin
+              o.CurPage := FCurPage;
+              o.Save(SyncJsonFilename);
+              result := 2;
+              bSynced := true;
+            end;
+
+           if bSynced then
+             FSyncFileDAte := FileDateTodateTime(FileAge(SyncJsonFilename));
         end;
-    except
+      finally
+        o.free;
+      end;
+  except
       on E: Exception do
         FLog.Log('TFileItem.CheckSync:'+E.Message);
     end
@@ -712,53 +673,10 @@ end;
 
 
 function TFileItem.SyncJsonFilename: String;
-var
-  s, o, p, n : string;
-  a : TStringArray;
-  st : TMemoryStream;
 begin
   FLock.LockList;
   try
-    //if FSyncJsonFilename <> '' then
-      //Exit(FSyncJsonFilename);
-
-    // old file
-    s := makefilename(ExtractFilename(FFilename));
-    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + SyncPathName(FFilename);
-    o := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.json');
-
-    // new file
-    s := ExtractFilename(FFilename);
-    p := ExtractFilePath(FFilename);
-    a := p.Split(DirectorySeparator);
-    s := a[length(a)-2] + DirectorySeparator + s;
-    s := MD5Print(MD5String(s));
-    p := IncludeTrailingPathDelimiter(Parent.FSyncPath);
-    ForceDirectories(p);
-    result := p + s + '.json';
-    //FSyncJsonFilename := result;
-    // convert dest filename to md5 of LogicalPath
-    n := IncludeTrailingPathDelimiter(p) + MD5Print(MD5String(LogicalPath)) + '.json';
-    if not FileExists(result) then
-      result := n;
-    if not FileExists(n) then
-    begin
-      if FileExists(result) then
-        RenameFile(result, n);
-      result := n;
-    end;
-    // convert from old format store in subfolders
-    if FileExists(o) then
-    begin
-      st := TMemoryStream.Create;
-      try
-        st.LoadFromFile(o);
-        st.SaveToFile(result);
-        DeleteFile(o);
-      finally
-        st.Free;
-      end;
-    end;
+    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + MD5Print(MD5String(LogicalPath)) + '.json';
   finally
     Flock.UnlockList;
   end;
@@ -770,26 +688,9 @@ var
 begin
   FLock.LockList;
   try
-    //if FCacheFilename <> '' then
-      //Exit(FCacheFilename);
-
     p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + '.covers';
     ForceDirectories(p);
     result := IncludeTrailingPathDelimiter(p) +  MD5Print(MD5String(LogicalPath)) + '.jpg';
-
-    (*
-    result :=
-    {$if defined(Darwin) or defined(Linux)}
-      expandfilename('~/') + CS_CONFIG_PATH + '/Library/cache/' +
-    {$else}
-      configpath + 'Library\cache\' +
-    {$endif}
-    //  IncludeTrailingPathDelimiter(Parent.FSyncPath) +
-      SyncPathName(FFilename);
-    ForceDirectories(result);
-    result := IncludeTrailingPathDelimiter(result) + ChangeFileExt(s, '.jpg');
-    FCacheFilename := result;
-    *)
   finally
     Flock.UnlockList;
   end;
@@ -840,7 +741,6 @@ begin
   with aNode do
   begin
     SetAttributeBool('ReadState', FReadState);
-    SetAttributeBool('HasStamp', FStampGenerated);
     SetAttributeDate('DateAdded', FDateAdded);
     SetAttributeDate('SyncFileDAte', FSyncFileDAte);
     SetAttributeDate('DateSetReadState', FDateSetReadState);
@@ -857,7 +757,6 @@ begin
   With aNode do
   begin
     FReadState := GetAttributeBool('ReadState');
-    FStampGenerated := GetAttributeBool('HasStamp');
     FDateAdded := GetAttributeDate('DateAdded', now);
     FSyncFileDAte := GetAttributeDate('SyncFileDAte', 0);
     FDateSetReadState := GetAttributeDate('DateSetReadState', 0);
@@ -922,7 +821,7 @@ begin
     result := 0;
     for i := 0 to Count - 1 do
       with TFileItem(Objects[i]) do
-        if FStampGenerated and FileExists(CacheFilename) then
+        if FileExists(CacheFilename) then
           inc(result);
   finally
     UnlockList;
@@ -938,17 +837,15 @@ begin
     result := 0;
     for i := 0 to Count - 1 do
       with TFileItem(Objects[i]) do
-        if not FStampGenerated then
-          if not FileExists(CacheFilename) then
-          begin
-            inc(result);
+        if not FileExists(CacheFilename) then
+        begin
+          inc(result);
 //            FLog.Log('TItemList.GetStampLessCount:Cache File not found:'+CacheFilename);
-          end
-          else
-          begin
-            FStampGenerated := True;
-            FModified:=True;
-          end;
+        end
+        else
+        begin
+          FModified:=True;
+        end;
   finally
     UnlockList;
   end;
@@ -1097,19 +994,6 @@ procedure TItemList.Save;
 begin
   if Modified and (FFilename <> '') then
     SaveToFile(FFilename);
-end;
-
-procedure TItemList.ResetStampState;
-var
-  i : integer;
-begin
-  with LockList do
-  try
-    for i:= 0 To Count - 1 do
-    TFileItem(Objects[i]).StampGenerated:=False;
-  finally
-    UnlockList;
-  end;
 end;
 
 procedure TItemList.Cleanup;

@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="cbzLibraryWin.lpr"/>
@@ -113,186 +113,16 @@
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
-      <Unit>
-        <Filename Value="..\..\..\Utils\utils.strings.pas"/>
-        <UnitName Value="Utils.Strings"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="55"/>
-        <CursorPos Y="70"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="C:\lazarus\lcl\include\picture.inc"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="766"/>
-        <CursorPos Y="781"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-      </Unit>
     </Units>
     <OtherDefines Count="3">
       <Define0 Value="Library"/>
       <Define1 Value="UseCThreads"/>
       <Define2 Value="DEBUG"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="706" TopLine="689"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="707" TopLine="689"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="708" TopLine="689"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="709" TopLine="689"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="672" TopLine="656"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="674" TopLine="656"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="675" TopLine="656"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="676" TopLine="656"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="691" TopLine="677"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="703" TopLine="679"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="704" TopLine="680"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="707" TopLine="683"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="708" TopLine="684"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="711" TopLine="687"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="712" TopLine="688"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="742" TopLine="726"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="743" TopLine="726"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="745" TopLine="726"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="746" TopLine="726"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="737" TopLine="726"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="749" TopLine="726"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="668" TopLine="653"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="711" TopLine="697"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="743" TopLine="727"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="745" TopLine="727"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="746" TopLine="727"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="737" TopLine="727"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="749" TopLine="727"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="743" TopLine="727"/>
-      </Position>
-      <Position>
-        <Filename Value="C:\lazarus\lcl\include\picture.inc"/>
-        <Caret Line="781" TopLine="766"/>
-      </Position>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="1360"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ucbzlibrary.pas"/>
-        <Line Value="1350"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uthreadscrub.pas"/>
-        <Line Value="299"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="668"/>
-      </Item>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

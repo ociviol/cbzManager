@@ -179,12 +179,12 @@ var
             {$if defined(Darwin) or defined(Linux)}
             s := Utf8ToAnsi(UTF8Encode(FieldByName('path').AsString));
             {$else}
-            s := ToAnsi(FieldByName('path').AsString.Replace('/', '\'));
+            s := Utf8ToAnsi(UTF8Encode(FieldByName('path').AsString.Replace('/', '\')));
             {$endif}
             for i := 0 to FFileList.Count - 1 do
             begin
               s2 := Utf8ToAnsi(UTF8Encode((FFileList[i])));
-              if pos(s, s2) > 0 then // RemoveDiacritics(FFileList[i]).EndsWith(s) then
+              if pos(s, s2) > 0 then
                 if FileExists(FFileList[i]) then
                    with TFileItem(FFileList.Objects[i]) do
                    begin

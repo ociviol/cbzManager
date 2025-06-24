@@ -29,6 +29,7 @@ type
     FConfig : TConfig;
 
     procedure DoProgress;
+    procedure DoProgress2;
     procedure DoNotify;
     function GetPaused: Boolean;
     procedure SetPaused(AValue: Boolean);
@@ -93,6 +94,11 @@ begin
     else
       FProgress(Self, 1, 0, 0, 'Scrub Done. (' + TimeToStr(now) + ')');
   end;
+end;
+
+procedure TThreadScrub.DoProgress2;
+begin
+  FProgress(Self, 1, 0, 0, 'Reading states from YacreaderLibraries...');
 end;
 
 procedure TThreadScrub.DoNotify;
@@ -292,6 +298,7 @@ begin
       end;
       // Get read states from yaclibs
       try
+        Synchronize(@DoProgress2);
         GetReadStatesFromYAcLib;
         UpdateCount;
       except

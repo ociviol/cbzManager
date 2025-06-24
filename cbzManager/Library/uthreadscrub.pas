@@ -150,7 +150,13 @@ var
   var
     Ylibs : TStringlist;
     i,j : integer;
-    s : string;
+    s, s2 : ansistring;
+
+    function ToAnsi(aStr : string):ansistring;
+    begin
+      result := Utf8ToAnsi(UTF8Encode(aStr));
+    end;
+
   begin
 {$if defined(Darwin) or Defined(MsWindows)}
     Ylibs := TStringlist.Create;
@@ -179,10 +185,12 @@ var
             {$if defined(Darwin) or defined(Linux)}
             s := RemoveDiacritics(FieldByName('path').AsString);
             {$else}
-            s := RemoveDiacritics(FieldByName('path').AsString.Replace('/', '\'));
+            s := ToAnsi(FieldByName('path').AsString.Replace('/', '\'));
             {$endif}
             for i := 0 to FFileList.Count - 1 do
-              if RemoveDiacritics(FFileList[i]).EndsWith(s) then
+            begin
+              s2 := ToAnsi(FFileList[i]);
+              if pos(s, s2) > 0 then // RemoveDiacritics(FFileList[i]).EndsWith(s) then
                 if FileExists(FFileList[i]) then
                    with TFileItem(FFileList.Objects[i]) do
                    begin
@@ -194,6 +202,7 @@ var
 
                      break;
                    end;
+            end;
 
             Next;
           end;

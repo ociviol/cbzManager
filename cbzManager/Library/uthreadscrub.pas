@@ -177,12 +177,12 @@ var
           while not eof do
           begin
             {$if defined(Darwin) or defined(Linux)}
-            s := FieldByName('path').AsString;
+            s := RemoveDiacritics(FieldByName('path').AsString);
             {$else}
-            s := FieldByName('path').AsString.Replace('/', '\');
+            s := RemoveDiacritics(FieldByName('path').AsString.Replace('/', '\'));
             {$endif}
             for i := 0 to FFileList.Count - 1 do
-              if FFileList[i].EndsWith(s) then
+              if RemoveDiacritics(FFileList[i]).EndsWith(s) then
                 if FileExists(FFileList[i]) then
                    with TFileItem(FFileList.Objects[i]) do
                    begin

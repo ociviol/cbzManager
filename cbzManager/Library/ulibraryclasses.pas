@@ -150,6 +150,7 @@ type
   end;
 
 function ConfigPath: String;
+function RemoveDiacritics(const S: string): string;
 
 implementation
 

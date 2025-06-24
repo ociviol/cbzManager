@@ -150,6 +150,7 @@ type
   end;
 
 function ConfigPath: String;
+function RemoveDiacritics(const S: string): string;
 
 implementation
 
@@ -657,12 +658,57 @@ begin
   result := aFilename;
 end;
 
-function RemoveAccents(const Src: ansistring): ansistring;
+function RemoveDiacritics(const S: string): string;
 var
-  Bytes: TBytes;
+  F: Boolean;
+  I: SizeInt;
+  PS, PD: PChar;
 begin
-  Bytes := TEncoding.ASCII.GetBytes(Src);
-  Result := lowercase(TEncoding.ASCII.GetString(Bytes));
+  SetLength(Result, Length(S));
+  PS := PChar(S);
+  PD := PChar(Result);
+  I := 0;
+  while PS^ <> #0 do
+  begin
+    F := PS^ = #195;
+    if F then
+      case PS[1] of
+        #128..#134: PD^ := 'A';
+        #135: PD^ := 'C';
+        #136..#139: PD^ := 'E';
+        #140..#143: PD^ := 'I';
+        #144: PD^ := 'D';
+        #145: PD^ := 'N';
+        #146..#150, #152: PD^ := 'O';
+        #151: PD^ := 'x';
+        #153..#156: PD^ := 'U';
+        #157: PD^ := 'Y';
+        #158: PD^ := 'P';
+        #159: PD^ := 's';
+        #160..#166: PD^ := 'a';
+        #167: PD^ := 'c';
+        #168..#171: PD^ := 'e';
+        #172..#175: PD^ := 'i';
+        #176: PD^ := 'd';
+        #177: PD^ := 'n';
+        #178..#182, #184: PD^ := 'o';
+        #183: PD^ := '-';
+        #185..#188: PD^ := 'u';
+        #190: PD^ := 'p';
+        #189, #191: PD^ := 'y';
+      else
+        F := False;
+      end;
+    if F then
+      Inc(PS)
+    else
+      PD^ := PS^;
+    Inc(I);
+    Inc(PD);
+    Inc(PS);
+  end;
+  SetLength(Result, I);
+  result := lowercase(result);
 end;
 
 function TFileItem.SyncJsonFilename: String;
@@ -671,7 +717,7 @@ var
 begin
   FLock.LockList;
   try
-    s := RemoveAccents(Utf8ToAnsi(UTF8Encode(LogicalPath)));
+    s := RemoveDiacritics(LogicalPath);
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + MD5Print(MD5String(s)) + '.json';
   finally
     Flock.UnlockList;
@@ -687,7 +733,7 @@ begin
   try
     p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + '.covers';
     ForceDirectories(p);
-    s := RemoveAccents(Utf8ToAnsi(UTF8Encode(LogicalPath)));
+    s := RemoveDiacritics(LogicalPath);
     result := IncludeTrailingPathDelimiter(p) + MD5Print(MD5String(s)) + '.jpg';
   finally
     Flock.UnlockList;

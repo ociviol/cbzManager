@@ -662,7 +662,7 @@ var
   Bytes: TBytes;
 begin
   Bytes := TEncoding.ASCII.GetBytes(Src);
-  Result := TEncoding.ASCII.GetString(Bytes);
+  Result := lowercase(TEncoding.ASCII.GetString(Bytes));
 end;
 
 function TFileItem.SyncJsonFilename: String;

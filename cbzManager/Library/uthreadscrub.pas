@@ -163,7 +163,7 @@ var
       Bytes: TBytes;
     begin
       Bytes := TEncoding.ASCII.GetBytes(Src);
-      Result := TEncoding.ASCII.GetString(Bytes);
+      Result := lowercase(TEncoding.ASCII.GetString(Bytes));
     end;
   begin
 {$if defined(Darwin) or Defined(MsWindows)}

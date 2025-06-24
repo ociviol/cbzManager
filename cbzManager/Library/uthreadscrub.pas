@@ -202,7 +202,13 @@ var
 
                      break;
                    end;
+
+              if Terminated then
+                break;
             end;
+
+            if Terminated then
+              Exit;
 
             Next;
           end;

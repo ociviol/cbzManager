@@ -157,6 +157,14 @@ var
     Ylibs : TStringlist;
     i,j : integer;
     s, s2 : ansistring;
+
+    function RemoveAccents(const Src: ansistring): ansistring;
+    var
+      Bytes: TBytes;
+    begin
+      Bytes := TEncoding.ASCII.GetBytes(Src);
+      Result := TEncoding.ASCII.GetString(Bytes);
+    end;
   begin
 {$if defined(Darwin) or Defined(MsWindows)}
     Ylibs := TStringlist.Create;
@@ -183,13 +191,13 @@ var
           while not eof do
           begin
             {$if defined(Darwin) or defined(Linux)}
-            s := Utf8ToAnsi(UTF8Encode(FieldByName('path').AsString));
+            s := RemoveAccents(Utf8ToAnsi(UTF8Encode(FieldByName('path').AsString)));
             {$else}
-            s := Utf8ToAnsi(UTF8Encode(FieldByName('path').AsString.Replace('/', '\')));
+            s := RemoveAccents(Utf8ToAnsi(UTF8Encode(FieldByName('path').AsString.Replace('/', '\'))));
             {$endif}
             for i := 0 to FFileList.Count - 1 do
             begin
-              s2 := Utf8ToAnsi(UTF8Encode((FFileList[i])));
+              s2 := RemoveAccents(Utf8ToAnsi(UTF8Encode((FFileList[i]))));
               if pos(s, s2) > 0 then
                 if FileExists(FFileList[i]) then
                    with TFileItem(FFileList.Objects[i]) do

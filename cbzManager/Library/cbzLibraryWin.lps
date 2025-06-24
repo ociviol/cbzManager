@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Debug"/>
     <Units>
       <Unit>
         <Filename Value="cbzLibraryWin.lpr"/>
@@ -26,14 +26,15 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="208"/>
-        <CursorPos Y="153"/>
+        <TopLine Value="663"/>
+        <CursorPos Y="691"/>
         <UsageCount Value="109"/>
         <Bookmarks Count="3">
           <Item0 Y="618" Left="1" Top="614" ID="3"/>
-          <Item1 Y="674" Left="6" Top="665" ID="4"/>
-          <Item2 X="68" Y="693" Left="1" Top="680" ID="5"/>
+          <Item1 Y="682" Left="6" Top="673" ID="4"/>
+          <Item2 X="68" Y="701" Left="1" Top="688" ID="5"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -72,10 +73,9 @@
         <Filename Value="uthreadscrub.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="188"/>
-        <CursorPos X="22" Y="207"/>
+        <TopLine Value="150"/>
+        <CursorPos X="9" Y="167"/>
         <UsageCount Value="107"/>
         <Loaded Value="True"/>
       </Unit>
@@ -119,10 +119,55 @@
       <Define1 Value="UseCThreads"/>
       <Define2 Value="DEBUG"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory HistoryIndex="2">
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="386" Column="38" TopLine="371"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="69" Column="21" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="ulibraryclasses.pas"/>
+        <Caret Line="675" TopLine="670"/>
+      </Position>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="uthreadscrub.pas"/>
+        <Line Value="196"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="uthreadscrub.pas"/>
+        <Line Value="200"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ulibraryclasses.pas"/>
+        <Line Value="691"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ulibraryclasses.pas"/>
+        <Line Value="675"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
 </CONFIG>

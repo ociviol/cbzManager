@@ -657,13 +657,21 @@ begin
   result := aFilename;
 end;
 
+function RemoveAccents(const Src: ansistring): ansistring;
+var
+  Bytes: TBytes;
+begin
+  Bytes := TEncoding.ASCII.GetBytes(Src);
+  Result := TEncoding.ASCII.GetString(Bytes);
+end;
+
 function TFileItem.SyncJsonFilename: String;
 var
   s : ansistring;
 begin
   FLock.LockList;
   try
-    s := Utf8ToAnsi(UTF8Encode(LogicalPath));
+    s := RemoveAccents(Utf8ToAnsi(UTF8Encode(LogicalPath)));
     result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + MD5Print(MD5String(s)) + '.json';
   finally
     Flock.UnlockList;
@@ -679,7 +687,7 @@ begin
   try
     p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + '.covers';
     ForceDirectories(p);
-    s := Utf8ToAnsi(UTF8Encode(LogicalPath));
+    s := RemoveAccents(Utf8ToAnsi(UTF8Encode(LogicalPath)));
     result := IncludeTrailingPathDelimiter(p) + MD5Print(MD5String(s)) + '.jpg';
   finally
     Flock.UnlockList;

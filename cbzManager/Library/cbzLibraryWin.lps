@@ -28,7 +28,7 @@
         <UnitName Value="uLibraryClasses"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="663"/>
+        <TopLine Value="717"/>
         <CursorPos Y="691"/>
         <UsageCount Value="109"/>
         <Bookmarks Count="3">
@@ -153,20 +153,6 @@
         <WatchKind Value="wpkWrite"/>
         <Source Value="uthreadscrub.pas"/>
         <Line Value="200"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="691"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="ulibraryclasses.pas"/>
-        <Line Value="675"/>
       </Item>
     </BreakPoints>
   </Debugging>

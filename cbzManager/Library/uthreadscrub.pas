@@ -230,22 +230,29 @@ var
         try
           Sql := 'select c."path", i."read", i.currentPage from comic c ' +
                  'join comic_info i on c.comicInfoId = i.id ' +
-                 'where i."read" = 1 or i.hasBeenOpened = 1';
+                 'where i."read" = 1 or i.hasBeenOpened = 1 ' +
+                 'order by c."path"';
 
           Open;
 
           while not eof do
           begin
-            {$if defined(Darwin) or defined(Linux)}
+            {$if defined(Darwin)}
             //s := ConvertString(ExtractFilename(FieldByName('path').AsString));
-            s := RemoveDiacritics(lowercase(ExtractFilename(FieldByName('path').AsString)));
+            s := ConvertString(RemoveDiacritics(lowercase(ExtractFilename(FieldByName('path').AsString))));
             {$else}
-            s := RemoveDiacritics(FieldByName('path').AsString.Replace('/', '\'));
+            s := ConvertString(lowercase(RemoveDiacritics(ExtractFilename(FieldByName('path').AsString))));
             {$endif}
             for i := 0 to FFileList.Count - 1 do
             begin
+              {$if defined(Darwin)}
               s2 := ConvertString(lowercase(ExtractFilename(FFileList[i])));
               if CompareString(s, s2) then
+              {$else}
+              s2 := ConvertString(lowercase(RemoveDiacritics(ExtractFilename(FFileList[i]))));
+              if s = s2 then
+              {$endif}
+
               begin
                 bfound := true;
                 if FileExists(FFileList[i]) then
@@ -305,7 +312,12 @@ begin
       Fsynced := 0;
       FDeleted := 0;
 
-      //FFileList.Cleanup;
+      try
+        Synchronize(@DoProgress2);
+        GetReadStatesFromYAcLib;
+        UpdateCount;
+      except
+      end;
 
       while (FCnt > FVal) do
       begin

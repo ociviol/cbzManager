@@ -161,7 +161,7 @@ var
     bfound : boolean;
     ls : TStringList;
 
-    function ConvertString(const Src: ansistring; doUnicode : boolean = false): ansistring;
+    function ConvertString(const Src: shortstring; doUnicode : boolean = false): shortstring;
     var
       Bytes: TBytes;
       UTF8Bytes: rawbytestring;
@@ -209,7 +209,7 @@ var
       // debug
       for i := 0 to FFileList.Count - 1 do
       begin
-        s := lowercase(ExtractFilename(FFileList[i]));
+        s := ConvertString(lowercase(ExtractFilename(FFileList[i])));
         ls.Add(s);
       end;
         //ls.add(RemoveAccents(UnicodeToWinCP(ExtractFilename(FFileList[i]))));
@@ -236,13 +236,13 @@ var
           begin
             {$if defined(Darwin) or defined(Linux)}
             //s := ConvertString(ExtractFilename(FieldByName('path').AsString));
-            s := lowercase(ExtractFilename(FFileList[i]));
+            s := RemoveDiacritics(lowercase(ExtractFilename(FieldByName('path').AsString)));
             {$else}
             s := RemoveDiacritics(FieldByName('path').AsString.Replace('/', '\'));
             {$endif}
             for i := 0 to FFileList.Count - 1 do
             begin
-              s2 := lowercase(ExtractFilename(FFileList[i]));
+              s2 := ConvertString(lowercase(ExtractFilename(FFileList[i])));
               if CompareString(s, s2) then
               begin
                 bfound := true;

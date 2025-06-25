@@ -157,24 +157,29 @@ var
   var
     Ylibs : TStringlist;
     i,j : integer;
-    s, s2 : ansistring;
+    s, s2 : shortstring;
     bfound : boolean;
     ls : TStringList;
 
-    function ConvertString(const Src: string): ansistring;
+    function ConvertString(const Src: ansistring; doUnicode : boolean = false): ansistring;
     var
       Bytes: TBytes;
       UTF8Bytes: rawbytestring;
     begin
-      UTF8Bytes := UTF8Encode(Src);
-      Result := UTF8Decode(UTF8Bytes);
+      if doUnicode then
+      begin
+        UTF8Bytes := UTF8Encode(Src);
+        Result := UTF8Decode(UTF8Bytes);
+      end
+      else
+        result := Src;
 
       Bytes := TEncoding.ASCII.GetBytes(Result);
       Result := TEncoding.ASCII.GetString(Bytes);
      // result := RemoveDiacritics(result);
     end;
 
-    function CompareString(Src, Dest : ansistring):boolean;
+    function CompareString(Src, Dest : shortstring):boolean;
     var
       i : integer;
     begin
@@ -204,7 +209,8 @@ var
       // debug
       for i := 0 to FFileList.Count - 1 do
       begin
-        ls.Add(ConvertString(ExtractFilename(FFileList[i])));
+        s := lowercase(ExtractFilename(FFileList[i]));
+        ls.Add(s);
       end;
         //ls.add(RemoveAccents(UnicodeToWinCP(ExtractFilename(FFileList[i]))));
       ls.SaveToFile('/Users/ollivierciviol/list.txt');
@@ -229,13 +235,14 @@ var
           while not eof do
           begin
             {$if defined(Darwin) or defined(Linux)}
-            s := ConvertString(ExtractFilename(FieldByName('path').AsString));
+            //s := ConvertString(ExtractFilename(FieldByName('path').AsString));
+            s := lowercase(ExtractFilename(FFileList[i]));
             {$else}
             s := RemoveDiacritics(FieldByName('path').AsString.Replace('/', '\'));
             {$endif}
             for i := 0 to FFileList.Count - 1 do
             begin
-              s2 := ConvertString(ExtractFilename(FFileList[i]));
+              s2 := lowercase(ExtractFilename(FFileList[i]));
               if CompareString(s, s2) then
               begin
                 bfound := true;

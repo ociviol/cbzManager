@@ -731,7 +731,7 @@ var
 begin
   FLock.LockList;
   try
-    if FJsonFileName <> '' then
+    if FJsonFileName = '' then
     begin
       //s := RemoveDiacritics(LogicalPath);
       s := ConvertString(lowercase(RemoveDiacritics(LogicalPath)));

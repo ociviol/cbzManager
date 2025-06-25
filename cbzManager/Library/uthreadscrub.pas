@@ -2,6 +2,7 @@ unit uThreadScrub;
 
 {$mode ObjFPC}{$H+}
 
+
 interface
 
 uses
@@ -49,7 +50,7 @@ implementation
 uses
 {$if defined(Darwin) or Defined(MsWindows)}
   mysql80conn, SQLDB,
-  DB, SQLite3DS,
+  DB, SQLite3DS, LazUTF8,
 {$endif}
   Graphics;
 
@@ -157,13 +158,58 @@ var
     Ylibs : TStringlist;
     i,j : integer;
     s, s2 : ansistring;
+    bfound : boolean;
+    ls : TStringList;
+
+    function ConvertString(const Src: string): ansistring;
+    var
+      Bytes: TBytes;
+      UTF8Bytes: rawbytestring;
+    begin
+     // UTF8Bytes := UTF8Encode(Src);
+     // Result := UTF8Decode(UTF8Bytes);
+
+      Bytes := TEncoding.ASCII.GetBytes(Src);
+      Result := TEncoding.ASCII.GetString(Bytes);
+     // result := RemoveDiacritics(result);
+    end;
+
+    function CompareString(Src, Dest : ansistring):boolean;
+    var
+      i : integer;
+    begin
+      result := false;
+      if Length(Src) <> Length(Dest) then
+        Exit;
+
+      for i := 1 to length(Src) do
+        if (Src[i] = '?') or (Dest[i] = '?') then
+          continue
+        else
+        if Src[i] <> Dest[i] then
+          Exit;
+
+      result := true;
+    end;
+
   begin
 {$if defined(Darwin) or Defined(MsWindows)}
     Ylibs := TStringlist.Create;
+    ls := TStringlist.Create;
     Sqlite3Dataset1 := TSqlite3Dataset.Create(nil);
     try
       FConfig.GetYacLibs(Ylibs);
       Sqlite3Dataset1.Name := 'Sqlite3Dataset1';
+
+      // debug
+      for i := 0 to FFileList.Count - 1 do
+      begin
+        ls.Add(ConvertString(ExtractFilename(FFileList[i])));
+      end;
+        //ls.add(RemoveAccents(UnicodeToWinCP(ExtractFilename(FFileList[i]))));
+      ls.SaveToFile('/Users/ollivierciviol/list.txt');
+      ls.clear;
+
       for j := 0 to Ylibs.Count - 1 do
       begin
         if Sqlite3Dataset1.Active then
@@ -183,14 +229,16 @@ var
           while not eof do
           begin
             {$if defined(Darwin) or defined(Linux)}
-            s := RemoveAccents(Utf8ToAnsi(UTF8Encode(FieldByName('path').AsString)));
+            s := ConvertString(ExtractFilename(FieldByName('path').AsString));
             {$else}
             s := RemoveDiacritics(FieldByName('path').AsString.Replace('/', '\'));
             {$endif}
             for i := 0 to FFileList.Count - 1 do
             begin
-              s2 := RemoveDiacritics(FFileList[i]);
-              if pos(s, s2) > 0 then
+              s2 := ConvertString(ExtractFilename(FFileList[i]));
+              if CompareString(s, s2) then
+              begin
+                bfound := true;
                 if FileExists(FFileList[i]) then
                    with TFileItem(FFileList.Objects[i]) do
                    begin
@@ -202,10 +250,15 @@ var
 
                      break;
                    end;
+              end;
 
+              bfound := false;
               if Terminated then
                 break;
             end;
+
+            if not bFound then
+              ls.add(s);
 
             if Terminated then
               Exit;
@@ -221,6 +274,8 @@ var
     finally
       Sqlite3Dataset1.Free;
       Ylibs.Free;
+      ls.SaveToFile('/Users/ollivierciviol/notfound.txt');
+      ls.free;
     end;
 {$ENDIF}
   end;

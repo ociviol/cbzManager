@@ -206,6 +206,7 @@ var
       FConfig.GetYacLibs(Ylibs);
       Sqlite3Dataset1.Name := 'Sqlite3Dataset1';
 
+      {$if defined(Darwin)}
       // debug
       for i := 0 to FFileList.Count - 1 do
       begin
@@ -215,6 +216,7 @@ var
         //ls.add(RemoveAccents(UnicodeToWinCP(ExtractFilename(FFileList[i]))));
       ls.SaveToFile('/Users/ollivierciviol/list.txt');
       ls.clear;
+      {$endif}
 
       for j := 0 to Ylibs.Count - 1 do
       begin
@@ -281,7 +283,9 @@ var
     finally
       Sqlite3Dataset1.Free;
       Ylibs.Free;
+      {$if defined(Darwin)}
       ls.SaveToFile('/Users/ollivierciviol/notfound.txt');
+      {$endif}
       ls.free;
     end;
 {$ENDIF}

@@ -37,6 +37,8 @@ type
 
   TFileItem = Class
   private
+    FCacheFilename,
+    FJsonFileName : string;
     procedure SetImg(AValue: TBitmap);
   private
     FFilename : String;
@@ -151,6 +153,7 @@ type
 
 function ConfigPath: String;
 function RemoveDiacritics(const S: string): string;
+function ConvertString(const Src: shortstring): shortstring;
 
 implementation
 
@@ -192,6 +195,8 @@ begin
   inherited;
   FImg := nil;
   //CreateGUID(FGuid);
+  FCacheFilename := '';
+  FJsonFileName := '';
   FDateAdded := now;
   Fimg := nil;
   FLock := TThreadList.Create;
@@ -658,6 +663,15 @@ begin
   result := aFilename;
 end;
 
+function ConvertString(const Src: shortstring): shortstring;
+var
+  Bytes: TBytes;
+begin
+  Bytes := TEncoding.ASCII.GetBytes(Src);
+  Result := TEncoding.ASCII.GetString(Bytes);
+  result := StringReplace(result, '?', '', [rfReplaceAll]);
+end;
+
 function RemoveDiacritics(const S: string): string;
 var
   F: Boolean;
@@ -713,12 +727,17 @@ end;
 
 function TFileItem.SyncJsonFilename: String;
 var
-  s : ansistring;
+  s : shortstring;
 begin
   FLock.LockList;
   try
-    s := RemoveDiacritics(LogicalPath);
-    result := IncludeTrailingPathDelimiter(Parent.FSyncPath) + MD5Print(MD5String(s)) + '.json';
+    if FJsonFileName <> '' then
+    begin
+      //s := RemoveDiacritics(LogicalPath);
+      s := ConvertString(lowercase(RemoveDiacritics(LogicalPath)));
+      FJsonFileName := IncludeTrailingPathDelimiter(Parent.FSyncPath) + MD5Print(MD5String(s)) + '.json';
+    end;
+    result := FJsonFileName;
   finally
     Flock.UnlockList;
   end;
@@ -727,14 +746,19 @@ end;
 function TFileItem.GetCacheFilename: String;
 var
   p : string;
-  s : ansistring;
+  s : shortstring;
 begin
   FLock.LockList;
   try
-    p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + '.covers';
-    ForceDirectories(p);
-    s := RemoveDiacritics(LogicalPath);
-    result := IncludeTrailingPathDelimiter(p) + MD5Print(MD5String(s)) + '.jpg';
+    if FCacheFileName = '' then
+    begin
+      p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + '.covers';
+      ForceDirectories(p);
+      //s := RemoveDiacritics(LogicalPath);
+      s := ConvertString(lowercase(RemoveDiacritics(LogicalPath)));
+      FCacheFileName := IncludeTrailingPathDelimiter(p) + MD5Print(MD5String(s)) + '.jpg';
+    end;
+    result := FCacheFileName
   finally
     Flock.UnlockList;
   end;

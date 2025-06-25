@@ -161,15 +161,6 @@ var
     bfound : boolean;
     ls : TStringList;
 
-    function ConvertString(const Src: shortstring): shortstring;
-    var
-      Bytes: TBytes;
-    begin
-      Bytes := TEncoding.ASCII.GetBytes(Result);
-      Result := TEncoding.ASCII.GetString(Bytes);
-      result := StringReplace(result, '?', '', [rfReplaceAll]);
-    end;
-
     function CompareString(Src, Dest : shortstring):boolean;
     var
       i : integer;

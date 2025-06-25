@@ -158,8 +158,8 @@ var
     Ylibs : TStringlist;
     i,j : integer;
     s, s2 : shortstring;
-    bfound : boolean;
-    ls : TStringList;
+    //bfound : boolean;
+    //ls : TStringList;
 
     function CompareString(Src, Dest : shortstring):boolean;
     var
@@ -179,12 +179,13 @@ var
   begin
 {$if defined(Darwin) or Defined(MsWindows)}
     Ylibs := TStringlist.Create;
-    ls := TStringlist.Create;
+    //ls := TStringlist.Create;
     Sqlite3Dataset1 := TSqlite3Dataset.Create(nil);
     try
       FConfig.GetYacLibs(Ylibs);
       Sqlite3Dataset1.Name := 'Sqlite3Dataset1';
 
+      (*
       {$if defined(Darwin)}
       // debug
       for i := 0 to FFileList.Count - 1 do
@@ -196,6 +197,7 @@ var
       ls.SaveToFile('/Users/ollivierciviol/list.txt');
       ls.clear;
       {$endif}
+      *)
 
       for j := 0 to Ylibs.Count - 1 do
       begin
@@ -217,7 +219,6 @@ var
           while not eof do
           begin
             {$if defined(Darwin)}
-            //s := ConvertString(ExtractFilename(FieldByName('path').AsString));
             s := ConvertString(RemoveDiacritics(lowercase(ExtractFilename(FieldByName('path').AsString))));
             {$else}
             s := ConvertString(lowercase(RemoveDiacritics(ExtractFilename(FieldByName('path').AsString))));
@@ -233,7 +234,7 @@ var
               {$endif}
 
               begin
-                bfound := true;
+                //bfound := true;
                 if FileExists(FFileList[i]) then
                    with TFileItem(FFileList.Objects[i]) do
                    begin
@@ -247,13 +248,13 @@ var
                    end;
               end;
 
-              bfound := false;
+              //bfound := false;
               if Terminated then
                 break;
             end;
 
-            if not bFound then
-              ls.add(s);
+            //if not bFound then
+            //  ls.add(s);
 
             if Terminated then
               Exit;
@@ -269,10 +270,12 @@ var
     finally
       Sqlite3Dataset1.Free;
       Ylibs.Free;
+      (*
       {$if defined(Darwin)}
       ls.SaveToFile('/Users/ollivierciviol/notfound.txt');
-      {$endif}
       ls.free;
+      {$endif}
+      *)
     end;
 {$ENDIF}
   end;

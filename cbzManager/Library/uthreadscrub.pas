@@ -166,10 +166,10 @@ var
       Bytes: TBytes;
       UTF8Bytes: rawbytestring;
     begin
-     // UTF8Bytes := UTF8Encode(Src);
-     // Result := UTF8Decode(UTF8Bytes);
+      UTF8Bytes := UTF8Encode(Src);
+      Result := UTF8Decode(UTF8Bytes);
 
-      Bytes := TEncoding.ASCII.GetBytes(Src);
+      Bytes := TEncoding.ASCII.GetBytes(Result);
       Result := TEncoding.ASCII.GetString(Bytes);
      // result := RemoveDiacritics(result);
     end;

@@ -19,8 +19,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uCbzLibrary"/>
-        <TopLine Value="723"/>
-        <CursorPos Y="759"/>
+        <CursorPos X="32" Y="16"/>
         <UsageCount Value="1030"/>
         <Bookmarks Count="1">
           <Item0 X="5" Y="425" ID="1"/>
@@ -46,7 +45,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
         <EditorIndex Value="4"/>
-        <CursorPos X="26" Y="63"/>
+        <CursorPos X="12" Y="63"/>
         <UsageCount Value="1029"/>
         <Loaded Value="True"/>
       </Unit>
@@ -65,10 +64,11 @@
         <LoadedDesigner Value="True"/>
       </Unit>
     </Units>
-    <OtherDefines Count="3">
+    <OtherDefines Count="4">
       <Define0 Value="arm"/>
       <Define1 Value="UseCThreads"/>
-      <Define2 Value="Library"/>
+      <Define2 Value="DEBUG"/>
+      <Define3 Value="Library"/>
     </OtherDefines>
     <JumpHistory HistoryIndex="-1"/>
     <RunParams>

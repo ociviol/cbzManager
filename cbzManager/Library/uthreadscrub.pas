@@ -161,19 +161,10 @@ var
     bfound : boolean;
     ls : TStringList;
 
-    function ConvertString(const Src: shortstring; doUnicode : boolean = false): shortstring;
+    function ConvertString(const Src: shortstring): shortstring;
     var
       Bytes: TBytes;
-      UTF8Bytes: rawbytestring;
     begin
-      if doUnicode then
-      begin
-        UTF8Bytes := UTF8Encode(Src);
-        Result := UTF8Decode(UTF8Bytes);
-      end
-      else
-        result := Src;
-
       Bytes := TEncoding.ASCII.GetBytes(Result);
       Result := TEncoding.ASCII.GetString(Bytes);
       result := StringReplace(result, '?', '', [rfReplaceAll]);
@@ -308,13 +299,6 @@ begin
       FVal := 0;
       Fsynced := 0;
       FDeleted := 0;
-
-      try
-        Synchronize(@DoProgress2);
-        GetReadStatesFromYAcLib;
-        UpdateCount;
-      except
-      end;
 
       while (FCnt > FVal) do
       begin

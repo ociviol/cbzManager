@@ -760,6 +760,14 @@ begin
   FThreadScrub := TThreadScrub.Create(FLog, FFileList, FConfig, @ThreadScrubNotify, @ThreadScrubTerminate, @Progress);
 end;
 
+procedure TcbzLibrary.ThreadScrubTerminate(Sender : TObject);
+begin
+  FThreadScrub := nil;
+  btnRefresh.Enabled:=True;
+  btnScrub.enabled := True;
+  FillGrid;
+end;
+
 procedure TcbzLibrary.btnTestClick(Sender: TObject);
 begin
   ;
@@ -1205,6 +1213,74 @@ begin
   FFillThread := TThreadFill.Create(Flog, fs,@ThreadFillTerminate, @Progress);
 end;
 
+procedure TcbzLibrary.ThreadFillTerminate(Sender: TObject);
+var
+  oldtoprow, oldrow, i : Integer;
+  s : string;
+begin
+  Progress(Self, 0, 0, 0, 'Sorting...');
+  FFillThread := nil;
+  btnRefresh.Enabled:=true;
+  btnScrub.enabled := true;
+  mnuFile.Enabled := true;
+  mnuEdit.Enabled := true;
+  FVisibleList.Sort;
+
+  with cbSearch do
+  begin
+    Items.BeginUpdate;
+    try
+      Clear;
+
+      for i:=0 to FVisibleList.Count - 1 do
+      begin
+        s := FVisibleList[i];
+        if not s.ToLower.EndsWith('.cbz') then
+          Items.Add(ExcludeLeadingPathDelimiter(ExcludeTrailingPathDelimiter(s.Replace(CurrentPath, ''))));
+      end;
+    finally
+      Items.EndUpdate;
+      cbSearch.Enabled:=True;
+    end;
+  end;
+  if not TThreadFill(Sender).Cancelled then
+    if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
+    begin
+      dgLibrary.Col := FPathPos[FLvl-1].x;
+      oldtoprow := HighWord(FPathPos[FLvl-1].y);
+      oldrow := LowWord(FPathPos[FLvl-1].y);
+
+      with dgLibrary do
+      begin
+        BeginUpdate;
+        try
+          if (RowCount >= oldrow) and (RowCount > 0) then
+            if (FPathPos[FLvl-1].y <> 0) and
+               ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
+            begin
+              SetGridPos(FPathPos[FLvl-1].x, oldrow);
+              SetGridTopPos(FPathPos[FLvl-1].x, oldtoprow);
+              FPathPos[FLvl-1].x := 0;
+              FPathPos[FLvl-1].y := 0;
+            end;
+        finally
+          EndUpdate;
+        end;
+      end;
+    end;
+  UpdateNbItems;
+  Progress(Self, 0, 0, 0, 'Ready.');
+
+  //if Assigned(FThreadScrub) then
+  //begin
+  //  if FThreadScrub.Paused then
+  //    FThreadScrub.Paused := False;
+  //end
+  //else
+  //  btnScrubClick(nil);
+end;
+
+
 procedure TcbzLibrary.SearchEnded(Sender: TObject);
 begin
   FThreadSearchFiles := nil;
@@ -1349,80 +1425,6 @@ begin
     inc(FInQueue);
     Application.QueueAsyncCall(@DoSizegrid, 0);
   end;
-end;
-
-procedure TcbzLibrary.ThreadScrubTerminate(Sender : TObject);
-begin
-  FThreadScrub := nil;
-  btnRefresh.Enabled:=True;
-  btnScrub.enabled := True;
-end;
-
-procedure TcbzLibrary.ThreadFillTerminate(Sender: TObject);
-var
-  oldtoprow, oldrow, i : Integer;
-  s : string;
-begin
-  Progress(Self, 0, 0, 0, 'Sorting...');
-  FFillThread := nil;
-  btnRefresh.Enabled:=true;
-  btnScrub.enabled := true;
-  mnuFile.Enabled := true;
-  mnuEdit.Enabled := true;
-  FVisibleList.Sort;
-
-  with cbSearch do
-  begin
-    Items.BeginUpdate;
-    try
-      Clear;
-
-      for i:=0 to FVisibleList.Count - 1 do
-      begin
-        s := FVisibleList[i];
-        if not s.ToLower.EndsWith('.cbz') then
-          Items.Add(ExcludeLeadingPathDelimiter(ExcludeTrailingPathDelimiter(s.Replace(CurrentPath, ''))));
-      end;
-    finally
-      Items.EndUpdate;
-      cbSearch.Enabled:=True;
-    end;
-  end;
-  if not TThreadFill(Sender).Cancelled then
-    if (FPathPos[FLvl-1].x <> 0) or (FPathPos[FLvl-1].y <> 0) then
-    begin
-      dgLibrary.Col := FPathPos[FLvl-1].x;
-      oldtoprow := HighWord(FPathPos[FLvl-1].y);
-      oldrow := LowWord(FPathPos[FLvl-1].y);
-
-      with dgLibrary do
-      begin
-        BeginUpdate;
-        try
-          if (RowCount >= oldrow) and (RowCount > 0) then
-            if (FPathPos[FLvl-1].y <> 0) and
-               ((TopRow <> oldtoprow) or (Row <> oldrow) or (Col <> FPathPos[FLvl-1].x)) then
-            begin
-              SetGridPos(FPathPos[FLvl-1].x, oldrow);
-              SetGridTopPos(FPathPos[FLvl-1].x, oldtoprow);
-              FPathPos[FLvl-1].x := 0;
-              FPathPos[FLvl-1].y := 0;
-            end;
-        finally
-          EndUpdate;
-        end;
-      end;
-    end;
-  UpdateNbItems;
-  Progress(Self, 0, 0, 0, 'Ready.');
-
-  if Assigned(FThreadScrub) then
-  begin
-    if FThreadScrub.Paused then
-      FThreadScrub.Paused := False;
-  end
-  else
-    btnScrubClick(nil);
 end;
 
 procedure TcbzLibrary.ThreadScrubNotify(Sender : TObject; aAction : TLibrayAction; aFileItem : TFileItem = nil);

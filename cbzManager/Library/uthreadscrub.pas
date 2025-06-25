@@ -176,7 +176,7 @@ var
 
       Bytes := TEncoding.ASCII.GetBytes(Result);
       Result := TEncoding.ASCII.GetString(Bytes);
-     // result := RemoveDiacritics(result);
+      result := StringReplace(result, '?', '', [rfReplaceAll]);
     end;
 
     function CompareString(Src, Dest : shortstring):boolean;
@@ -188,9 +188,6 @@ var
         Exit;
 
       for i := 1 to length(Src) do
-        if (Src[i] = '?') or (Dest[i] = '?') then
-          continue
-        else
         if Src[i] <> Dest[i] then
           Exit;
 

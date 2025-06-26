@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="cbzLibraryWin.lpr"/>
@@ -26,7 +26,6 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="717"/>
         <CursorPos Y="691"/>
@@ -73,8 +72,9 @@
         <Filename Value="uthreadscrub.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="150"/>
+        <TopLine Value="338"/>
         <CursorPos X="9" Y="167"/>
         <UsageCount Value="107"/>
         <Loaded Value="True"/>
@@ -119,41 +119,10 @@
       <Define1 Value="UseCThreads"/>
       <Define2 Value="DEBUG"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="2">
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="386" Column="38" TopLine="371"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="69" Column="21" TopLine="63"/>
-      </Position>
-      <Position>
-        <Filename Value="ulibraryclasses.pas"/>
-        <Caret Line="675" TopLine="670"/>
-      </Position>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uthreadscrub.pas"/>
-        <Line Value="196"/>
-      </Item>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="uthreadscrub.pas"/>
-        <Line Value="200"/>
-      </Item>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>

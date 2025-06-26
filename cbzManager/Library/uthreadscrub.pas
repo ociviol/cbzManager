@@ -356,6 +356,7 @@ begin
         //
       end;
       // Get read states from yaclibs
+      if FConfig.AutoSyncYac then
       try
         Synchronize(@DoProgress2);
         GetReadStatesFromYAcLib;

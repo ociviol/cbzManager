@@ -26,9 +26,10 @@
         <Filename Value="ulibraryclasses.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLibraryClasses"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="717"/>
-        <CursorPos Y="691"/>
+        <TopLine Value="737"/>
+        <CursorPos X="62" Y="755"/>
         <UsageCount Value="109"/>
         <Bookmarks Count="3">
           <Item0 Y="618" Left="1" Top="614" ID="3"/>
@@ -72,7 +73,6 @@
         <Filename Value="uthreadscrub.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="338"/>
         <CursorPos X="9" Y="167"/>

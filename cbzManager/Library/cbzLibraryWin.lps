@@ -32,9 +32,9 @@
         <CursorPos X="62" Y="755"/>
         <UsageCount Value="109"/>
         <Bookmarks Count="3">
-          <Item0 Y="618" Left="1" Top="614" ID="3"/>
-          <Item1 Y="682" Left="6" Top="673" ID="4"/>
-          <Item2 X="68" Y="701" Left="1" Top="688" ID="5"/>
+          <Item0 Y="618" ID="3"/>
+          <Item1 Y="682" ID="4"/>
+          <Item2 X="68" Y="701" ID="5"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit>
@@ -50,8 +50,8 @@
         <CursorPos X="27" Y="112"/>
         <UsageCount Value="109"/>
         <Bookmarks Count="2">
-          <Item0 X="27" Y="1421" Left="1" Top="1400" ID="1"/>
-          <Item1 X="10" Y="1009" Left="1" Top="1001" ID="2"/>
+          <Item0 X="27" Y="1421" ID="1"/>
+          <Item1 X="10" Y="1009" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -74,7 +74,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadScrub"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="338"/>
+        <TopLine Value="336"/>
         <CursorPos X="9" Y="167"/>
         <UsageCount Value="107"/>
         <Loaded Value="True"/>

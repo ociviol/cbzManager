@@ -752,7 +752,7 @@ begin
   try
     if FCacheFileName = '' then
     begin
-      p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + '.covers';
+      p := IncludeTrailingPathDelimiter(Parent.FSyncPath) + 'covers';
       ForceDirectories(p);
       //s := RemoveDiacritics(LogicalPath);
       s := ConvertString(lowercase(RemoveDiacritics(LogicalPath)));

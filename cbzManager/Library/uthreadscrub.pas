@@ -241,7 +241,7 @@ var
                      if not ReadState and FieldByName('read').AsBoolean then
                        ReadState := true;
 
-                     if not ReadState and (CurPage < FieldByName('currentPage').AsInteger) then
+                     if (CurPage < FieldByName('currentPage').AsInteger) then
                        CurPage := FieldByName('currentPage').AsInteger;
 
                      break;

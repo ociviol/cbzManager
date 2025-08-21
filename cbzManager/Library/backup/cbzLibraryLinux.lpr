@@ -13,7 +13,8 @@ uses
   Forms, uConfig, frmwait, uCbzLibrary;
 
 {$R *.res}
-
+var
+  CbzLibrary : TCbzLibrary;
 begin
   RequireDerivedFormResource:=True;
   Application.Title:='cbzLibrary';

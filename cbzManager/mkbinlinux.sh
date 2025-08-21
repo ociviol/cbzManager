@@ -1,8 +1,8 @@
 cd ~/Dev/cbzManager/cbzManager
-/home/mat/fpcupdeluxe/lazarus/lazbuild -B --build-mode=Release cbzManager.lpi
+~/fpcupdeluxe/lazarus/lazbuild -B --build-mode=Release cbzManager.lpi
 
 cd ~/Dev/cbzManager/cbzManager/Library 
-/home/mat/fpcupdeluxe/lazarus/lazbuild -B --build-mode=Release cbzLibraryLinux.lpi
+~/fpcupdeluxe/lazarus/lazbuild -B --build-mode=Release cbzLibraryLinux.lpi
 
 cp ~/Dev/cbzManager/cbzManager/cbzManager ~/Dev/cbzManager/precompiled\ binairies/Linux/Files
 cp ~/Dev/cbzManager/cbzManager/Library/cbzLibrary ~/Dev/cbzManager/precompiled\ binairies/Linux/Files

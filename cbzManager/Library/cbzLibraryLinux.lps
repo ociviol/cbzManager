@@ -7,7 +7,6 @@
       <Unit>
         <Filename Value="cbzLibraryLinux.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="10" Y="13"/>
         <UsageCount Value="20"/>

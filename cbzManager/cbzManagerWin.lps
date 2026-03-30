@@ -18,11 +18,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="432"/>
-        <CursorPos Y="441"/>
+        <TopLine Value="1195"/>
+        <CursorPos Y="1210"/>
         <UsageCount Value="204"/>
-        <Bookmarks Count="1">
+        <Bookmarks Count="2">
           <Item0 X="4" Y="860" ID="3"/>
+          <Item1 X="3" Y="1210" Left="1" Top="1185" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -50,9 +51,9 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="305"/>
-        <CursorPos Y="321"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="214"/>
+        <CursorPos X="11" Y="218"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
           <Item0 X="8" Y="1574" ID="2"/>
@@ -63,8 +64,9 @@
         <Filename Value="udatatypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataTypes"/>
-        <EditorIndex Value="7"/>
-        <CursorPos X="3" Y="25"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="3"/>
+        <CursorPos X="59" Y="18"/>
         <UsageCount Value="204"/>
         <Loaded Value="True"/>
       </Unit5>
@@ -83,18 +85,19 @@
         <Filename Value="udatapool.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataPool"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="66"/>
-        <CursorPos Y="76"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="118"/>
+        <CursorPos Y="134"/>
         <UsageCount Value="200"/>
+        <Loaded Value="True"/>
       </Unit7>
       <Unit8>
         <Filename Value="udataitem.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataItem"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="197"/>
-        <CursorPos Y="218"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="117"/>
+        <CursorPos X="3" Y="57"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit8>
@@ -102,9 +105,9 @@
         <Filename Value="uthreadconvert.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadConvert"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="61"/>
-        <CursorPos Y="85"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="48"/>
+        <CursorPos Y="64"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit9>
@@ -114,8 +117,8 @@
         <UnitName Value="uWorkerThread"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="545"/>
-        <CursorPos Y="559"/>
+        <TopLine Value="586"/>
+        <CursorPos X="35" Y="588"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit10>
@@ -123,7 +126,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="133"/>
         <CursorPos X="25" Y="151"/>
         <UsageCount Value="200"/>
@@ -133,9 +136,9 @@
         <Filename Value="uconfig.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uConfig"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="20"/>
-        <CursorPos X="3" Y="23"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="68"/>
+        <CursorPos X="20" Y="74"/>
         <UsageCount Value="229"/>
         <Loaded Value="True"/>
       </Unit12>
@@ -197,13 +200,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="606"/>
         <CursorPos X="37" Y="617"/>
         <UsageCount Value="200"/>
-        <Bookmarks Count="1">
-          <Item0 Y="888" ID="1"/>
-        </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit18>

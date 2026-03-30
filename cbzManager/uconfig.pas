@@ -96,7 +96,7 @@ begin
   FQueueSize:=2;
   FNbThreads := 8;
   FWebpQuality := 75;
-  FDeleteFile := False;
+  FDeleteFile := True;
   FAlbumart := False;
   FShowStats := False;
   FDefaultColWidth := 140;

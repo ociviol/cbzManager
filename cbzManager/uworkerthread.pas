@@ -12,7 +12,8 @@ uses
   SysUtils,
   Classes, Graphics,
   uCbz, Utils.Logger, uDataItem,
-  uDataTypes, Utils.Searchfiles
+  uDataTypes, Utils.Searchfiles,
+  uConfig
 {$if defined(Darwin) or defined(Linux)}
   ,cthreads
 {$endif}
@@ -33,11 +34,13 @@ type
   private
     FLog : ILog;
     FSync : TThreadList;
+
     function GetCount: Integer;
     function GetjobFilename(Index: Integer): String;
     function GetJobStatus(Index: Integer): TJobStatus;
     function GetJobFilenames: TStringList;
   protected
+    Fconfig : TConfig;
     function FileCount:Integer;
     function AvailFileCount: Integer;
     function GetFirstJob:TJobPoolRec;
@@ -45,7 +48,7 @@ type
     function SetJobStatus(Index : Integer; Status : TJobStatus):TJobPoolRec; overload;
     function SetJobStatus(const Filename : String; Status : TJobStatus):TJobPoolRec; overload;
   public
-    constructor Create(Log : ILog);
+    constructor Create(aConfig : TConfig; Log : ILog);
     destructor Destroy; override;
     procedure AddJob(const Filename : String; arcType : TArcType = arcZip; Operations : TImgOperations = [opConvert]);
     procedure Stats(out nbZip, nbRar, nbPdf : Integer);
@@ -108,16 +111,18 @@ uses
   DateUtils, Utils.ZipFile,
   Utils.Files,
   uThreadExtract,
-  zstream
+  zstream,
+  TrashUtils
   //, uStrings
   ;
 
 
 { TJobPool }
 
-constructor TJobPool.Create(Log : ILog);
+constructor TJobPool.Create(aConfig : TConfig; Log : ILog);
 begin
   inherited Create;
+  Fconfig := aConfig;
   FLog := Log;
   FSync := TThreadList.Create;
 end;
@@ -552,8 +557,8 @@ begin
           Flog.Log('TCbzWorkerThread Delete ' + aFileName);
 
           //FileToTrash(aFileName);
-          if (opDeleteFile in Operations) then
-            FileToTrash(aFileName)
+          if FjobPool.Fconfig.DeleteFile then
+            MoveToTrash(aFileName) //FileToTrash(aFileName)
           else
           begin
             s :=  IncludeTrailingPathDelimiter(FRootFolder) + 'Done';

@@ -286,7 +286,7 @@ begin
   if not CheckPrograms then
     exit;
 
-  FJobpool := TJobPool.Create(FLog);
+  FJobpool := TJobPool.Create(FConfig, FLog);
 
   FConvertReport := TstringList.Create;
 

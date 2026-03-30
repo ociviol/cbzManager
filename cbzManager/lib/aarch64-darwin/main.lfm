@@ -8,11 +8,11 @@ object MainFrm: TMainFrm
   ClientHeight = 561
   ClientWidth = 990
   Menu = MainMenu1
+  LCLVersion = '4.0.0.1'
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
-  LCLVersion = '3.2.0.0'
   object Panel1: TPanel
     Left = 405
     Height = 511
@@ -84,12 +84,12 @@ object MainFrm: TMainFrm
       SelectionFontColor = 14868449
       ShowRoot = False
       TabOrder = 0
+      Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHotTrack, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
+      TreeLinePenStyle = psDashDot
       OnChange = TreeView1Change
       OnCustomDrawItem = TreeView1CustomDrawItem
       OnDragDrop = TreeView1DragDrop
       OnDragOver = TreeView1DragOver
-      Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHotTrack, tvoKeepCollapsedNodes, tvoReadOnly, tvoRightClickSelect, tvoShowButtons, tvoShowLines, tvoToolTips, tvoThemedDraw]
-      TreeLinePenStyle = psDashDot
     end
     object pnlStats: TPanel
       Left = 1

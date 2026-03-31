@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="12"/>
     <BuildModes Active="Release"/>
-    <Units Count="15">
+    <Units Count="16">
       <Unit0>
         <Filename Value="cbzManagerOsx.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -28,10 +28,9 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="282"/>
-        <CursorPos X="21" Y="322"/>
+        <TopLine Value="95"/>
+        <CursorPos X="9" Y="115"/>
         <UsageCount Value="252"/>
         <Bookmarks Count="1">
           <Item0 X="40" Y="555" ID="2"/>
@@ -164,11 +163,32 @@
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit14>
+      <Unit15>
+        <Filename Value="../../Utils/utils.Trash.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="8"/>
+        <CursorPos X="33" Y="21"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit15>
     </Units>
     <Debugger>
       <Backend Value="{29EFC2CC-1BE8-461C-0E62-D597E20B78F9}"/>
     </Debugger>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="3" HistoryIndex="2">
+      <Position1>
+        <Filename Value="uworkerthread.pas"/>
+        <Caret Line="561" Column="17" TopLine="545"/>
+      </Position1>
+      <Position2>
+        <Filename Value="uworkerthread.pas"/>
+        <Caret Line="115" Column="9" TopLine="95"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../../Utils/utils.Trash.pas"/>
+        <Caret Line="14" Column="20"/>
+      </Position3>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="1" ActiveMode="default">

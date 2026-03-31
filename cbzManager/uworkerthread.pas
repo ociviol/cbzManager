@@ -112,7 +112,7 @@ uses
   Utils.Files,
   uThreadExtract,
   zstream,
-  TrashUtils
+  utils.Trash
   //, uStrings
   ;
 

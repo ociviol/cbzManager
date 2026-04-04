@@ -36,5 +36,7 @@ Required libs (use HomeBrew):
 	dwebp,
 	libwebp : 	brew install webp
 
+Recent Macs will not allow the application to run until it is removed from quarantine : (Thx to solidus0079 to have reported it) 
+  remove the quarantine flag from the apps - xattr -d com.apple.quarantine path/to/filename.app
 
 Official page  : https://ollivierciviolsoftware.wordpress.com/

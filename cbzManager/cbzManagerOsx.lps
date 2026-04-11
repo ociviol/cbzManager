@@ -15,12 +15,14 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="1012"/>
-        <CursorPos X="9" Y="1032"/>
+        <TopLine Value="1880"/>
+        <CursorPos Y="1889"/>
         <UsageCount Value="252"/>
-        <Bookmarks Count="1">
-          <Item0 X="10" Y="998"/>
+        <Bookmarks Count="2">
+          <Item0 X="10" Y="997"/>
+          <Item1 X="5" Y="99" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit1>
@@ -47,9 +49,8 @@
         <TopLine Value="540"/>
         <CursorPos X="60" Y="546"/>
         <UsageCount Value="252"/>
-        <Bookmarks Count="2">
+        <Bookmarks Count="1">
           <Item0 X="13" Y="455" ID="3"/>
-          <Item1 X="7" Y="1136" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -165,7 +166,6 @@
       </Unit14>
       <Unit15>
         <Filename Value="../../Utils/utils.Trash.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
         <CursorPos X="33" Y="21"/>
         <UsageCount Value="10"/>
@@ -175,7 +175,7 @@
     <Debugger>
       <Backend Value="{29EFC2CC-1BE8-461C-0E62-D597E20B78F9}"/>
     </Debugger>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="uworkerthread.pas"/>
         <Caret Line="561" Column="17" TopLine="545"/>
@@ -188,6 +188,22 @@
         <Filename Value="../../Utils/utils.Trash.pas"/>
         <Caret Line="14" Column="20"/>
       </Position3>
+      <Position4>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="99" Column="16" TopLine="81"/>
+      </Position4>
+      <Position5>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="1415" TopLine="1413"/>
+      </Position5>
+      <Position6>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="99" Column="5" TopLine="77"/>
+      </Position6>
+      <Position7>
+        <Filename Value="ucbz.pas"/>
+        <Caret Line="192" Column="110" TopLine="168"/>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

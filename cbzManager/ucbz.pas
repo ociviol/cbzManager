@@ -1441,6 +1441,7 @@ begin
     FLog.Log(Format('%s Stopping thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread.ThreadID))]));
     z := FStampThread.ProgressID;
     FStampThread.StopThread;
+    FStampThread := nil;
     if Assigned(FNotify) then
       FNotify(z, -1);
   end;
@@ -1891,7 +1892,7 @@ begin
   FProgressID := aProgressID;
   FStampSync := aStampSync;
   FreeOnTerminate := True;
-  OnTerminate := aOnTerminate;
+  //OnTerminate := aOnTerminate;
   inherited Create(False);
 end;
 

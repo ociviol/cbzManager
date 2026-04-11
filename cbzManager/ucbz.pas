@@ -96,7 +96,6 @@ type
     function GetStamp(Index: Integer): TBitmap;
     function GetStampCount: Integer;
     procedure SetImage(Index: QWord; AValue: TBitmap);
-    procedure StampThreadTerminate(Sender : TObject);
     procedure StartStampThread;
     procedure StopStampThread;
     procedure ClearCache;
@@ -190,7 +189,7 @@ type
     function GetCount:Integer;
     procedure DoProgress;
   public
-    constructor Create(aCbz : TCBZ; aStampSync : TThreadList; aProgressID : QWord; aNotify : TStampReadyEvent;aOnTerminate : TNotifyEvent); reintroduce;
+    constructor Create(aCbz : TCBZ; aStampSync : TThreadList; aProgressID : QWord; aNotify : TStampReadyEvent); reintroduce;
     procedure StopThread;
     procedure Execute; override;
     property ProgressID : QWord read FProgressID;
@@ -1412,11 +1411,6 @@ begin
   end;
 end;
 
-procedure TCbz.StampThreadTerminate(Sender : TObject);
-begin
-  FStampThread := nil;
-end;
-
 procedure TCbz.StartStampThread;
 var
   PID : Qword;
@@ -1425,7 +1419,7 @@ begin
 
   if (FStampWidth > 0) and (FStampHeight > 0) then
   begin
-    FStampThread := TStampThread.Create(self, FStampSync, Pid, FNotify, @StampThreadTerminate);
+    FStampThread := TStampThread.Create(self, FStampSync, Pid, FNotify);
     FLog.Log(Format('%s Starting thumbnail thread ID %s', [ClassName, IntToStr(QWord(FStampThread.ThreadID))]));
   end
   else
@@ -1885,14 +1879,13 @@ end;
 
 constructor TStampThread.Create(aCbz: TCBZ; aStampSync: TThreadList;
                                 aProgressID : QWord;
-                                aNotify: TStampReadyEvent;aOnTerminate : TNotifyEvent);
+                                aNotify: TStampReadyEvent);
 begin
   FCbz := aCbz;
   FNotify := aNotify;
   FProgressID := aProgressID;
   FStampSync := aStampSync;
   FreeOnTerminate := True;
-  //OnTerminate := aOnTerminate;
   inherited Create(False);
 end;
 

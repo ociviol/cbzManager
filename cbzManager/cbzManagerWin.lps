@@ -18,8 +18,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1195"/>
-        <CursorPos Y="1210"/>
+        <TopLine Value="1387"/>
+        <CursorPos Y="1400"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="2">
           <Item0 X="4" Y="860" ID="3"/>
@@ -51,12 +51,13 @@
         <Filename Value="ucbz.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uCbz"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="214"/>
-        <CursorPos X="11" Y="218"/>
+        <TopLine Value="1914"/>
+        <CursorPos Y="1930"/>
         <UsageCount Value="204"/>
         <Bookmarks Count="1">
-          <Item0 X="8" Y="1574" ID="2"/>
+          <Item0 X="8" Y="1575" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit4>
@@ -64,7 +65,7 @@
         <Filename Value="udatatypes.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uDataTypes"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="3"/>
         <CursorPos X="59" Y="18"/>
         <UsageCount Value="204"/>
@@ -115,10 +116,9 @@
         <Filename Value="uworkerthread.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uWorkerThread"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="586"/>
-        <CursorPos X="35" Y="588"/>
+        <TopLine Value="677"/>
+        <CursorPos Y="692"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit10>
@@ -126,7 +126,7 @@
         <Filename Value="uthreadextract.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uThreadExtract"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="133"/>
         <CursorPos X="25" Y="151"/>
         <UsageCount Value="200"/>
@@ -201,8 +201,8 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="uCbzViewerFrame"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="606"/>
-        <CursorPos X="37" Y="617"/>
+        <TopLine Value="611"/>
+        <CursorPos Y="636"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

@@ -4,7 +4,7 @@
     <Version Value="13"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="cbzmanager-linux-aarch64"/>
+      <Title Value="cbzmanager"/>
       <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -18,7 +18,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="59"/>
+      <BuildNr Value="70"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Comic books manager" CompanyName="Ollivier Civiol" FileDescription="Comic books manager" InternalName="cbzManager" LegalCopyright="Ollivier Civiol 2019" OriginalFilename="cbzManager" ProductName="cbzManager"/>
     </VersionInfo>
@@ -136,7 +136,6 @@
       <Unit>
         <Filename Value="cbzmanager-linux-aarch64.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="cbzmanagerlinuxaarch64"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -247,7 +246,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="cbzmanager-linux-aarch64"/>
+      <Filename Value="cbzManager"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
@@ -259,6 +258,7 @@
         <OverflowChecks Value="True"/>
         <StackChecks Value="True"/>
       </Checks>
+      <TargetCPU Value="aarch64"/>
       <TargetOS Value="linux"/>
       <Optimizations>
         <OptimizationLevel Value="0"/>

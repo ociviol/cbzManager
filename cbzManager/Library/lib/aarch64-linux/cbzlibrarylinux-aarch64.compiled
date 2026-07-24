@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Compiler Value="/home/ubuntu/Downloads/fpcupdeluxe/fpc/bin/aarch64-linux/fpc.sh" Date="1784887912"/>
+  <Params Value="-MObjFPC -Scghi -CX -O3 -XX -l -vewnhibq -Fi/home/ubuntu/Dev/cbzManager/cbzManager/Library/lib/aarch64-linux -Fu/home/ubuntu/Dev/cbzManager/cbzManager/Library/ -Fu/home/ubuntu/Dev/cbzManager/cbzManager -Fu/home/ubuntu/Dev/Utils -Fu/home/ubuntu/Dev/lazarus/XmlReader/XmlDoc -Fu/home/ubuntu/Downloads/fpcupdeluxe/lazarus/lcl/units/aarch64-linux/gtk3 -Fu/home/ubuntu/Downloads/fpcupdeluxe/lazarus/lcl/units/aarch64-linux -Fu/home/ubuntu/Downloads/fpcupdeluxe/lazarus/components/freetype/lib/aarch64-linux -Fu/home/ubuntu/Downloads/fpcupdeluxe/lazarus/components/lazutils/lib/aarch64-linux -Fu/home/ubuntu/Downloads/fpcupdeluxe/lazarus/packager/units/aarch64-linux -FU/home/ubuntu/Dev/cbzManager/cbzManager/Library/lib/aarch64-linux/ -FE/home/ubuntu/Dev/cbzManager/cbzManager/Library/ -o/home/ubuntu/Dev/cbzManager/cbzManager/Library/cbzlibrarylinux-aarch64 -dLCL -dLCLgtk3 cbzlibrarylinux-aarch64.lpr"/>
+</CONFIG>

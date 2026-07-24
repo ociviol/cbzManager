@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=cbzManager
+Version=1.0
+Exec=cbzManager
+Comment=Comic books manager
+Icon=/usr/local/bin/cbzManager.png
+Type=Application
+Terminal=false
+StartupNotify=false
+Encoding=UTF-8
+Categories=2DGraphics;

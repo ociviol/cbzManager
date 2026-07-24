@@ -15,6 +15,7 @@ uses
 
 begin
   RequireDerivedFormResource:=True;
+  Application.Title:='cbzmanager';
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TMainFrm, MainFrm);

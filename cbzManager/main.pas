@@ -560,14 +560,24 @@ begin
   begin
     msg := msg + 'libwebp not found, install using ''brew install libwebp-dev''' + #13;
     Flog.Log('required library missing : libwebp-dev.');
-  end;	 
+  end;
+
 {$elseif Defined(Linux)}
+  {$if Defined(CPUAARCH64)}
+  if not FileExists('/usr/lib/aarch64-linux-gnu/libwebp.so') then
+  begin
+    msg := msg + 'libwebp not found, install using ''sudo apt install libwebp-dev''' + #13;
+    Flog.Log('required library missing : libwebp-dev.');
+  end;
+  {$else}
   if not FileExists('/usr/lib/x86_64-linux-gnu/libwebp.so') then
   begin
     msg := msg + 'libwebp not found, install using ''sudo apt install libwebp-dev''' + #13;
     Flog.Log('required library missing : libwebp-dev.');
   end;
+  {$endif}
 {$endif}
+
   if msg <> '' then
   begin
     msg := 'WARNING:' +#13 + #13 + msg;

@@ -4,16 +4,16 @@ cd ~/Dev/cbzManager/cbzManager
 cd ~/Dev/cbzManager/cbzManager/Library 
 ~/fpcupdeluxe/lazarus/lazbuild -B --build-mode=Release cbzLibraryLinux.lpi
 
-cp ~/Dev/cbzManager/cbzManager/cbzManager ~/Dev/cbzManager/precompiled\ binairies/Linux/Files
-cp ~/Dev/cbzManager/cbzManager/Library/cbzLibrary ~/Dev/cbzManager/precompiled\ binairies/Linux/Files
+cp ~/Dev/cbzManager/cbzManager/cbzManager ~/Dev/cbzManager/precompiled\ binairies/Linux/amd64/Files
+cp ~/Dev/cbzManager/cbzManager/Library/cbzLibrary ~/Dev/cbzManager/precompiled\ binairies/Linux/amd64/Files
 
 sudo cp ~/Dev/cbzManager/cbzManager/cbzManager /usr/local/bin
 sudo cp ~/Dev/cbzManager/cbzManager/Library/cbzLibrary /usr/local/bin
 
-cd ~/Dev/cbzManager/precompiled\ binairies/Linux/Files/
+cd ~/Dev/cbzManager/precompiled\ binairies/Linux/amd64/Files/
 cp ~/Dev/cbzManager/cbzManager/cbzManagerOsx.iconset/icon_128x128.png cbzManager.png
 cp ~/Dev/cbzManager/cbzManager/Library/cbzLibrary.png .
-rm ~/Dev/cbzManager/precompiled\ binairies/Linux/cbzManagerLinux.zip
+rm ~/Dev/cbzManager/precompiled\ binairies/Linux/amd64/cbzManagerLinux.zip
 zip cbzManagerLinux.zip *
 cp cbzManagerLinux.zip ..
 rm cbzManagerLinux.zip
